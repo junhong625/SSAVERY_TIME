@@ -57,3 +57,15 @@ array = arr
 
 - 테이블 이름은 소문자로 작성한다
 - 컬럼명은 Snake-case로 작성한다
+
+## Commit Rule
+
+- Type + 내용으로 작성한다
+- Type은 대문자로 작성한다
+
+### Type
+
+- FEAT : 새로운 기능 추가
+- MOD : 수정
+- ADD : 기능 이외의 파일 추가
+- DEL : 삭제
