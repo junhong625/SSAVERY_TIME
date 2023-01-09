@@ -69,3 +69,9 @@ array = arr
 - MOD : 수정
 - ADD : 기능 이외의 파일 추가
 - DEL : 삭제
+
+## Branch Rule
+
+- 브랜치는 개발자 별로 브랜치를 생성하여 개발을 진행한다
+- 브랜치명은 develop\_ + 이름 약어로 작성한다
+- Pull Request는 일주일에 2번 오전에 진행한다
