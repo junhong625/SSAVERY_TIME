@@ -1,6 +1,6 @@
 # 싸브리타임(가제) 기능 명세
 
-<img src="https://lab.ssafy.com/s08-webmobile1-sub1/S08P11A602/-/blob/main/Document/%EA%B8%B0%EB%8A%A5%20%EB%AA%85%EC%84%B8/assets/function_specification.png">
+<img src="./assets/function_specification.png">
 
 - 일단 단순히 구현했으면 하는 기능만 적어주시면 됩니다
 - clone 받으시고 작성 후 push하면서 conflict이 발생할 수 있으니 참고바랍니다
