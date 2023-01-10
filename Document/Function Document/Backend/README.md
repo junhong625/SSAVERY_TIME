@@ -5,10 +5,12 @@
 
 💻 Apache Tomcat
 - Tomcat 9.0.64
-- download : 
+- download : https://tomcat.apache.org/download-90.cgi
 
 💻 IDE
 - Intellij 2022.3.1
+- download : https://www.jetbrains.com/ko-kr/idea/download/#section=windows
 
 💻 DB
-- MySQL
+- MySQL 8.0.30
+- download : https://downloads.mysql.com/archives/installer/
