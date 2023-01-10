@@ -14,3 +14,6 @@
 💻 DB
 - MySQL 8.0.30
 - download : https://downloads.mysql.com/archives/installer/
+
+💻 Spring Boot
+- Gradle 2.7.7
