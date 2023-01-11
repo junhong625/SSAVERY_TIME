@@ -1,4 +1,4 @@
-# 슬기로운 싸피생활(가제) 기능 명세
+# 싸피타임(가제) 기능 명세
 
 <img src="./assets/function_specification.png">
 
