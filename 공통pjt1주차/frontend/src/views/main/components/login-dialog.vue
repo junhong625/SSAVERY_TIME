@@ -94,6 +94,25 @@ export default {
       // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
       //
     */
+
+    const passwordValid = (rule, value, callback) => {
+      if (value.length < 9) {
+        callback(new Error("최소 9자를 입력해야 합니다."));
+      } else if (value.length > 16) {
+        callback(new Error("최대 16자까지 입력 가능합니다."));
+      } else if (
+        !/[0-9]/.test(value) ||
+        !/[a-zA-Z]/.test(value) ||
+        !/[~!@\#$%<>^&*]/.test(value)
+      ) {
+        callback(
+          new Error("비밀번호는 영문, 숫자, 특수문자가 조합되어야합니다.")
+        );
+      } else {
+        callback();
+      }
+    };
+
     const state = reactive({
       form: {
         id: "",
@@ -101,13 +120,32 @@ export default {
         align: "left"
       },
       rules: {
-        id: [{ required: true, message: "Please input ID", trigger: "blur" }],
+        id: [
+          {
+            required: true,
+            message: "필수 입력 항목입니다.",
+            trigger: "change"
+          },
+          {
+            max: 16,
+            message: "최대 16글자까지 입력 가능합니다.",
+            trigger: "change"
+          }
+        ],
         password: [
-          { required: true, message: "Please input password", trigger: "blur" }
+          {
+            required: true,
+            message: "필수 입력 항목입니다.",
+            trigger: "change"
+          },
+          { validator: passwordValid, trigger: "change" }
         ]
       },
       dialogVisible: computed(() => props.open),
-      formLabelWidth: "120px"
+      formLabelWidth: "120px",
+      check: () => {
+        console.log("check");
+      }
     });
 
     onMounted(() => {
