@@ -9,4 +9,8 @@ import com.ssafy.db.entity.User;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByUserId(String userId);
+
+	void setDepartment(String userId, String department);
+	void setPosition(String userId, String position);
+	void setName(String userId, String name);
 }

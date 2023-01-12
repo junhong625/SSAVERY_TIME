@@ -38,4 +38,27 @@ public class UserServiceImpl implements UserService {
 		User user = userRepositorySupport.findUserByUserId(userId).get();
 		return user;
 	}
+
+	@Override
+	public void setDepartment(String userId, String department) {
+		User user = userRepositorySupport.findUserByUserId(userId).get();
+		user.setDepartment(department);
+		userRepository.save(user);
+	}
+
+	@Override
+	public void setPosition(String userId, String position) {
+		User user = userRepositorySupport.findUserByUserId(userId).get();
+		user.setPosition(position);
+		userRepository.save(user);
+	}
+
+	@Override
+	public void setName(String userId, String name) {
+		User user = userRepositorySupport.findUserByUserId(userId).get();
+		user.setName(name);
+		userRepository.save(user);
+	}
+
+
 }

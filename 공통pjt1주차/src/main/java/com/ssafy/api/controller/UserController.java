@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.UserPatchPostReq;
+import com.ssafy.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -38,6 +39,8 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	@Autowired
+	UserRepository userRepository;
 	@Autowired
 	UserRepositorySupport userRepositorySupport;
 	
@@ -110,7 +113,7 @@ public class UserController {
 	}
 
 	@PatchMapping("/{userId}")
-	@ApiOperation(value = "유저 정보 수정", notes = "수정용")
+	@ApiOperation(value = "유저 정보 수정", notes = "로그인된 유저 수정용")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -123,12 +126,45 @@ public class UserController {
 		 *
 		 *  로그인한 사용자일 경우, 유저 정보 수정
 		 */
-//		String userId =
-		String position = patchInfo.getPosition();
 		String department = patchInfo.getDepartment();
-		String name = patchInfo.getName();
-		User user = userService.getUserByUserId(userId);
-		return null;
+		String position = patchInfo.getDepartment();
+		String name = patchInfo.getDepartment();
+		if (authentication != null) {  // 로그인된 사용자라면
+			User user = userService.getUserByUserId(userId);
+			user.setDepartment(department);
+			userService.setDepartment(userId, department);
+			userService.setPosition(userId, position);
+			userService.setName(userId, name);
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "성공"));
+		}
+		else {
+			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "사용자 없음"));  // 로그인된 사용자가 아님
+		}
 
+	}
+
+	@DeleteMapping("/{userId}")
+	@ApiOperation(value = "유저 삭제", notes = "로그인된 유저를 삭제")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 409, message = "사용자 이미 존재"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<BaseResponseBody> deleteUserInfo(@PathVariable("userId") String userId, @ApiIgnore Authentication authentication) {
+		/**
+		 * 로그인한 사용자가 아닐경우에 응답
+		 * 이미 존재하는 아이디인 경우 409
+		 */
+		if (authentication != null) {  // 로그인된 사용자라면
+			System.out.println("hi");
+			User user = userService.getUserByUserId(userId);
+			userRepository.delete(user);
+			return ResponseEntity.status(200).body(BaseResponseBody.of(204, "Success"));
+		}
+		else {
+			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "사용자 없음"));  // 로그인된 사용자가 아님
+		}
 	}
 }
