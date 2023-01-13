@@ -58,7 +58,11 @@
         label="비밀번호"
         :label-width="state.formLabelWidth"
       >
-        <el-input v-model="state.form.password" autocomplete="off"></el-input>
+        <el-input
+          v-model="state.form.password"
+          type="password"
+          autocomplete="off"
+        ></el-input>
       </el-form-item>
       <el-form-item
         prop="passwordConfirm"
@@ -67,6 +71,7 @@
       >
         <el-input
           v-model="state.form.passwordConfirm"
+          type="password"
           autocomplete="off"
         ></el-input>
       </el-form-item>
@@ -122,6 +127,9 @@ export default {
 
     const loadingSpin = ref(false);
 
+    /*
+      아이디 중복 검사 함수
+    */
     const clickCheckId = async function() {
       console.log(state.form.id);
       await store.dispatch("accountStore/idCheck", {
@@ -134,6 +142,9 @@ export default {
       }
     };
 
+    /*
+      dialog 종료 핸들러
+    */
     const handleClose = function() {
       state.form.department = "";
       state.form.position = "";
@@ -144,6 +155,9 @@ export default {
       emit("closeRegistDialog");
     };
 
+    /*
+      부서 입력 유효성 검사
+    */
     const departmentValid = (rule, value, callback) => {
       if (value.length > 30) {
         state.form.departmentIsValid = false;
@@ -155,6 +169,9 @@ export default {
       }
     };
 
+    /*
+      직급 입력 유효성 검사
+    */
     const positionValid = (rule, value, callback) => {
       if (value.length > 30) {
         state.form.positionIsValid = false;
@@ -165,6 +182,9 @@ export default {
       }
     };
 
+    /*
+      이름 입력 유효성 검사
+    */
     const nameValid = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("필수 입력 황목입니다."));
@@ -178,6 +198,9 @@ export default {
       state.form.nameIsValid = false;
     };
 
+    /*
+      아이디 입력 유효성 검사
+    */
     const idValid = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("필수 입력 항목입니다."));
@@ -191,6 +214,9 @@ export default {
       state.form.idIsValid = false;
     };
 
+    /*
+      비밀번호 입력 유효성 검사
+    */
     const passwordValid = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("필수 입력 항목입니다."));
@@ -214,6 +240,9 @@ export default {
       state.form.passwordIsValid = false;
     };
 
+    /*
+      비밀번호 확인 유효성 검사
+    */
     const passwordConfirmVaild = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("필수 입력 항목입니다."));
@@ -231,6 +260,9 @@ export default {
       state.form.passwordConfirmIsValid = false;
     };
 
+    /*
+      회원가입 버튼 클릭 시 호출되는 함수
+    */
     const clickRegist = async function() {
       loadingSpin.value = true;
       await store.dispatch("accountStore/registAction", {

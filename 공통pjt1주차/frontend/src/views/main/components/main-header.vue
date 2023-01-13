@@ -112,6 +112,7 @@ export default {
       activeIndex: computed(
         () => store.getters["menuStore/getActiveMenuIndex"]
       ),
+      // 로그인, 회원가입, 로그아웃 숨김 여부
       visibleBtn: computed(() => store.getters["accountStore/getIsLogin"])
     });
 

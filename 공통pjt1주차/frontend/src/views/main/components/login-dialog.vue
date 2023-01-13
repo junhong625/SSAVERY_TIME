@@ -101,7 +101,6 @@ export default {
       // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
       //
     */
-
     const idValid = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("필수 입력 항목입니다."));
