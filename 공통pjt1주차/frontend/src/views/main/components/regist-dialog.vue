@@ -12,11 +12,11 @@
       :label-position="state.form.align"
     >
       <el-form-item
-        prop="team"
+        prop="department"
         label="소속"
         :label-width="state.formLabelWidth"
       >
-        <el-input v-model="state.form.team" autocomplete="off"></el-input>
+        <el-input v-model="state.form.department" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item
         prop="position"
@@ -42,7 +42,14 @@
             <el-input v-model="state.form.id" autocomplete="off"></el-input>
           </el-col>
           <el-col :span="10">
-            <el-button type="primary">중복 확인</el-button>
+            <el-form-item prop="idCheck">
+              <el-button
+                :disabled="!state.form.idIsValid"
+                type="primary"
+                @click="clickCheckId"
+                >중복 확인</el-button
+              >
+            </el-form-item>
           </el-col>
         </el-row>
       </el-form-item>
@@ -66,7 +73,13 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary">가입하기</el-button>
+        <el-button
+          v-loading.fullscreen.lock="state.loadingSpin"
+          @click="clickRegist"
+          :disabled="state.btnDisabled"
+          type="primary"
+          >가입하기</el-button
+        >
       </span>
     </template>
   </el-dialog>
@@ -107,12 +120,22 @@ export default {
     const registForm = ref(null);
     const registFormItemId = ref(null);
 
-    const clickCheckId = function() {
-      registFormItemId.value.validate(async valid => {});
+    const loadingSpin = ref(false);
+
+    const clickCheckId = async function() {
+      console.log(state.form.id);
+      await store.dispatch("accountStore/idCheck", {
+        id: state.form.id
+      });
+      if (store.getters["accountStore/getIdCheck"]) {
+        alert("사용 가능한 아이디입니다.");
+      } else {
+        alert("이미 존재하는 아이디입니다.");
+      }
     };
 
     const handleClose = function() {
-      state.form.team = "";
+      state.form.department = "";
       state.form.position = "";
       state.form.name = "";
       state.form.id = "";
@@ -121,16 +144,57 @@ export default {
       emit("closeRegistDialog");
     };
 
-    const maxInputLength = (rule, value, callback) => {
+    const departmentValid = (rule, value, callback) => {
       if (value.length > 30) {
+        state.form.departmentIsValid = false;
         callback("최대 30글자까지 입력 가능합니다.");
       } else {
+        state.form.departmentIsValid = true;
+        callback();
+        return;
+      }
+    };
+
+    const positionValid = (rule, value, callback) => {
+      if (value.length > 30) {
+        state.form.positionIsValid = false;
+        callback("최대 30글자까지 입력 가능합니다.");
+      } else {
+        state.form.positionIsValid = true;
         callback();
       }
     };
 
+    const nameValid = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("필수 입력 황목입니다."));
+      } else if (value.length > 30) {
+        callback(new Error("최대 30글자까지 입력 가능합니다."));
+      } else {
+        state.form.nameIsValid = true;
+        callback();
+        return;
+      }
+      state.form.nameIsValid = false;
+    };
+
+    const idValid = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("필수 입력 항목입니다."));
+      } else if (value.length > 16) {
+        callback(new Error("최대 16글자까지 입력 가능합니다."));
+      } else {
+        state.form.idIsValid = true;
+        callback();
+        return;
+      }
+      state.form.idIsValid = false;
+    };
+
     const passwordValid = (rule, value, callback) => {
-      if (value.length < 9) {
+      if (value === "") {
+        callback(new Error("필수 입력 항목입니다."));
+      } else if (value.length < 9) {
         callback(new Error("최소 9자를 입력해야 합니다."));
       } else if (value.length > 16) {
         callback(new Error("최대 16자까지 입력 가능합니다."));
@@ -143,77 +207,105 @@ export default {
           new Error("비밀번호는 영문, 숫자, 특수문자가 조합되어야합니다.")
         );
       } else {
+        state.form.passwordIsValid = true;
         callback();
+        return;
       }
+      state.form.passwordIsValid = false;
     };
 
     const passwordConfirmVaild = (rule, value, callback) => {
-      if (value.length < 9) {
+      if (value === "") {
+        callback(new Error("필수 입력 항목입니다."));
+      } else if (value.length < 9) {
         callback(new Error("최소 9자를 입력해야 합니다."));
       } else if (value.length > 16) {
         callback(new Error("최대 16자까지 입력 가능합니다."));
       } else if (value !== state.form.password) {
         callback(new Error("입력한 비밀번호와 일치하지 않습니다."));
       } else {
+        state.form.passwordConfirmIsValid = true;
         callback();
+        return;
+      }
+      state.form.passwordConfirmIsValid = false;
+    };
+
+    const clickRegist = async function() {
+      loadingSpin.value = true;
+      await store.dispatch("accountStore/registAction", {
+        department: state.form.department,
+        position: state.form.position,
+        name: state.form.name,
+        id: state.form.id,
+        password: state.form.password
+      });
+      loadingSpin.value = false;
+      if (store.getters["accountStore/getIsRegist"]) {
+        handleClose();
+        alert("회원 가입이 완료되었습니다.");
+      } else {
+        alert("회원 가입에 실패하였습니다.");
       }
     };
 
     const state = reactive({
       form: {
-        team: "",
+        department: "",
         position: "",
         name: "",
         id: "",
         password: "",
         passwordConfirm: "",
+        departmentIsValid: true,
+        positionIsValid: true,
+        nameIsValid: false,
+        idIsValid: false,
+        passwordIsValid: false,
+        passwordConfirmIsValid: false,
+        idIsExcist: true,
         align: "left"
       },
       rules: {
-        team: [{ validator: maxInputLength, trigger: "change" }],
-        position: [{ validator: maxInputLength, trigger: "change" }],
+        department: [{ validator: departmentValid, trigger: "change" }],
+        position: [{ validator: positionValid, trigger: "change" }],
         name: [
           {
             required: true,
-            message: "필수 입력 항목입니다.",
+            validator: nameValid,
             trigger: "change"
-          },
-          { validator: maxInputLength, trigger: "change" }
+          }
         ],
         id: [
           {
             required: true,
-            message: "필수 입력 항목입니다.",
-            trigger: "change"
-          },
-          {
-            max: 16,
-            message: "최대 16글자까지 입력 가능합니다.",
+            validator: idValid,
             trigger: "change"
           }
         ],
         password: [
-          {
-            required: true,
-            message: "필수 입력 항목입니다.",
-            trigger: "change"
-          },
-          { validator: passwordValid, trigger: "change" }
+          { required: true, validator: passwordValid, trigger: "change" }
         ],
         passwordConfirm: [
-          {
-            required: true,
-            message: "필수 입력 항목입니다.",
-            trigger: "change"
-          },
-          { validator: passwordConfirmVaild, trigger: "change" }
+          { required: true, validator: passwordConfirmVaild, trigger: "change" }
         ]
       },
       dialogVisible: computed(() => props.open),
+      btnDisabled: computed(
+        () =>
+          !(
+            state.form.departmentIsValid &&
+            state.form.positionIsValid &&
+            state.form.nameIsValid &&
+            state.form.idIsValid &&
+            state.form.passwordIsValid &&
+            state.form.passwordConfirmIsValid
+          )
+      ),
       formLabelWidth: "120px"
     });
 
-    return { registForm, state, handleClose };
+    return { registForm, state, clickCheckId, clickRegist, handleClose };
   }
 };
 </script>

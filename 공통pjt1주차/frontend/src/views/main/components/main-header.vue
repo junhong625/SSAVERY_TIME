@@ -13,9 +13,12 @@
           >
           </el-input>
         </div>
-        <div class="button-wrapper">
+        <div class="button-wrapper" v-if="state.visibleBtn">
           <el-button @click="clickRegist">회원가입</el-button>
           <el-button type="primary" @click="clickLogin">로그인</el-button>
+        </div>
+        <div class="button-wrapper" v-else>
+          <el-button type="primary" @click="clickLogout">로그아웃</el-button>
         </div>
       </div>
     </div>
@@ -29,7 +32,7 @@
       <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
       <div class="mobile-sidebar-wrapper" v-if="!state.isCollapse">
         <div class="mobile-sidebar">
-          <div class="mobile-sidebar-tool-wrapper">
+          <div class="mobile-sidebar-tool-wrapper" v-if="state.visibleBtn">
             <div class="logo-wrapper"><div class="ic ic-logo" /></div>
             <el-button
               type="primary"
@@ -41,6 +44,15 @@
               class="mobile-sidebar-btn register-btn"
               @click="clickRegist"
               >회원가입</el-button
+            >
+          </div>
+          <div class="mobile-sidebar-tool-wrapper" v-else>
+            <div class="logo-wrapper"><div class="ic ic-logo" /></div>
+            <el-button
+              type="primary"
+              class="mobile-sidebar-btn login-btn"
+              @click="clickLogout"
+              >로그아웃</el-button
             >
           </div>
           <el-menu
@@ -65,7 +77,7 @@
   </el-row>
 </template>
 <script>
-import { reactive, computed } from "vue";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -97,7 +109,10 @@ export default {
         }
         return menuArray;
       }),
-      activeIndex: computed(() => store.getters["menuStore/getActiveMenuIndex"])
+      activeIndex: computed(
+        () => store.getters["menuStore/getActiveMenuIndex"]
+      ),
+      visibleBtn: computed(() => store.getters["accountStore/getIsLogin"])
     });
 
     if (state.activeIndex === -1) {
@@ -131,9 +146,19 @@ export default {
       emit("openRegistDialog");
     };
 
+    const clickLogout = async () => {
+      await store.dispatch("accountStore/logoutAction");
+      router.push("/");
+    };
+
     const changeCollapse = () => {
       state.isCollapse = !state.isCollapse;
     };
+
+    onMounted(async () => {
+      console.log(store.getters["accountStore/getIsLogin"]);
+      await store.dispatch("accountStore/hasAccessToken");
+    });
 
     return {
       state,
@@ -141,6 +166,7 @@ export default {
       clickLogo,
       clickLogin,
       clickRegist,
+      clickLogout,
       changeCollapse
     };
   }

@@ -32,7 +32,13 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="clickLogin">로그인</el-button>
+        <el-button
+          v-loading.fullscreen.lock="state.loadingSpin"
+          :disabled="state.btnDisabled"
+          type="primary"
+          @click="clickLogin"
+          >로그인</el-button
+        >
       </span>
     </template>
   </el-dialog>
@@ -88,6 +94,7 @@ export default {
     const store = useStore();
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const loginForm = ref(null);
+    const loadingSpin = ref(false);
 
     /*
       // Element UI Validator
@@ -95,8 +102,23 @@ export default {
       //
     */
 
+    const idValid = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("필수 입력 항목입니다."));
+      } else if (value.length > 16) {
+        callback(new Error("최대 16글자까지 입력 가능합니다."));
+      } else {
+        state.form.idIsValid = true;
+        callback();
+        return;
+      }
+      state.form.idIsValid = false;
+    };
+
     const passwordValid = (rule, value, callback) => {
-      if (value.length < 9) {
+      if (value === "") {
+        callback(new Error("필수 입력 항목입니다."));
+      } else if (value.length < 9) {
         callback(new Error("최소 9자를 입력해야 합니다."));
       } else if (value.length > 16) {
         callback(new Error("최대 16자까지 입력 가능합니다."));
@@ -109,43 +131,38 @@ export default {
           new Error("비밀번호는 영문, 숫자, 특수문자가 조합되어야합니다.")
         );
       } else {
+        state.form.passwordIsValid = true;
         callback();
+        return;
       }
+      state.form.passwordIsValid = false;
     };
 
     const state = reactive({
       form: {
         id: "",
         password: "",
+        idIsValid: false,
+        passwordIsValid: false,
         align: "left"
       },
       rules: {
         id: [
           {
             required: true,
-            message: "필수 입력 항목입니다.",
-            trigger: "change"
-          },
-          {
-            max: 16,
-            message: "최대 16글자까지 입력 가능합니다.",
+            validator: idValid,
             trigger: "change"
           }
         ],
         password: [
-          {
-            required: true,
-            message: "필수 입력 항목입니다.",
-            trigger: "change"
-          },
-          { validator: passwordValid, trigger: "change" }
+          { required: true, validator: passwordValid, trigger: "change" }
         ]
       },
       dialogVisible: computed(() => props.open),
       formLabelWidth: "120px",
-      check: () => {
-        console.log("check");
-      }
+      btnDisabled: computed(
+        () => !(state.form.idIsValid && state.form.passwordIsValid)
+      )
     });
 
     onMounted(() => {
@@ -156,12 +173,15 @@ export default {
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       loginForm.value.validate(async valid => {
         if (valid) {
+          loadingSpin.value = true;
           console.log("submit");
           await store.dispatch("accountStore/loginAction", {
             id: state.form.id,
             password: state.form.password
           });
           console.log("accessToken " + store.getters["accountStore/getToken"]);
+          handleClose();
+          loadingSpin.value = false;
         } else {
           alert("Validate error!");
         }

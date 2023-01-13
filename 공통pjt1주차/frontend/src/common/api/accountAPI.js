@@ -8,4 +8,10 @@ import $axios from "axios";
  */
 const requestLogin = payload => $axios.post("/auth/login", payload);
 
-export { requestLogin };
+const requestIdCheck = ({ id }) => $axios.get("/users/" + id);
+
+const requestRegist = registData => $axios.post("/users", registData);
+
+const requestUserData = token => $axios.get("/users/me", token);
+
+export { requestLogin, requestIdCheck, requestRegist, requestUserData };
