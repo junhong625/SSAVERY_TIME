@@ -11,9 +11,16 @@
 - Intellij 2022.3.1
 - download : https://www.jetbrains.com/ko-kr/idea/download/#section=windows
 
-💻 DB
-- MySQL 8.0.30
-- download : https://downloads.mysql.com/archives/installer/
-
 💻 Spring Boot
 - Gradle 2.7.7
+- spring-boot-starter-data-jpa : 2.7.6
+- spring-boot-starter-validation : 2.7.7
+- spring-boot-starter-web : 2.7.7
+- mysql-connector-java : 8.0.31
+- spring-boot-devtools : 2.7.7
+- spring-boot-starter-test : 2.7.7
+- spring-boot-starter-log4j2 : 2.7.7
+- lombok : 1.18.24
+- springfox-swagger2 : 3.0.0
+- springfox-swagger-ui : 3.0.0
+- guava : 29.0-jre
