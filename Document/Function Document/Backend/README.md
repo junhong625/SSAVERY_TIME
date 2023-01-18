@@ -24,3 +24,9 @@
 - springfox-swagger2 : 3.0.0
 - springfox-swagger-ui : 3.0.0
 - guava : 29.0-jre
+- webrtc-adapter : 7.4.0
+- querydslVer : 5.0.0
+- querydsl-jpa:${querydslVer}
+- querydsl-apt:${querydslVer}
+- querydsl-apt:${querydslVer}:jpa
+- WebRTC 관련 의존성 추가
