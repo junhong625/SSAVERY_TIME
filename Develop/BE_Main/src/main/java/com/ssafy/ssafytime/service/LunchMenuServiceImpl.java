@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -35,9 +36,16 @@ public class LunchMenuServiceImpl implements LunchMenuService {
                     lunch.put("main_menu", lunchMenu.getMainMenu());
                     lunch.put("sub_menu", lunchMenu.getSubMenu());
                     lunch.put("kcal", lunchMenu.getKcal());
+                    lunch.put("image_url", lunchMenu.getImageUrl());
                     todayMenu.add(lunch);
                 });
         return todayMenu;
+    }
+
+    @Override
+    public Optional<LunchMenu> getMenuDetail(Long id) {
+        Optional<LunchMenu> menu = lunchMenuRepository.findById(id);
+        return menu;
     }
 
     @Override
@@ -66,6 +74,7 @@ public class LunchMenuServiceImpl implements LunchMenuService {
                     lunch.put("main_menu", lunchMenu.getMainMenu());
                     lunch.put("sub_menu", lunchMenu.getSubMenu());
                     lunch.put("kcal", lunchMenu.getKcal());
+                    lunch.put("image_url", lunchMenu.getImageUrl());
                     lunchList.add(lunch);
                     weekMenu.put(date, (ArrayList<HashMap<String, Object>>)lunchList.clone());
                     curDate[0] = date;
