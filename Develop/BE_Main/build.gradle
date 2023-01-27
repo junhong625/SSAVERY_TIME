@@ -76,8 +76,12 @@ dependencies {
 	implementation('org.kurento:kurento-utils-js:6.15.0')
 
 	// Swagger
-	implementation 'io.springfox:springfox-swagger2:3.0.0'
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation("io.springfox:springfox-swagger2:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+	implementation("io.springfox:springfox-data-rest:3.0.0")
+	implementation("io.springfox:springfox-bean-validators:3.0.0")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+
 	implementation("com.google.guava:guava:29.0-jre")
 	annotationProcessor("com.google.guava:guava:29.0-jre")
 
@@ -87,6 +91,9 @@ dependencies {
 	//IntelliJ용
 	//IntelliJ에서는 하기 annotationProcessor를 쓰면 별도의 querydsl 플러그인 및 플러그인 설정이 불필요.
 	annotationProcessor("com.querydsl:querydsl-apt:${querydslVer}:jpa")
+
+	implementation("com.auth0:java-jwt:3.10.3")
+
 }
 
 tasks.named('test') {
