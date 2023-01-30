@@ -27,9 +27,5 @@ services:
       - 9090:9090
     depends_on:
       - database
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/ssafy_web_db
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ssafy
 
     restart: always
