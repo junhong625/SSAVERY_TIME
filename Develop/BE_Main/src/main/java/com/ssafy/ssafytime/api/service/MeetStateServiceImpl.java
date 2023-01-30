@@ -1,4 +1,4 @@
 package com.ssafy.ssafytime.api.service;
 
-public interface SurveyConductService {
+public class MeetStateServiceImpl {
 }

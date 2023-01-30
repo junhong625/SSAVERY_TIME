@@ -5,7 +5,7 @@ import com.ssafy.ssafytime.db.entity.SurveyOption;
 import java.util.List;
 import java.util.Optional;
 
-public interface SurveyOptionService {
+public interface MeetStateService {
     Optional<SurveyOption> findById(Long Id);
     List<SurveyOption> findAllById(Long Id);
 }
