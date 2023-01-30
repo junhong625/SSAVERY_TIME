@@ -19,9 +19,6 @@ services:
       - "--character-set-server=utf8mb4"
       - "--collation-server=ut8mb4_unicode_ci"
 
-    networks:
-      - ssafytime_db
-
     restart: always
 
   application:
@@ -34,10 +31,5 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/ssafy_web_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: ssafy
-    networks:
-      - ssafytime_db
-    restart: always
 
-networks:
-  ssafytime_db:
-    driver: bridge
+    restart: always
