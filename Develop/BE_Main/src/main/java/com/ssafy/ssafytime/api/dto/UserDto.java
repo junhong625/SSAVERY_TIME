@@ -55,6 +55,11 @@ public class UserDto {
 
       return UserDto.builder()
               .userName(user.getUserName())
+              .userEmail(user.getUserEmail())
+              .trackCode(user.getTrackCode())
+              .regionCode(user.getRegionCode())
+              .exp(user.getExp())
+              .mileage(user.getMileage())
               .authorityDtoSet(user.getAuthorities().stream()
                       .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
                       .collect(Collectors.toSet()))

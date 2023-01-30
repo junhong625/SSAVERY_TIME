@@ -2,9 +2,11 @@ package com.ssafy.ssafytime.api.service;
 
 import java.util.Collections;
 
+import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
+import com.ssafy.ssafytime.db.repository.AttendanceRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
 import com.ssafy.ssafytime.exception.DuplicateUserException;
 import com.ssafy.ssafytime.exception.NotFoundUserException;
@@ -17,10 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AttendanceRepository attendanceRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                       AttendanceRepository attendanceRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.attendanceRepository = attendanceRepository;
     }
 
     @Transactional
@@ -41,8 +46,6 @@ public class UserService {
                 .regionCode(userDto.getRegionCode())
                 .authorities(Collections.singleton(authority))
                 .build();
-        System.out.println(user.getTrackCode());
-        System.out.println(user.getRegionCode());
         return UserDto.from(userRepository.save(user));
     }
 
@@ -54,7 +57,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDto getMyUserWithAuthorities() {
-        SecurityUtil.getCurrentUsername();
+
         return UserDto.from(
                 SecurityUtil.getCurrentUsername()
                         .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
@@ -64,10 +67,10 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public UserDto getAttendance(){
-        return UserDto.from(
+    public AttendanceDto getAttendance(){
+        return AttendanceDto.from(
                 SecurityUtil.getCurrentUsername()
-                        .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
+                        .flatMap(attendanceRepository::findOneWithAuthoritiesByUserEmail)
                         .orElseThrow(() -> new NotFoundUserException("User not found"))
         );
     }

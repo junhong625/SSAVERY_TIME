@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.api.controller;
 
+import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.api.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -7,9 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/user")
@@ -54,6 +53,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities());
     }
 
+
+
+
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
@@ -61,9 +63,11 @@ public class UserController {
     }
 
 
+
+
     @GetMapping("/attendance")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<UserDto> getAttendance(HttpServletRequest request){
+    public ResponseEntity<AttendanceDto> getAttendance(HttpServletRequest request){
         return ResponseEntity.ok(userService.getAttendance());
     }
 

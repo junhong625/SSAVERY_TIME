@@ -1,5 +1,7 @@
 package com.ssafy.ssafytime.util;
 
+import com.ssafy.ssafytime.api.service.CustomUserDetails;
+import com.ssafy.ssafytime.api.service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -8,11 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
+
 public class SecurityUtil {
 
    private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
 
    private SecurityUtil() {}
+
 
    public static Optional<String> getCurrentUsername() {
       final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -23,10 +27,12 @@ public class SecurityUtil {
       }
 
       String userName = null;
+
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
       if (authentication.getPrincipal() instanceof UserDetails) {
-         UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-         userName = springSecurityUser.getUsername();
-         System.out.println(userName);
+         userName = ((UserDetails)principal).getUsername();
+
       } else if (authentication.getPrincipal() instanceof String) {
          userName = (String) authentication.getPrincipal();
       }

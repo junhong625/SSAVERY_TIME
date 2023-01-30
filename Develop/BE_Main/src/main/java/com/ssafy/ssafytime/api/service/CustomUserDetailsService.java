@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 public class CustomUserDetailsService implements UserDetailsService {
    private final UserRepository userRepository;
 
+
+
    public CustomUserDetailsService(UserRepository userRepository) {
       this.userRepository = userRepository;
    }
@@ -31,13 +33,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
 
+
+
    private org.springframework.security.core.userdetails.User createUser(String userName, User user) {
 
       List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
               .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
               .collect(Collectors.toList());
 
-      return new org.springframework.security.core.userdetails.User(user.getUserName(),
+      return new org.springframework.security.core.userdetails.User(user.getUserEmail(),
               user.getPassword(),
               grantedAuthorities);
    }
