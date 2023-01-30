@@ -22,7 +22,7 @@ services:
     restart: always
 
   application:
-    build:
+    build: .
     depends_on:
       - database
     enviroment:
