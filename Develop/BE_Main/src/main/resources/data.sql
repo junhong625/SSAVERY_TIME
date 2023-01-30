@@ -4,9 +4,17 @@ insert into user (user_name, password, user_email, track_code, region_code ) val
 insert into authority (authority_name) values ('ROLE_USER');
 insert into authority (authority_name) values ('ROLE_ADMIN');
 
-insert into attendance ()
 
 
 insert into user_authority (user_idx, authority_name) values (1, 'ROLE_USER');
 insert into user_authority (user_idx, authority_name) values (1, 'ROLE_ADMIN');
 insert into user_authority (user_idx, authority_name) values (2, 'ROLE_USER');
+
+insert into attendance(attendance_category) values(1);
+insert into attendance(attendance_category) values(2);
+
+
+insert into user_attendance (user_idx, attendance_category) values (1, 2);
+insert into user_attendance (user_idx, attendance_category) values (1, 1);
+insert into user_attendance (user_idx, attendance_category) values (2, 1);
+

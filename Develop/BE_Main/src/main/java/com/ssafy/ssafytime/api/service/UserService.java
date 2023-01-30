@@ -41,21 +41,35 @@ public class UserService {
                 .regionCode(userDto.getRegionCode())
                 .authorities(Collections.singleton(authority))
                 .build();
-
+        System.out.println(user.getTrackCode());
+        System.out.println(user.getRegionCode());
         return UserDto.from(userRepository.save(user));
     }
 
     @Transactional(readOnly = true)
     public UserDto getUserWithAuthorities(String username) {
+
         return UserDto.from(userRepository.findOneWithAuthoritiesByUserEmail(username).orElse(null));
     }
 
     @Transactional(readOnly = true)
     public UserDto getMyUserWithAuthorities() {
+        SecurityUtil.getCurrentUsername();
         return UserDto.from(
                 SecurityUtil.getCurrentUsername()
                         .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
                         .orElseThrow(() -> new NotFoundUserException("User not found"))
         );
     }
+
+
+    @Transactional(readOnly = true)
+    public UserDto getAttendance(){
+        return UserDto.from(
+                SecurityUtil.getCurrentUsername()
+                        .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
+                        .orElseThrow(() -> new NotFoundUserException("User not found"))
+        );
+    }
+
 }

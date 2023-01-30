@@ -29,19 +29,15 @@ public class UserController {
 //    public void testRedirect(HttpServletResponse response) throws IOException {
 //        response.sendRedirect("/api/user");
 //    }
-//    @GetMapping("/user/{user_name}")
-//    @PreAuthorize("hasAnyRole('ADMIN')")
-//    public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
-//        return ResponseEntity.ok(userService.getUserWithAuthorities(username));
+
+
+
+//    @GetMapping("/attendance")
+//    public ResponseEntity<UserDto> attendance(
+//            @Valid @RequestBody UserDto userDto
+//    ){
+//        return ResponseEntity.ok()
 //    }
-
-
-    @GetMapping("/attendance")
-    public ResponseEntity<UserDto> attendance(
-            @Valid @RequestBody UserDto userDto
-    ){
-        return ResponseEntity.ok()
-    }
 
 
     @PostMapping("/signup")
@@ -52,11 +48,28 @@ public class UserController {
     }
 
 
-    @GetMapping("/user")
+    @GetMapping("/my-page")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<UserDto> getMyUserInfo(HttpServletRequest request) {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities());
     }
+
+    @GetMapping("/user/{username}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserWithAuthorities(username));
+    }
+
+
+    @GetMapping("/attendance")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<UserDto> getAttendance(HttpServletRequest request){
+        return ResponseEntity.ok(userService.getAttendance());
+    }
+
+
+
+
 
 
 }

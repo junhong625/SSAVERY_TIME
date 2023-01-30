@@ -10,28 +10,12 @@ import java.time.LocalDateTime;
 @Table(name = "attendance")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@PrimaryKeyJoinColumn()
-public class Attendance extends User{
+public class Attendance{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_idx")
-    private Long userIdx;
-
     @Column(name = "attendance_category")
     private int attendanceCategory;
-
-    @Column(name = "attendance_date")
-    private LocalDateTime attendanceDate;
-
-    @Column(name = "attendance_time")
-    private LocalDateTime attendanceTime;
-
-
-
-
-
-
 }
