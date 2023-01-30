@@ -95,10 +95,13 @@ public class SurveyController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<SurveyOption> getOption(@PathVariable("Id") int Id) {
-        List<SurveyOption> surveyOptionList = surveyOptionService.findAllById(Id);
+    public ResponseEntity<Optional<SurveyOption>> getOption(@PathVariable("Id") Long Id) {
         Optional<SurveyOption> surveyOption = surveyOptionService.findById(Id);
-        if()
+        if(surveyOption.isPresent()) {
+            return ResponseEntity.ok().body(surveyOption);
+        } else {
+            return ResponseEntity.status(204).body(null);
+        }
     }
 
 }
