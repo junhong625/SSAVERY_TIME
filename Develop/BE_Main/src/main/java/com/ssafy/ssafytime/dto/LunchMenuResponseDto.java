@@ -10,7 +10,7 @@ public class LunchMenuResponseDto {
     private int region;
     private String course;
     private String mainMenu;
-    private String subMenu;
+    private String sideMenu;
     private int cho;
     private int kcal;
     private int fat;
@@ -24,7 +24,7 @@ public class LunchMenuResponseDto {
         this.region = lunchMenuEntity.getRegion();
         this.course = lunchMenuEntity.getCourse();
         this.mainMenu = lunchMenuEntity.getMainMenu();
-        this.subMenu = lunchMenuEntity.getSubMenu();
+        this.sideMenu = lunchMenuEntity.getSideMenu();
         this.cho = lunchMenuEntity.getCho();
         this.kcal = lunchMenuEntity.getKcal();
         this.fat = lunchMenuEntity.getFat();

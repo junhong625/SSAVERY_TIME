@@ -19,7 +19,9 @@ public class QNoticeEntity extends EntityPathBase<NoticeEntity> {
 
     public static final QNoticeEntity noticeEntity = new QNoticeEntity("noticeEntity");
 
-    public final StringPath content = createString("content");
+    public final StringPath category = createString("category");
+
+    public final StringPath contentUrl = createString("contentUrl");
 
     public final StringPath createDate = createString("createDate");
 

@@ -39,9 +39,9 @@ public class QLunchMenuEntity extends EntityPathBase<LunchMenuEntity> {
 
     public final NumberPath<Integer> region = createNumber("region", Integer.class);
 
-    public final StringPath sideMenu = createString("sideMenu");
-
     public final NumberPath<Integer> sodium = createNumber("sodium", Integer.class);
+
+    public final StringPath subMenu = createString("subMenu");
 
     public QLunchMenuEntity(String variable) {
         super(LunchMenuEntity.class, forVariable(variable));

@@ -34,7 +34,7 @@ public class LunchMenuServiceImpl implements LunchMenuService {
                     HashMap<String, Object> lunch = new HashMap<String, Object>();
                     lunch.put("id", lunchMenu.getId());
                     lunch.put("main_menu", lunchMenu.getMainMenu());
-                    lunch.put("sub_menu", lunchMenu.getSubMenu());
+                    lunch.put("side_menu", lunchMenu.getSideMenu());
                     lunch.put("kcal", lunchMenu.getKcal());
                     lunch.put("image_url", lunchMenu.getImageUrl());
                     todayMenu.add(lunch);
@@ -72,7 +72,7 @@ public class LunchMenuServiceImpl implements LunchMenuService {
                     HashMap<String, Object> lunch = new HashMap<String, Object>();
                     lunch.put("id", lunchMenu.getId());
                     lunch.put("main_menu", lunchMenu.getMainMenu());
-                    lunch.put("sub_menu", lunchMenu.getSubMenu());
+                    lunch.put("side_menu", lunchMenu.getSideMenu());
                     lunch.put("kcal", lunchMenu.getKcal());
                     lunch.put("image_url", lunchMenu.getImageUrl());
                     lunchList.add(lunch);

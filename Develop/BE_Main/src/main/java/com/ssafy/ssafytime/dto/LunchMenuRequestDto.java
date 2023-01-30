@@ -10,7 +10,7 @@ public class LunchMenuRequestDto {
     private int region;
     private String course;
     private String mainMenu;
-    private String subMenu;
+    private String sideMenu;
     private int cho;
     private int kcal;
     private int fat;
@@ -19,13 +19,13 @@ public class LunchMenuRequestDto {
     private String imageUrl;
 
     @Builder
-    public LunchMenuRequestDto(String date, int region, String course, String mainMenu, String subMenu, int cho
+    public LunchMenuRequestDto(String date, int region, String course, String mainMenu, String sideMenu, int cho
     , int kcal, int fat, int protein, int sodium, String imageUrl) {
         this.date = date;
         this.region = region;
         this.course = course;
         this.mainMenu = mainMenu;
-        this.subMenu = subMenu;
+        this.sideMenu = sideMenu;
         this.cho = cho;
         this.kcal = kcal;
         this.fat = fat;
@@ -35,6 +35,6 @@ public class LunchMenuRequestDto {
     }
 
     public LunchMenuEntity toEntity() {
-        return LunchMenuEntity.builder().date(date).region(region).course(course).mainMenu(mainMenu).subMenu(subMenu).cho(cho).protein(protein).fat(fat).kcal(kcal).sodium(sodium).imageUrl(imageUrl).build();
+        return LunchMenuEntity.builder().date(date).region(region).course(course).mainMenu(mainMenu).sideMenu(sideMenu).cho(cho).protein(protein).fat(fat).kcal(kcal).sodium(sodium).imageUrl(imageUrl).build();
     }
 }
