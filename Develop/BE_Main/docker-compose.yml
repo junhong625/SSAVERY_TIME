@@ -4,7 +4,7 @@ services:
     image: mysql:8.0.30
     environment:
       MYSQL_DATABASE: ssafy_web_db
-      MYSQL_ROOT_HOST: %
+      MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: ssafy
       TZ: Asia/Seoul
 
