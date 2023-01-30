@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.domain.notice;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,11 +16,11 @@ public class NoticeEntity {
     private Long id;
 
     // 제목
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, length = 100)
     private String title;
 
     // 분류
-    @Column(name = "category", nullable = false)
+    @Column(name = "category", nullable = false, length = 20)
     private String category;
 
     // 첨부 파일
@@ -31,10 +32,19 @@ public class NoticeEntity {
     private String contentUrl;
 
     // 생성날짜
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date", nullable = false, length = 8)
     private String createDate;
 
     // 생성시간
-    @Column(name = "create_time", nullable = false)
+    @Column(name = "create_time", nullable = false, length = 6)
     private String createTime;
+
+    @Builder
+    public NoticeEntity(String title, String category, String contentUrl, String createDate, String createTime) {
+        this.title = title;
+        this.category = category;
+        this.contentUrl = contentUrl;
+        this.createDate = createDate;
+        this.createTime = createTime;
+    }
 }

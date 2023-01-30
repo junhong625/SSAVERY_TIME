@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class DbConnector {
     private Connection conn;
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "@kaka21516!";
+    private static final String PASSWORD = "ssafy";
     private static final String URL = "jdbc:mysql://localhost:3306/ssafy_web_db";
 
     public DbConnector() {
@@ -35,9 +35,9 @@ public class DbConnector {
         try {
             System.out.println("start");
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "8기 공통프로젝트 UCC경진대회 안내");
+            pstmt.setString(1, "SW 역량테스트 B형 검정 대비 특강 안내");
             pstmt.setString(2, "학습");
-            pstmt.setString(3, "https://edu.ssafy.com/data/upload_files/namo/images/000050/20230120163619920_43163QKL.png");
+            pstmt.setString(3, "https://edu.ssafy.com/data/upload_files/namo/images/000050/20230127165313812_DHSATWRF.png");
             pstmt.setString(4, date);
             pstmt.setString(5, time);
             int result = pstmt.executeUpdate();
