@@ -2,7 +2,7 @@ version: "3.7"
 services:
   database:
     image: mysql:8.0.30
-    enviroment:
+    environment:
       MYSQL_DATABASE: "ssafy_web_db"
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: ssafy
