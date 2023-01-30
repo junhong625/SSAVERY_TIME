@@ -36,12 +36,12 @@ public class UserController {
 //    }
 
 
-    @GetMapping("/attendance")
-    public ResponseEntity<UserDto> attendance(
-            @Valid @RequestBody UserDto userDto
-    ){
-        return ResponseEntity.ok()
-    }
+//    @GetMapping("/attendance")
+//    public ResponseEntity<UserDto> attendance(
+//            @Valid @RequestBody UserDto userDto
+//    ){
+//        return ResponseEntity.ok()
+//    }
 
 
     @PostMapping("/signup")
