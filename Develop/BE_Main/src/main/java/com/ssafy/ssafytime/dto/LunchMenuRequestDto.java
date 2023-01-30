@@ -1,6 +1,6 @@
 package com.ssafy.ssafytime.dto;
 
-import com.ssafy.ssafytime.domain.lunchmenu.LunchMenu;
+import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
 import lombok.*;
 
 @Getter
@@ -34,7 +34,7 @@ public class LunchMenuRequestDto {
         this.imageUrl = imageUrl;
     }
 
-    public LunchMenu toEntity() {
-        return LunchMenu.builder().date(date).region(region).course(course).mainMenu(mainMenu).subMenu(subMenu).cho(cho).protein(protein).fat(fat).kcal(kcal).sodium(sodium).imageUrl(imageUrl).build();
+    public LunchMenuEntity toEntity() {
+        return LunchMenuEntity.builder().date(date).region(region).course(course).mainMenu(mainMenu).subMenu(subMenu).cho(cho).protein(protein).fat(fat).kcal(kcal).sodium(sodium).imageUrl(imageUrl).build();
     }
 }

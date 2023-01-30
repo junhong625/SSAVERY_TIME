@@ -1,6 +1,6 @@
 package com.ssafy.ssafytime.service;
 
-import com.ssafy.ssafytime.domain.lunchmenu.LunchMenu;
+import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
 import com.ssafy.ssafytime.repository.LunchMenuRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class LunchMenuServiceImpl implements LunchMenuService {
         LocalDate now = LocalDate.now();
         String date = now.toString().replace("-", "");
         System.out.println(date);
-        List<LunchMenu> menu = lunchMenuRepository.findByRegionAndDate(region, date);
+        List<LunchMenuEntity> menu = lunchMenuRepository.findByRegionAndDate(region, date);
         System.out.println(menu);
         ArrayList<HashMap<String, Object>> todayMenu = new ArrayList<HashMap<String, Object>>();
 
@@ -43,8 +43,8 @@ public class LunchMenuServiceImpl implements LunchMenuService {
     }
 
     @Override
-    public Optional<LunchMenu> getMenuDetail(Long id) {
-        Optional<LunchMenu> menu = lunchMenuRepository.findById(id);
+    public Optional<LunchMenuEntity> getMenuDetail(Long id) {
+        Optional<LunchMenuEntity> menu = lunchMenuRepository.findById(id);
         return menu;
     }
 
@@ -59,7 +59,7 @@ public class LunchMenuServiceImpl implements LunchMenuService {
         }
         String date1 = day.toString().replace("-", "");
         String date2 = day.plusDays(5).toString().replace("-", "");
-        List<LunchMenu> menu = lunchMenuRepository.findByRegionAndDateBetween(region, date1, date2);
+        List<LunchMenuEntity> menu = lunchMenuRepository.findByRegionAndDateBetween(region, date1, date2);
         HashMap<String, List<HashMap<String, Object>>> weekMenu = new HashMap<String, List<HashMap<String, Object>>>();
         ArrayList<HashMap<String, Object>> lunchList = new ArrayList<HashMap<String, Object>>();
         final String[] curDate = {""};

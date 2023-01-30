@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QLunchMenu is a Querydsl query type for LunchMenu
+ * QLunchMenuEntity is a Querydsl query type for LunchMenuEntity
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QLunchMenu extends EntityPathBase<LunchMenu> {
+public class QLunchMenuEntity extends EntityPathBase<LunchMenuEntity> {
 
-    private static final long serialVersionUID = -389309554L;
+    private static final long serialVersionUID = 505612561L;
 
-    public static final QLunchMenu lunchMenu = new QLunchMenu("lunchMenu");
+    public static final QLunchMenuEntity lunchMenuEntity = new QLunchMenuEntity("lunchMenuEntity");
 
     public final NumberPath<Integer> cho = createNumber("cho", Integer.class);
 
@@ -43,16 +43,16 @@ public class QLunchMenu extends EntityPathBase<LunchMenu> {
 
     public final StringPath subMenu = createString("subMenu");
 
-    public QLunchMenu(String variable) {
-        super(LunchMenu.class, forVariable(variable));
+    public QLunchMenuEntity(String variable) {
+        super(LunchMenuEntity.class, forVariable(variable));
     }
 
-    public QLunchMenu(Path<? extends LunchMenu> path) {
+    public QLunchMenuEntity(Path<? extends LunchMenuEntity> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QLunchMenu(PathMetadata metadata) {
-        super(LunchMenu.class, metadata);
+    public QLunchMenuEntity(PathMetadata metadata) {
+        super(LunchMenuEntity.class, metadata);
     }
 
 }

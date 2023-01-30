@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "lunch_menu")
 //@EntityListeners(AuditingEntityListener.class)
-public class LunchMenu {
+public class LunchMenuEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 //    @Column(name = "menu_id", unique = true)
@@ -51,7 +51,7 @@ public class LunchMenu {
     private String imageUrl;
 
     @Builder
-    public LunchMenu(String date, int region, String mainMenu, String subMenu, String course, int cho, int kcal, int fat, int protein, int sodium, String imageUrl) {
+    public LunchMenuEntity(String date, int region, String mainMenu, String subMenu, String course, int cho, int kcal, int fat, int protein, int sodium, String imageUrl) {
         this.date = date;
         this.region = region;
         this.course = course;

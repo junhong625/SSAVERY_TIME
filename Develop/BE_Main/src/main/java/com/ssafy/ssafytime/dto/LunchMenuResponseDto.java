@@ -1,6 +1,6 @@
 package com.ssafy.ssafytime.dto;
 
-import com.ssafy.ssafytime.domain.lunchmenu.LunchMenu;
+import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
 import lombok.*;
 
 @Getter
@@ -19,17 +19,17 @@ public class LunchMenuResponseDto {
     private String imageUrl;
 
     @Builder
-    public LunchMenuResponseDto(LunchMenu lunchMenu) {
-        this.date = lunchMenu.getDate();
-        this.region = lunchMenu.getRegion();
-        this.course = lunchMenu.getCourse();
-        this.mainMenu = lunchMenu.getMainMenu();
-        this.subMenu = lunchMenu.getSubMenu();
-        this.cho = lunchMenu.getCho();
-        this.kcal = lunchMenu.getKcal();
-        this.fat = lunchMenu.getFat();
-        this.protein = lunchMenu.getProtein();
-        this.sodium = lunchMenu.getSodium();
-        this.imageUrl = lunchMenu.getImageUrl();
+    public LunchMenuResponseDto(LunchMenuEntity lunchMenuEntity) {
+        this.date = lunchMenuEntity.getDate();
+        this.region = lunchMenuEntity.getRegion();
+        this.course = lunchMenuEntity.getCourse();
+        this.mainMenu = lunchMenuEntity.getMainMenu();
+        this.subMenu = lunchMenuEntity.getSubMenu();
+        this.cho = lunchMenuEntity.getCho();
+        this.kcal = lunchMenuEntity.getKcal();
+        this.fat = lunchMenuEntity.getFat();
+        this.protein = lunchMenuEntity.getProtein();
+        this.sodium = lunchMenuEntity.getSodium();
+        this.imageUrl = lunchMenuEntity.getImageUrl();
     }
 }
