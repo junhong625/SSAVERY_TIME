@@ -1,8 +1,8 @@
 package com.ssafy.ssafytime.api.controller;
 
 
-import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
-import com.ssafy.ssafytime.service.LunchMenuServiceImpl;
+import com.ssafy.ssafytime.dto.LunchMenu.LunchMenuResponseDto;
+import com.ssafy.ssafytime.service.LunchMenu.LunchMenuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class LunchMenuController {
@@ -31,8 +30,8 @@ public class LunchMenuController {
     }
 
     @GetMapping("menu/detail")
-    public Optional<LunchMenuEntity> menuDetail(@RequestParam("id") Long id) {
-        Optional<LunchMenuEntity> menu = lunchMenuService.getMenuDetail(id);
+    public LunchMenuResponseDto menuDetail(@RequestParam("id") Long id) throws Exception {
+        LunchMenuResponseDto menu = lunchMenuService.getMenuDetail(id);
         return menu;
     }
 }

@@ -42,7 +42,15 @@ public class DbConnector {
             pstmt.setString(5, time);
             int result = pstmt.executeUpdate();
             if (result==1) {
-                System.out.println("access");
+                // 중계 테이블 삽입 데이터
+                pstmt = conn.prepareStatement("insert into read_notice(notice_id, is_read) values(?,?)");
+                pstmt.setInt(1, 2);
+                pstmt.setInt(2, 0);
+                result = pstmt.executeUpdate();
+                if (result==1) {
+                    System.out.println("access");
+                }
+                else System.out.println("fail");
             }
         } catch (Exception e) {
             System.out.println(conn.prepareStatement(sql));
