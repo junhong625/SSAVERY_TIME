@@ -30,8 +30,7 @@ public class SecurityConfig {
             TokenProvider tokenProvider,
             CorsFilter corsFilter,
             JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-            JwtAccessDeniedHandler jwtAccessDeniedHandler
-    ) {
+            JwtAccessDeniedHandler jwtAccessDeniedHandler) {
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
@@ -68,7 +67,7 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers("/user/signup", "/api/login").permitAll()
+                .antMatchers("/user/signup", "/api/**").permitAll()
 
                 .anyRequest().authenticated()
 
