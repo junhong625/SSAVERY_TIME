@@ -1,7 +1,7 @@
 // login screen
 
 import 'package:flutter/material.dart';
-import 'package:saffytime/widgets/login_input_widget.dart';
+import 'package:saffytime/widgets/login_input.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
