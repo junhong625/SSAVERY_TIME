@@ -60,8 +60,12 @@ dependencies {
 	implementation("com.querydsl:querydsl-jpa:${querydslVer}")
 	implementation("com.querydsl:querydsl-apt:${querydslVer}")
 
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	testImplementation 'org.springframework.security:spring-security-test'
+	//Java Security , JWT
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+	testImplementation 'org.springframework.security:spring-security-test'
 
 	//STOMP 웹소캣 서버 사이드 테스트를 위한 의존성 추가
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
@@ -77,8 +81,12 @@ dependencies {
 	implementation('org.kurento:kurento-utils-js:6.15.0')
 
 	// Swagger
-	implementation 'io.springfox:springfox-swagger2:3.0.0'
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation("io.springfox:springfox-swagger2:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+	implementation("io.springfox:springfox-data-rest:3.0.0")
+	implementation("io.springfox:springfox-bean-validators:3.0.0")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+
 	implementation("com.google.guava:guava:29.0-jre")
 	annotationProcessor("com.google.guava:guava:29.0-jre")
 
@@ -88,6 +96,9 @@ dependencies {
 	//IntelliJ용
 	//IntelliJ에서는 하기 annotationProcessor를 쓰면 별도의 querydsl 플러그인 및 플러그인 설정이 불필요.
 	annotationProcessor("com.querydsl:querydsl-apt:${querydslVer}:jpa")
+
+	implementation("com.auth0:java-jwt:3.10.3")
+
 }
 
 tasks.named('test') {
