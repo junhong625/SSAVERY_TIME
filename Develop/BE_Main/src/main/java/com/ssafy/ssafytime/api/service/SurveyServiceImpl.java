@@ -19,4 +19,9 @@ public class SurveyServiceImpl implements SurveyService{
     public List<Survey> findAll() {
         return surveyRepository.findAll();
     }
+
+    @Override
+    public void save(Survey survey) {
+        surveyRepository.save(survey);
+    }
 }

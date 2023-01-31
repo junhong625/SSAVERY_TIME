@@ -11,4 +11,7 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
 
     @Override
     List<Survey> findAll();
+
+    @Override
+    Survey save(Survey survey);
 }
