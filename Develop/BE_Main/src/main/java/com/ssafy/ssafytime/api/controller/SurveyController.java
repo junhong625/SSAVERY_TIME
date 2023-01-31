@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.api.controller;
 
+import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
 import com.ssafy.ssafytime.api.response.AllQuestionRes;
 import com.ssafy.ssafytime.api.response.AllSurveyRes;
 import com.ssafy.ssafytime.api.service.SurveyOptionService;
@@ -12,12 +13,15 @@ import com.ssafy.ssafytime.db.entity.SurveyQuestion;
 import com.ssafy.ssafytime.db.repository.SurveyOptionRepository;
 import com.ssafy.ssafytime.db.repository.SurveyQuestionRepository;
 import com.ssafy.ssafytime.db.repository.SurveyRepository;
+import com.ssafy.ssafytime.jdbc_connection.DbConnector;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +44,8 @@ public class SurveyController {
     SurveyQuestionRepository surveyQuestionRepository;
     @Autowired
     SurveyOptionRepository surveyOptionRepository;
+
+    public static int cnt = 0;  // 이벤트 스케줄러의 제목에 넣을 count변수 선언!
 
     @GetMapping("/survey")
     @ApiOperation(value = "설문 전체 조회", notes = "<strong>설문 전체 조회</strong>")
@@ -102,6 +108,41 @@ public class SurveyController {
         } else {
             return ResponseEntity.status(204).body(null);
         }
+    }
+
+    @PostMapping("/survey")
+    @ApiOperation(value = "설문 등록", notes = "<strong>설문 등록</strong>")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> registerSurvey(@RequestBody @ApiParam(value="설문 등록 정보", required = true) SurveyRegisterPostReq surveyRegisterPostReq) {  // 설문 등록 API
+        Survey survey = new Survey();
+
+        String title = surveyRegisterPostReq.getTitle();
+        Integer status = surveyRegisterPostReq.getStatus();
+        LocalDateTime createdAt = surveyRegisterPostReq.getCreatedAt();
+        LocalDateTime endedAt = surveyRegisterPostReq.getEndedAt();
+        Integer category = surveyRegisterPostReq.getCategory();
+
+        survey.setCategory(category);
+        survey.setTitle(title);
+        survey.setStatus(status);
+        survey.setEndedAt(endedAt);
+        survey.setCreatedAt(createdAt);
+
+        surveyService.save(survey);  // create
+
+        try {
+            DbConnector.main(createdAt, endedAt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
 }

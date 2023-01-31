@@ -18,6 +18,8 @@ public class Survey extends BaseTimeEntity {
     @Column(name = "survey_title")
     String title;
     Integer status;
+    @Column(name = "created_at")
+    LocalDateTime createdAt;
     @Column(name = "ended_at")
     LocalDateTime endedAt;
     Integer category;

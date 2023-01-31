@@ -1,10 +1,10 @@
 package com.ssafy.ssafytime.jdbc_connection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static com.ssafy.ssafytime.api.controller.SurveyController.cnt;
 
 public class DbConnector {
     private Connection conn;
@@ -24,6 +24,35 @@ public class DbConnector {
         }
     }
 
+    public void updateStatus(LocalDateTime started_at, LocalDateTime ended_at) throws SQLException {
+        Statement stmt = null;
+        stmt = conn.createStatement();
+
+        conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        String startedAt = started_at.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        String endedAt = ended_at.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        try {
+            stmt.executeUpdate("CREATE EVENT surveyStatusChange" + ++cnt + " \n" +
+                    "on schedule \n" +
+                    "at " + "'" + startedAt + "'" +
+                    "\n do \n" +
+                    "\tupdate survey \n" +
+                    "    set status = 1" +
+                    ";");
+            stmt.executeUpdate("CREATE EVENT surveyStatusChange" + ++cnt + " \n" +
+                    "on schedule \n" +
+                    "at " + "'" + endedAt + "'" +
+                    "\n do \n" +
+                    "\tupdate survey \n" +
+                    "    set status = 2" +
+                    ";");
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("fail");
+            System.out.println(e);
+        }
+    }
     public void insertNotice() throws SQLException {
 //        String sql = "insert into notice(title, category, content_url, create_date, create_time) values(?,?,?,?,?)";
         String sql = "insert into schedule(date, track_code, title, sub_title, start_time, end_time, category_id) values(?,?,?,?,?,?,?)";
@@ -92,9 +121,10 @@ public class DbConnector {
             System.out.println("fail");
         }
     }
-    public static void main(String[] args) throws SQLException {
+    public static void main(LocalDateTime started_at, LocalDateTime ended_at) throws SQLException {
         DbConnector conn = new DbConnector();
 //        conn.insertNotice();
         conn.insertSchedule();
+        conn.updateStatus(started_at, ended_at);
     }
 }
