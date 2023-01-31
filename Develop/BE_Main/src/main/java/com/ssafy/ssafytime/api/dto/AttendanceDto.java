@@ -5,6 +5,8 @@ import com.ssafy.ssafytime.db.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.TimeZone;
 
 @Getter
 @Setter
@@ -13,19 +15,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AttendanceDto {
 
-    private String userIdx;
+    private Long userIdx;
 
     private Integer attendanceCategory;
 
-    private LocalDateTime attendanceDate;
+    private TimeZone attendanceDate;
 
-    private LocalDateTime attendanceTime;
+
+    private Set<UserDto> userDtoSet;
 
     public static AttendanceDto from(Attendance attendance) {
         if(attendance == null) return null;
 
         return AttendanceDto.builder()
-                .attendanceCategory(attendance.getAttendanceCategory())
+                .userIdx(attendance.getUser().getUserIdx())
+                .attendanceCategory(attendance.getId().getAttendanceCategory())
+                .attendanceDate(attendance.getId().getAttendanceDate())
                 .build();
     }
 }

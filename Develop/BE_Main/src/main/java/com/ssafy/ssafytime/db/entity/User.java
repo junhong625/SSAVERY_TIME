@@ -7,7 +7,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -75,14 +74,6 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_idx", referencedColumnName = "user_idx")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
-
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_attendance",
-            joinColumns = {@JoinColumn(name = "user_idx", referencedColumnName = "user_idx")},
-            inverseJoinColumns = {@JoinColumn(name = "attendance_category", referencedColumnName = "attendance_category")})
-    private Set<Attendance> attendances;
 }
 
 

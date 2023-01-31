@@ -39,6 +39,7 @@ public class UserService {
                 .build();
 
         User user = User.builder()
+
                 .userName(userDto.getUserName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .userEmail(userDto.getUserEmail())
@@ -57,7 +58,6 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDto getMyUserWithAuthorities() {
-
         return UserDto.from(
                 SecurityUtil.getCurrentUsername()
                         .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
@@ -65,14 +65,10 @@ public class UserService {
         );
     }
 
-
     @Transactional(readOnly = true)
-    public AttendanceDto getAttendance(){
-        return AttendanceDto.from(
-                SecurityUtil.getCurrentUsername()
-                        .flatMap(attendanceRepository::findOneWithAuthoritiesByUserEmail)
-                        .orElseThrow(() -> new NotFoundUserException("User not found"))
-        );
+    public AttendanceDto getAttendances(Long userIdx) {
+        return UserDto.from(userRepository.findAttendanceByUserIdx(userIdx).orElse(null));
     }
+
 
 }

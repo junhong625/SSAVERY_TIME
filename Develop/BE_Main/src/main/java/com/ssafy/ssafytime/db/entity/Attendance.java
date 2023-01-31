@@ -3,8 +3,6 @@ package com.ssafy.ssafytime.db.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "attendance")
@@ -15,7 +13,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Attendance{
 
-    @Id
-    @Column(name = "attendance_category")
-    private int attendanceCategory;
+    @EmbeddedId
+    private AttendanceId id;
+
+    @MapsId("userIdx")
+    @ManyToOne
+    @JoinColumn(name = "user_idx")
+    public User user;
+
 }

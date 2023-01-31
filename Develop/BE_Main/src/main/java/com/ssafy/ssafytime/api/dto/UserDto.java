@@ -1,6 +1,7 @@
 package com.ssafy.ssafytime.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.ssafytime.db.entity.Attendance;
 import com.ssafy.ssafytime.db.entity.User;
 import lombok.*;
 
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
+
+   private Long userIdx;
 
    @NotNull
    @Size(min = 3, max = 50)
@@ -49,11 +52,13 @@ public class UserDto {
 
 
    private Set<AuthorityDto> authorityDtoSet;
+   private Set<AttendanceDto> attendanceDtoSet;
 
    public static UserDto from(User user) {
       if(user == null) return null;
 
       return UserDto.builder()
+              .userIdx(user.getUserIdx())
               .userName(user.getUserName())
               .userEmail(user.getUserEmail())
               .trackCode(user.getTrackCode())
@@ -63,6 +68,17 @@ public class UserDto {
               .authorityDtoSet(user.getAuthorities().stream()
                       .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
                       .collect(Collectors.toSet()))
+              .build();
+   }
+
+
+   public static AttendanceDto from(Attendance attendance) {
+      if(attendance == null) return null;
+
+      return AttendanceDto.builder()
+              .userIdx(attendance.getId().getUserIdx())
+              .attendanceCategory(attendance.getId().getAttendanceCategory())
+              .attendanceDate(attendance.getId().getAttendanceDate())
               .build();
    }
 }

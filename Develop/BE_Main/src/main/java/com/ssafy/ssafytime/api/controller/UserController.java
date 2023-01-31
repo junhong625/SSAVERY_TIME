@@ -29,16 +29,6 @@ public class UserController {
 //        response.sendRedirect("/api/user");
 //    }
 
-
-
-//    @GetMapping("/attendance")
-//    public ResponseEntity<UserDto> attendance(
-//            @Valid @RequestBody UserDto userDto
-//    ){
-//        return ResponseEntity.ok()
-//    }
-
-
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signup(
             @Valid @RequestBody UserDto userDto
@@ -68,7 +58,10 @@ public class UserController {
     @GetMapping("/attendance")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<AttendanceDto> getAttendance(HttpServletRequest request){
-        return ResponseEntity.ok(userService.getAttendance());
+
+
+        Long userIdx = userService.getMyUserWithAuthorities().getUserIdx();
+        return ResponseEntity.ok(userService.getAttendances(userIdx));
     }
 
 

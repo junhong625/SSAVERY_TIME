@@ -1,7 +1,5 @@
 package com.ssafy.ssafytime.util;
 
-import com.ssafy.ssafytime.api.service.CustomUserDetails;
-import com.ssafy.ssafytime.api.service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -16,6 +14,9 @@ public class SecurityUtil {
    private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
 
    private SecurityUtil() {}
+
+
+
 
 
    public static Optional<String> getCurrentUsername() {
