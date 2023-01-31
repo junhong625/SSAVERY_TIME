@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Long> {
-//    List<ScheduleEntity> findScheduleEntityByDateAndStartTimeGreaterThanAndEndTimeLessThan(String date, String startTime, String endTime);
     List<ScheduleEntity> findByTrackCodeAndDateAndStartTimeLessThanAndEndTimeGreaterThan(int trackCode, String date, int startTime, int endTime);
+//    List<ScheduleEntity> findScheduleEntityByDateAndStartTimeGreaterThanAndEndTimeLessThan(String date, String startTime, String endTime);
 }

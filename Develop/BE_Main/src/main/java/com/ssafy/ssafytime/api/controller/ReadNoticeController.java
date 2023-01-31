@@ -15,9 +15,15 @@ public class ReadNoticeController {
     @Autowired
     ReadNoticeServiceImpl readNoticeService;
 
-    @GetMapping("notice/read")
-    public List<ReadNoticeResponseDto> notReadNotice(@RequestParam("id") Long id, @RequestParam("is_read") int isRead) throws Exception {
-        List<ReadNoticeResponseDto> readNoticeResponseDtoList = readNoticeService.getReadNotice(id, isRead);
+    @GetMapping("notice/unread/all")
+    public List<ReadNoticeResponseDto> allUnReadNotice(@RequestParam("id") Long id, @RequestParam("is_read") int isRead) throws Exception {
+        List<ReadNoticeResponseDto> readNoticeResponseDtoList = readNoticeService.getAllUnreadNotice(id, isRead);
+        return readNoticeResponseDtoList;
+    }
+
+    @GetMapping("notice/unread")
+    public List<ReadNoticeResponseDto> unReadNotice(@RequestParam("uid") Long uid, @RequestParam("is_read") int isRead) throws Exception {
+        List<ReadNoticeResponseDto> readNoticeResponseDtoList = readNoticeService.getUnreadNotice(uid, isRead);
         return readNoticeResponseDtoList;
     }
 }
