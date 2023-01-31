@@ -26,11 +26,11 @@ public class QScheduleEntity extends EntityPathBase<ScheduleEntity> {
 
     public final StringPath date = createString("date");
 
-    public final StringPath endTime = createString("endTime");
+    public final NumberPath<Integer> endTime = createNumber("endTime", Integer.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath startTime = createString("startTime");
+    public final NumberPath<Integer> startTime = createNumber("startTime", Integer.class);
 
     public final StringPath subTitle = createString("subTitle");
 

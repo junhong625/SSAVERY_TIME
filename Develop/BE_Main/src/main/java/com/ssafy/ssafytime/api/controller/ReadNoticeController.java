@@ -1,15 +1,12 @@
 package com.ssafy.ssafytime.api.controller;
 
-import com.ssafy.ssafytime.domain.notice.NoticeEntity;
-import com.ssafy.ssafytime.dto.ReadNotice.ReadNoticeResponseDto;
-import com.ssafy.ssafytime.service.ReadNotice.ReadNoticeServiceImpl;
+import com.ssafy.ssafytime.dto.readNotice.ReadNoticeResponseDto;
+import com.ssafy.ssafytime.service.readNotice.ReadNoticeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

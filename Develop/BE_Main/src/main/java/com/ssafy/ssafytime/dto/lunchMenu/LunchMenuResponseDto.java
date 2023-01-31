@@ -1,4 +1,4 @@
-package com.ssafy.ssafytime.dto.LunchMenu;
+package com.ssafy.ssafytime.dto.lunchMenu;
 
 import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
 import lombok.*;

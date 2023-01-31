@@ -1,6 +1,5 @@
-package com.ssafy.ssafytime.dto.ReadNotice;
+package com.ssafy.ssafytime.dto.readNotice;
 
-import com.ssafy.ssafytime.domain.notice.NoticeEntity;
 import com.ssafy.ssafytime.domain.notice.ReadNoticeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,12 +8,11 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ReadNoticeResponseDto {
-    private NoticeEntity notice;
     private int isRead;
 
+    // TODO 유저 데이터 빌더에 추가
     @Builder
     public ReadNoticeResponseDto(ReadNoticeEntity readNoticeEntity) {
-        this.notice = readNoticeEntity.getNoticeEntity();
         this.isRead = readNoticeEntity.getIsRead();
     }
 }

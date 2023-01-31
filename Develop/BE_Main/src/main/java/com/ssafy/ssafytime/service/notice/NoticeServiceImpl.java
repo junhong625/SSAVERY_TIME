@@ -1,7 +1,7 @@
-package com.ssafy.ssafytime.service.Notice;
+package com.ssafy.ssafytime.service.notice;
 
 import com.ssafy.ssafytime.domain.notice.NoticeEntity;
-import com.ssafy.ssafytime.dto.Notice.NoticeResponseDto;
+import com.ssafy.ssafytime.dto.notice.NoticeResponseDto;
 import com.ssafy.ssafytime.repository.NoticeRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,8 +1,8 @@
 package com.ssafy.ssafytime.api.controller;
 
 
-import com.ssafy.ssafytime.dto.LunchMenu.LunchMenuResponseDto;
-import com.ssafy.ssafytime.service.LunchMenu.LunchMenuServiceImpl;
+import com.ssafy.ssafytime.dto.lunchMenu.LunchMenuResponseDto;
+import com.ssafy.ssafytime.service.lunchMenu.LunchMenuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

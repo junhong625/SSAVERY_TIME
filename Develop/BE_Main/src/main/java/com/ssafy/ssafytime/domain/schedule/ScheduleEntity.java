@@ -16,6 +16,7 @@ public class ScheduleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 0: 모두, 1: 파이선, 2: 자바(비전공), 3: 자바(전공), 4: 임베디드, 5: 모바일
     @Column(name = "track_code")
     private int trackCode;
 
@@ -23,10 +24,10 @@ public class ScheduleEntity {
     private String date;
 
     @Column(name = "start_time")
-    private String startTime;
+    private int startTime;
 
     @Column(name = "end_time")
-    private String endTime;
+    private int endTime;
 
     @Column(name = "title")
     private String title;

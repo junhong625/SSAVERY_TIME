@@ -1,17 +1,13 @@
-package com.ssafy.ssafytime.service.ReadNotice;
+package com.ssafy.ssafytime.service.readNotice;
 
-import com.ssafy.ssafytime.domain.notice.NoticeEntity;
-import com.ssafy.ssafytime.dto.ReadNotice.ReadNoticeResponseDto;
-import com.ssafy.ssafytime.repository.NoticeRepository;
+import com.ssafy.ssafytime.dto.readNotice.ReadNoticeResponseDto;
 import com.ssafy.ssafytime.repository.ReadNoticeRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j

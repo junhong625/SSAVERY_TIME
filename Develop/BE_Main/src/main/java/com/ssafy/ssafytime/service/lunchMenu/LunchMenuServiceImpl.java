@@ -1,7 +1,7 @@
-package com.ssafy.ssafytime.service.LunchMenu;
+package com.ssafy.ssafytime.service.lunchMenu;
 
 import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
-import com.ssafy.ssafytime.dto.LunchMenu.LunchMenuResponseDto;
+import com.ssafy.ssafytime.dto.lunchMenu.LunchMenuResponseDto;
 import com.ssafy.ssafytime.repository.LunchMenuRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +22,9 @@ public class LunchMenuServiceImpl implements LunchMenuService {
 
     @Override
     public List<HashMap<String, Object>> getTodayMenu(int region) {
-        System.out.printf("1 %d", region);
         LocalDate now = LocalDate.now();
         String date = now.toString().replace("-", "");
-        System.out.println(date);
         List<LunchMenuEntity> menu = lunchMenuRepository.findByRegionAndDate(region, date);
-        System.out.println(menu);
         ArrayList<HashMap<String, Object>> todayMenu = new ArrayList<HashMap<String, Object>>();
 
         menu.stream()

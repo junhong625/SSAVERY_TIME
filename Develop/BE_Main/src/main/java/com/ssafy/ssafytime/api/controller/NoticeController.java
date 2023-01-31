@@ -1,8 +1,7 @@
 package com.ssafy.ssafytime.api.controller;
 
-import com.ssafy.ssafytime.domain.notice.NoticeEntity;
-import com.ssafy.ssafytime.dto.Notice.NoticeResponseDto;
-import com.ssafy.ssafytime.service.Notice.NoticeServiceImpl;
+import com.ssafy.ssafytime.dto.notice.NoticeResponseDto;
+import com.ssafy.ssafytime.service.notice.NoticeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

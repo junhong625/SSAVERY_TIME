@@ -1,6 +1,5 @@
-package com.ssafy.ssafytime.dto.Notice;
+package com.ssafy.ssafytime.dto.notice;
 
-import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
 import com.ssafy.ssafytime.domain.notice.NoticeEntity;
 import lombok.Builder;
 import lombok.Getter;
