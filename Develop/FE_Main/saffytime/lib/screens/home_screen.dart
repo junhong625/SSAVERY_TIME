@@ -11,11 +11,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenStates extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [Text("HomeScreen")],
+    return Scaffold(
+      appBar: AppBar(title: const Text("1231234 김싸피")),
+      body: SizedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [Text("HomeScreen")],
+        ),
       ),
     );
   }

@@ -11,11 +11,16 @@ class MenuBookScreen extends StatefulWidget {
 class _MenuBookScreenStates extends State<MenuBookScreen> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [Text("MenuBookScreen")],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("식단표"),
+      ),
+      body: SizedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [Text("MenuBookScreen")],
+        ),
       ),
     );
   }

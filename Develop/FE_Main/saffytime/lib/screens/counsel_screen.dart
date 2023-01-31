@@ -11,11 +11,14 @@ class CounselScreen extends StatefulWidget {
 class _CounselScreenStates extends State<CounselScreen> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [Text("CounselScreen")],
+    return Scaffold(
+      appBar: AppBar(title: const Text("상담")),
+      body: SizedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [Text("CounselScreen")],
+        ),
       ),
     );
   }

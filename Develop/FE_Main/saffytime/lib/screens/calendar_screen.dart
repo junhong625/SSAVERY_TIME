@@ -11,11 +11,14 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenStates extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [Text("CalendarScreen")],
+    return Scaffold(
+      appBar: AppBar(title: const Text("시간표")),
+      body: SizedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [Text("CalendarScreen")],
+        ),
       ),
     );
   }
