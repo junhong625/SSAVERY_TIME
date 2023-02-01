@@ -9,10 +9,12 @@ import lombok.ToString;
 @ToString
 public class ReadNoticeResponseDto {
     private int isRead;
+    private String uid;
 
     // TODO 유저 데이터 빌더에 추가
     @Builder
     public ReadNoticeResponseDto(ReadNoticeEntity readNoticeEntity) {
         this.isRead = readNoticeEntity.getIsRead();
+        this.uid = readNoticeEntity.getUserEntity().getUserIdx();
     }
 }

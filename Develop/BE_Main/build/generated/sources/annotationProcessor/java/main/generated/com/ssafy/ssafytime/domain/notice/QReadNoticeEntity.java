@@ -28,6 +28,8 @@ public class QReadNoticeEntity extends EntityPathBase<ReadNoticeEntity> {
 
     public final QNoticeEntity noticeEntity;
 
+    public final com.ssafy.ssafytime.db.entity.QUser userEntity;
+
     public QReadNoticeEntity(String variable) {
         this(ReadNoticeEntity.class, forVariable(variable), INITS);
     }
@@ -47,6 +49,7 @@ public class QReadNoticeEntity extends EntityPathBase<ReadNoticeEntity> {
     public QReadNoticeEntity(Class<? extends ReadNoticeEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.noticeEntity = inits.isInitialized("noticeEntity") ? new QNoticeEntity(forProperty("noticeEntity")) : null;
+        this.userEntity = inits.isInitialized("userEntity") ? new com.ssafy.ssafytime.db.entity.QUser(forProperty("userEntity")) : null;
     }
 
 }
