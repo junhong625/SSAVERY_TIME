@@ -3,6 +3,7 @@ package com.ssafy.ssafytime.api.service;
 import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Attendance;
+import com.ssafy.ssafytime.db.entity.AttendanceId;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AttendanceRepository;
@@ -70,9 +71,9 @@ public class UserService {
     @Transactional(readOnly = true)
     public AttendanceDto getAttendances(Long userIdx) {
 
-        List<Attendance> list = attendanceRepository.findAllByUser_UserIdx(userIdx);
-        System.out.println(list.toString());
-        return AttendanceDto.from((Attendance) list);
+        return AttendanceDto.from(attendanceRepository.findOneByUser_UserIdx(userIdx).orElse(null));
+
+
     }
 
 }

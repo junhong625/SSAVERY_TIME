@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(value = "유저API", tags = {"User"})
 @RestController
@@ -52,6 +53,7 @@ public class UserController {
 
         return ResponseEntity.ok(userService.getAttendances(userIdx));
     }
+
 }
 
 

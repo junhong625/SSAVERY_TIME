@@ -4,10 +4,12 @@ import com.ssafy.ssafytime.db.entity.Attendance;
 import com.ssafy.ssafytime.db.entity.AttendanceId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, AttendanceId> {
-    List<Attendance> findAllByUser_UserIdx(Long userIdx);
+
+
+    Optional<Attendance> findOneByUser_UserIdx(Long userIdx);
 
 
 }
