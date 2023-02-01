@@ -23,6 +23,8 @@ public class QMeetList extends EntityPathBase<MeetList> {
 
     public final NumberPath<Long> managerId = createNumber("managerId", Long.class);
 
+    public final StringPath meetUrl = createString("meetUrl");
+
     public final StringPath reject = createString("reject");
 
     public final DatePath<java.time.LocalDate> rezDate = createDate("rezDate", java.time.LocalDate.class);

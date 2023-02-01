@@ -51,7 +51,7 @@ public class MeetController {
         member.setState(3L);
         // 거절사유
         member.setReject(reject);
-        meetService.save(member);
+        meetService.update(member);
 
     }
 

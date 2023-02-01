@@ -1,16 +1,19 @@
 package com.ssafy.ssafytime.db.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@DynamicInsert // insert시 null인 column 제외
 public class MeetList {
     @Id
     @Column(name = "rez_idx")
@@ -28,7 +31,7 @@ public class MeetList {
 
     @Column(name = "rez_time")
     Long rezTime;
-
+    @ColumnDefault("1") //default 1
     @Column(name = "state")
     Long state;
 
@@ -40,5 +43,8 @@ public class MeetList {
 
     @Column(name = "category")
     Long category;
+
+    @Column(name = "meet_url")
+    String meetUrl;
 
 }
