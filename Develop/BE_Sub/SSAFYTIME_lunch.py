@@ -202,4 +202,4 @@ scheduler.start()
 scheduler.add_job(lunch_data_crawling, 'interval', weeks=1, start_date="2023-02-06 00:00:00", timezone="asia/seoul")
 
 if __name__ == '__main__':
-    app.run()
+    app.run() 
