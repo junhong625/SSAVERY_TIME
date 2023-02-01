@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: true,
@@ -32,12 +32,20 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: RootPage(),
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => const RootScreen()),
+        GetPage(name: '/home', page: () => const HomeScreen()),
+        GetPage(name: '/calendar', page: () => const HomeScreen()),
+        GetPage(name: '/menu', page: () => const HomeScreen()),
+        GetPage(name: '/counsel', page: () => const HomeScreen()),
+      ],
     );
   }
 }
 
-class RootPage extends StatelessWidget {
+class RootScreen extends StatelessWidget {
+  const RootScreen({Key? key}) : super(key: key);
   static List<Widget> tabPages = <Widget>[
     const HomeScreen(),
     const CalendarScreen(),
@@ -49,8 +57,7 @@ class RootPage extends StatelessWidget {
     Get.put(BottomNavigationBarController());
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Obx(() => SizedBox(
-          height: double.infinity,
+      body: Obx(() => SafeArea(
           child: tabPages[BottomNavigationBarController.to.selectedIdx.value])),
       bottomNavigationBar: const CustomBottomNavBar(),
     );
