@@ -14,21 +14,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AttendanceDto {
 
-    private String userIdx;
+    private Long userIdx;
 
     private Integer attendanceCategory;
 
-    private LocalDateTime attendanceDate;
+    private LocalDate attendanceDate;
 
-    private LocalDateTime attendanceTime;
+    private LocalDate attendanceTime;
 
-//    public static AttendanceDto from(Attendance attendance) {
-//        if(attendance == null) return null;
-//
-//        return AttendanceDto.builder()
-//                .userIdx(attendance.getUser().getUserIdx())
-//                .attendanceCategory(attendance.getId().getAttendanceCategory())
-//                .attendanceDate(attendance.getId().getAttendanceDate())
-//                .build();
-//    }
+    public static AttendanceDto from(Attendance attendance) {
+        if(attendance == null) return null;
+
+        return AttendanceDto.builder()
+                .userIdx(attendance.getId().getUserIdx())
+                .attendanceCategory(attendance.getId().getAttendanceCategory())
+                .attendanceDate(attendance.getId().getAttendanceDate())
+                .build();
+    }
 }

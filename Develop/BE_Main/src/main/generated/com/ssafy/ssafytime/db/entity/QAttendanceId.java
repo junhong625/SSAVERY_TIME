@@ -21,7 +21,7 @@ public class QAttendanceId extends BeanPath<AttendanceId> {
 
     public final NumberPath<Integer> attendanceCategory = createNumber("attendanceCategory", Integer.class);
 
-    public final SimplePath<java.util.TimeZone> attendanceDate = createSimple("attendanceDate", java.util.TimeZone.class);
+    public final DatePath<java.time.LocalDate> attendanceDate = createDate("attendanceDate", java.time.LocalDate.class);
 
     public final NumberPath<Long> userIdx = createNumber("userIdx", Long.class);
 

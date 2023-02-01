@@ -1,8 +1,11 @@
 package com.ssafy.ssafytime.api.service;
 
+import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.api.dto.UserDto;
+import com.ssafy.ssafytime.db.entity.Attendance;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
+import com.ssafy.ssafytime.db.repository.AttendanceRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
 import com.ssafy.ssafytime.exception.DuplicateUserException;
 import com.ssafy.ssafytime.exception.NotFoundUserException;
@@ -12,19 +15,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-//    private final AttendanceRepository attendanceRepository;
+    private final AttendanceRepository attendanceRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder
-//                       AttendanceRepository attendanceRepository
-    ) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                       AttendanceRepository attendanceRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-//        this.attendanceRepository = attendanceRepository;
+        this.attendanceRepository = attendanceRepository;
     }
 
     @Transactional
@@ -64,9 +67,12 @@ public class UserService {
         );
     }
 
-//    @Transactional(readOnly = true)
-//    public AttendanceDto getAttendances(Long userIdx) {
-//        return AttendanceDto.from(attendanceRepository.findWithAttendancesByUser_UserIdx(userIdx).orElse(null));
-//    }
+    @Transactional(readOnly = true)
+    public AttendanceDto getAttendances(Long userIdx) {
+
+        List<Attendance> list = attendanceRepository.findAllByUser_UserIdx(userIdx);
+        System.out.println(list.toString());
+        return AttendanceDto.from((Attendance) list);
+    }
 
 }
