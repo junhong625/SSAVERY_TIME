@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,12 +29,12 @@ public class ReserveController {
     }
 
     @GetMapping(value = "/{time}", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
-    public ResponseEntity<List<Integer>> getReserveTime(@RequestParam("date") String date, @RequestParam("managerId") long managerId) {
+    public ResponseEntity<Map<String,List<Integer>>> getReserveTime(@RequestParam("date") String date, @RequestParam("managerId") long managerId) {
 
         List<Integer> timeList = meetService.findByRezDateAndManagerId(date, managerId);
-
-
-        return new ResponseEntity(timeList, HttpStatus.OK);
+        Map<String, List> map = new HashMap<>();
+        map.put("time", timeList);
+        return new ResponseEntity(map, HttpStatus.OK);
 
     }
 
