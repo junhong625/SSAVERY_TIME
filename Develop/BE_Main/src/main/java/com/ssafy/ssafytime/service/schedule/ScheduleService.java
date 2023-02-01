@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ScheduleService {
     List<ScheduleResponseDto> getCurrentSchedule(int trackCode);
+
+    List<ScheduleResponseDto> getWeekSchedule(int trackCode);
 }

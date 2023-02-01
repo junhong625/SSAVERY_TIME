@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +22,26 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public List<ScheduleResponseDto> getCurrentSchedule(int trackCode) {
         String[] dateTime = LocalDateTime.now().toString().split("T");
-        String date = dateTime[0].toString().replace("-", "");
+        int date = Integer.parseInt(dateTime[0].toString().replace("-", ""));
         int time = Integer.parseInt(dateTime[1].replace(":", "").substring(0, 6));
 
-        System.out.println(date);
-        System.out.println(time);
         List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
         scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanAndEndTimeGreaterThan(trackCode, date, time, time).forEach((scheduleEntity -> {
-            System.out.println(scheduleEntity);
             scheduleResponseDtoList.add(new ScheduleResponseDto(scheduleEntity));
         }));
+        return scheduleResponseDtoList;
+    }
+
+    @Override
+    public List<ScheduleResponseDto> getWeekSchedule(int trackCode) {
+        List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
+        LocalDate date = LocalDate.now();
+        int weekDay = date.getDayOfWeek().getValue();
+        int startDate = Integer.parseInt(date.minusDays(weekDay).toString().replace("-", ""));
+        int endDate = Integer.parseInt(date.plusDays(4).toString().replace("-", ""));
+        scheduleRepository.findByTrackCodeAndDateLessThanAndDateGreaterThanOrderByDate(trackCode, endDate, startDate).forEach((scheduleEntity ->
+                scheduleResponseDtoList.add(new ScheduleResponseDto(scheduleEntity))));
+
         return scheduleResponseDtoList;
     }
 }

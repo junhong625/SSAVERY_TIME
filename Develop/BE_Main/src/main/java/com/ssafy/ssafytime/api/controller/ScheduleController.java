@@ -20,4 +20,10 @@ public class ScheduleController {
         List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.getCurrentSchedule(trackCode);
         return scheduleResponseDtoList;
     }
+
+    @GetMapping("schedule/week")
+    public List<ScheduleResponseDto> weekSchedule(@RequestParam("track_code") int trackCode) {
+        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.getWeekSchedule(trackCode);
+        return scheduleResponseDtoList;
+    }
 }

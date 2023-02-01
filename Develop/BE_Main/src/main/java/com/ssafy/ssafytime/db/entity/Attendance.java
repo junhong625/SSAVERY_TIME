@@ -18,7 +18,7 @@ public class Attendance extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_idx")
-    private String userIdx;
+    private Long userIdx;
 
     @Column(name = "attendance_category")
     private int attendanceCategory;

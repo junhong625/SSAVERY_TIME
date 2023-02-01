@@ -24,7 +24,7 @@ public class ReadNoticeEntity {
 
     // 유저 Entity 추가 시 주석 삭제
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_idx")
     private User userEntity;
 
     @Column(name = "is_read")
