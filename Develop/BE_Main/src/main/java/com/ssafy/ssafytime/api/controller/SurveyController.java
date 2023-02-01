@@ -1,24 +1,30 @@
 package com.ssafy.ssafytime.api.controller;
 
+import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
 import com.ssafy.ssafytime.api.response.AllQuestionRes;
 import com.ssafy.ssafytime.api.response.AllSurveyRes;
 import com.ssafy.ssafytime.api.service.SurveyOptionService;
 import com.ssafy.ssafytime.api.service.SurveyQuestionService;
 import com.ssafy.ssafytime.api.service.SurveyService;
+import com.ssafy.ssafytime.api.service.UserService;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
-import com.ssafy.ssafytime.db.DbConnector;
 import com.ssafy.ssafytime.db.entity.Survey;
 import com.ssafy.ssafytime.db.entity.SurveyOption;
 import com.ssafy.ssafytime.db.entity.SurveyQuestion;
+import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.SurveyOptionRepository;
 import com.ssafy.ssafytime.db.repository.SurveyQuestionRepository;
 import com.ssafy.ssafytime.db.repository.SurveyRepository;
+import com.ssafy.ssafytime.db.repository.UserRepository;
+import com.ssafy.ssafytime.jdbc_connection.DbConnector;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -39,6 +45,10 @@ public class SurveyController {
     @Autowired
     SurveyOptionService surveyOptionService;
     @Autowired
+    UserService userService;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
     SurveyRepository surveyRepository;
     @Autowired
     SurveyQuestionRepository surveyQuestionRepository;
@@ -46,7 +56,6 @@ public class SurveyController {
     SurveyOptionRepository surveyOptionRepository;
 
     public static int cnt = 0;  // 이벤트 스케줄러의 제목에 넣을 count변수 선언!
-
 
     @GetMapping("/survey")
     @ApiOperation(value = "설문 전체 조회", notes = "<strong>설문 전체 조회</strong>")
@@ -146,4 +155,18 @@ public class SurveyController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
+    @PostMapping("/survey/conduct/{surveyId}")
+    @ApiOperation(value = "설문 완료 ", notes = "<strong>설문 완료</strong>")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> surveyConduct(@PathVariable("surveyId") Long Id, @ApiIgnore Authentication authentication) {
+
+        UserDto user = userService.getMyUserWithAuthorities();
+        return null;
+    }
 }
