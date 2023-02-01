@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.api.dto;
 
+import com.ssafy.ssafytime.db.entity.Attendance;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -20,4 +21,14 @@ public class AttendanceDto {
     private LocalDateTime attendanceDate;
 
     private LocalDateTime attendanceTime;
+
+//    public static AttendanceDto from(Attendance attendance) {
+//        if(attendance == null) return null;
+//
+//        return AttendanceDto.builder()
+//                .userIdx(attendance.getUser().getUserIdx())
+//                .attendanceCategory(attendance.getId().getAttendanceCategory())
+//                .attendanceDate(attendance.getId().getAttendanceDate())
+//                .build();
+//    }
 }
