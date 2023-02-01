@@ -1,6 +1,6 @@
 package com.ssafy.ssafytime.db.repository;
 
-import com.ssafy.ssafytime.db.entity.Attendance;
+//import com.ssafy.ssafytime.db.entity.Attendance;
 import com.ssafy.ssafytime.db.entity.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +13,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
     Optional<User> findOneWithAuthoritiesByUserEmail(String userEmail);
 
 
-    Optional<Attendance> findAttendanceByUserIdx(Long userIdx);
+
 }

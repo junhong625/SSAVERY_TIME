@@ -1,12 +1,13 @@
 package com.ssafy.ssafytime.api.service;
 
 import java.util.Collections;
+import java.util.List;
 
-import com.ssafy.ssafytime.api.dto.AttendanceDto;
+//import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
-import com.ssafy.ssafytime.db.repository.AttendanceRepository;
+//import com.ssafy.ssafytime.db.repository.AttendanceRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
 import com.ssafy.ssafytime.exception.DuplicateUserException;
 import com.ssafy.ssafytime.exception.NotFoundUserException;
@@ -19,13 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AttendanceRepository attendanceRepository;
+//    private final AttendanceRepository attendanceRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                       AttendanceRepository attendanceRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder
+//                       AttendanceRepository attendanceRepository
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.attendanceRepository = attendanceRepository;
+//        this.attendanceRepository = attendanceRepository;
     }
 
     @Transactional
@@ -65,10 +67,9 @@ public class UserService {
         );
     }
 
-    @Transactional(readOnly = true)
-    public AttendanceDto getAttendances(Long userIdx) {
-        return UserDto.from(userRepository.findAttendanceByUserIdx(userIdx).orElse(null));
-    }
-
+//    @Transactional(readOnly = true)
+//    public AttendanceDto getAttendances(Long userIdx) {
+//        return AttendanceDto.from(attendanceRepository.findWithAttendancesByUser_UserIdx(userIdx).orElse(null));
+//    }
 
 }

@@ -10,9 +10,9 @@ insert into user_authority (user_idx, authority_name) values (1, 'ROLE_USER');
 insert into user_authority (user_idx, authority_name) values (1, 'ROLE_ADMIN');
 insert into user_authority (user_idx, authority_name) values (2, 'ROLE_USER');
 
-insert into attendance(user_idx, attendance_category, attendance_date) values(1, 1, 20220101);
-insert into attendance(user_idx, attendance_category, attendance_date) values(1, 1, 20220111);
-insert into attendance(user_idx, attendance_category, attendance_date) values(1, 1, 20220121);
+-- insert into attendance(user_idx, attendance_category, attendance_date) values(1, 1, 20220101);
+-- insert into attendance(user_idx, attendance_category, attendance_date) values(1, 1, 20220111);
+-- insert into attendance(user_idx, attendance_category, attendance_date) values(1, 1, 20220121);
 
 
 
