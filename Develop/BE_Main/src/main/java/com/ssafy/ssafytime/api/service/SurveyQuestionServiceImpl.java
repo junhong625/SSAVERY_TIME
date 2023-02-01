@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("surveyQuestionService")
 public class SurveyQuestionServiceImpl implements SurveyQuestionService{
@@ -16,5 +17,10 @@ public class SurveyQuestionServiceImpl implements SurveyQuestionService{
     @Override
     public List<SurveyQuestion> findAllBySurvey_IdOrderByIdAsc(long Id) {
         return surveyQuestionRepository.findAllBySurvey_IdOrderByIdAsc(Id);
+    }
+
+    @Override
+    public Optional<SurveyQuestion> findById(Long Id) {
+        return surveyQuestionRepository.findById(Id);
     }
 }

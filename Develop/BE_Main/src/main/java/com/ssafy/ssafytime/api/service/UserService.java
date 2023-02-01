@@ -1,6 +1,7 @@
 package com.ssafy.ssafytime.api.service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Authority;
@@ -9,12 +10,15 @@ import com.ssafy.ssafytime.db.repository.UserRepository;
 import com.ssafy.ssafytime.exception.DuplicateUserException;
 import com.ssafy.ssafytime.exception.NotFoundUserException;
 import com.ssafy.ssafytime.util.SecurityUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -58,4 +62,9 @@ public class UserService {
                         .orElseThrow(() -> new NotFoundUserException("User not found"))
         );
     }
+
+    public Optional<User> findById(Long Id) {
+        return userRepository.findById(Id);
+    }
+
 }
