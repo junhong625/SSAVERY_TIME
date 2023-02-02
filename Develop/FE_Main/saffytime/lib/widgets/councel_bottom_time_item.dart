@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../controllers/councel_data.dart';
+import '../controllers/councel_bottom.dart';
 import 'package:get/get.dart';
 
 class CBTimeItem extends StatelessWidget {

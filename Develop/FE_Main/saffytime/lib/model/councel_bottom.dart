@@ -1,5 +1,6 @@
 
-// 상담 버튼에서 쓸거임
+
+// 상담 시간 선택 버튼에서 쓸거임
 class staticTimeTable {
   Map<double, String> _table = {
     9.0 : '9:00', 9.5 : '9:30',
@@ -13,4 +14,15 @@ class staticTimeTable {
     17.0 : '17:00', 17.5 : '17:30',
   };
   Map get table => _table;
+}
+
+
+
+// 상담 카테고리 선택 버튼 데이터
+class staticCategory {
+  List<String> _table = [
+    '취업', '코딩', '알고리즘', 'FE', 'BE', 'JAVA', 'PYTHON',
+    'Spring', 'Django','eeeeeeeeeeeeeeeeeeee'
+  ];
+  List get table => _table;
 }

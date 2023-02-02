@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test_pjt/controllers/pick_day_controller.dart';
-import 'package:test_pjt/testCalender.dart';
-import 'package:test_pjt/testCounsel.dart';
-import 'package:test_pjt/test_routing.dart';
-import 'package:test_pjt/widgets/schedule_time_table.dart';
+import 'package:saffytime/testCalender.dart';
+import 'package:saffytime/testCounsel.dart';
+import 'package:saffytime/test_routing.dart';
+
+import 'controllers/pick_day_controller.dart';
 
 void main() {
   runApp(MyApp());

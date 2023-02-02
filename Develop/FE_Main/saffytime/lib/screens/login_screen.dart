@@ -1,8 +1,8 @@
 // login screen
-
-
 import 'package:flutter/material.dart';
-import 'package:login/test_widget.dart';
+
+import '../widgets/login_input_widget.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test_pjt/widgets/councel_bottom_date.dart';
 
+import '../controllers/councel_bottom.dart';
+import '../custom_button.dart';
 import 'councel_bottom_ counselor.dart';
+import 'councel_bottom_category_total.dart';
+import 'councel_bottom_date.dart';
 import 'councel_bottom_input_title.dart';
 import 'councel_bottom_time_total.dart';
+
 
 void openCouncelBottomSheet() {
   Get.bottomSheet(
@@ -32,8 +36,32 @@ void openCouncelBottomSheet() {
           CBDate(), // 날짜 선택
           CBTimeTotal(), // 시간 선택
           CBInputTitle(), // 내용 입력
+          CBCategoryTotal(), // 카테고리 선택
+          Container(
+            color: Colors.lime,
+            width: 390, height: 47,
+            child: Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    tmp();
+                  },
+                  child: Text('dd')
+                )
+
+              ],
+            ),
+
+          )
         ],
       ),
     ),
   );
+}
+
+void tmp() {
+  CBTimeController a = Get.put(CBTimeController());
+  CBCategoryController b = Get.put(CBCategoryController());
+
+  print([a.myPick.value, b.myPick]);
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test_pjt/controllers/pick_day_controller.dart';
-import 'package:test_pjt/main.dart';
-import 'package:test_pjt/testCounsel.dart';
+
+import 'controllers/pick_day_controller.dart';
+import 'main.dart';
 
 
 class TestRouting extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_pjt/widgets/schedule_single_item.dart';
+import 'package:saffytime/widgets/schedule_single_item.dart';
 
 class ScTotal extends StatelessWidget {
 

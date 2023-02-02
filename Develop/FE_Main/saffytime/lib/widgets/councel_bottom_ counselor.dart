@@ -19,7 +19,7 @@ class CBCounselor extends StatelessWidget {
               fit: BoxFit.contain,
               child: CircleAvatar(
                 radius: 20,
-                backgroundImage: AssetImage('asset/person.jpg'),),
+                backgroundImage: AssetImage('asset/tmp.png'),),
             ),
           ),
           Container(

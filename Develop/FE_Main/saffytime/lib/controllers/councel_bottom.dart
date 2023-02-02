@@ -14,3 +14,22 @@ class CBTimeController extends GetxController {
     }
   }
 }
+
+// 카테고리 선택 컨트롤러
+class CBCategoryController extends GetxController {
+  RxList myPick = [].obs;
+
+  void select(String category) {
+    if (myPick.contains(category)) {
+      myPick.remove(category);
+    } else {
+      myPick.add(category);
+    }
+  }
+}
+
+
+// 전체 컨트롤러
+class CBResultData extends GetxController {
+  RxList myPick = [].obs;
+}

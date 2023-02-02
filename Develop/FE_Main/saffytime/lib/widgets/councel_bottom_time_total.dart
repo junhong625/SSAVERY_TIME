@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../model/time_table.dart';
+import '../model/councel_bottom.dart';
 import 'councel_bottom_time_item.dart';
 
 class CBTimeTotal extends StatelessWidget {

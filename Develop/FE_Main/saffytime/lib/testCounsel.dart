@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test_pjt/widgets/councel_bottom_total.dart';
+import 'package:saffytime/widgets/councel_bottom_total.dart';
 
 import 'main.dart';
 
