@@ -14,6 +14,6 @@ public interface SurveyService {
 
     Optional<Survey> findById(Long Id);
 
-//    List<Survey> findByStatus(Integer Status);
+    List<Survey> findAllByStatus(Integer Status);
     void save(Survey survey);
 }
