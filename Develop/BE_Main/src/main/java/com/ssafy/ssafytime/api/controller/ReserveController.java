@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +23,17 @@ public class ReserveController {
     public ReserveController(MeetService meetService){
         this.meetService = meetService;
     }
+    @GetMapping(value = "/info", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
+    public ResponseEntity<Map<String, Object>> getManagerInfo(@RequestParam("classNum") Integer classNum, @RequestParam("regionCode") Integer regionCode) {
+        return new ResponseEntity(meetService.getManagerInfo(classNum, regionCode), HttpStatus.OK);
+    }
 
-    @PostMapping(value = "/{submit}", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
+    @PostMapping(value = "/submit", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
     public void postReserve(@RequestBody ReserveDto reserveDto) {
         meetService.save(reserveDto);
     }
 
-    @GetMapping(value = "/{time}", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
+    @GetMapping(value = "/time", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
     public ResponseEntity<Map<String,List<Integer>>> getReserveTime(@RequestParam("date") String date, @RequestParam("managerId") long managerId) {
 
         List<Integer> timeList = meetService.findByRezDateAndManagerId(date, managerId);

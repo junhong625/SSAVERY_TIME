@@ -2,8 +2,11 @@ package com.ssafy.ssafytime.api.service;
 
 import com.ssafy.ssafytime.db.dto.ReserveDto;
 import com.ssafy.ssafytime.db.entity.MeetList;
+import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.MeetListRepository;
 import com.ssafy.ssafytime.db.repository.MeetUpdateRepository;
+import com.ssafy.ssafytime.db.repository.UserRepository;
+import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +24,8 @@ public class MeetServiceImpl implements MeetService{
     MeetListRepository meetListRepository;
     @Autowired
     MeetUpdateRepository meetUpdateRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<MeetList> findByStudentId(Long userId){
@@ -40,6 +46,24 @@ public class MeetServiceImpl implements MeetService{
         );
 
         return timeList;
+    }
+    @Override
+    public ArrayList<HashMap<String, Object>> getManagerInfo(Integer classNum, Integer regionCode){
+
+        List<User> userList = userRepository.findByClassNumAndRegionCode(classNum, regionCode);
+
+        ArrayList<HashMap<String, Object>> manager = new ArrayList<HashMap<String, Object>>();
+
+        userList.stream()
+                .forEach(user -> {
+                    HashMap<String, Object> info = new HashMap<String, Object>();
+                    info.put("user_name", user.getUserName());
+                    info.put("user_img", user.getUserImg());
+                    info.put("is_admin", user.getIsAdmin());
+                    info.put("user_idx", user.getUserIdx());
+                    manager.add(info);
+                });
+        return manager;
     }
 
     @Override
