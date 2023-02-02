@@ -26,10 +26,10 @@ public class SurveyServiceImpl implements SurveyService{
         return surveyRepository.findById(Id);
     }
 
-//    @Override
-//    public List<Survey> findByStatus(Integer Status) {
-//        return null;
-//    }
+    @Override
+    public List<Survey> findAllByStatus(Integer status) {
+        return surveyRepository.findAllByStatus(status);
+    }
 
     @Override
     public void save(Survey survey) {
