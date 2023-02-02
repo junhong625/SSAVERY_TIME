@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // CNI = CustomNotificationInfomation 커스텀 알림 정보
 class CNI extends StatefulWidget {
-
   final double opacity; // 미완료(1), 완료(0.4)
   final IconData myIcon; // 넣을 아이콘
   // 공지 : FontAwesomeIcons.bullhorn,
@@ -16,18 +15,19 @@ class CNI extends StatefulWidget {
   // 상담 : 0xff686ADB
 
   final String title; // 제목
-  final Container detail; // 세부사항 기간 이나 프로그래스바
+  final Widget detail; // 세부사항 기간 이나 프로그래스바
   final String isComplete; // 진행, 완료, ""(none)
   // 기간 예시 Container(child: Text('23.01.01 ~ 23.01.02'))
 
-
-  const CNI({Key? key,
-    required this.opacity,
-    required this.myIcon,
-    required this.iconColor,
-    required this.title,
-    required this.detail,
-    required this.isComplete}) : super(key: key);
+  const CNI(
+      {Key? key,
+      required this.opacity,
+      required this.myIcon,
+      required this.iconColor,
+      required this.title,
+      required this.detail,
+      required this.isComplete})
+      : super(key: key);
 
   @override
   State<CNI> createState() => _CNIState();
@@ -36,23 +36,21 @@ class CNI extends StatefulWidget {
 class _CNIState extends State<CNI> {
   @override
   Widget build(BuildContext context) {
-
     double opacity = widget.opacity;
     IconData myIcon = widget.myIcon;
     int iconColor = widget.iconColor;
     String title = widget.title;
-    Container detail = widget.detail;
+    Widget detail = widget.detail;
     String isComplete = widget.isComplete;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 360,
+          width: 358,
           height: 62,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.white),
+              borderRadius: BorderRadius.circular(15), color: Colors.white),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -66,23 +64,27 @@ class _CNIState extends State<CNI> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: Color(iconColor),
-                              width: 2),
+                          border: Border.all(color: Color(iconColor), width: 2),
                         ),
                         // option 아이콘 모양, 색상
-                        child: Center(child: FaIcon(myIcon,
-                          size: 20, color: Color(iconColor),))
+                        child: Center(
+                            child: FaIcon(
+                          myIcon,
+                          size: 20,
+                          color: Color(iconColor),
+                        ))),
+                    const SizedBox(
+                      width: 15,
                     ),
-                    SizedBox(width: 15,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // option 제목
-                        Text(title,
-                          style: TextStyle(fontSize: 16,
-                              fontWeight: FontWeight.w900),
-
+                        Text(
+                          title,
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w900),
                         ),
                         // option 기간이나 진행바
                         detail
@@ -93,10 +95,14 @@ class _CNIState extends State<CNI> {
               ),
               Opacity(
                 opacity: opacity,
-                child: Padding(padding: EdgeInsets.all(15),
-                  child: Text(isComplete, // optional 완료, 예정, (none)
-                    style: TextStyle(color: Colors.black,
-                        fontWeight: FontWeight.w900),),),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    isComplete, // optional 완료, 예정, (none)
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.w900),
+                  ),
+                ),
               )
             ],
           ),
