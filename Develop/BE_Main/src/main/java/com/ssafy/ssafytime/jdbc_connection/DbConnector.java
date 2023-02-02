@@ -9,7 +9,7 @@ import static com.ssafy.ssafytime.api.controller.SurveyController.cnt;
 public class DbConnector {
     private Connection conn;
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "ssafy";
+    private static final String PASSWORD = "Withfavor98!";
     private static final String URL = "jdbc:mysql://localhost:3306/ssafy_web_db";
 
     public DbConnector() {
@@ -38,6 +38,7 @@ public class DbConnector {
                     "\n do \n" +
                     "\tupdate survey \n" +
                     "    set status = 1" +
+                    "\n where status = 0" +
                     ";");
             stmt.executeUpdate("CREATE EVENT surveyStatusChange" + ++cnt + " \n" +
                     "on schedule \n" +
@@ -45,6 +46,7 @@ public class DbConnector {
                     "\n do \n" +
                     "\tupdate survey \n" +
                     "    set status = 2" +
+                    "\n where status = 1" +
                     ";");
             stmt.close();
             conn.close();

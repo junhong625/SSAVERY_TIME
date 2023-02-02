@@ -27,7 +27,7 @@ public class SurveyResponse implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name = "question_idx")
-    private Survey questionIdx;
+    private SurveyQuestion questionIdx;
 
     private String response;
 

@@ -22,7 +22,7 @@ public class QSurveyResponse extends EntityPathBase<SurveyResponse> {
 
     public static final QSurveyResponse surveyResponse = new QSurveyResponse("surveyResponse");
 
-    public final QSurvey questionIdx;
+    public final QSurveyQuestion questionIdx;
 
     public final StringPath response = createString("response");
 
@@ -48,7 +48,7 @@ public class QSurveyResponse extends EntityPathBase<SurveyResponse> {
 
     public QSurveyResponse(Class<? extends SurveyResponse> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.questionIdx = inits.isInitialized("questionIdx") ? new QSurvey(forProperty("questionIdx")) : null;
+        this.questionIdx = inits.isInitialized("questionIdx") ? new QSurveyQuestion(forProperty("questionIdx"), inits.get("questionIdx")) : null;
         this.surveyIdx = inits.isInitialized("surveyIdx") ? new QSurvey(forProperty("surveyIdx")) : null;
         this.userIdx = inits.isInitialized("userIdx") ? new QUser(forProperty("userIdx")) : null;
     }
