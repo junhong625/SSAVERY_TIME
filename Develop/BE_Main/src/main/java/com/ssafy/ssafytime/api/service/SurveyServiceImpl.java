@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service("surveyService")
@@ -19,6 +20,16 @@ public class SurveyServiceImpl implements SurveyService{
     public List<Survey> findAll() {
         return surveyRepository.findAll();
     }
+
+    @Override
+    public Optional<Survey> findById(Long Id) {
+        return surveyRepository.findById(Id);
+    }
+
+//    @Override
+//    public List<Survey> findByStatus(Integer Status) {
+//        return null;
+//    }
 
     @Override
     public void save(Survey survey) {

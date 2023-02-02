@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class UserDto {
 
-   private Long userIdx;
-
+   private Long Id;
    @NotNull
    @Size(min = 3, max = 50)
    private String userName;
@@ -56,7 +55,7 @@ public class UserDto {
       if(user == null) return null;
 
       return UserDto.builder()
-              .userIdx(user.getUserIdx())
+              .Id(user.getUserIdx())
               .userName(user.getUserName())
               .userEmail(user.getUserEmail())
               .trackCode(user.getTrackCode())

@@ -1,5 +1,8 @@
 package com.ssafy.ssafytime.api.service;
 
+import java.util.Collections;
+import java.util.Optional;
+
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
@@ -15,6 +18,7 @@ import java.util.Collections;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 //    private final AttendanceRepository attendanceRepository;
@@ -46,6 +50,7 @@ public class UserService {
                 .regionCode(userDto.getRegionCode())
                 .authorities(Collections.singleton(authority))
                 .build();
+
         return UserDto.from(userRepository.save(user));
     }
 
@@ -64,9 +69,8 @@ public class UserService {
         );
     }
 
-//    @Transactional(readOnly = true)
-//    public AttendanceDto getAttendances(Long userIdx) {
-//        return AttendanceDto.from(attendanceRepository.findWithAttendancesByUser_UserIdx(userIdx).orElse(null));
-//    }
+    public Optional<User> findById(Long Id) {
+        return userRepository.findById(Id);
+    }
 
 }

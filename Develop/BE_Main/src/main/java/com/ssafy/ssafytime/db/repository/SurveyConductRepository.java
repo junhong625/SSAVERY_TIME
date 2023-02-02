@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 
 public interface SurveyConductRepository extends JpaRepository<SurveyConduct, SurveyConductKey> {
+    @Override
+    SurveyConduct save(SurveyConduct surveyConduct);
 }
