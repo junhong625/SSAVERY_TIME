@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:saffytime/screens/notification_screen.dart';
+import 'package:saffytime/screens/user_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,12 +20,19 @@ class _HomeScreenStates extends State<HomeScreen> {
         title: const Text("1231234 김싸피"),
         actions: <Widget>[
           IconButton(
-            onPressed: () => Get.to(const NotificationScreen()),
+            onPressed: () => Get.to(() => const UserScreen()),
             icon: const FaIcon(
               FontAwesomeIcons.user,
               size: 20,
             ),
-          )
+          ),
+          IconButton(
+            onPressed: () => Get.to(() => const NotificationScreen()),
+            icon: const FaIcon(
+              FontAwesomeIcons.bell,
+              size: 20,
+            ),
+          ),
         ],
       ),
       body: SizedBox(
