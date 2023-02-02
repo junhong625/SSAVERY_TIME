@@ -23,6 +23,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.swing.text.html.Option;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -174,7 +175,7 @@ public class SurveyController {
     })
     public ResponseEntity<? extends BaseResponseBody> surveyConduct(@PathVariable("surveyId") Long Id, @ApiIgnore Authentication authentication) {
         if(authentication == null) {
-            return ResponseEntity.status(200).body(BaseResponseBody.of(401, "인증 실패"));
+            return ResponseEntity.status(401).body(BaseResponseBody.of(401, "인증 실패"));
         }
         SurveyConduct surveyConduct = new SurveyConduct();  // DB에 저장할 엔티티!
         UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰 이용해서 유저정보 가져옴
@@ -202,12 +203,11 @@ public class SurveyController {
     public ResponseEntity<? extends BaseResponseBody> surveyConduct  // userIdx 포함 3개의 복합키가 PK이므로 한 유저가 같은질문에 답변 저장을 여러번 하는 것이 불가함
             (@PathVariable("surveyId") Long Id, @RequestBody @ApiParam(value="설문 답변 제출", required = true) List<SurveyConductPostReq> surveyConductList, @ApiIgnore Authentication authentication) {
         // 객체 하나라도 없으면 PK 성립 안되기 때문에 에러 보내줘야함 !!
-            if(authentication == null) {
-                return ResponseEntity.status(200).body(BaseResponseBody.of(401, "인증 실패"));
+            if(authentication == null) {  // 토큰없다면!!!!
+                return ResponseEntity.status(401).body(BaseResponseBody.of(401, "인증 실패"));
             }
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰으로 유저인덱스 가져옴
-            System.out.println(authentication);
             for(int i = 0; i < surveyConductList.size(); i++) {  // 질문과 답변이 쌍으로 List 형식으로 요청와서
             SurveyResponse surveyResponse = new SurveyResponse();  // 리턴타입!
 
@@ -228,23 +228,44 @@ public class SurveyController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));  // 굳!
     }
 
-//    @GetMapping("/main/survey")
-//    @ApiOperation(value = "진행중이지만 유저가 완료하지 않은 설문 조회", notes = "<strong>메인페이지에 띄울 설문 조회</strong>")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "성공"),
-//            @ApiResponse(code = 204, message = "No Content"),
-//            @ApiResponse(code = 401, message = "인증 실패"),
-//            @ApiResponse(code = 404, message = "사용자 없음"),
-//            @ApiResponse(code = 500, message = "서버 오류")
-//    })
-//    public AllSurveyRes getNotConductedSurvey(@ApiIgnore Authentication authentication) {
-//
-//        // 1. 진행중인 설문들 리스트 받아오기
-//        List<Survey> allsurvey = surveyService.findByStatus(1);
-//        if(surveyOption.isPresent()) {
-//            return ResponseEntity.ok().body(surveyOption);
-//        } else {
-//            return ResponseEntity.status(204).body(null);
-//        }
-//    }
+    @GetMapping("/main/survey")
+    @ApiOperation(value = "진행중이지만 유저가 완료하지 않은 설문 조회", notes = "<strong>메인페이지에 띄울 설문 조회</strong>")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends Object> getNotConductedSurvey(@ApiIgnore Authentication authentication) {
+
+        List<Survey> returnSurvey = new ArrayList<>();  // 리턴할 리스트
+        
+        // 0. 토큰으로 사용자 idx 받아오기
+        if(authentication == null) {  //  토큰 없을 경우 처리
+            return ResponseEntity.status(401).body(BaseResponseBody.of(401, "인증 실패"));
+        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰으로 유저인덱스 가져옴
+        Optional<User> user = userRepository.findById(userDto.getId());  // 유저인덱스로 유저엔티티 가져옴
+        if(!user.isPresent()) {  // 해당 토큰의 유저가 없을경우
+            return ResponseEntity.status(204).body(BaseResponseBody.of(204,"해당사용자없음"));
+        }
+        
+        
+        // 1. 진행중인 설문들 리스트 받아오기
+        List<Survey> allsurvey = surveyService.findAllByStatus(1);  // 진행중인 설문들 다 가져옴
+        for(int i = 0; i < allsurvey.size(); i++) {
+            Survey survey = allsurvey.get(i);  // 설문리스트에서 하나 받아옴
+            
+            // 2. 받아온 설문이랑 유저 인덱스로 찾아서 surveyConduct 테이블에 존재하지않으면 완료하지 않은 설문이므로 리턴 리스트에 넣어줌
+            Optional<Survey> conductedSurvey = surveyConductService.findByUserIdxAndSurveyIdx(user.get(), survey);
+            if(!conductedSurvey.isPresent()) {
+                returnSurvey.add(survey);
+            }
+        }
+
+        return ResponseEntity.status(200).body(returnSurvey);
+
+    }
 }

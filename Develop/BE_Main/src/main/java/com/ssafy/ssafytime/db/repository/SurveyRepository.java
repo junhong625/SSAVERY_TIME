@@ -18,4 +18,6 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
 
     @Override
     Survey save(Survey survey);
+
+    List<Survey> findAllByStatus(Integer status);
 }
