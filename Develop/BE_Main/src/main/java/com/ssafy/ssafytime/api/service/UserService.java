@@ -1,6 +1,7 @@
 package com.ssafy.ssafytime.api.service;
 
 import com.ssafy.ssafytime.api.dto.AttendanceDto;
+import com.ssafy.ssafytime.api.dto.AttendanceInterface;
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Attendance;
 import com.ssafy.ssafytime.db.entity.AttendanceId;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -68,12 +70,21 @@ public class UserService {
         );
     }
 
-    @Transactional(readOnly = true)
-    public AttendanceDto getAttendances(Long userIdx) {
 
-        return AttendanceDto.from(attendanceRepository.findOneByUser_UserIdx(userIdx).orElse(null));
+//    @Transactional(readOnly = true)
+//    public Collection<AttendanceInterface> getAttendance(Long userIdx){
+//        List<AttendanceInterface> list = this.attendanceRepository.findAttendance(userIdx);
+//        list.forEach(
+//                list.add(
+//                        new AttendanceInterface(
+//                                AttendanceInterface.getUserIdx(),
+//                                AttendanceInterface.getAttendanceCategory(),
+//                                AttendanceInterface.getSum()
+//                        )
+//                )
+//        );
+//        return list;
+//    }
 
-
-    }
 
 }

@@ -1,10 +1,9 @@
 package com.ssafy.ssafytime.api.controller;
 
-import com.ssafy.ssafytime.api.dto.AttendanceDto;
+import com.ssafy.ssafytime.api.dto.AttendanceInterface;
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.api.service.UserService;
-import com.ssafy.ssafytime.db.entity.Attendance;
-import com.ssafy.ssafytime.db.entity.AttendanceId;
+import com.ssafy.ssafytime.db.repository.AttendanceRepository;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 @Api(value = "유저API", tags = {"User"})
@@ -19,9 +19,12 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
+    private final AttendanceRepository attendanceRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          AttendanceRepository attendanceRepository) {
         this.userService = userService;
+        this.attendanceRepository = attendanceRepository;
     }
 
     @PostMapping("/signup")
@@ -45,14 +48,24 @@ public class UserController {
 
     @GetMapping("/attendance")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<AttendanceDto> getAttendance(HttpServletRequest request) {
+    public ResponseEntity<Collection<AttendanceInterface>> getAttendance(HttpServletRequest request) {
         Long userIdx = userService.getMyUserWithAuthorities().getUserIdx();
-        System.out.println(userIdx);
 
-        System.out.println("-----------------------여기까지는 됨---------------------");
+        List<AttendanceInterface> list = attendanceRepository.findAllAttendance(userIdx);
 
-        return ResponseEntity.ok(userService.getAttendances(userIdx));
+
+        for (int i = 0; i < list.size(); i++) {
+
+            AttendanceInterface ai = list.get(0);
+            System.out.println(ai.getUserIdx());
+        }
+        System.out.println("=--=-=-=-==--=-=-=-=-=-==--=-=-=-=-=-=-=-==-");
+
+        return  ResponseEntity.ok(attendanceRepository.findAllAttendance(userIdx));
     }
+
+
+
 
 }
 

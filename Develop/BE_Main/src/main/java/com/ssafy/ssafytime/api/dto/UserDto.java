@@ -70,13 +70,4 @@ public class UserDto {
    }
 
 
-//   public static AttendanceDto from(Attendance attendance) {
-//      if(attendance == null) return null;
-//
-//      return AttendanceDto.builder()
-//              .userIdx(attendance.getId().getUserIdx())
-//              .attendanceCategory(attendance.getId().getAttendanceCategory())
-//              .attendanceDate(attendance.getId().getAttendanceDate())
-//              .build();
-//   }
 }
