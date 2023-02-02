@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 class NotificationTabBarController extends GetxController
     with GetSingleTickerProviderStateMixin {
+  static NotificationTabBarController get to => Get.find();
   late TabController tabController;
 
   final List<Tab> myTabs = <Tab>[
