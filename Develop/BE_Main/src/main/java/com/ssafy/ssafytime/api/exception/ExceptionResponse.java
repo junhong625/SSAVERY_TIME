@@ -3,6 +3,7 @@ package com.ssafy.ssafytime.api.exception;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.util.Date;
 
@@ -11,7 +12,8 @@ import java.util.Date;
 @NoArgsConstructor
 
 public class ExceptionResponse {
-    private Date timestamp;
+    private Boolean isSuccess;
     private String message;
-    private String details;
+    private HttpStatus status;
+    private Object data;
 }

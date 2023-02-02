@@ -1,11 +1,13 @@
 package com.ssafy.ssafytime.dto.lunchMenu;
 
 import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @ToString
-public class LunchMenuResponseDto {
+public class LunchMenuDetailResponseDto {
     private String date;
     private int region;
     private String course;
@@ -19,7 +21,7 @@ public class LunchMenuResponseDto {
     private String imageUrl;
 
     @Builder
-    public LunchMenuResponseDto(LunchMenuEntity lunchMenuEntity) {
+    public LunchMenuDetailResponseDto(LunchMenuEntity lunchMenuEntity) {
         this.date = lunchMenuEntity.getDate();
         this.region = lunchMenuEntity.getRegion();
         this.course = lunchMenuEntity.getCourse();

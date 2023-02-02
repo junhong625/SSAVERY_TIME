@@ -93,8 +93,8 @@ public class DbConnector {
     }
     public static void main(String[] args) throws SQLException {
         DbConnector conn = new DbConnector();
-//        conn.insertNotice();
-        conn.insertSchedule();
+        conn.insertNotice();
+//        conn.insertSchedule();
 //        LocalDate date = LocalDate.now();
 //        int weekDay = date.getDayOfWeek().getValue();
 //        date = date.minusDays(weekDay - 1);

@@ -19,9 +19,9 @@ public class NoticeServiceImpl implements NoticeService{
     final NoticeRepository noticeRepository;
 
     @Override
-    public NoticeResponseDto getNotice(Long id) throws Exception {
+    public NoticeResponseDto getNotice(Long id){
         Optional<NoticeEntity> notice = noticeRepository.findById(id);
-        NoticeEntity noticeEntity = notice.orElseThrow(() -> new Exception("공지사항이 없습니다."));
+        NoticeEntity noticeEntity = notice.get();
         return new NoticeResponseDto(noticeEntity);
     }
 
@@ -31,6 +31,7 @@ public class NoticeServiceImpl implements NoticeService{
         noticeRepository.findAll().forEach(noticeEntity -> {
             noticeList.add(new NoticeResponseDto(noticeEntity));
         });
+
         return noticeList;
     }
 }

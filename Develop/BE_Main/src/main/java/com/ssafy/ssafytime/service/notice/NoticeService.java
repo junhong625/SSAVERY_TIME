@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface NoticeService {
 
-    NoticeResponseDto getNotice(Long id) throws Exception;
+    NoticeResponseDto getNotice(Long id);
 
     List<NoticeResponseDto> getAllNotice();
 }
