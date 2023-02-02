@@ -55,10 +55,27 @@ public class UserDto {
       if(user == null) return null;
 
       return UserDto.builder()
+              .Id(user.getUserIdx())
               .userName(user.getUserName())
+              .userEmail(user.getUserEmail())
+              .trackCode(user.getTrackCode())
+              .regionCode(user.getRegionCode())
+              .exp(user.getExp())
+              .mileage(user.getMileage())
               .authorityDtoSet(user.getAuthorities().stream()
                       .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
                       .collect(Collectors.toSet()))
               .build();
    }
+
+
+//   public static AttendanceDto from(Attendance attendance) {
+//      if(attendance == null) return null;
+//
+//      return AttendanceDto.builder()
+//              .userIdx(attendance.getId().getUserIdx())
+//              .attendanceCategory(attendance.getId().getAttendanceCategory())
+//              .attendanceDate(attendance.getId().getAttendanceDate())
+//              .build();
+//   }
 }

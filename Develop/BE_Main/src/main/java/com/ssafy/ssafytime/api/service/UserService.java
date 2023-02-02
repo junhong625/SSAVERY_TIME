@@ -10,21 +10,25 @@ import com.ssafy.ssafytime.db.repository.UserRepository;
 import com.ssafy.ssafytime.exception.DuplicateUserException;
 import com.ssafy.ssafytime.exception.NotFoundUserException;
 import com.ssafy.ssafytime.util.SecurityUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
+import java.util.Collections;
+
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+//    private final AttendanceRepository attendanceRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder
+//                       AttendanceRepository attendanceRepository
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+//        this.attendanceRepository = attendanceRepository;
     }
 
     @Transactional
@@ -38,6 +42,7 @@ public class UserService {
                 .build();
 
         User user = User.builder()
+
                 .userName(userDto.getUserName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .userEmail(userDto.getUserEmail())
@@ -51,6 +56,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDto getUserWithAuthorities(String username) {
+
         return UserDto.from(userRepository.findOneWithAuthoritiesByUserEmail(username).orElse(null));
     }
 

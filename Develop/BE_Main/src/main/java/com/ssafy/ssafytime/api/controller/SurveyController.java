@@ -28,7 +28,7 @@ import java.util.Optional;
 
 @Api(value = "설문 API", tags = {"Survey"})
 @RestController
-@RequestMapping("/api/v1/surveys")
+@RequestMapping("/surveys")
 public class SurveyController {
 
     @Qualifier("surveyService")
@@ -173,7 +173,9 @@ public class SurveyController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> surveyConduct(@PathVariable("surveyId") Long Id, @ApiIgnore Authentication authentication) {
-
+        if(authentication == null) {
+            return ResponseEntity.status(200).body(BaseResponseBody.of(401, "인증 실패"));
+        }
         SurveyConduct surveyConduct = new SurveyConduct();  // DB에 저장할 엔티티!
         UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰 이용해서 유저정보 가져옴
         Optional<User> user = userService.findById(userDto.getId());  // 외래키는 객체로 저장해야해서 유저객체 찾아옴
@@ -197,12 +199,16 @@ public class SurveyController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> surveyConduct(@PathVariable("surveyId") Long Id, @RequestBody @ApiParam(value="설문 답변 제출", required = true) List<SurveyConductPostReq> surveyConductList, @ApiIgnore Authentication authentication) {
+    public ResponseEntity<? extends BaseResponseBody> surveyConduct  // userIdx 포함 3개의 복합키가 PK이므로 한 유저가 같은질문에 답변 저장을 여러번 하는 것이 불가함
+            (@PathVariable("surveyId") Long Id, @RequestBody @ApiParam(value="설문 답변 제출", required = true) List<SurveyConductPostReq> surveyConductList, @ApiIgnore Authentication authentication) {
         // 객체 하나라도 없으면 PK 성립 안되기 때문에 에러 보내줘야함 !!
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰으로 유저인덱스 가져옴
-        System.out.println(authentication);
-        for(int i = 0; i < surveyConductList.size(); i++) {  // 질문과 답변이 쌍으로 List 형식으로 요청와서
+            if(authentication == null) {
+                return ResponseEntity.status(200).body(BaseResponseBody.of(401, "인증 실패"));
+            }
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰으로 유저인덱스 가져옴
+            System.out.println(authentication);
+            for(int i = 0; i < surveyConductList.size(); i++) {  // 질문과 답변이 쌍으로 List 형식으로 요청와서
             SurveyResponse surveyResponse = new SurveyResponse();  // 리턴타입!
 
             Optional<User> user = userService.findById(userDto.getId());
@@ -221,4 +227,24 @@ public class SurveyController {
         }
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));  // 굳!
     }
+
+//    @GetMapping("/main/survey")
+//    @ApiOperation(value = "진행중이지만 유저가 완료하지 않은 설문 조회", notes = "<strong>메인페이지에 띄울 설문 조회</strong>")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, message = "성공"),
+//            @ApiResponse(code = 204, message = "No Content"),
+//            @ApiResponse(code = 401, message = "인증 실패"),
+//            @ApiResponse(code = 404, message = "사용자 없음"),
+//            @ApiResponse(code = 500, message = "서버 오류")
+//    })
+//    public AllSurveyRes getNotConductedSurvey(@ApiIgnore Authentication authentication) {
+//
+//        // 1. 진행중인 설문들 리스트 받아오기
+//        List<Survey> allsurvey = surveyService.findByStatus(1);
+//        if(surveyOption.isPresent()) {
+//            return ResponseEntity.ok().body(surveyOption);
+//        } else {
+//            return ResponseEntity.status(204).body(null);
+//        }
+//    }
 }

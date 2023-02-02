@@ -7,7 +7,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,7 +27,7 @@ public class User {
     @Column(name = "user_name", length = 50)
     private String userName;
 
-//    @Column(name = "user_password", length = 100)
+    //    @Column(name = "user_password", length = 100)
 //    @JsonIgnore
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 //    private String password;
@@ -68,9 +67,6 @@ public class User {
     @Lob
     private String token;
 
-//    @OneToOne(mappedBy = "userIdx")
-//    @PrimaryKeyJoinColumn
-//    private Attendance attendance;
 
     @ManyToMany
     @JoinTable(
