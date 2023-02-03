@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:saffytime/testCalender.dart';
 import 'package:saffytime/testCounsel.dart';
 import 'package:saffytime/test_routing.dart';
+import 'package:saffytime/widgets/schedule_total.dart';
 
 import 'controllers/pick_day_controller.dart';
 
@@ -30,41 +31,40 @@ class MyPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          child: Obx(() => Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Get.to(() => TestRouting());
+                  print('!!');
+                },
+                child: Text('이동')
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  testController.addItem();
+                  print('!!');
+                },
+                child: Text("추가")
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  testController.changeItem();
+                  print('삭제');
+                },
+                child: Text('삭제')
+              ),
+              Text("myPick : ${testController.myPick}", style: TextStyle(fontSize: 20),),
+              ///// ---------------------------------------------/////
+              ElevatedButton(
                   onPressed: () {
-                    Get.to(() => TestRouting());
-                    print('!!');
+                    Get.to(() => CounselTestPage());
                   },
-                  child: Text('이동')
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    testController.addItem();
-                    print('!!');
-                  },
-                  child: Text("추가")
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    testController.changeItem();
-                    print('삭제');
-                  },
-                  child: Text('삭제')
-                ),
-                Text("myPick : ${testController.myPick}", style: TextStyle(fontSize: 20),),
-                ///// ---------------------------------------------/////
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(() => CounselTestPage());
-                    },
-                    child: Text('상담')
-                ),
-                TestCalender(),
-              ],
-            ),
+                  child: Text('상담')
+              ),
+              // TestCalender(),
+            ],
           ),
         ),
       )

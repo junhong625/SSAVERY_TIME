@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../controllers/councel_bottom.dart';
+
 class CBCalender extends StatelessWidget {
 
   CBCalender({Key? key}) : super(key: key);
 
-  calenderPickController controller = Get.put(calenderPickController());
+  CBDatePickController controller = Get.put(CBDatePickController());
 
   @override
   Widget build(BuildContext context) {
@@ -48,23 +50,5 @@ class CBCalender extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-
-class calenderPickController extends GetxController{
-  RxString myDate = ''.obs;
-  void selectDate(List dateList) {
-    const Map<String, String> Eformat = {
-      'Sun' : '일',
-      'Mon' : '월',
-      'Tue' : '화',
-      'Wed' : '수',
-      'Thu' : '목',
-      'Fri' : '금',
-      'Sat' : '토',
-    };
-    var EE = Eformat[dateList[3]]; // 요일
-    myDate.value = '${dateList[0]}년 ${dateList[1]}월 ${dateList[2]}일 (${EE})';
   }
 }

@@ -14,7 +14,7 @@ class ScTotal extends StatelessWidget {
   };
 
   ScTotal({Key? key,
-  required this.classList,
+  // required this.classList,
   }) : super(key: key);
 
   @override

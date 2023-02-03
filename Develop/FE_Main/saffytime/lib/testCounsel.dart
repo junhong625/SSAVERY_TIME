@@ -26,7 +26,6 @@ class CounselTestPage extends StatelessWidget {
               FloatingActionButton(
                 child: Icon(Icons.add),
                 onPressed: () => {
-                  print('상담신청'),
                   openCouncelBottomSheet()
                 })
             ],

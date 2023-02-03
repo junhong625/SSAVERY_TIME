@@ -1,3 +1,45 @@
+import 'dart:convert';
+
+// 상담 신청 데이터 모델 ==========================================================
+CouncelApplication councelApplicationFromJson(String str) => CouncelApplication.fromJson(json.decode(str));
+
+String councelApplicationToJson(CouncelApplication data) => json.encode(data.toJson());
+
+class CouncelApplication {
+  CouncelApplication({
+    required this.studentId,
+    required this.managerId,
+    required this.rezDate,
+    required this.rezTime,
+    required this.title,
+    required this.category,
+  });
+
+  int studentId;
+  int managerId;
+  String rezDate;
+  String rezTime;
+  String title;
+  String category;
+
+  factory CouncelApplication.fromJson(Map<String, dynamic> json) => CouncelApplication(
+    studentId: json["studentId"],
+    managerId: json["managerId"],
+    rezDate: json["rezDate"],
+    rezTime: json["rezTime"],
+    title: json["title"],
+    category: json["category"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "studentId": studentId,
+    "managerId": managerId,
+    "rezDate": rezDate,
+    "rezTime": rezTime,
+    "title": title,
+    "category": category,
+  };
+}
 
 
 // 상담 시간 선택 버튼에서 쓸거임

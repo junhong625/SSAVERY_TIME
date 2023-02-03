@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/councel_bottom.dart';
+
 class CBInputTitle extends StatelessWidget {
   CBInputTitle({Key? key}) : super(key: key);
 
-  TextEditingController controller = TextEditingController();
+  TextEditingController textController = TextEditingController();
+  CBTitleController controller = Get.put(CBTitleController());
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class CBInputTitle extends StatelessWidget {
       child: TextField(
         style: TextStyle(fontSize: 16, color: Color(0xff262626),
             fontWeight: FontWeight.bold),
-        controller: controller, // 유저가 입력한 비밀번호
+        controller: textController,
         decoration: InputDecoration(
           label: Text('상담제목',
             style: TextStyle(
@@ -24,14 +27,10 @@ class CBInputTitle extends StatelessWidget {
           ),
         ),
         keyboardType: TextInputType.text,
-        onChanged: (controller) {
-          print(controller);
+        onChanged: (textController) {
+          controller.myInput.value = textController;
         },
       ),
     );
   }
-}
-
-class CBTitleController extends GetxController {
-  RxString myInput = ''.obs;
 }
