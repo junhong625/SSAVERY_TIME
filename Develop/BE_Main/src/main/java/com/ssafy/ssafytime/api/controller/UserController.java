@@ -52,16 +52,11 @@ public class UserController {
         Long userIdx = userService.getMyUserWithAuthorities().getUserIdx();
 
         List<AttendanceInterface> list = attendanceRepository.findAllAttendance(userIdx);
+        List<AttendanceInterface> list2 = attendanceRepository.findMonthAttendance(userIdx);
 
+        list.addAll(list2);
 
-        for (int i = 0; i < list.size(); i++) {
-
-            AttendanceInterface ai = list.get(0);
-            System.out.println(ai.getUserIdx());
-        }
-        System.out.println("=--=-=-=-==--=-=-=-=-=-==--=-=-=-=-=-=-=-==-");
-
-        return  ResponseEntity.ok(attendanceRepository.findAllAttendance(userIdx));
+        return  ResponseEntity.ok(list);
     }
 
 

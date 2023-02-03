@@ -44,7 +44,10 @@ public class UserDto {
 
    private Integer mileage;
 
-   private Integer
+
+   @NotNull
+   private Integer class_num;
+
 
    private Integer isAdmin;
 
@@ -63,6 +66,7 @@ public class UserDto {
               .userEmail(user.getUserEmail())
               .trackCode(user.getTrackCode())
               .regionCode(user.getRegionCode())
+              .class_num(user.getClassNum())
               .exp(user.getExp())
               .mileage(user.getMileage())
               .authorityDtoSet(user.getAuthorities().stream()
