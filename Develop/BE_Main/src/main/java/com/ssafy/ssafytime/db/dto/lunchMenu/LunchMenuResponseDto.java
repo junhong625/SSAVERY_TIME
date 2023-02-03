@@ -1,0 +1,23 @@
+package com.ssafy.ssafytime.db.dto.lunchMenu;
+
+import com.ssafy.ssafytime.db.entity.lunchmenu.LunchMenuEntity;
+import lombok.*;
+
+@Getter
+@ToString
+public class LunchMenuResponseDto {
+    private Long id;
+    private String mainMenu;
+    private String sideMenu;
+    private int kcal;
+    private String imageUrl;
+
+    @Builder
+    public LunchMenuResponseDto(LunchMenuEntity lunchMenuEntity) {
+        this.id = lunchMenuEntity.getId();
+        this.mainMenu = lunchMenuEntity.getMainMenu();
+        this.sideMenu = lunchMenuEntity.getSideMenu();
+        this.kcal = lunchMenuEntity.getKcal();
+        this.imageUrl = lunchMenuEntity.getImageUrl();
+    }
+}

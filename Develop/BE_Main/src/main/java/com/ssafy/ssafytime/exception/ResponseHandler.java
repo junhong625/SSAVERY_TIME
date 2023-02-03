@@ -3,7 +3,6 @@ package com.ssafy.ssafytime.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.lang.annotation.Repeatable;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -6,9 +6,7 @@ import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.MeetListRepository;
 import com.ssafy.ssafytime.db.repository.MeetUpdateRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
-import com.ssafy.ssafytime.domain.lunchmenu.LunchMenuEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Service("meetService")
 public class MeetServiceImpl implements MeetService{

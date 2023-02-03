@@ -1,8 +1,8 @@
 package com.ssafy.ssafytime.api.controller;
 
-//import com.ssafy.ssafytime.api.dto.AttendanceDto;
-//import com.ssafy.ssafytime.api.dto.AttendanceDto;
-import com.ssafy.ssafytime.api.dto.UserDto;
+//import com.ssafy.ssafytime.db.dto.AttendanceDto;
+//import com.ssafy.ssafytime.db.dto.AttendanceDto;
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.service.UserService;
 //import com.ssafy.ssafytime.db.entity.AttendanceId;
 import org.springframework.http.ResponseEntity;

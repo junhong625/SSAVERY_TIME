@@ -1,10 +1,9 @@
 package com.ssafy.ssafytime.api.controller;
 
 
-import com.ssafy.ssafytime.dto.lunchMenu.LunchMenuResponseDto;
-import com.ssafy.ssafytime.dto.notice.NoticeResponseDto;
+import com.ssafy.ssafytime.db.dto.lunchMenu.LunchMenuResponseDto;
 import com.ssafy.ssafytime.exception.ResponseHandler;
-import com.ssafy.ssafytime.service.lunchMenu.LunchMenuServiceImpl;
+import com.ssafy.ssafytime.api.service.lunchMenu.LunchMenuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

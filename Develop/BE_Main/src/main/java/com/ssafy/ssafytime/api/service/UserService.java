@@ -3,7 +3,7 @@ package com.ssafy.ssafytime.api.service;
 import java.util.Collections;
 import java.util.Optional;
 
-import com.ssafy.ssafytime.api.dto.UserDto;
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.UserRepository;
@@ -13,8 +13,6 @@ import com.ssafy.ssafytime.util.SecurityUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
 
 @Service
 public class UserService {
