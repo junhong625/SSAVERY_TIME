@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 class NotificationTabBarController extends GetxController
     with GetSingleTickerProviderStateMixin {
   static NotificationTabBarController get to => Get.find();
+  var count = 0.obs;
+
   late TabController tabController;
 
   final List<Tab> myTabs = <Tab>[
@@ -31,5 +33,9 @@ class NotificationTabBarController extends GetxController
   void onClose() {
     tabController.dispose();
     super.onClose();
+  }
+
+  void increase() {
+    count++;
   }
 }

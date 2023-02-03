@@ -40,6 +40,15 @@ dependencies:
   google_fonts: ^3.0.1
   percent_indicator: ^4.2.2
   carousel_slider: ^4.2.1
+  flutter_secure_storage: ^7.0.1
+  http: ^0.13.5
+  shared_preferences: ^2.0.17
+
+  # Custom flutter_survey (https://github.com/Michelphoenix98/flutter_survey)
+  diffutil_sliverlist: ^0.5.1
+  equatable: ^2.0.5
+  json_annotation: ^4.6.0
+  json_serializable: ^6.3.1
 
 dev_dependencies:
   flutter_test:

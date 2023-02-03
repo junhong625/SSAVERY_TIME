@@ -5,9 +5,11 @@ import 'package:saffytime/screens/calendar_screen.dart';
 import 'package:saffytime/screens/counsel_screen.dart';
 import 'package:saffytime/screens/home_screen.dart';
 import 'package:saffytime/screens/menu_book_screen.dart';
+import 'package:saffytime/screens/survey_screen.dart';
 import 'package:saffytime/widgets/bottom_navbar.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: const RootScreen());
+        home: const SurveyScreen());
   }
 }
 

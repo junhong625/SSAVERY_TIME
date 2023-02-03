@@ -32,10 +32,23 @@ class NotificationScreen extends GetView<NotificationTabBarController> {
         ),
       ),
       body: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [Text("Notification")],
+        child: Obx(
+          () => Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "${controller.count.value}",
+                style: const TextStyle(fontSize: 20),
+              ),
+              ElevatedButton(
+                onPressed: () => {
+                  controller.increase(),
+                },
+                child: const Text("추가"),
+              ),
+            ],
+          ),
         ),
       ),
     );
