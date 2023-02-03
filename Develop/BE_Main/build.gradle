@@ -99,6 +99,10 @@ dependencies {
 
 	implementation("com.auth0:java-jwt:3.10.3")
 
+	//Firebase
+	implementation 'com.google.firebase:firebase-admin:6.8.1'
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version:'4.2.2'
+
 }
 
 tasks.named('test') {

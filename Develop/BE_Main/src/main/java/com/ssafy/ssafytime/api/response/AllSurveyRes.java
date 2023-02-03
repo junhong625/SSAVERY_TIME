@@ -22,6 +22,13 @@ import java.util.List;
 public class AllSurveyRes {
 
     @ApiModelProperty(
+            name = "index"
+            , example = "번호"
+    )
+    @ApiParam(value = "설문 번호", required = true)
+    private Long Id;
+
+    @ApiModelProperty(
             name = "title"
             , example = "8기만족도조사"
     )
@@ -63,6 +70,7 @@ public class AllSurveyRes {
         for(int i = 0; i < allSurvey.size(); i++) {
             Survey survey = allSurvey.get(i);  // 받아온 리스트 중 i번째 설문
             AllSurveyRes surveyRes = new AllSurveyRes();  // 현재 response 클래스 형식으로 클래스 하나 만듦
+            surveyRes.setId(survey.getId());
             surveyRes.setTitle(survey.getTitle());  // 받아온 리스트를 조회해가며 i번째 설문의 제목을 현재 클래스의 제목으로 설정
             surveyRes.setStatus(survey.getStatus());
             surveyRes.setCategory(survey.getCategory());

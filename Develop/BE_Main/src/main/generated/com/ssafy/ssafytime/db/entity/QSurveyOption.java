@@ -23,6 +23,8 @@ public class QSurveyOption extends EntityPathBase<SurveyOption> {
 
     public final StringPath optionContent = createString("optionContent");
 
+    public final NumberPath<Integer> optionIntensity = createNumber("optionIntensity", Integer.class);
+
     public QSurveyOption(String variable) {
         super(SurveyOption.class, forVariable(variable));
     }
