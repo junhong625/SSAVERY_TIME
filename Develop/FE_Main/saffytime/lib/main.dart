@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/testCalender.dart';
-import 'package:saffytime/testCounsel.dart';
-import 'package:saffytime/test_routing.dart';
-import 'package:saffytime/widgets/schedule_total.dart';
-
-import 'controllers/pick_day_controller.dart';
+import 'package:saffytime/controllers/bottom_navbar_controller.dart';
+import 'package:saffytime/screens/calendar_screen.dart';
+import 'package:saffytime/screens/counsel_screen.dart';
+import 'package:saffytime/screens/home_screen.dart';
+import 'package:saffytime/screens/menu_book_screen.dart';
+import 'package:saffytime/widgets/bottom_navbar.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,58 +16,42 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: MyPage()
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        useMaterial3: true,
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.blue,
+      ),
+      home: RootPage(),
     );
   }
 }
 
-class MyPage extends StatelessWidget {
-  MyPage({Key? key}) : super(key: key);
-  PickDayController testController = Get.put(PickDayController());
-
+class RootPage extends StatelessWidget {
+  static List<Widget> tabPages = <Widget>[
+    const HomeScreen(),
+    const CalendarScreen(),
+    const MenuBookScreen(),
+    const CounselScreen()
+  ];
   @override
   Widget build(BuildContext context) {
+    Get.put(BottomNavigationBarController());
     return Scaffold(
-      body: Center(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Get.to(() => TestRouting());
-                  print('!!');
-                },
-                child: Text('이동')
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  testController.addItem();
-                  print('!!');
-                },
-                child: Text("추가")
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  testController.changeItem();
-                  print('삭제');
-                },
-                child: Text('삭제')
-              ),
-              Text("myPick : ${testController.myPick}", style: TextStyle(fontSize: 20),),
-              ///// ---------------------------------------------/////
-              ElevatedButton(
-                  onPressed: () {
-                    Get.to(() => CounselTestPage());
-                  },
-                  child: Text('상담')
-              ),
-              // TestCalender(),
-            ],
-          ),
-        ),
-      )
+      backgroundColor: Colors.white,
+      body: Obx(() => SizedBox(
+          height: double.infinity,
+          child: tabPages[BottomNavigationBarController.to.selectedIdx.value])),
+      bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }
