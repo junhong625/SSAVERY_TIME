@@ -12,7 +12,6 @@ public class ReadNoticeResponseDto {
     private Long noticeId;
     private Long userId;
 
-    // TODO 유저 데이터 빌더에 추가
     @Builder
     public ReadNoticeResponseDto(ReadNoticeEntity readNoticeEntity) {
         this.isRead = readNoticeEntity.getIsRead();

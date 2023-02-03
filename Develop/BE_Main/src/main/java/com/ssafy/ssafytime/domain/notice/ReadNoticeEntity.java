@@ -12,7 +12,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "read_notice")
-// TODO 유저 id 컬럼 추가 ManyToOne
 public class ReadNoticeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

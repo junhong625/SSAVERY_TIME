@@ -29,10 +29,10 @@ public class LunchMenuController {
         else
             return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
     }
-    // TODO weekmenu 요일별로 메뉴 수집 하도록 변경 필요
+
     @GetMapping("menu/week")
     public ResponseEntity<Object> WeekMenu(@RequestParam("region") int region) {
-        List<LunchMenuResponseDto> menu = lunchMenuService.getWeekMenu(region);
+        HashMap<String, List<LunchMenuResponseDto>> menu = lunchMenuService.getWeekMenu(region);
         if (!menu.isEmpty())
             return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, lunchMenuService.getWeekMenu(region));
         else

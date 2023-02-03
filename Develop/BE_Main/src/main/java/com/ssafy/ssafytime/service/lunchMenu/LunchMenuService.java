@@ -11,5 +11,5 @@ public interface LunchMenuService {
 
     LunchMenuResponseDto getMenuDetail(Long id);
 
-    List<LunchMenuResponseDto> getWeekMenu(int region);
+    HashMap<String, List<LunchMenuResponseDto>> getWeekMenu(int region);
 }

@@ -1,8 +1,10 @@
 package com.ssafy.ssafytime.api.controller;
 
 import com.ssafy.ssafytime.dto.schedule.ScheduleResponseDto;
+import com.ssafy.ssafytime.exception.ResponseHandler;
 import com.ssafy.ssafytime.service.schedule.ScheduleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-// TODO schedule response 수정 필요
 @RestController
 public class ScheduleController {
 
@@ -18,12 +19,20 @@ public class ScheduleController {
     ScheduleServiceImpl scheduleService;
 
     @GetMapping("schedule/now")
-    public ResponseEntity<List<ScheduleResponseDto>> todaySchedule(@RequestParam("track_code") int trackCode) {
-        return ResponseEntity.ok(scheduleService.getCurrentSchedule(trackCode));
+    public ResponseEntity<Object> todaySchedule(@RequestParam("track_code") int trackCode) {
+        try {
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, scheduleService.getCurrentSchedule(trackCode));
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.NOT_FOUND, null);
+        }
     }
 
     @GetMapping("schedule/week")
-    public ResponseEntity<List<ScheduleResponseDto>> weekSchedule(@RequestParam("track_code") int trackCode) {
-        return ResponseEntity.ok(scheduleService.getWeekSchedule(trackCode));
+    public ResponseEntity<Object> weekSchedule(@RequestParam("track_code") int trackCode) {
+        try {
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, scheduleService.getWeekSchedule(trackCode));
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.NOT_FOUND, null);
+        }
     }
 }
