@@ -20,6 +20,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+/**
+ * 빈 생성후 주입 후에 BASE64 디코드를 통해 key변수에 할당
+ */
 @Component
 public class TokenProvider implements InitializingBean {
 
@@ -42,6 +45,7 @@ public class TokenProvider implements InitializingBean {
       this.key = Keys.hmacShaKeyFor(keyBytes);
    }
 
+   //Jwt 토큰 생성
    public String createToken(Authentication authentication) {
       String authorities = authentication.getAuthorities().stream()
          .map(GrantedAuthority::getAuthority)
@@ -58,6 +62,12 @@ public class TokenProvider implements InitializingBean {
          .compact();
    }
 
+
+   /**
+    Token 정보를 받아서 권한 객체반환
+    * Token에서 권한객체 추출
+    * 권한객체를 이용해 유저 객체 생성 유저 객체, 토큰, 권한정보를 이용해 권한객체 반환
+    */
    public Authentication getAuthentication(String token) {
       Claims claims = Jwts
               .parserBuilder()
@@ -77,6 +87,11 @@ public class TokenProvider implements InitializingBean {
    }
 
 
+   /**
+    * 토큰을 파싱해서 검증
+    * @param token
+    * @return
+    */
    public boolean validateToken(String token) {
       try {
          Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);

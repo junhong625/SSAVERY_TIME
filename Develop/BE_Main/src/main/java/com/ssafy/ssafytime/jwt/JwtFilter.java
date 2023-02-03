@@ -23,12 +23,16 @@ public class JwtFilter extends GenericFilterBean {
       this.tokenProvider = tokenProvider;
    }
 
+   /*
+      Token의 인증정보를 SecurityContext에 저장
+    */
    @Override
    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
       HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
       String jwt = resolveToken(httpServletRequest);
       String requestURI = httpServletRequest.getRequestURI();
 
+      //Token이 정상적이면 authentication객체를 받아와서 SecurityContext에 저장
       if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
          Authentication authentication = tokenProvider.getAuthentication(jwt);
          SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -39,7 +43,11 @@ public class JwtFilter extends GenericFilterBean {
 
       filterChain.doFilter(servletRequest, servletResponse);
    }
-
+   
+   
+   /*
+   Request header에서 토큰 정보를 추출하는 메소드
+    */
    private String resolveToken(HttpServletRequest request) {
       String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 

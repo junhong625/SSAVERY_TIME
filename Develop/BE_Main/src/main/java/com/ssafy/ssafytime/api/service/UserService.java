@@ -33,6 +33,12 @@ public class UserService {
         this.attendanceRepository = attendanceRepository;
     }
 
+
+    /**
+     * UserEmail로 중복확인후 Authority와 User정보를 생성해 DB에 저장
+     * @param userDto
+     * @return
+     */
     @Transactional
     public UserDto signup(UserDto userDto) {
         if (userRepository.findOneWithAuthoritiesByUserEmail(userDto.getUserEmail()).orElse(null) != null) {

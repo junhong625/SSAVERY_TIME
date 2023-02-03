@@ -44,6 +44,8 @@ public class UserDto {
 
    private Integer mileage;
 
+   private Integer
+
    private Integer isAdmin;
 
 //   private String token;
