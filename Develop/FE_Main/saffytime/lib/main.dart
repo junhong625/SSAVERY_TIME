@@ -8,13 +8,12 @@ import 'package:saffytime/screens/menu_book_screen.dart';
 import 'package:saffytime/widgets/bottom_navbar.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,3 +55,4 @@ class RootPage extends StatelessWidget {
     );
   }
 }
+
