@@ -105,9 +105,7 @@ public class SurveyController {
             return ResponseEntity.status(204).body(null);
         }
         else {
-            System.out.println("hi");
             List<AllQuestionRes> allQuestionRes = surveyQuestionService.makeQuestionRes(questionList);  // AllSurveyRes 리스트 타입으로 바꿈
-            System.out.println("bye");
             return ResponseEntity.ok().body(allQuestionRes);
         }
     }

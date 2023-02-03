@@ -41,7 +41,6 @@ public class SurveyQuestionServiceImpl implements SurveyQuestionService{
 
             List<SurveyOption> surveyOptions = new ArrayList<>();  // 하나의 질문에 속한 선지들 받을 리스트
 
-            System.out.println(question.getOptionList().charAt(2));
 
             for(int j = 0; j < question.getOptionList().length(); j++) {
                 Character optionIdx = question.getOptionList().charAt(j);  // option리스트에서 인덱스를 하나씩 받아옴
