@@ -10,7 +10,7 @@ import lombok.ToString;
 public class ScheduleResponseDto {
     private int trackCode;
 
-    private String date;
+    private int date;
 
     private int startTime;
 

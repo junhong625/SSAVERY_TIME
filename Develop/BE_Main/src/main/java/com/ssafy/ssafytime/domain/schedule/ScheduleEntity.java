@@ -3,7 +3,6 @@ package com.ssafy.ssafytime.domain.schedule;
 import com.ssafy.ssafytime.domain.cagetory.CategoryEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.checkerframework.checker.units.qual.C;
 
 import javax.persistence.*;
 
@@ -21,7 +20,7 @@ public class ScheduleEntity {
     private int trackCode;
 
     @Column(name = "date")
-    private String date;
+    private int date;
 
     @Column(name = "start_time")
     private int startTime;

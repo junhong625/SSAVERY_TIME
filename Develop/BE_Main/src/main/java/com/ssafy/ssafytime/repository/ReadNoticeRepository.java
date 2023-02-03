@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface ReadNoticeRepository extends JpaRepository<ReadNoticeEntity, Long> {
     List<ReadNoticeEntity> findByNoticeEntity_IdAndIsRead(Long id, int isRead);
-// TODO 유저 연관 관계 설정 시 주석 제거
-//    List<ReadNoticeEntity> findByNoticeEntity_UidAndIsRead(Long uid, int isRead);
+    List<ReadNoticeEntity> findByUserEntity_UserIdxAndIsRead(Long uid, int isRead);
 }

@@ -19,8 +19,8 @@ public class ReadNoticeServiceImpl implements ReadNoticeService{
     @Override
     public List<ReadNoticeResponseDto> getAllUnreadNotice(Long id, int isRead){
         List<ReadNoticeResponseDto> readNoticeResponseDtoList = new ArrayList<>();
-        readNoticeRepository.findByNoticeEntity_IdAndIsRead(id, isRead).forEach((readNoticeEntity) -> {
-            readNoticeResponseDtoList.add(new ReadNoticeResponseDto(readNoticeEntity));
+        readNoticeRepository.findByNoticeEntity_IdAndIsRead(id, isRead).forEach((unreadNoticeEntity) -> {
+            readNoticeResponseDtoList.add(new ReadNoticeResponseDto(unreadNoticeEntity));
         });
         return readNoticeResponseDtoList;
     }
@@ -28,7 +28,9 @@ public class ReadNoticeServiceImpl implements ReadNoticeService{
     @Override
     public List<ReadNoticeResponseDto> getUnreadNotice(Long uid, int isRead) {
         List<ReadNoticeResponseDto> readNoticeResponseDtoList = new ArrayList<>();
-//        readNoticeRepository.findByNoticeEntity_UidAndIsRead()
-        return null;
+        readNoticeRepository.findByUserEntity_UserIdxAndIsRead(uid, isRead).forEach((unreadNoticeEntity -> {
+            readNoticeResponseDtoList.add(new ReadNoticeResponseDto(unreadNoticeEntity));
+        }));
+        return readNoticeResponseDtoList;
     }
 }

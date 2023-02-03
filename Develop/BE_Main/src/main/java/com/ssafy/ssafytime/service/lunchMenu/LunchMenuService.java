@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface LunchMenuService {
 
-    List<HashMap<String, Object>> getTodayMenu(int region);
+    List<LunchMenuResponseDto> getTodayMenu(int region);
 
-    LunchMenuResponseDto getMenuDetail(Long id) throws Exception;
+    LunchMenuResponseDto getMenuDetail(Long id);
 
-    HashMap<String, List<HashMap<String, Object>>> getWeekMenu(int region);
+    HashMap<String, List<LunchMenuResponseDto>> getWeekMenu(int region);
 }

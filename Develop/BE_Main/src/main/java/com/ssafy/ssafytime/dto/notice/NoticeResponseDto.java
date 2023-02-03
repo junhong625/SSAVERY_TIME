@@ -8,6 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class NoticeResponseDto {
+    private Long id;
     private String title;
     private String category;
     private String contentUrl;
@@ -16,6 +17,7 @@ public class NoticeResponseDto {
 
     @Builder
     public NoticeResponseDto(NoticeEntity noticeEntity) {
+        this.id = noticeEntity.getId();
         this.title = noticeEntity.getTitle();
         this.category = noticeEntity.getCategory();
         this.contentUrl = noticeEntity.getContentUrl();

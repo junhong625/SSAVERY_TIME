@@ -24,7 +24,7 @@ public class QScheduleEntity extends EntityPathBase<ScheduleEntity> {
 
     public final com.ssafy.ssafytime.domain.cagetory.QCategoryEntity categoryEntity;
 
-    public final StringPath date = createString("date");
+    public final NumberPath<Integer> date = createNumber("date", Integer.class);
 
     public final NumberPath<Integer> endTime = createNumber("endTime", Integer.class);
 
