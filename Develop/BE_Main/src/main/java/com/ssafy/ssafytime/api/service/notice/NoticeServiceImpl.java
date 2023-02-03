@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.api.service.notice;
 
+import com.ssafy.ssafytime.db.dto.notice.NoticeRequestDto;
 import com.ssafy.ssafytime.db.entity.notice.NoticeEntity;
 import com.ssafy.ssafytime.db.dto.notice.NoticeResponseDto;
 import com.ssafy.ssafytime.db.repository.NoticeRepository;
@@ -33,5 +34,10 @@ public class NoticeServiceImpl implements NoticeService{
         });
 
         return noticeList;
+    }
+
+    @Override
+    public void save(NoticeRequestDto noticeRequestDto) {
+        noticeRepository.save(noticeRequestDto.toEntity());
     }
 }
