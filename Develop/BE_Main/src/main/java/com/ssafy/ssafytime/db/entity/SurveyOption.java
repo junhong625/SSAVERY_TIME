@@ -17,4 +17,7 @@ public class SurveyOption {
 
     @Column(name = "option_content")
     String optionContent;
+
+    @Column(name = "option_intensity")
+    Integer optionIntensity;
 }
