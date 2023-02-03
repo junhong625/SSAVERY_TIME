@@ -9,7 +9,7 @@ import static com.ssafy.ssafytime.api.controller.SurveyController.cnt;
 public class DbConnector {
     private Connection conn;
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "Withfavor98!";
+    private static final String PASSWORD = "ssafy";
     private static final String URL = "jdbc:mysql://localhost:3306/ssafy_web_db";
     public DbConnector() {
         try {
