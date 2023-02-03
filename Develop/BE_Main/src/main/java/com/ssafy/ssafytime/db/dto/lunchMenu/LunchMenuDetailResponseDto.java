@@ -5,10 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+
 @Getter
 @ToString
 public class LunchMenuDetailResponseDto {
-    private String date;
+    /* 날짜 데이터가 필요할 경우 주석 제거
+    private LocalDate date; */
     private int region;
     private String course;
     private String mainMenu;
@@ -22,7 +26,13 @@ public class LunchMenuDetailResponseDto {
 
     @Builder
     public LunchMenuDetailResponseDto(LunchMenuEntity lunchMenuEntity) {
-        this.date = lunchMenuEntity.getDate();
+        /* 날짜 데이터가 필요할 경우 주석 제거
+        String date = lunchMenuEntity.getDate();
+        int year = Integer.parseInt(date.substring(0, 4));
+        int month = Integer.parseInt(date.substring(4, 6));
+        int day = Integer.parseInt(date.substring(6, 8));
+        this.date = LocalDate.of(year, month, day);
+         */
         this.region = lunchMenuEntity.getRegion();
         this.course = lunchMenuEntity.getCourse();
         this.mainMenu = lunchMenuEntity.getMainMenu();

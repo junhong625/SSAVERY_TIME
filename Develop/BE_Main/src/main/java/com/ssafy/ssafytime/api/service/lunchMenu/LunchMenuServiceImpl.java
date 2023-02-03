@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.api.service.lunchMenu;
 
+import com.ssafy.ssafytime.db.dto.lunchMenu.LunchMenuDetailResponseDto;
 import com.ssafy.ssafytime.db.entity.lunchmenu.LunchMenuEntity;
 import com.ssafy.ssafytime.db.dto.lunchMenu.LunchMenuResponseDto;
 import com.ssafy.ssafytime.db.repository.LunchMenuRepository;
@@ -29,7 +30,7 @@ public class LunchMenuServiceImpl implements LunchMenuService {
     }
 
     @Override
-    public HashMap<String, List<LunchMenuResponseDto>> getWeekMenu(int region) {
+    public HashMap<Integer, List<LunchMenuResponseDto>> getWeekMenu(int region) {
         LocalDate day = LocalDate.now();
         int weekValue = day.getDayOfWeek().getValue();
         // day를 월요일로 변경
@@ -37,8 +38,8 @@ public class LunchMenuServiceImpl implements LunchMenuService {
             weekValue -= 1;
             day = day.minusDays(1);
         }
-        HashMap<String, List<LunchMenuResponseDto>> weekMenuList = new HashMap<>();
-        for (String d : new String[]{"MON", "TUE", "WED", "THU", "FRI"}) {
+        HashMap<Integer, List<LunchMenuResponseDto>> weekMenuList = new HashMap<>();
+        for (int d=0; d < 5; d++) {
             List<LunchMenuResponseDto> menuList = new ArrayList<>();
             lunchMenuRepository.findByRegionAndDate(region, day.toString().replace("-", ""))
                     .forEach((lunchMenuEntity ->
@@ -48,29 +49,10 @@ public class LunchMenuServiceImpl implements LunchMenuService {
         }
         return weekMenuList;
     }
-        // 원본!!
-//    }    @Override
-//    public List<LunchMenuResponseDto> getWeekMenu(int region) {
-//        LocalDate day = LocalDate.now();
-//        int weekValue = day.getDayOfWeek().getValue();
-//        // day를 월요일로 변경
-//        while (weekValue != 1) {
-//            weekValue -= 1;
-//            day = day.minusDays(1);
-//        }
-//        String date1 = day.toString().replace("-", "");
-//        String date2 = day.plusDays(5).toString().replace("-", "");
-//        List<LunchMenuResponseDto> weekMenuList = new ArrayList<>();
-//        lunchMenuRepository.findByRegionAndDateBetween(region, date1, date2).forEach((LunchMenuEntity) -> {
-//            weekMenuList.add(new LunchMenuResponseDto(LunchMenuEntity));
-//        });
-//        return weekMenuList;
-//    }
 
     @Override
-    public LunchMenuResponseDto getMenuDetail(Long id) {
+    public LunchMenuDetailResponseDto getMenuDetail(Long id) {
         Optional<LunchMenuEntity> menu = lunchMenuRepository.findById(id);
-        LunchMenuEntity lunchMenuEntity = menu.get();
-        return new LunchMenuResponseDto(lunchMenuEntity);
+        return new LunchMenuDetailResponseDto(menu.get());
     }
 }

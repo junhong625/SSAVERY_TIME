@@ -8,8 +8,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ScheduleResponseDto {
-    private int trackCode;
-
     private int date;
 
     private int startTime;
@@ -24,7 +22,6 @@ public class ScheduleResponseDto {
 
     @Builder
     public ScheduleResponseDto(ScheduleEntity scheduleEntity) {
-        this.trackCode = scheduleEntity.getTrackCode();
         this.date = scheduleEntity.getDate();
         this.startTime = scheduleEntity.getStartTime();
         this.endTime = scheduleEntity.getEndTime();

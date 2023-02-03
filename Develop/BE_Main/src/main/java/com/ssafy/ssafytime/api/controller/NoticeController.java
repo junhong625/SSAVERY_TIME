@@ -21,7 +21,7 @@ public class NoticeController {
     @GetMapping("notice")
     public ResponseEntity<Object> notice(@RequestParam("id") Long id) {
         try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, noticeService.getNotice(id));
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getNotice(id));
         } catch (Exception e) {
             return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
@@ -31,7 +31,7 @@ public class NoticeController {
     public ResponseEntity<Object> noticeAll(){
         List<NoticeResponseDto> menu = noticeService.getAllNotice();
         if (!menu.isEmpty())
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, noticeService.getAllNotice());
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getAllNotice());
         else
             return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
     }

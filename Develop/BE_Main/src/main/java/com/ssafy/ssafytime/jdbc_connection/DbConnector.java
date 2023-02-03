@@ -104,7 +104,7 @@ public class DbConnector {
             pstmt.setInt(2, 0);
             pstmt.setString(3, "팀별 PJT 진행");
             pstmt.setString(4, "공통 프로젝트");
-            pstmt.setInt(5, 100000);
+            pstmt.setInt(5, 000000);
             pstmt.setInt(6, 180000);
             pstmt.setInt(7, 3);
 
@@ -127,7 +127,7 @@ public class DbConnector {
         DbConnector conn = new DbConnector();
 //        conn.insertNotice();
         conn.insertSchedule();
-        conn.updateStatus(started_at, ended_at);
+//        conn.updateStatus(started_at, ended_at);
 //        LocalDate date = LocalDate.now();
 //        int weekDay = date.getDayOfWeek().getValue();
 //        date = date.minusDays(weekDay - 1);
