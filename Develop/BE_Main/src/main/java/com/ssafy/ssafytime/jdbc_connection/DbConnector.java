@@ -1,11 +1,6 @@
 package com.ssafy.ssafytime.jdbc_connection;
 
 import java.sql.*;
-<<<<<<< HEAD
-=======
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
->>>>>>> develop_AJH
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -130,19 +125,14 @@ public class DbConnector {
     }
     public static void main(LocalDateTime started_at, LocalDateTime ended_at) throws SQLException {
         DbConnector conn = new DbConnector();
-<<<<<<< HEAD
 //        conn.insertNotice();
         conn.insertSchedule();
         conn.updateStatus(started_at, ended_at);
-=======
-        conn.insertNotice();
-//        conn.insertSchedule();
 //        LocalDate date = LocalDate.now();
 //        int weekDay = date.getDayOfWeek().getValue();
 //        date = date.minusDays(weekDay - 1);
 //        LocalDate end_date = date.plusDays(4);
 //        System.out.println(date);
 //        System.out.println(end_date);
->>>>>>> develop_AJH
     }
 }
