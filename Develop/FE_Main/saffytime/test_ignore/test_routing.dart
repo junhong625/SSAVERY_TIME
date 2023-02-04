@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'controllers/pick_day_controller.dart';
-import 'main.dart';
+import '../lib/controllers/pick_day_controller.dart';
+import '../lib/main.dart';
 
 
 class TestRouting extends StatelessWidget {
@@ -18,7 +18,7 @@ class TestRouting extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               Get.delete<PickDayController>();
-              Get.to(() => MyPage());
+              Get.to(() => RootPage());
             },
             child: Text('에베베'),
           )

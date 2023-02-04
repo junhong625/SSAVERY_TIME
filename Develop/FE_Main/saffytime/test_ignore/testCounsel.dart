@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:saffytime/widgets/councel_bottom_total.dart';
 
-import 'main.dart';
+import '../lib/main.dart';
 
 class CounselTestPage extends StatelessWidget {
   const CounselTestPage({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class CounselTestPage extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () => {
-                  Get.to(() => MyPage())
+                  Get.to(() => RootPage())
                 },
                 child: Text('뒤로')
               ),
