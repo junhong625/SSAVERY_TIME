@@ -13,26 +13,25 @@ class HSIW extends StatefulWidget {
   final bool isClassTime;
   final double progressPercent;
 
-
-  const HSIW({Key? key,
-    required this.color,
-    required this.category,
-    required this.studyPlace,
-    required this.subject,
-    required this.content,
-    required this.classTime,
-    required this.isClassTime,
-    required this.progressPercent}) : super(key: key);
+  const HSIW(
+      {Key? key,
+      required this.color,
+      required this.category,
+      required this.studyPlace,
+      required this.subject,
+      required this.content,
+      required this.classTime,
+      required this.isClassTime,
+      required this.progressPercent})
+      : super(key: key);
 
   @override
   State<HSIW> createState() => _HSIWState();
 }
 
 class _HSIWState extends State<HSIW> {
-
   @override
   Widget build(BuildContext context) {
-
     int color = widget.color;
     String category = widget.category;
     String studyPlace = widget.studyPlace;
@@ -58,38 +57,51 @@ class _HSIWState extends State<HSIW> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // option 2
-                    Text(category, style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 14,
-                      color: Color(0xff686ADB), // option 1
-                    ),),
-                    // option 3
-                    Text(studyPlace, style: TextStyle(
+                    Text(
+                      category,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w900,
-                        fontSize: 11),),
+                        fontSize: 14,
+                        color: Color(0xff686ADB), // option 1
+                      ),
+                    ),
+                    // option 3
+                    Text(
+                      studyPlace,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w900, fontSize: 11),
+                    ),
                   ],
                 ),
               ),
-              Padding(padding: EdgeInsets.fromLTRB(16, 14, 16, 10),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // option 4
-                    Text(subject,
-                      style: TextStyle(fontWeight: FontWeight.w900,
-                        fontSize: 16, color: Color(0xff73777F),
+                    Text(
+                      subject,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                        color: Color(0xff73777F),
                       ),
                     ),
-                    SizedBox(height: 4,),
+                    const SizedBox(
+                      height: 4,
+                    ),
                     // option 5
-                    Text(content,
-                      style: TextStyle(fontWeight: FontWeight.w900,
-                          fontSize: 28),)
+                    Text(
+                      content,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w900, fontSize: 28),
+                    ),
                   ],
                 ),
               ),
@@ -103,34 +115,44 @@ class _HSIWState extends State<HSIW> {
                         LinearPercentIndicator(
                           width: 350,
                           lineHeight: 8,
-                          barRadius: Radius.circular(4),
+                          barRadius: const Radius.circular(4),
                           percent: progressPercent, // optinal 6_1
-                          progressColor: Color(0xffFC6161),
+                          progressColor: const Color(0xffFC6161),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             // option 6
-                            Text(classTime, style: TextStyle(
-                                fontSize: 11, color: Color(0xffABABAE),
-                                fontWeight: FontWeight.w900
-                            ),),
-                            SizedBox(width: 16,),
+                            Text(
+                              classTime,
+                              style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Color(0xffABABAE),
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
                           ],
                         ),
                       ],
                     ),
-                  // 수업 전 /////////
+                  // 수업 전 ============
                   if (isClassTime == false)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         // option 6
-                        Text(classTime, style: TextStyle(
-                            fontSize: 24, color: Color(0xffABABAE),
-                            fontWeight: FontWeight.w900
-                        ),),
-                        SizedBox(width: 16,),
+                        Text(
+                          classTime,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              color: Color(0xffABABAE),
+                              fontWeight: FontWeight.w900),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
                       ],
                     ),
                 ],
@@ -142,6 +164,3 @@ class _HSIWState extends State<HSIW> {
     );
   }
 }
-
-
-
