@@ -103,7 +103,7 @@ public class SurveyController {
             return ResponseEntity.status(204).body(null);
         }
         else {
-            List<AllQuestionRes> allQuestionRes = AllQuestionRes.of(questionList);  // AllSurveyRes 리스트 타입으로 바꿈
+            List<AllQuestionRes> allQuestionRes = surveyQuestionService.makeQuestionRes(questionList);  // AllSurveyRes 리스트 타입으로 바꿈
             return ResponseEntity.ok().body(allQuestionRes);
         }
     }
@@ -131,7 +131,7 @@ public class SurveyController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
@@ -167,13 +167,13 @@ public class SurveyController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 204, message = "No Content"),
             @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> surveyConduct(@PathVariable("surveyId") Long Id, @ApiIgnore Authentication authentication) {
         if(authentication == null) {
-            return ResponseEntity.status(401).body(BaseResponseBody.of(401, "인증 실패"));
+            return ResponseEntity.status(401).body(BaseResponseBody.of(401, "unauthorized"));
         }
         SurveyConduct surveyConduct = new SurveyConduct();  // DB에 저장할 엔티티!
         UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰 이용해서 유저정보 가져옴
@@ -194,7 +194,7 @@ public class SurveyController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
@@ -202,7 +202,7 @@ public class SurveyController {
             (@PathVariable("surveyId") Long Id, @RequestBody @ApiParam(value="설문 답변 제출", required = true) List<SurveyConductPostReq> surveyConductList, @ApiIgnore Authentication authentication) {
         // 객체 하나라도 없으면 PK 성립 안되기 때문에 에러 보내줘야함 !!
             if(authentication == null) {  // 토큰없다면!!!!
-                return ResponseEntity.status(401).body(BaseResponseBody.of(401, "인증 실패"));
+                return ResponseEntity.status(401).body(BaseResponseBody.of(401, "unauthorized"));
             }
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰으로 유저인덱스 가져옴
@@ -231,7 +231,7 @@ public class SurveyController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
@@ -241,7 +241,7 @@ public class SurveyController {
         
         // 0. 토큰으로 사용자 idx 받아오기
         if(authentication == null) {  //  토큰 없을 경우 처리
-            return ResponseEntity.status(401).body(BaseResponseBody.of(401, "인증 실패"));
+            return ResponseEntity.status(400).body(BaseResponseBody.of(401, "unauthorized"));
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰으로 유저인덱스 가져옴

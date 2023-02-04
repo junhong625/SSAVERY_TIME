@@ -10,7 +10,6 @@ import java.util.Optional;
 @Repository
 
 public interface SurveyOptionRepository extends JpaRepository<SurveyOption, Long> {
-    @Override
     Optional<SurveyOption> findById(Long Id);
 
     List<SurveyOption> findAllById(Long Id);

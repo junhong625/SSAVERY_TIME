@@ -45,7 +45,7 @@ public class UserDto {
 
    private Integer isAdmin;
 
-//   private String token;
+   private String token;  // FCM 토큰
 
 
 
@@ -62,6 +62,7 @@ public class UserDto {
               .regionCode(user.getRegionCode())
               .exp(user.getExp())
               .mileage(user.getMileage())
+              .token(user.getToken())
               .authorityDtoSet(user.getAuthorities().stream()
                       .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
                       .collect(Collectors.toSet()))
