@@ -20,17 +20,19 @@ public class MeetList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long rezIdx = null;
 
-    @Column(name = "manager_id")
-    Long managerId;
+    @ManyToOne(optional = true)
+    @JoinColumn(name="manager_id")
+    User managerId;
 
-    @Column(name = "student_id")
-    Long studentId;
+    @ManyToOne(optional = true)
+    @JoinColumn(name="student_id")
+    User studentId;
 
     @Column(name = "rez_date")
     LocalDate rezDate;
 
     @Column(name = "rez_time")
-    Long rezTime;
+    Double rezTime;
     @ColumnDefault("1") //default 1
     @Column(name = "state")
     Long state;
@@ -42,9 +44,11 @@ public class MeetList {
     String title;
 
     @Column(name = "category")
-    Long category;
+    String category;
 
     @Column(name = "meet_url")
     String meetUrl;
+
+
 
 }

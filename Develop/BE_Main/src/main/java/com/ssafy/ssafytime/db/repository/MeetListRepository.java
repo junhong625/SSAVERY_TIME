@@ -15,6 +15,9 @@ public interface MeetListRepository extends JpaRepository<MeetList,Long> {
     List<MeetList> findByManagerId(Long userId);
     MeetList findByRezIdx(Long rezIdx);
     List<MeetList> findByRezDateAndManagerId(LocalDate rezDate , long managerId);
+
+    List<MeetList> findAllByStudentId_UserIdx(Long userId);
+    List<MeetList> findAllByManagerId_UserIdx(Long ManagerId);
 }
 
 

@@ -30,9 +30,9 @@ public class ReserveController {
     }
 
     @GetMapping(value = "/time", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
-    public ResponseEntity<Map<String,List<Integer>>> getReserveTime(@RequestParam("date") String date, @RequestParam("managerId") long managerId) {
+    public ResponseEntity<Map<String,List<Double>>> getReserveTime(@RequestParam("date") String date, @RequestParam("managerId") long managerId) {
 
-        List<Integer> timeList = meetService.findByRezDateAndManagerId(date, managerId);
+        List<Double> timeList = meetService.findByRezDateAndManagerId(date, managerId);
         Map<String, List> map = new HashMap<>();
         map.put("time", timeList);
         return new ResponseEntity(map, HttpStatus.OK);
