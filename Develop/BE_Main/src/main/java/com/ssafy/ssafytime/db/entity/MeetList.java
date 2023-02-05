@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -20,11 +21,11 @@ public class MeetList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long rezIdx = null;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = true, targetEntity = User.class)
     @JoinColumn(name="manager_id")
     User managerId;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = true, targetEntity = User.class)
     @JoinColumn(name="student_id")
     User studentId;
 

@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service("meetService")
 public class MeetServiceImpl implements MeetService{
@@ -25,6 +26,7 @@ public class MeetServiceImpl implements MeetService{
     @Autowired
     UserRepository userRepository;
 
+    // 날짜와 매니저의 id정보를 가지고 해당 날짜에 신청되어 있는 시간 정보 리스트를 반환
     @Override
     public List<Double> findByRezDateAndManagerId(String date , long managerId){
         LocalDate day = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
@@ -36,6 +38,8 @@ public class MeetServiceImpl implements MeetService{
 
         return timeList;
     }
+
+    // 교육생 본인의 반번호와 지역코드를 사용하여 해당하는 매니저들의 정보 호출
     @Override
     public ArrayList<HashMap<String, Object>> getManagerInfo(Integer classNum, Integer regionCode){
 
@@ -55,6 +59,7 @@ public class MeetServiceImpl implements MeetService{
         return manager;
     }
 
+    // 예약 정보와 상대의 이름을 호출 ( 교육생 기준 )
     @Override
     public List<MeetInfoDto> findAllByStudentId_UserIdx(Long userId) {
         List<MeetList> member = meetListRepository.findAllByStudentId_UserIdx(userId);
@@ -80,7 +85,7 @@ public class MeetServiceImpl implements MeetService{
 
         return manager;
     }
-
+    // 예약 정보와 상대의 이름을 호출 ( 매니저 기준 )
     @Override
     public List<MeetInfoDto> findAllByManagerId_UserIdx(Long userId) {
         List<MeetList> member = meetListRepository.findAllByManagerId_UserIdx(userId);
@@ -108,17 +113,27 @@ public class MeetServiceImpl implements MeetService{
         return manager;
     }
 
+    // 예약된 상담정보 호출
     @Override
     public MeetList findByRezIdx(Long rezIdx){
         return meetListRepository.findByRezIdx(rezIdx);
     }
 
+    // 예약 정보 수정 ( 거절 사유에 사용 )
     @Override
     public void update(MeetList meetList){ meetUpdateRepository.save(meetList);}
-
+    
+    // 예약 입력
     @Override
     public void save(ReserveDto reserveDto) {
-        meetUpdateRepository.save(reserveDto.toEntity());
+
+        User std = userRepository.findById(reserveDto.getStudentId()).get();
+        User manager = userRepository.findById(reserveDto.getStudentId()).get();
+
+        String[] timeSplit = reserveDto.getRezTime().split(":");
+        Double rezTime = Double.parseDouble(timeSplit[0]) + ((Double.parseDouble(timeSplit[1]) / 6) * 0.1);
+
+        meetUpdateRepository.save(reserveDto.toEntity(std, manager, rezTime));
     }
 
 }
