@@ -50,7 +50,7 @@ public class MeetController {
 
     // 거절사유 등록 ( 매니저가 등록 )
     // rez_idx는 예약된 상담의 번호, reject는 거절 사유
-    @PutMapping("/update")
+    @PutMapping("/update/reject")
     public void putReject(@RequestParam("rez_idx") Long rezIdx, @RequestParam("reject") String reject) {
 
         // 예약된 상담의 정보 가져오기
@@ -59,6 +59,19 @@ public class MeetController {
         member.setState(3L);
         // 거절사유 등록
         member.setReject(reject);
+        meetService.update(member);
+
+    }
+
+    // 상담승인 등록 ( 매니저가 등록 )
+    // rez_idx는 예약된 상담의 번호
+    @PutMapping("/update/accept")
+    public void putReject(@RequestParam("rez_idx") Long rezIdx) {
+
+        // 예약된 상담의 정보 가져오기
+        MeetList member = meetService.findByRezIdx(rezIdx);
+        // 상태 ( 1(대기중) -> 2(승인) )
+        member.setState(2L);
         meetService.update(member);
 
     }
