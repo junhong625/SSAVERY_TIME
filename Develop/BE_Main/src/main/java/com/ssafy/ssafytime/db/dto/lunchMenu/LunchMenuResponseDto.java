@@ -8,7 +8,7 @@ import lombok.*;
 public class LunchMenuResponseDto {
     private Long id;
     private String mainMenu;
-    private String sideMenu;
+    private String[] sideMenu;
     private int kcal;
     private String imageUrl;
 
@@ -16,7 +16,11 @@ public class LunchMenuResponseDto {
     public LunchMenuResponseDto(LunchMenuEntity lunchMenuEntity) {
         this.id = lunchMenuEntity.getId();
         this.mainMenu = lunchMenuEntity.getMainMenu();
-        this.sideMenu = lunchMenuEntity.getSideMenu();
+        String[] sideMenuList = lunchMenuEntity.getSideMenu().split(",");
+        for (int i=0; i < sideMenuList.length; i++) {
+            sideMenuList[i] = sideMenuList[i].replace(" ", "");
+        }
+        this.sideMenu = sideMenuList;
         this.kcal = lunchMenuEntity.getKcal();
         this.imageUrl = lunchMenuEntity.getImageUrl();
     }

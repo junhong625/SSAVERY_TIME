@@ -24,22 +24,22 @@ public class LunchMenuController {
     public ResponseEntity<Object> todayMenu(@RequestParam("region") int region) {
         List<LunchMenuResponseDto> menu = lunchMenuService.getTodayMenu(region);
         if (!menu.isEmpty())
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, lunchMenuService.getTodayMenu(region));
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getTodayMenu(region));
         else
             return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
     }
 
     @GetMapping("menu/week")
     public ResponseEntity<Object> WeekMenu(@RequestParam("region") int region) {
-        HashMap<String, List<LunchMenuResponseDto>> menu = lunchMenuService.getWeekMenu(region);
+        HashMap<Integer, List<LunchMenuResponseDto>> menu = lunchMenuService.getWeekMenu(region);
         if (!menu.isEmpty())
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, lunchMenuService.getWeekMenu(region));
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getWeekMenu(region));
         else
             return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
     }
 
     @GetMapping("menu/detail")
     public ResponseEntity<Object> menuDetail(@RequestParam("id") Long id) {
-        return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, lunchMenuService.getMenuDetail(id));
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getMenuDetail(id));
     }
 }

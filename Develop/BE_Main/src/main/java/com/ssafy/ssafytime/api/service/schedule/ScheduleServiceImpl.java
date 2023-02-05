@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -32,15 +33,26 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
-    public List<ScheduleResponseDto> getWeekSchedule(int trackCode) {
-        List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
+    public HashMap<Integer, List<ScheduleResponseDto>> getWeekSchedule(int trackCode) {
         LocalDate date = LocalDate.now();
         int weekDay = date.getDayOfWeek().getValue();
-        int startDate = Integer.parseInt(date.minusDays(weekDay).toString().replace("-", ""));
-        int endDate = Integer.parseInt(date.plusDays(4).toString().replace("-", ""));
-        scheduleRepository.findByTrackCodeAndDateLessThanAndDateGreaterThanOrderByDate(trackCode, endDate, startDate).forEach((scheduleEntity ->
-                scheduleResponseDtoList.add(new ScheduleResponseDto(scheduleEntity))));
-
-        return scheduleResponseDtoList;
+        if (weekDay >= 6) {
+            date = date.plusDays(8 - weekDay);
+        } else {
+            date = date.minusDays(weekDay - 1);
+        }
+        HashMap<Integer, List<ScheduleResponseDto>> weekScheduleList = new HashMap<>();
+        for (int d=0; d < 5; d++) {
+            int dateToInt = Integer.parseInt(date.toString().replace("-", ""));
+            List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
+            scheduleRepository.findByTrackCodeAndDateOrderByStartTime(trackCode, dateToInt).forEach(
+                    (scheduleEntity -> {
+                        scheduleResponseDtoList.add(new ScheduleResponseDto(scheduleEntity));
+                    })
+            );
+            weekScheduleList.put(d, scheduleResponseDtoList);
+            date = date.plusDays(1);
+        }
+        return weekScheduleList;
     }
 }

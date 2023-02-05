@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.api.service.lunchMenu;
 
+import com.ssafy.ssafytime.db.dto.lunchMenu.LunchMenuDetailResponseDto;
 import com.ssafy.ssafytime.db.dto.lunchMenu.LunchMenuResponseDto;
 
 import java.util.HashMap;
@@ -9,7 +10,7 @@ public interface LunchMenuService {
 
     List<LunchMenuResponseDto> getTodayMenu(int region);
 
-    LunchMenuResponseDto getMenuDetail(Long id);
+    LunchMenuDetailResponseDto getMenuDetail(Long id);
 
-    HashMap<String, List<LunchMenuResponseDto>> getWeekMenu(int region);
+    HashMap<Integer, List<LunchMenuResponseDto>> getWeekMenu(int region);
 }

@@ -16,9 +16,9 @@ public class ScheduleController {
     ScheduleServiceImpl scheduleService;
 
     @GetMapping("schedule/now")
-    public ResponseEntity<Object> todaySchedule(@RequestParam("track_code") int trackCode) {
+    public ResponseEntity<Object> currentSchedule(@RequestParam("track_code") int trackCode) {
         try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, scheduleService.getCurrentSchedule(trackCode));
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, scheduleService.getCurrentSchedule(trackCode));
         } catch (Exception e) {
             return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
@@ -27,7 +27,7 @@ public class ScheduleController {
     @GetMapping("schedule/week")
     public ResponseEntity<Object> weekSchedule(@RequestParam("track_code") int trackCode) {
         try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.FOUND, scheduleService.getWeekSchedule(trackCode));
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, scheduleService.getWeekSchedule(trackCode));
         } catch (Exception e) {
             return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
