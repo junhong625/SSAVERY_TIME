@@ -34,7 +34,10 @@ public class ScheduleEntity {
     @Column(name = "sub_title")
     private String subTitle;
 
+    @Column(name = "on_off")
+    private int onOff;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private CategoryEntity categoryEntity;
+    private ScheduleCategoryEntity scheduleCategoryEntity;
 }
