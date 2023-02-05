@@ -24,6 +24,7 @@ class CBCounselorItem extends StatelessWidget {
     return Obx(() => InkWell(
         onTap: () {
           controller.select(managerId);
+          FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
         },
         child: Container(
           width: 71, height: 84,

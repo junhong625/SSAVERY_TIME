@@ -1,8 +1,18 @@
 // check menubook screen
 import 'package:flutter/material.dart';
+import '../controllers/pick_day_controller.dart';
 import '../custom_button.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:saffytime/screens/notification_screen.dart';
+import 'package:saffytime/screens/user_screen.dart';
+
+import '../model/menu_week.dart';
+import '../widgets/day_of_week_pick_up.dart';
+import '../widgets/menu_book_item.dart';
+import '../widgets/menu_day_of_week.dart';
 
 class MenuBookScreen extends StatefulWidget {
   const MenuBookScreen({Key? key}) : super(key: key);
@@ -11,38 +21,37 @@ class MenuBookScreen extends StatefulWidget {
 }
 
 class _MenuBookScreenStates extends State<MenuBookScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("식단표"),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => Get.to(() => const UserScreen()),
+            icon: const FaIcon(
+              FontAwesomeIcons.user,
+              size: 20,
+            ),
+          ),
+          IconButton(
+            onPressed: () => Get.to(() => const NotificationScreen()),
+            icon: const FaIcon(
+              FontAwesomeIcons.bell,
+              size: 20,
+            ),
+          ),
+        ],
       ),
       body: SizedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
           children: [
-            Text("MenuBookScreen"),
-
-            CustomElevatedButton(
-              onPressed: () {
-                print('gg');
-                requstMenuWeek(1);
-              },
-            ),
-
+            MDay0fWeek(),
           ],
-        ),
+        )
       ),
     );
   }
 }
 
-
-void requstMenuWeek(int region) async{
-  var res = await http.get(Uri.parse("http://i8a602.p.ssafy.io:9090/menu/today/?region=${region}"));
-
-  print(res.body);
-  var data = json.decode(res.body);
-  print(data);
-}

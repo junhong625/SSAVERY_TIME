@@ -12,56 +12,83 @@ import 'councel_bottom_input_title.dart';
 import 'councel_bottom_time_total.dart';
 
 
-void openCouncelBottomSheet() {
-  Get.bottomSheet(
-    isScrollControlled: true,
-    Container(
-      padding: EdgeInsets.fromLTRB(16, 4, 16, 0),
-      color: Colors.white,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-              child: Text('상담신청', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
-            ),
-            CBCouncelorTotal(),
-            CBDate(), // 날짜 선택
-            CBTimeTotal(), // 시간 선택
-            CBInputTitle(), // 내용 입력
-            CBCategoryTotal(), // 카테고리 입력
-            Container(
-              color: Colors.lime,
-              width: 390, height: 47,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomElevatedButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    width: 171, height: 40,
-                    label: '닫기',
-                  ),
-                  CustomElevatedButton(
-                    onPressed: () {
-                      submitCouncelApplication();
-                    },
-                    color: 0xff3094F2,
-                    width: 171, height: 40,
-                    label: '제출',
-                    labelColor: 0xffFFFFFF,
-                  )
-                ],
-              ),
-
-            )
-          ],
+void openCouncelBottomSheet(BuildContext context) {
+  // Get.bottomSheet(
+    // isScrollControlled: true,
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(25.0)
+          )
         ),
-      ),
-    ),
-  );
+        builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25.0)
+            ),
+            padding: EdgeInsets.only(
+              bottom: MediaQuery
+                  .of(context)
+                  .viewInsets
+                  .bottom,
+            ),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 4, 16, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                      child: Text('상담신청', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
+                    ),
+                    CBCouncelorTotal(),
+                    CBDate(), // 날짜 선택
+                    CBTimeTotal(), // 시간 선택
+                    CBInputTitle(), // 내용 입력
+                    CBCategoryTotal(), // 카테고리 입력
+                    Container(
+                      color: Colors.lime,
+                      width: 390, height: 47,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CustomElevatedButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            width: 171, height: 40,
+                            label: '닫기',
+                          ),
+                          CustomElevatedButton(
+                            onPressed: () {
+                              submitCouncelApplication();
+                            },
+                            color: 0xff3094F2,
+                            width: 171, height: 40,
+                            label: '제출',
+                            labelColor: 0xffFFFFFF,
+                          )
+                        ],
+                      ),
+
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+    );
+  // );
 }
 
 

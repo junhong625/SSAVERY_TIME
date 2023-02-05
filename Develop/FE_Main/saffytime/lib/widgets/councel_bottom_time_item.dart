@@ -31,6 +31,7 @@ class CBTimeItem extends StatelessWidget {
             ),
             onPressed: () {
               controller.select(time);
+              FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
             },
             child: Text(time,
               style: TextStyle(fontWeight: FontWeight.w900,
@@ -64,6 +65,7 @@ class CBLunchItem extends StatelessWidget {
             backgroundColor: Color(0xff76777A)
           ),
           onPressed: () {
+            FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
           },
           child: Text('점심',
             style: TextStyle(fontWeight: FontWeight.w900,
@@ -105,6 +107,7 @@ class CBReservedTime extends StatelessWidget {
             backgroundColor: Color(0xffC3C6CF)
           ),
           onPressed: () {
+            FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
           },
           child: Text(time,
             style: TextStyle(fontWeight: FontWeight.w900,

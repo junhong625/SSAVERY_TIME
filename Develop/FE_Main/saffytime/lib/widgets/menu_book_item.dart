@@ -6,7 +6,7 @@ class MIW extends StatefulWidget {
   final String imgUrl;
   final String mainMenu;
   final List subMenuList; // 서브 메뉴이름(String)을 원소로하는 리스트
-  final double foodKcal;
+  final int foodKcal;
 
   const MIW({Key? key,
     required this.imgUrl,
@@ -25,14 +25,15 @@ class _MIWState extends State<MIW> {
     String imgUrl = widget.imgUrl;
     String mainMenu = widget.mainMenu;
     List subMenuList = widget.subMenuList;
-    double foodKcal = widget.foodKcal;
+    int foodKcal = widget.foodKcal;
 
     return Container(
+      margin: EdgeInsets.all(5),
       width: 358,
       height: 180,
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(15)
+          // borderRadius: BorderRadius.circular(15)
       ),
       child: Row(
         children: [
@@ -54,8 +55,10 @@ class _MIWState extends State<MIW> {
               children: [
                 // option2 mainMenu
                 Text(mainMenu,
-                    style: TextStyle(fontSize: 16,
-                        fontWeight: FontWeight.w900)),
+                  style: TextStyle(fontSize: 16,
+                  fontWeight: FontWeight.w900),
+                  overflow: TextOverflow.ellipsis,
+                ),
                 SizedBox(height: 5,),
                 Container(
                   width: 146, height: 58,
