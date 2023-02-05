@@ -14,19 +14,25 @@ public class ScheduleResponseDto {
 
     private int endTime;
 
+    private int onOff;
+
     private String title;
 
     private String subTitle;
 
-    private String category;
+    private Long category;
+
+    private int totalTime;
 
     @Builder
     public ScheduleResponseDto(ScheduleEntity scheduleEntity) {
         this.date = scheduleEntity.getDate();
         this.startTime = scheduleEntity.getStartTime();
         this.endTime = scheduleEntity.getEndTime();
+        this.onOff = scheduleEntity.getOnOff();
         this.title = scheduleEntity.getTitle();
         this.subTitle = scheduleEntity.getSubTitle();
-        this.category = scheduleEntity.getCategoryEntity().getCategory();
+        this.category = scheduleEntity.getScheduleCategoryEntity().getId();
+        this.totalTime = scheduleEntity.getEndTime() - scheduleEntity.getStartTime();
     }
 }

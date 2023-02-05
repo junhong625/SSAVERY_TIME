@@ -7,6 +7,8 @@ import lombok.ToString;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @ToString
@@ -16,7 +18,7 @@ public class LunchMenuDetailResponseDto {
     private int region;
     private String course;
     private String mainMenu;
-    private String sideMenu;
+    private String[] sideMenu;
     private int cho;
     private int kcal;
     private int fat;
@@ -36,7 +38,11 @@ public class LunchMenuDetailResponseDto {
         this.region = lunchMenuEntity.getRegion();
         this.course = lunchMenuEntity.getCourse();
         this.mainMenu = lunchMenuEntity.getMainMenu();
-        this.sideMenu = lunchMenuEntity.getSideMenu();
+        String[] sideMenuList = lunchMenuEntity.getSideMenu().split(",");
+        for (int i=0; i < sideMenuList.length; i++) {
+            sideMenuList[i] = sideMenuList[i].replace(" ", "");
+        }
+        this.sideMenu = sideMenuList;
         this.cho = lunchMenuEntity.getCho();
         this.kcal = lunchMenuEntity.getKcal();
         this.fat = lunchMenuEntity.getFat();

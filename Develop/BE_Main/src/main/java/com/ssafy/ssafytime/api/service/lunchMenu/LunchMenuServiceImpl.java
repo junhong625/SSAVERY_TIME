@@ -34,9 +34,10 @@ public class LunchMenuServiceImpl implements LunchMenuService {
         LocalDate day = LocalDate.now();
         int weekValue = day.getDayOfWeek().getValue();
         // day를 월요일로 변경
-        while (weekValue != 1) {
-            weekValue -= 1;
-            day = day.minusDays(1);
+        if (weekValue <= 5) {
+            day = day.minusDays(weekValue-1);
+        } else {
+            day = day.plusDays(8 - weekValue);
         }
         HashMap<Integer, List<LunchMenuResponseDto>> weekMenuList = new HashMap<>();
         for (int d=0; d < 5; d++) {

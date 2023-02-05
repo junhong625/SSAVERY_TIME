@@ -10,5 +10,5 @@ import java.util.List;
 public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Long> {
     List<ScheduleEntity> findByTrackCodeAndDateAndStartTimeLessThanAndEndTimeGreaterThan(int trackCode, int date, int startTime, int endTime);
 
-    List<ScheduleEntity> findByTrackCodeAndDateLessThanAndDateGreaterThanOrderByDate(int trackCode, int startDate, int endDate);
+    List<ScheduleEntity> findByTrackCodeAndDateOrderByStartTime(int trackCode, int date);
 }
