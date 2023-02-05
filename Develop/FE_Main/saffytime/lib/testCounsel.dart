@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:saffytime/widgets/councel_bottom_total.dart';
-
-import 'main.dart';
 
 class CounselTestPage extends StatelessWidget {
   const CounselTestPage({Key? key}) : super(key: key);
@@ -10,32 +7,23 @@ class CounselTestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          color: Colors.black12,
-
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
+        body: Center(
+      child: Container(
+        color: Colors.black12,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
                 onPressed: () => {
-                  Get.to(() => MyPage())
-                },
-                child: Text('뒤로')
-              ),
-              FloatingActionButton(
+                      //   Get.to(() => MyPage())
+                    },
+                child: Text('뒤로')),
+            FloatingActionButton(
                 child: Icon(Icons.add),
-                onPressed: () => {
-                  openCouncelBottomSheet()
-                })
-            ],
-          ),
+                onPressed: () => {openCouncelBottomSheet()})
+          ],
         ),
-      )
-    );
+      ),
+    ));
   }
 }
-
-
-
-

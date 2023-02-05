@@ -68,7 +68,7 @@ class _SingleChoiceAnswerState extends State<SingleChoiceAnswer> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: widget.question.answerChoices.keys
             .map((answer) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: const EdgeInsets.symmetric(vertical: 1),
                   child: Row(
                     children: [
                       Radio(
@@ -166,7 +166,8 @@ class _SentenceAnswerState extends State<SentenceAnswer> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding:
+          const EdgeInsets.symmetric(horizontal: 16), // input TextField padding
       child: TextFormField(
         controller: _textEditingController,
         onChanged: (value) {

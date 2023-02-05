@@ -44,6 +44,7 @@ dependencies:
   http: ^0.13.5
   shared_preferences: ^2.0.17
   intl: ^0.18.0
+  flutter_time_picker_spinner: ^2.0.0
 
   # Custom flutter_survey (https://github.com/Michelphoenix98/flutter_survey)
   diffutil_sliverlist: ^0.5.1

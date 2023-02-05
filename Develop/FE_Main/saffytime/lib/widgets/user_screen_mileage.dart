@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 
 // 마이 스크린 마일리지 위젯
 class MMileage extends StatefulWidget {
-
   final int myMileage;
 
-  const MMileage({Key? key,
-    required this.myMileage}) : super(key: key);
+  const MMileage({Key? key, required this.myMileage}) : super(key: key);
 
   @override
   State<MMileage> createState() => _MMileageState();
@@ -15,11 +13,12 @@ class MMileage extends StatefulWidget {
 class _MMileageState extends State<MMileage> {
   @override
   Widget build(BuildContext context) {
-
     String myMileage = convertMileage(widget.myMileage);
 
     return Container(
-      width: 390, height: 72,
+      width: 390,
+      height: 72,
+      color: Colors.white,
       child: Column(
         children: [
           Container(
@@ -28,8 +27,10 @@ class _MMileageState extends State<MMileage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('마일리지', style: TextStyle(fontSize: 18,
-                    fontWeight: FontWeight.w900),)
+                Text(
+                  '마일리지',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                )
               ],
             ),
           ),
@@ -39,11 +40,17 @@ class _MMileageState extends State<MMileage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(myMileage, style: TextStyle(fontSize: 18,
-                    fontWeight: FontWeight.w900),),
-                SizedBox(width: 8,),
-                Text('마일리지', style: TextStyle(fontSize: 18,
-                    fontWeight: FontWeight.w900),)
+                Text(
+                  myMileage,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  '마일리지',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                )
               ],
             ),
           )
@@ -58,12 +65,12 @@ String convertMileage(int money) {
   List tmp = money.toString().split("");
   String res = '';
   int cnt = 1;
-  for (int i = tmp.length-1; i > -1; i--) {
-    if (cnt > 1 && cnt %3 == 1) {
+  for (int i = tmp.length - 1; i > -1; i--) {
+    if (cnt > 1 && cnt % 3 == 1) {
       res = ',' + res;
     }
     res = tmp[i] + res;
-    cnt ++;
+    cnt++;
   }
 
   return res;

@@ -27,7 +27,7 @@ class _MenuBookScreenStates extends State<MenuBookScreen> {
             ),
           ),
           IconButton(
-            onPressed: () => Get.to(() => const NotificationScreen()),
+            onPressed: () => Get.to(() => NotificationScreen()),
             icon: const FaIcon(
               FontAwesomeIcons.bell,
               size: 20,

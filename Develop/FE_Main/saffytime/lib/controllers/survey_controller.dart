@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:saffytime/models/survey_option_model.dart';
 import 'package:saffytime/models/survey_result_model.dart';
@@ -10,17 +12,26 @@ class SurveyController extends GetxController {
   RxList<SurveyOption> questions = <SurveyOption>[].obs;
   RxList<SurveyResultOption> surveyResult = <SurveyResultOption>[].obs;
 
-  void setSurveyOptions(int surveyIdx) async {
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  setSurveyOptions(int surveyIdx) async {
     var response = await http.get(Uri.parse(
         "http://i8a602.p.ssafy.io:9090/surveys/survey/questions/$surveyIdx"));
 
-    print(response);
-
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
+      //   log("print : " + data.toString());
       questions.addAll(
         List<SurveyOption>.from(data.map((x) => SurveyOption.fromJson(x))),
       );
+      var tmp = Map.fromIterable(questions[0].optionList,
+          key: (e) => e.optionContent, value: (e) => null);
+      log("print : " + tmp.toString());
+      questions.refresh();
+      log("print : " + questions[0].optionList[0].optionContent);
     }
   }
 

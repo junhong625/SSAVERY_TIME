@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-
 class MAW extends StatefulWidget {
-
   // [사유결석, 임의결석, 사유지각, 임의지각, 정상출석, 전체출석] 순으로
   final List<int> stateCntList;
 
-  const MAW({Key? key,
+  const MAW({
+    Key? key,
     required this.stateCntList,
   }) : super(key: key);
 
@@ -17,7 +16,6 @@ class MAW extends StatefulWidget {
 class _MAWState extends State<MAW> {
   @override
   Widget build(BuildContext context) {
-
     int a = widget.stateCntList[0];
     int b = widget.stateCntList[1];
     int c = widget.stateCntList[2];
@@ -25,47 +23,41 @@ class _MAWState extends State<MAW> {
     int e = widget.stateCntList[4];
     int f = widget.stateCntList[5];
 
-
     return Container(
-        width: 390, height: 110,
+        width: 390,
+        height: 110,
         color: Colors.white,
         padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('출결현황', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),),
-            SizedBox(height: 5,),
+            Text(
+              '출결현황',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+            ),
+            SizedBox(
+              height: 5,
+            ),
             Row(
               children: [
-                MAWdetail(
-                    attendanceType: 0,
-                    firstCnt: a,
-                    secCnt: b),
-                MAWdetail(
-                    attendanceType: 1,
-                    firstCnt: c,
-                    secCnt: d),
-                MAWdetail(
-                    attendanceType: 2,
-                    firstCnt: e,
-                    secCnt: f)
+                MAWdetail(attendanceType: 0, firstCnt: a, secCnt: b),
+                MAWdetail(attendanceType: 1, firstCnt: c, secCnt: d),
+                MAWdetail(attendanceType: 2, firstCnt: e, secCnt: f)
               ],
             )
           ],
-        )
-    );
+        ));
   }
 }
 
-
 // 세부사항 부분
 class MAWdetail extends StatefulWidget {
-
   final int attendanceType; // 결석 : 0, 지각 : 1,  출석 : 2
   final int firstCnt; // 사유 or 정상 횟수
   final int secCnt; // 임의 or 전체 횟수
 
-  const MAWdetail({Key? key,
+  const MAWdetail({
+    Key? key,
     required this.attendanceType,
     required this.firstCnt,
     required this.secCnt,
@@ -74,14 +66,14 @@ class MAWdetail extends StatefulWidget {
   @override
   State<MAWdetail> createState() => _MAWdetailState();
 }
+
 class _MAWdetailState extends State<MAWdetail> {
   @override
   Widget build(BuildContext context) {
-
     const Map<int, List> board = {
-      0 : ['결석', '사유', '임의', 0xffFF6161],
-      1 : ['지각', '사유', '임의', 0xffFFDA19],
-      2 : ['출석', '정상', '전체', 0xff3CDCFF],
+      0: ['결석', '사유', '임의', 0xffFF6161],
+      1: ['지각', '사유', '임의', 0xffFFDA19],
+      2: ['출석', '정상', '전체', 0xff3CDCFF],
     };
 
     List typeInfo = board[widget.attendanceType]!.toList();
@@ -115,15 +107,20 @@ class _MAWdetailState extends State<MAWdetail> {
                         child: FittedBox(
                             fit: BoxFit.contain,
                             // option1 사유 횟수
-                            child: Text(firstCnt.toString(), style: TextStyle(fontWeight: FontWeight.w900),)),
+                            child: Text(
+                              firstCnt.toString(),
+                              style: TextStyle(fontWeight: FontWeight.w900),
+                            )),
                       ),
                       Container(
                         height: 16,
                         child: FittedBox(
                             fit: BoxFit.contain,
                             // option 2 사유 or 정상
-                            child: Text(firstString, style: TextStyle(fontWeight: FontWeight.w900,
-                                color: Color(0xff73777F)))),
+                            child: Text(firstString,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xff73777F)))),
                       )
                     ],
                   ),
@@ -143,8 +140,7 @@ class _MAWdetailState extends State<MAWdetail> {
                           ),
                         )
                       ],
-                    )
-                ),
+                    )),
                 Container(
                   // color: Colors.cyanAccent,
                   width: 19,
@@ -156,15 +152,21 @@ class _MAWdetailState extends State<MAWdetail> {
                         child: FittedBox(
                             fit: BoxFit.contain,
                             // option4 임의(or 전체) 횟수
-                            child: Text(secCnt.toString(), style: TextStyle(fontWeight: FontWeight.w900),)),
+                            child: Text(
+                              secCnt.toString(),
+                              style: TextStyle(fontWeight: FontWeight.w900),
+                            )),
                       ),
                       Container(
                         height: 16,
                         child: FittedBox(
                           fit: BoxFit.contain,
                           // option5 임의 or 전체
-                          child: Text(secString, style: TextStyle(fontWeight: FontWeight.w900,
-                            color: Color(0xff73777F)),
+                          child: Text(
+                            secString,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xff73777F)),
                           ),
                         ),
                       )
@@ -180,7 +182,10 @@ class _MAWdetailState extends State<MAWdetail> {
             child: FittedBox(
               fit: BoxFit.contain,
               // option6 결석, 지각, 출석
-              child: Text(attendanceType, style: TextStyle(fontWeight: FontWeight.w900),),
+              child: Text(
+                attendanceType,
+                style: TextStyle(fontWeight: FontWeight.w900),
+              ),
             ),
           )
         ],
@@ -188,4 +193,3 @@ class _MAWdetailState extends State<MAWdetail> {
     );
   }
 }
-

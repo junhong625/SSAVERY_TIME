@@ -66,7 +66,7 @@ class _HomeScreenStates extends State<HomeScreen> {
             ),
           ),
           IconButton(
-            onPressed: () => Get.to(() => const NotificationScreen()),
+            onPressed: () => Get.to(() => NotificationScreen()),
             icon: const FaIcon(
               FontAwesomeIcons.bell,
               size: 20,
@@ -126,18 +126,20 @@ class _HomeScreenStates extends State<HomeScreen> {
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-              width: double.infinity,
-              color: Colors.white,
-              child: const HEIT(
-                infoList: [
-                  ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                  ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                  ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                  ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                  ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                ],
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                width: double.infinity,
+                color: Colors.white,
+                child: HEIT(
+                  infoList: [
+                    ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
+                    ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
+                    ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
+                    ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
+                    ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
+                  ],
+                ),
               ),
             )
           ],

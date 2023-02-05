@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:saffytime/controllers/bottom_navbar_controller.dart';
+import 'package:saffytime/controllers/home_controller.dart';
 import 'package:saffytime/screens/calendar_screen.dart';
 import 'package:saffytime/screens/counsel_screen.dart';
 import 'package:saffytime/screens/home_screen.dart';
 import 'package:saffytime/screens/menu_book_screen.dart';
-import 'package:saffytime/screens/survey_screen.dart';
 import 'package:saffytime/widgets/bottom_navbar.dart';
 
 void main() {
@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(HomeController());
     return GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: const SurveyScreen());
+        home: RootScreen());
   }
 }
 

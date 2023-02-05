@@ -42,7 +42,8 @@ class QuestionCard extends StatelessWidget {
         autovalidateMode: autovalidateMode,
         builder: (FormFieldState<List<String>> state) {
           return Container(
-            margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+            margin: const EdgeInsets.symmetric(
+                vertical: 4, horizontal: 12), // Question layout margin
             child: Card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

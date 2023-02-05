@@ -45,8 +45,8 @@ class _HEITState extends State<HEIT> {
               ),
             ),
           if (infoList.isNotEmpty)
-            SizedBox(
-              height: 265,
+            Expanded(
+              //   height: 265,
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: infoList.length,

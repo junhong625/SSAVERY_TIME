@@ -28,7 +28,7 @@ class _CounselScreenStates extends State<CounselScreen> {
             ),
           ),
           IconButton(
-            onPressed: () => Get.to(() => const NotificationScreen()),
+            onPressed: () => Get.to(() => NotificationScreen()),
             icon: const FaIcon(
               FontAwesomeIcons.bell,
               size: 20,
