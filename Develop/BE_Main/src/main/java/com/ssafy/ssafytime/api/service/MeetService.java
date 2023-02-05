@@ -15,7 +15,7 @@ public interface MeetService {
     MeetList findByRezIdx(Long rezIdx);
     void update(MeetList meetList);
     void save(ReserveDto reserveDto);
-    List<Double> findByRezDateAndManagerId(String date , long managerId);
+    List<Double> findByRezDateAndManagerId(String date , Long managerId);
     ArrayList<HashMap<String, Object>> getManagerInfo(Integer classNum, Integer regionCode);
     List<MeetInfoDto> findAllByStudentId_UserIdx(Long userId);
     List<MeetInfoDto> findAllByManagerId_UserIdx(Long userId);

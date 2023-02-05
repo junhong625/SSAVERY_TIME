@@ -28,11 +28,11 @@ public class MeetServiceImpl implements MeetService{
 
     // 날짜와 매니저의 id정보를 가지고 해당 날짜에 신청되어 있는 시간 정보 리스트를 반환
     @Override
-    public List<Double> findByRezDateAndManagerId(String date , long managerId){
+    public List<Double> findByRezDateAndManagerId(String date , Long managerId){
         LocalDate day = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
         ArrayList<Double> timeList = new ArrayList<Double>();
-
-        meetListRepository.findByRezDateAndManagerId(day, managerId).forEach(
+        User manager = userRepository.findById(managerId).get();
+        meetListRepository.findByRezDateAndManagerId(day, manager).forEach(
                 s-> timeList.add(s.getRezTime())
         );
 

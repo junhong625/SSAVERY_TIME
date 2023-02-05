@@ -35,7 +35,7 @@ public class ReserveController {
 
     // 해당 날짜에 매니저의 예약 신청 시간 리스트 호출
     @GetMapping(value = "/time", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
-    public ResponseEntity<Map<String,List<Double>>> getReserveTime(@RequestParam("date") String date, @RequestParam("managerId") long managerId) {
+    public ResponseEntity<Map<String,List<Double>>> getReserveTime(@RequestParam("date") String date, @RequestParam("managerId") Long managerId) {
 
         List<Double> timeList = meetService.findByRezDateAndManagerId(date, managerId);
         Map<String, List> map = new HashMap<>();
