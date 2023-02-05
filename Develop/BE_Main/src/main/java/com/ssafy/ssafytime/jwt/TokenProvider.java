@@ -62,6 +62,16 @@ public class TokenProvider implements InitializingBean {
          .compact();
    }
 
+   public String createRefreshToken() {
+      long now = (new Date()).getTime();
+      Date validity = new Date(now + this.tokenValidityInMilliseconds);
+
+      return Jwts.builder()
+              .signWith(key, SignatureAlgorithm.HS512)
+              .setExpiration(validity)
+              .compact();
+   }
+
 
    /**
     Token 정보를 받아서 권한 객체반환
@@ -107,4 +117,6 @@ public class TokenProvider implements InitializingBean {
       }
       return false;
    }
+
+
 }

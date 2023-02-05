@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -51,13 +52,18 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.createToken(authentication);
+        String refresh = tokenProvider.createRefreshToken();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        httpHeaders.add("refresh", "Bearer " + jwt);
+
 
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
 
 
-//    @GetMapping("/logout/{userId}")
-//    public ResponseEntity<?> removeToken(@PathVariable("useri"))
+    @GetMapping("/refresh")
+    public ResponseEntity<> refresh(HttpServletRequest request, Authentication authentication){
+
+    }
 }
