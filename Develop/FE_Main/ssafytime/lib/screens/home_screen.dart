@@ -1,9 +1,13 @@
 // main screen
 
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:ssafytime/controllers/auth_controller.dart';
+import 'package:ssafytime/controllers/home_controller.dart';
 import 'package:ssafytime/screens/notification_screen.dart';
 import 'package:ssafytime/screens/user_screen.dart';
 import 'package:ssafytime/widgets/home_attendance_state_widget.dart';
@@ -18,6 +22,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenStates extends State<HomeScreen> {
+  AuthController authController = Get.find<AuthController>();
+
   List<CNI> bannerItems = <CNI>[
     CNI(
         opacity: 1,
@@ -54,6 +60,13 @@ class _HomeScreenStates extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    HomeController homeController = Get.put(HomeController(
+        authController.user.value?.userIdx,
+        authController.user.value?.regionCode,
+        authController.token.value,
+        authController.user.value?.trackCode));
+
+    log(homeController.homeMenu.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text("1231234 김싸피"),

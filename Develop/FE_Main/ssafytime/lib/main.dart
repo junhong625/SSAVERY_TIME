@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/auth_controller.dart';
-import 'package:ssafytime/controllers/home_controller.dart';
 import 'package:ssafytime/screens/login_screen.dart';
 
 void main() {
@@ -15,7 +14,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(HomeController());
     return GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

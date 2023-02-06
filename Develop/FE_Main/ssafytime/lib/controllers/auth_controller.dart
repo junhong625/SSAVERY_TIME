@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -14,10 +14,11 @@ import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-  FirebaseMessaging fcm = FirebaseMessaging.instance;
+//   FirebaseMessaging fcm = FirebaseMessaging.instance;
 
   late Rx<AuthInfo?> authInfo;
   Rx<User?> user = Rx<User?>(null);
+  Rx<String?> token = Rx<String?>(null);
 
   final storage = const FlutterSecureStorage();
 
@@ -34,25 +35,25 @@ class AuthController extends GetxController {
 
   Future<void> autoLoginCheck(bool isAutoLogin) async {
     if (isAutoLogin) {
-      String? Token = await storage.read(key: "Token");
-      await fetchUser(Token);
+      token.value = await storage.read(key: "Token");
+      await fetchUser();
     }
   }
 
-  Future<void> fetchUser(String? Token) async {
-    if (Token != null) {
+  Future<void> fetchUser() async {
+    if (token.value != null) {
       var response = await http.get(
           Uri.parse("http://i8a602.p.ssafy.io:9090/user/my-page"),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer ${Token}"
+            "Authorization": "Bearer ${token.value}"
           });
       log("${json.decode(response.body)}");
       if (response.statusCode == 200) {
         user.value = User.fromRawJson(response.body);
-        var fcmToken = fcm.getToken(
-            vapidKey:
-                "BKEyfl55H2kgfEnSwt3yqPp9CwLtf9Ntgwv13RiT-U-jjzrozda7WadN2v6Z4Cl6x4_dOxHLMdeh3rfKjiL2YTM");
+        // var fcmToken = fcm.getToken(
+        //     vapidKey:
+        //         "BKEyfl55H2kgfEnSwt3yqPp9CwLtf9Ntgwv13RiT-U-jjzrozda7WadN2v6Z4Cl6x4_dOxHLMdeh3rfKjiL2YTM");
       }
     }
   }
@@ -73,7 +74,10 @@ class AuthController extends GetxController {
           body: json.encode({"userEmail": email, "password": password}),
           encoding: Encoding.getByName("utf-8"));
       log("${json.decode(response.body)['token']}");
-      await fetchUser(json.decode(response.body)['token']);
+      if (response.statusCode == 200) {
+        token.value = json.decode(response.body)['token'];
+      }
+      await fetchUser();
     } catch (e) {
       Get.snackbar(
         "Error Message",

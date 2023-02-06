@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/auth_controller.dart';
 import 'package:ssafytime/controllers/noti_state_controller.dart';
-import 'package:ssafytime/screens/notification_screen.dart';
 import 'package:ssafytime/widgets/user_screen_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/user_screen_mileage.dart';
 import 'package:ssafytime/widgets/user_screen_user_info_widget.dart';
@@ -49,12 +48,6 @@ class _UserScreenStates extends State<UserScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("마이페이지"),
-        actions: <Widget>[
-          IconButton(
-            icon: const FaIcon(FontAwesomeIcons.bell),
-            onPressed: () => {Get.to(() => NotificationScreen())},
-          ),
-        ],
       ),
       body: Obx(
         () => SingleChildScrollView(
