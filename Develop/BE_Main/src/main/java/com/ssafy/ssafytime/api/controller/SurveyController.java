@@ -1,6 +1,6 @@
 package com.ssafy.ssafytime.api.controller;
 
-import com.ssafy.ssafytime.api.dto.UserDto;
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.request.SurveyConductPostReq;
 import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
 import com.ssafy.ssafytime.api.response.AllQuestionRes;
@@ -11,7 +11,6 @@ import com.ssafy.ssafytime.db.entity.*;
 import com.ssafy.ssafytime.db.repository.*;
 import com.ssafy.ssafytime.jdbc_connection.DbConnector;
 import io.swagger.annotations.*;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.swing.text.html.Option;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

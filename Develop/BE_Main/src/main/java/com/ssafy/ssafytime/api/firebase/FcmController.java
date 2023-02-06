@@ -1,7 +1,7 @@
 package com.ssafy.ssafytime.api.firebase;
 
 import com.google.firebase.messaging.*;
-import com.ssafy.ssafytime.api.dto.UserDto;
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.service.UserService;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
 import com.ssafy.ssafytime.db.entity.User;
