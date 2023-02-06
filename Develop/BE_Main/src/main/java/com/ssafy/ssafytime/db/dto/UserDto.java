@@ -59,6 +59,7 @@ public class UserDto {
               .userName(user.getUserName())
               .userEmail(user.getUserEmail())
               .trackCode(user.getTrackCode())
+              .isAdmin(user.getIsAdmin())
               .regionCode(user.getRegionCode())
               .exp(user.getExp())
               .mileage(user.getMileage())
