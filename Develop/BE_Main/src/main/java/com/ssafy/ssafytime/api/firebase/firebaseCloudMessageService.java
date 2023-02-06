@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
+import com.google.firebase.messaging.FirebaseMessaging;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.core.io.ClassPathResource;
@@ -51,6 +52,8 @@ public class firebaseCloudMessageService {
 
         return objectMapper.writeValueAsString(fcmMessage);
     }
+
+
 
     private String getAccessToken() throws IOException {
         String firebaseConfigPath = "/firebase/ssafytime-firebase-adminsdk-uq8xh-c0ce82262a.json";

@@ -6,13 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class TokenDTO {
-    private String targetToken;
+public class MessageDTO {
     private String title;
     private String body;
 
-    @Builder TokenDTO(String targetToken, String title, String body) {
-        this.targetToken = targetToken;
+    @Builder
+    MessageDTO(String title, String body) {
         this.title = title;
         this.body = body;
     }

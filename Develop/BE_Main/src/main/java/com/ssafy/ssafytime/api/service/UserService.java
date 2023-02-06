@@ -1,6 +1,7 @@
 package com.ssafy.ssafytime.api.service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import com.ssafy.ssafytime.api.dto.UserDto;
@@ -73,4 +74,15 @@ public class UserService {
         return userRepository.findById(Id);
     }
 
+    public Long count() {
+        return userRepository.count();
+    }
+
+    public List<User> findByIsAdminAndAlarm(int isAdmin, int alarm) {
+        return userRepository.findByIsAdminAndAlarm(isAdmin, alarm);
+    }
+
+    public void save(Optional<User> user) {
+        userRepository.save(user.get());
+    }
 }
