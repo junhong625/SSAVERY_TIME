@@ -62,8 +62,4 @@ public class AuthController {
     }
 
 
-    @GetMapping("/refresh")
-    public ResponseEntity<> refresh(HttpServletRequest request, Authentication authentication){
-
-    }
 }

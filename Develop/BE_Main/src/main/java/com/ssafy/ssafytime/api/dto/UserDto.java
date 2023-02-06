@@ -3,6 +3,7 @@ package com.ssafy.ssafytime.api.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.ssafytime.db.entity.User;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -53,6 +54,7 @@ public class UserDto {
 
 //   private String token;
 
+   private String refreshToken;
 
 
    private Set<AuthorityDto> authorityDtoSet;
@@ -75,5 +77,18 @@ public class UserDto {
               .build();
    }
 
+
+   public void updatePassWord(PasswordEncoder passwordEncoder, String password){
+      this.password =  passwordEncoder.encode(password);
+   }
+
+
+   public void updateRefreshToken(String refreshToken){
+      this.refreshToken = refreshToken;
+   }
+
+   public void destroyRefreshToken(){
+      this.refreshToken = null;
+   }
 
 }
