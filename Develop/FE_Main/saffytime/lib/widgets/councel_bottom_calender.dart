@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../controllers/councel_bottom_date.dart';
 
-import '../controllers/councel_bottom.dart';
 
 class CBCalender extends StatelessWidget {
 
@@ -26,12 +26,12 @@ class CBCalender extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              print("따라라란");
               DateTime? pickedDate = await showDatePicker(
                 context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2100),
+                // 하루 뒤 부터 예약가능
+                initialDate: DateTime.now().add(Duration(hours: 24)),
+                firstDate: DateTime.now().add(Duration(hours: 24)),
+                lastDate: DateTime.now().add(Duration(hours: 720)),
               );
               if (pickedDate != null) {
                 String formattedDate = DateFormat('yyyy-MM-dd-EE').format(pickedDate);

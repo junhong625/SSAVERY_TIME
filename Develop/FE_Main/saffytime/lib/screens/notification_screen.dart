@@ -16,7 +16,7 @@ class NotificationScreen extends GetView<NotificationTabBarController> {
         title: const Text("알림"),
         actions: <Widget>[
           IconButton(
-            onPressed: () => {Get.to(() => const UserScreen())},
+            onPressed: () => {Get.to(() => UserScreen())},
             icon: const FaIcon(
               FontAwesomeIcons.user,
               size: 20,

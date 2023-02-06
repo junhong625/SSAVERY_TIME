@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../model/menu_week.dart';
+import '../model/menu_week_v2.dart';
 
 // 주간 식단표 컨트롤러 =============================================
 class MenuPickDayController extends GetxController {
@@ -45,18 +46,18 @@ class MenuPickDayController extends GetxController {
     var res = await http.get(Uri.parse("http://i8a602.p.ssafy.io:9090/menu/week/?region=${region}"));
     var data = json.decode(res.body);
 
-    final dataList = data.values.map((x) => x).toList();
+    final dataList = data['data'].values.map((x) => x).toList();
 
     for (int i = 0; i < dataList.length; i++) {
-      var menus = <Menu>[].obs;
+      var menus = <MenuWeekV2>[].obs;
       for (int j = 0; j < dataList[i].length; j++) {
         menus.add(
-            Menu(
-              kcal: dataList[i][j]['kcal'],
-              mainMenu: dataList[i][j]['main_menu'],
-              imageUrl: dataList[i][j]['image_url'],
-              sideMenu: dataList[i][j]['side_menu'],
-              id: dataList[i][j]['id'],
+            MenuWeekV2(
+              id: dataList[i][j]["id"],
+              mainMenu: dataList[i][j]["mainMenu"],
+              sideMenu: List<String>.from(dataList[i][j]["sideMenu"].map((x) => x)),
+              kcal: dataList[i][j]["kcal"],
+              imageUrl: dataList[i][j]["imageUrl"],
             )
         );
       }
@@ -69,6 +70,7 @@ class MenuPickDayController extends GetxController {
     myPick.value = idx;
     // requstMenuWeek(0);
     menuofday = menusofweek[idx].obs;
+    print('menuofday 길이 : ${menuofday.length}');
 
   }
 }

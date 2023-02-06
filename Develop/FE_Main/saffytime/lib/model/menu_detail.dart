@@ -10,7 +10,6 @@ String menuDetailToJson(MenuDetail data) => json.encode(data.toJson());
 
 class MenuDetail {
   MenuDetail({
-    required this.date,
     required this.region,
     required this.course,
     required this.mainMenu,
@@ -23,11 +22,10 @@ class MenuDetail {
     required this.imageUrl,
   });
 
-  String date;
   int region;
   String course;
   String mainMenu;
-  String sideMenu;
+  List<String> sideMenu;
   int cho;
   int kcal;
   int fat;
@@ -36,11 +34,10 @@ class MenuDetail {
   String imageUrl;
 
   factory MenuDetail.fromJson(Map<String, dynamic> json) => MenuDetail(
-    date: json["date"],
     region: json["region"],
     course: json["course"],
     mainMenu: json["mainMenu"],
-    sideMenu: json["sideMenu"],
+    sideMenu: List<String>.from(json["sideMenu"].map((x) => x)),
     cho: json["cho"],
     kcal: json["kcal"],
     fat: json["fat"],
@@ -50,11 +47,10 @@ class MenuDetail {
   );
 
   Map<String, dynamic> toJson() => {
-    "date": date,
     "region": region,
     "course": course,
     "mainMenu": mainMenu,
-    "sideMenu": sideMenu,
+    "sideMenu": List<dynamic>.from(sideMenu.map((x) => x)),
     "cho": cho,
     "kcal": kcal,
     "fat": fat,

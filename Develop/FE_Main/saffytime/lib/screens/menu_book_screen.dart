@@ -29,7 +29,7 @@ class _MenuBookScreenStates extends State<MenuBookScreen> {
         title: const Text("식단표"),
         actions: <Widget>[
           IconButton(
-            onPressed: () => Get.to(() => const UserScreen()),
+            onPressed: () => Get.to(() => UserScreen()),
             icon: const FaIcon(
               FontAwesomeIcons.user,
               size: 20,

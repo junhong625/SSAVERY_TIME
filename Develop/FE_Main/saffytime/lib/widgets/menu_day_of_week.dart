@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:saffytime/custom_button.dart';
 import 'package:saffytime/widgets/menu_book_item.dart';
 import '../controllers/menu_week_controller.dart';
 import 'menu_detail.dart';
@@ -38,7 +39,6 @@ class MDay0fWeek extends StatelessWidget {
                     width: 76.8,
                     child: InkWell(
                       onTap: () {
-                        print('클릭');
                         controller.selectDay(idx);
                       },
                       child: Column(
@@ -71,22 +71,30 @@ class MDay0fWeek extends StatelessWidget {
           Container(
             color: Colors.teal,
             height: 610,
-            child: ListView.builder(
+            child: controller.menuofday.length != 0 ?ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: controller.menuofday.length,
               itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    openMenuDetail(controller.menuofday[index].id);
-                  },
-                  child: MIW(
-                    imgUrl: controller.menuofday[index].imageUrl,
-                    foodKcal: controller.menuofday[index].kcal,
-                      mainMenu: controller.menuofday[index].mainMenu,
-                      subMenuList: ['깍두기', '단무지'],
-                  ),
+                return SizedBox(
+                  child: InkWell(
+                    onTap: () {
+                      openMenuDetail(controller.menuofday[index].id);
+                    },
+                    child: MIW(
+                      imgUrl: controller.menuofday[index].imageUrl,
+                      foodKcal: controller.menuofday[index].kcal,
+                        mainMenu: controller.menuofday[index].mainMenu,
+                        subMenuList: controller.menuofday[index].sideMenu,
+                    ),
+                  )
                 );
               }
+            )
+            // api 에서 메뉴 정보를 못가져 올때
+            : Container(
+              // color: Colors.white,
+              width: 390, height: 300,
+              child: Text('메뉴 정보가 없습니다..!'),
             )
           )
         ],

@@ -20,18 +20,32 @@ class CMyCouncel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (int i=0; i < controller.myCouncelList.length; i++) ... [
-          CouncelListItem(
-            startTime: controller.startTime[i],
-            endTime: controller.endTime[i],
-            rezTime: controller.myCouncelList.value[i].rezTime,
-            currentTime: controller.doubleTypeCurrentTime.value,
-            title: controller.myCouncelList[i].title,
-          )
-        ]
-      ],
+    return Container(
+      color: Colors.yellowAccent,
+      margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+      width: 390, height: 666,
+      child: Column(
+        children: [
+          CustomElevatedButton(
+              onPressed: () async {
+                controller.requestMyCouncel(20168125, 0);
+                // DateTime currentTime = await NTP.now();
+                // print(DateTime.now().add(Duration(hours: 9)));
+                print('시간 : ${DateTime.now().add(Duration(hours: -13))}');
+              }
+          ),
+          for (int i=0; i < controller.myCouncelList.length; i++) ... [
+            CouncelListItem(
+              startTime: controller.startTime[i],
+              endTime: controller.endTime[i],
+              rezTime: controller.myCouncelList.value[i].rezTime,
+              currentTime: controller.doubleTypeCurrentTime.value,
+              title: controller.myCouncelList[i].title,
+            ),
+            Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
+          ]
+        ],
+      ),
     );
   }
 }

@@ -26,7 +26,7 @@ class _CounselScreenStates extends State<CounselScreen> {
         title: const Text("상담"),
         actions: <Widget>[
           IconButton(
-            onPressed: () => Get.to(() => const UserScreen()),
+            onPressed: () => Get.to(() => UserScreen()),
             icon: const FaIcon(
               FontAwesomeIcons.user,
               size: 20,
@@ -51,7 +51,6 @@ class _CounselScreenStates extends State<CounselScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Container(
         color: Colors.black12,
-
         child: CMyCouncel()
       )
     );

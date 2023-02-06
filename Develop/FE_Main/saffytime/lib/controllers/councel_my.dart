@@ -7,7 +7,8 @@ import '../model/councel_detail.dart';
 
 class MyCouncelController extends GetxController {
   var myCouncelList = <CouncelDetail>[].obs;
-  Rxn<DateTime> currentTime = Rxn<DateTime>();
+  // Rxn<DateTime> currentTime = Rxn<DateTime>();
+  Rx<DateTime> currentTime = DateTime.now().obs;
   var doubleTypeCurrentTime = 1.0.obs; // 현재 시간은 더블 타입으로 바꾼것
   List<double> startTime = [];
   List<double> endTime = [];
@@ -21,7 +22,7 @@ class MyCouncelController extends GetxController {
   }
 
   void initialRun() async {
-    currentTime.value = await NTP.now();
+    currentTime.value = DateTime.now().add(Duration(hours: 9));
     calculatorTime(currentTime.value!);
     await requestMyCouncel(20168125, 0); // 더미 데이터
   }
@@ -29,7 +30,8 @@ class MyCouncelController extends GetxController {
   // 내 상담신청 현황 요청청
   // userId : 학번, code : 학생, 관리자 구분 코드
   Future requestMyCouncel(int userId, int code) async {
-    myCouncelList.value = <CouncelDetail>[];
+    await setNowTime();
+    myCouncelList = <CouncelDetail>[].obs;
     startTime = <double>[];
     var res = await http.get(Uri.parse("http://i8a602.p.ssafy.io:9090/meet/${userId}/${code}"));
     var data = json.decode(res.body);
@@ -60,28 +62,44 @@ class MyCouncelController extends GetxController {
   }
 
   // 시간 재 설정
-  void setNowTime() async {
-    currentTime.value = await NTP.now();
+  Future setNowTime() async {
+    print('!!!!!');
+    // currentTime.value = await NTP.now();
+    currentTime = DateTime.now().add(Duration(hours: 9)).obs;
     calculatorTime(currentTime.value!);
+    return ;
   }
-
 
   // DateTime 형태 (CouncelDetail 클래스 는 변환 안됨)
   // 현재 시간, 년 월 일 시 분 을 숫자로 변환
   void calculatorTime(DateTime time) {
-    String s = '';
-    String t = '';
-    s = time.year.toString() + time.month.toString() + time.day.toString();
-    t = (time.hour.toInt() + (time.minute.toInt()/60)).toStringAsFixed(2).toString();
+    String year = time.year.toString();
+    String mon = time.month.toString();
+    String day = time.day.toString();
+    mon.length == 1 ? mon = '0'+mon : null;
+    day.length == 1 ? day = '0'+day : null;
+    String s = year+mon+day;
+
+    String hour = time.hour.toString();
+    String min = time.minute.toString();
+    hour.length == 1 ? hour = '0'+hour : null;
+    min.length == 1 ? min = '0'+min : null;
+    String t = hour + min;
+
     double v = double.parse((s+t));
     doubleTypeCurrentTime.value = v;
   }
 
   // CouncelDetail 클래스의 시간을 변환
   double calculatorTimeOfClass(DateTime rezDate, double rezTime) {
-    String s = '';
-    s = rezDate.year.toString() + rezDate.month.toString() + rezDate.day.toString();
+    String year = rezDate.year.toString();
+    String mon = rezDate.month.toString();
+    String day = rezDate.day.toString();
+    mon.length == 1 ? mon = '0'+mon : null;
+    day.length == 1 ? day = '0'+day : null;
+    String s = year+mon+day;
     double v = double.parse(s);
+
 
     // 13.0 -> 1300 으로 , 14.5 -> 1430 으로
     double a = rezTime;

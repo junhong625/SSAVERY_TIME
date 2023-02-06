@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'councel_bottom_ counselor_item.dart';
+import 'package:get/get.dart';
+import '../controllers/councel_bottom_councelor.dart';
+import 'councel_bottom_counselor_item.dart';
 
 class CBCouncelorTotal extends StatelessWidget {
 
@@ -11,13 +12,16 @@ class CBCouncelorTotal extends StatelessWidget {
     1 : [24235, '안싸피', '코치', 'asset/tmp.png'],
     2 : [23424, '김싸피', '코치', 'asset/tmp.png'],
     3 : [34523, '고싸피', '프로', 'asset/tmp.png'],
+    4 : [53221, '최싸피', '프로', 'asset/tmp.png'],
   };
 
-  // final Map<int, List<String>> councelorList;
+  List<String> adminCode = ['학생', '컨설턴트', '프로', '교수', '코치', '취업'];
 
   CBCouncelorTotal({Key? key,
     // required this.councelorList
   }) : super(key: key);
+
+  CBCouncelorController controller = Get.put(CBCouncelorController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +31,13 @@ class CBCouncelorTotal extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          for (int i=0; i < councelorList.length; i++) ... [
+          for (int i=0; i < controller.councelorList.length; i++) ... [
             CBCounselorItem(
-              name: councelorList[i]![1],
-              position: councelorList[i]![2],
-              imgUrl: councelorList[i]![3],
-              managerId: councelorList[i]![0],
+              name: controller.councelorList[i].userName,
+              position: adminCode[controller.councelorList[i].isAdmin],
+              // imgUrl: controller.councelorList[i].userImg,
+              imgUrl: 'asset/tmp.png', // 임시 방편
+              managerId: controller.councelorList[i].userIdx,
             ),
           ]
         ],

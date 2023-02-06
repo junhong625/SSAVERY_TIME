@@ -22,7 +22,7 @@ class _CalendarScreenStates extends State<CalendarScreen> {
         title: const Text("시간표"),
         actions: <Widget>[
           IconButton(
-            onPressed: () => Get.to(() => const UserScreen()),
+            onPressed: () => Get.to(() => UserScreen()),
             icon: const FaIcon(
               FontAwesomeIcons.user,
               size: 20,

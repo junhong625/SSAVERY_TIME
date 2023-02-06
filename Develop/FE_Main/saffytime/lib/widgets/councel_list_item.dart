@@ -25,23 +25,35 @@ class CouncelListItem extends StatelessWidget {
     String councelTime = CItemCouncelTime(rezTime); // 13:00 ~ 14:00
     String councelDate = CItemDate(startTime);
     double opacity = currentTime > endTime ? 0.4 : 1;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 358,
-          height: 62,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15), color: Colors.white),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Opacity(
-                opacity: opacity,
-                child: Row(
-                  children: [
-                    // 아이콘 컨네이너
-                    Container(
+    return Container(
+      child: Column(
+        children: [
+          // Text('currentTime : ${currentTime}'),
+          // Text('startTime : ${startTime}'),
+          // Text('endTime : ${endTime}'),
+          // Text('councelTime : ${councelTime}'),
+          // Text('councelDate : ${councelDate}'),
+          // Text('opacity : ${opacity}'),
+          // CItemIng(
+          //   currentTime: 202302061120,
+          //   startTime: 202302061100,
+          //   endTime: 202302061200,
+          //   rezTime: 11.0,
+          // ),
+          ////=====================================================================
+          Container(
+            color: Colors.white,
+            width: 358,
+            height: 62,
+            child: Opacity(
+              opacity: opacity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // // 아이콘 컨네이너
+                  Row(
+                    children: [
+                      Container(
                         width: 50,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -50,15 +62,21 @@ class CouncelListItem extends StatelessWidget {
                         ),
                         // option 아이콘 모양, 색상
                         child: Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.userGroup,
-                              size: 20,
-                              color: Color(0xff686ADB),
-                            ))),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Column(
+                          child: FaIcon(
+                            FontAwesomeIcons.userGroup,
+                            size: 20,
+                            color: Color(0xff686ADB),
+                          )
+                        )
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    width: (currentTime > endTime) ? 230 : 290,
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -68,12 +86,11 @@ class CouncelListItem extends StatelessWidget {
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w900),
                         ),
-                        // option 기간이나 진행바
 
                         // 시작 전 이라면
                         if (currentTime < startTime) ... [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            // mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               // option 6
                               Text(
@@ -91,55 +108,63 @@ class CouncelListItem extends StatelessWidget {
                         ],
 
                         // 진행 중이라면
-                        if (startTime <= currentTime || currentTime <= endTime) ... [
-                          CItemIng(
-                            currentTime: currentTime,
-                            endTime: endTime,
-                            rezTime: rezTime,
-                            startTime: startTime,
+                        if (startTime <= currentTime && currentTime <= endTime) ... [
+                          Container(
+
+                            child: CItemIng(
+                              currentTime: currentTime,
+                              endTime: endTime,
+                              rezTime: rezTime,
+                              startTime: startTime,
+                            ),
                           )
                         ],
 
                         // 끝났다면 형태는 시작 전하고 같음
                         if (currentTime > endTime) ... [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                councelDate+' '+councelTime,
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xffABABAE),
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                            ],
+                          // Text('끝난 경우'),
+                          Container(
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  councelDate+' '+councelTime,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xffABABAE),
+                                      fontWeight: FontWeight.w900),
+                                ),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                              ],
+                            ),
                           ),
-
                         ],
                       ],
                     ),
-                  ],
-                ),
-              ),
-              Opacity(
-                opacity: opacity,
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Text(
-                    // optional 완료, 예정, (none)
-                    currentTime > endTime ? '종료' : "",
-                    style: const TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w900),
                   ),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
+                  if (currentTime > endTime) ... [
+                    Opacity(
+                      opacity: opacity,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Text(
+                          // optional 완료, 예정, (none)
+                          // currentTime > endTime ? '종료' : "",
+                          '종료',
+                          style: const TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.w900),
+                        ),
+                      ),
+                    )
+                  ],
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -165,32 +190,36 @@ class CItemIng extends StatelessWidget {
   Widget build(BuildContext context) {
     double persent = CItemPersent(currentTime, rezTime);
     String councelTime = CItemCouncelTime(rezTime); // 13:00 ~ 14:00
-    return Column(
-      children: [
-        LinearPercentIndicator(
-          width: 350,
-          lineHeight: 8,
-          barRadius: const Radius.circular(4),
-          percent: persent, // optinal 6_1
-          progressColor: const Color(0xffFC6161),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            // option 6
-            Text(
-              councelTime,
-              style: const TextStyle(
-                  fontSize: 11,
-                  color: Color(0xffABABAE),
-                  fontWeight: FontWeight.w900),
-            ),
-            const SizedBox(
-              width: 16,
-            ),
-          ],
-        ),
-      ],
+    return Container(
+      width: 280,
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          LinearPercentIndicator(
+            padding: EdgeInsets.zero,
+            lineHeight: 8,
+            barRadius: const Radius.circular(4),
+            percent: persent, // optinal 6_1
+            progressColor: const Color(0xffFC6161),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // option 6
+              Text(
+                councelTime,
+                style: const TextStyle(
+                    fontSize: 11,
+                    color: Color(0xffABABAE),
+                    fontWeight: FontWeight.w900),
+              ),
+              // const SizedBox(
+              //   width: 16,
+              // ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

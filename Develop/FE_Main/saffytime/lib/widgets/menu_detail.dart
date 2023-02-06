@@ -11,17 +11,16 @@ void openMenuDetail(int id) async {
   var data = json.decode(res.body);
 
   MenuDetail myMenu = MenuDetail(
-    date: data["date"],
-    region: data["region"],
-    course: data["course"],
-    mainMenu: data["mainMenu"],
-    sideMenu: data["sideMenu"],
-    cho: data["cho"],
-    kcal: data["kcal"],
-    fat: data["fat"],
-    protein: data["protein"],
-    sodium: data["sodium"],
-    imageUrl: data["imageUrl"],
+    region: data['data']["region"],
+    course: data['data']["course"],
+    mainMenu: data['data']["mainMenu"],
+    sideMenu: List<String>.from(data['data']["sideMenu"].map((x) => x)),
+    cho: data['data']["cho"],
+    kcal: data['data']["kcal"],
+    fat: data['data']["fat"],
+    protein: data['data']["protein"],
+    sodium: data['data']["sodium"],
+    imageUrl: data['data']["imageUrl"],
   );
 
   Get.bottomSheet(
@@ -35,7 +34,11 @@ void openMenuDetail(int id) async {
       child: Column(
         children: [
           Text(myMenu.mainMenu),
-          Text(myMenu.sideMenu),
+          Text('탄수화물 : ${myMenu.cho}g'),
+          Text('지방 : ${myMenu.fat}g'),
+          Text('단백질 : ${myMenu.protein}g'),
+          Text('나트륨 : ${myMenu.sodium}mg'),
+          Text('등등..')
           // 디자인 협의 해야될듯
         ],
       ),

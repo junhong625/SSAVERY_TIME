@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/councel_bottom.dart';
+
+import '../controllers/councel_bottom_councelor.dart';
+
 
 class CBCounselorItem extends StatelessWidget {
 
