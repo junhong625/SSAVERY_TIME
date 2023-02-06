@@ -22,13 +22,15 @@ public class QScheduleEntity extends EntityPathBase<ScheduleEntity> {
 
     public static final QScheduleEntity scheduleEntity = new QScheduleEntity("scheduleEntity");
 
-    public final com.ssafy.ssafytime.db.entity.cagetory.QCategoryEntity categoryEntity;
-
     public final NumberPath<Integer> date = createNumber("date", Integer.class);
 
     public final NumberPath<Integer> endTime = createNumber("endTime", Integer.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final NumberPath<Integer> onOff = createNumber("onOff", Integer.class);
+
+    public final QScheduleCategoryEntity scheduleCategoryEntity;
 
     public final NumberPath<Integer> startTime = createNumber("startTime", Integer.class);
 
@@ -56,7 +58,7 @@ public class QScheduleEntity extends EntityPathBase<ScheduleEntity> {
 
     public QScheduleEntity(Class<? extends ScheduleEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.categoryEntity = inits.isInitialized("categoryEntity") ? new com.ssafy.ssafytime.db.entity.cagetory.QCategoryEntity(forProperty("categoryEntity")) : null;
+        this.scheduleCategoryEntity = inits.isInitialized("scheduleCategoryEntity") ? new QScheduleCategoryEntity(forProperty("scheduleCategoryEntity")) : null;
     }
 
 }

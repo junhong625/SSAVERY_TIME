@@ -76,8 +76,8 @@ public class UserService {
         return userRepository.count();
     }
 
-    public List<User> findByIsAdminAndAlarm(int isAdmin, int alarm) {
-        return userRepository.findByIsAdminAndAlarm(isAdmin, alarm);
+    public List<User> findByIsAdmin(int isAdmin) {
+        return userRepository.findByIsAdmin(isAdmin);
     }
 
     public void save(Optional<User> user) {

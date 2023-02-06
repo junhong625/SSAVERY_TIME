@@ -54,7 +54,7 @@ public class FcmController {
 
         List<String> registrationTokens = new ArrayList<>();  // 알림 전송할 토큰들 담은 리스트
         List<User> users = new ArrayList<>();  // 관리자가 아니면서 알림설정해놓은(alarm=0) 유저들 가져오는 리스트
-        users = userService.findByIsAdminAndAlarm(0, 0);
+        users = userService.findByIsAdmin(0);
         for(int i = 0; i < users.size(); i++) {  // 유저리스트에서
             registrationTokens.add(users.get(i).getToken());  // 토큰들 추출
         }
