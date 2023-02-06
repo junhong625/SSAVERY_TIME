@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:saffytime/controllers/councel_bottom_date.dart';
 import 'dart:convert';
 import '../model/councel_bottom_councelor.dart';
+import 'councel_bottom_time.dart';
 
 
 // 상담자 선택 컨트롤러
@@ -17,6 +18,7 @@ class CBCouncelorController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    print('카카');
     initialRun();
   }
 
@@ -41,15 +43,15 @@ class CBCouncelorController extends GetxController {
         );
       }
     );
-
+    print('후');
     return ;
   }
 
   void select(int idx) {
-    // 아하의 컨드롤러 다 죽일 수 있나? -> 있다!
-    // 관리자가 다시 선택되면 날짜 컨트롤러 죽임
-    Get.delete<CBDatePickController>();
-
+    // 관리자가 다시 선택되면 날짜 컨트롤러 값 초기화 시킴
+    Get.find<CBDatePickController>().myPick.value = '';
+    Get.find<CBDatePickController>().myDate.value = '';
+    Get.find<CBTimeController>().myPick.value = ''; // 시간 선택 컨트롤러도 초기화
     if (myPick.value == idx) {
       myPick.value = 0;
     } else {

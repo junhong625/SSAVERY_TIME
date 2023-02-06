@@ -19,7 +19,8 @@ class CBCounselorItem extends StatelessWidget {
     required this.managerId
   }) : super(key: key);
 
-  CBCouncelorController controller = Get.put(CBCouncelorController());
+  // CBCouncelorController controller = Get.put(CBCouncelorController());
+  CBCouncelorController controller = Get.find<CBCouncelorController>();
 
   @override
   Widget build(BuildContext context) {

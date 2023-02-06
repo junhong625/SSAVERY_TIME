@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/councel_bottom.dart';
+import '../controllers/councel_bottom_text.dart';
 
-class CBInputTitle extends StatelessWidget {
+
+class CBInputTitle extends StatefulWidget {
   CBInputTitle({Key? key}) : super(key: key);
 
+  @override
+  State<CBInputTitle> createState() => _CBInputTitleState();
+}
+
+class _CBInputTitleState extends State<CBInputTitle> {
   TextEditingController textController = TextEditingController();
-  CBTitleController controller = Get.put(CBTitleController());
+
+  // CBTitleController controller = Get.put(CBTitleController());
+  CBTitleController controller = Get.find<CBTitleController>();
 
   @override
   Widget build(BuildContext context) {

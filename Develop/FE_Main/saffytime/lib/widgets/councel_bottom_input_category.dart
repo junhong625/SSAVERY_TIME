@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/councel_bottom.dart';
+
+import '../controllers/councel_bottom_text.dart';
 import '../model/councel_bottom.dart';
 
-class CBCategoryTotal extends StatelessWidget {
+class CBCategoryTotal extends StatefulWidget {
   CBCategoryTotal({Key? key}) : super(key: key);
 
+  @override
+  State<CBCategoryTotal> createState() => _CBCategoryTotalState();
+}
+
+class _CBCategoryTotalState extends State<CBCategoryTotal> {
   TextEditingController textController = TextEditingController();
+
   CBCategoryController controller = Get.put(CBCategoryController());
 
   @override

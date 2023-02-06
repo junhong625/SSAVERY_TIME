@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:saffytime/screens/notification_screen.dart';
 
-import '../controllers/my_councel.dart';
+import '../widgets/councel_my_councel.dart';
 import '../controllers/pick_day_controller.dart';
 import '../custom_button.dart';
 import '../model/schedule_week.dart';

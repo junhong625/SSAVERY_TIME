@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../controllers/councel_bottom.dart';
 import 'package:get/get.dart';
+import '../controllers/councel_bottom_time.dart';
 
 class CBTimeItem extends StatelessWidget {
 
@@ -11,7 +11,8 @@ class CBTimeItem extends StatelessWidget {
   required this.time,
   }) : super(key: key);
 
-  CBTimeController controller = Get.put(CBTimeController());
+  // CBTimeController controller = Get.put(CBTimeController());
+  CBTimeController controller = Get.find<CBTimeController>();
 
   @override
   Widget build(BuildContext context) {
