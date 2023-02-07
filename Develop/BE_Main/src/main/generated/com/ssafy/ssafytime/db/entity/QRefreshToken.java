@@ -25,7 +25,7 @@ public class QRefreshToken extends EntityPathBase<RefreshToken> {
 
     public final StringPath token = createString("token");
 
-    public final NumberPath<Long> userIdx = createNumber("userIdx", Long.class);
+    public final StringPath userEmail = createString("userEmail");
 
     public QRefreshToken(String variable) {
         super(RefreshToken.class, forVariable(variable));

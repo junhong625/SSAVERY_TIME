@@ -92,7 +92,13 @@ public class UserService {
 
         Authentication authentication = tokenProvider.getAuthentication(tokenDto.getToken());
 
-        authentication.getName();
+        String userEmail = authentication.getName();
+
+        refreshTokenRepository.findRefreshTokenByUserEmail(userEmail);
+
+
+
+
 
     }
 
