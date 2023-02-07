@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -14,27 +14,33 @@ import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-//   FirebaseMessaging fcm = FirebaseMessaging.instance;
 
   late Rx<AuthInfo?> authInfo;
   Rx<User?> user = Rx<User?>(null);
   Rx<String?> token = Rx<String?>(null);
+  RxBool autoLoginFlag = false.obs;
 
   final storage = const FlutterSecureStorage();
 
   late final SharedPreferences pref;
 
   @override
-  void onReady() async {
-    super.onReady();
+  void onInit() async {
     pref = await SharedPreferences.getInstance();
-    bool isAutoLogin = pref.getBool("autoLoginCheck") ?? false;
-    await autoLoginCheck(isAutoLogin);
+    autoLoginFlag.value = pref.getBool("autoLoginFlag") ?? false;
+    log("${autoLoginFlag.value}");
     ever(user, _moveToPage);
+    super.onInit();
   }
 
-  Future<void> autoLoginCheck(bool isAutoLogin) async {
-    if (isAutoLogin) {
+  @override
+  void onReady() async {
+    await autoLoginCheck();
+    super.onReady();
+  }
+
+  Future<void> autoLoginCheck() async {
+    if (autoLoginFlag.value) {
       token.value = await storage.read(key: "Token");
       await fetchUser();
     }
@@ -48,14 +54,25 @@ class AuthController extends GetxController {
             "Content-Type": "application/json",
             "Authorization": "Bearer ${token.value}"
           });
-      log("${json.decode(response.body)}");
       if (response.statusCode == 200) {
         user.value = User.fromRawJson(response.body);
-        // var fcmToken = fcm.getToken(
-        //     vapidKey:
-        //         "BKEyfl55H2kgfEnSwt3yqPp9CwLtf9Ntgwv13RiT-U-jjzrozda7WadN2v6Z4Cl6x4_dOxHLMdeh3rfKjiL2YTM");
+        var fcmToken = await FirebaseMessaging.instance.getToken(
+            vapidKey:
+                "BKEyfl55H2kgfEnSwt3yqPp9CwLtf9Ntgwv13RiT-U-jjzrozda7WadN2v6Z4Cl6x4_dOxHLMdeh3rfKjiL2YTM");
+        updateFCMToken(fcmToken);
       }
     }
+  }
+
+  void updateFCMToken(fcmToken) async {
+    var response = await http.post(
+        Uri.parse("http://i8a602.p.ssafy.io:9090/user/alarm"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${token}"
+        },
+        body: json.encode({"fcmtoken": fcmToken}));
+    log("fcm Regist : ${response.statusCode}");
   }
 
   _moveToPage(User? user) {
@@ -76,6 +93,10 @@ class AuthController extends GetxController {
       log("${json.decode(response.body)['token']}");
       if (response.statusCode == 200) {
         token.value = json.decode(response.body)['token'];
+        if (autoLoginFlag.value) {
+          await pref.setBool("autoLoginFlag", autoLoginFlag.value);
+          await storage.write(key: "Token", value: token.value);
+        }
       }
       await fetchUser();
     } catch (e) {
@@ -90,7 +111,17 @@ class AuthController extends GetxController {
     }
   }
 
-  void logout() {
+  void logout() async {
+    await storage.deleteAll();
+    await pref.remove("autoLoginFlag");
     user.value = null;
+  }
+
+  Widget defaultScreen() {
+    if (token.value == null) {
+      return LoginScreen();
+    } else {
+      return RootScreen();
+    }
   }
 }

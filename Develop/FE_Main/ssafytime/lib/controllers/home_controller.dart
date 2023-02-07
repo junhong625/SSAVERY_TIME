@@ -12,7 +12,7 @@ class HomeController extends GetxController {
   final int? region;
   final String? token;
   final int? trackCode;
-  var headers = null;
+  var headers;
 
   HomeController(this.userIdx, this.region, this.token, this.trackCode) {
     headers = {

@@ -1,10 +1,19 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/auth_controller.dart';
-import 'package:ssafytime/screens/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:ssafytime/controllers/notification_controller.dart';
+import 'package:ssafytime/firebase_options.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   Get.put(AuthController());
   runApp(const MyApp());
 }
@@ -14,7 +23,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     return GetMaterialApp(
+        initialBinding: BindingsBuilder.put(() => NotificationController(),
+            permanent: true),
         title: 'Flutter Demo',
         theme: ThemeData(
           useMaterial3: true,
@@ -29,6 +41,11 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: LoginScreen());
+        home: Get.find<AuthController>().defaultScreen());
   }
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.messageId}");
 }

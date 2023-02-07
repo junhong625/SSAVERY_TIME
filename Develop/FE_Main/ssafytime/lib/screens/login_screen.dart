@@ -16,8 +16,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController userEmail = TextEditingController();
   TextEditingController userPassWord = TextEditingController();
-  bool? _autoLogin = false; // 자동로그인 값
-  final bool _btnFlag = false;
   AuthController authController = Get.find<AuthController>();
 
   @override
@@ -90,14 +88,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         children: [
                           const Padding(padding: EdgeInsets.only(left: 30)),
-                          Checkbox(
-                              value: _autoLogin,
-                              onChanged: (value) {
-                                setState(() {
-                                  _autoLogin = value;
-                                  print(_autoLogin);
-                                });
-                              }),
+                          Obx(
+                            () => Checkbox(
+                                value: authController.autoLoginFlag.value,
+                                onChanged: (value) {
+                                  authController.autoLoginFlag.value =
+                                      value ?? false;
+                                }),
+                          ),
                           const Text(
                             '자동로그인',
                             style: TextStyle(fontWeight: FontWeight.bold),
