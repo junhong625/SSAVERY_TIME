@@ -40,7 +40,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
    private org.springframework.security.core.userdetails.User createUser(String userName, User user) {
-
       List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
               .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
               .collect(Collectors.toList());

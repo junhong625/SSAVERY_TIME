@@ -33,7 +33,7 @@ public class JwtFilter extends GenericFilterBean {
       String requestURI = httpServletRequest.getRequestURI();
 
       //Token이 정상적이면 authentication객체를 받아와서 SecurityContext에 저장
-      if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+      if (StringUtils.hasText(jwt) && tokenProvider.validateAccessToken(jwt)) {
          Authentication authentication = tokenProvider.getAuthentication(jwt);
          SecurityContextHolder.getContext().setAuthentication(authentication);
          logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);

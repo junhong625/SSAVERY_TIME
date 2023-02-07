@@ -107,6 +107,10 @@ public class TokenProvider implements InitializingBean {
       return validateToken(token, false);
    }
 
+   public boolean validateRefreshToken(final String token){
+      return validateToken(token, true);
+   }
+
    public boolean validateToken(String token, final boolean isRefreshToken) {
       try {
          Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);

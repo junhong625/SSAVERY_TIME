@@ -62,9 +62,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDto getUserWithAuthorities(String username) {
+    public UserDto getUserWithAuthorities(String userEmail) {
 
-        return UserDto.from(userRepository.findOneWithAuthoritiesByUserEmail(username).orElse(null));
+        return UserDto.from(userRepository.findOneWithAuthoritiesByUserEmail(userEmail).orElse(null));
     }
 
     @Transactional(readOnly = true)
@@ -75,22 +75,6 @@ public class UserService {
                         .orElseThrow(() -> new NotFoundUserException("User not found"))
         );
     }
-
-
-//    @Transactional(readOnly = true)
-//    public Collection<AttendanceInterface> getAttendance(Long userIdx){
-//        List<AttendanceInterface> list = this.attendanceRepository.findAttendance(userIdx);
-//        list.forEach(
-//                list.add(
-//                        new AttendanceInterface(
-//                                AttendanceInterface.getUserIdx(),
-//                                AttendanceInterface.getAttendanceCategory(),
-//                                AttendanceInterface.getSum()
-//                        )
-//                )
-//        );
-//        return list;
-//    }
 
 
 }

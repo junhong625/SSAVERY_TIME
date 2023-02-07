@@ -2,6 +2,9 @@ package com.ssafy.ssafytime.api.controller;
 
 import com.ssafy.ssafytime.api.dto.LoginDto;
 import com.ssafy.ssafytime.api.dto.TokenDto;
+import com.ssafy.ssafytime.api.service.AuthService;
+import com.ssafy.ssafytime.api.service.TokenService;
+import com.ssafy.ssafytime.api.service.UserService;
 import com.ssafy.ssafytime.jwt.JwtFilter;
 import com.ssafy.ssafytime.jwt.TokenProvider;
 import org.springframework.http.HttpHeaders;
@@ -22,9 +25,16 @@ public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AuthController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    private final UserService userService;
+    private final TokenService tokenService;
+    private final AuthService authService;
+
+    public AuthController(TokenProvider tokenProvider, TokenService tokenService, UserService userService, AuthenticationManagerBuilder authenticationManagerBuilder, final AuthService authService) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.authService = authService;
+        this.tokenService = tokenService;
+        this.userService = userService;
     }
 
 
@@ -45,21 +55,29 @@ public class AuthController {
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        System.out.println("=--=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-        System.out.println(authentication);
+        TokenDto tokenDto = tokenService.createTokenDto(authentication);
 
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.createToken(authentication);
-        String refresh = tokenProvider.createRefreshToken();
+        tokenService.saveRefreshToken(authentication.getName(), tokenDto.getRefreshToken());
+
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        httpHeaders.add("refresh", "Bearer " + jwt);
-
-
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + tokenDto.getToken());
+        return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
     }
+
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<TokenDto> refreshToken(@Valid @RequestBody final TokenDto tokenDto){
+        final TokenDto tokenDto1 = authService.refreshToken(tokenDto);
+
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        System.out.println("=--=-=-=-=-=-=-==-=-여기에요 여기-==--=-=-=-=-=");
+        httpHeaders.setBearerAuth(tokenDto1.getToken());
+
+        return new ResponseEntity<>(tokenDto1, httpHeaders, HttpStatus.OK);
+    }
+
 
 
 }

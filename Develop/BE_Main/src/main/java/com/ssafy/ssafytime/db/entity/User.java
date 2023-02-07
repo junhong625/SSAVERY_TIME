@@ -70,6 +70,8 @@ public class User {
     @Column
     private String refreshToken;
 
+    @Column
+    private Long timeout;
 
     @ManyToMany
     @JoinTable(
@@ -78,6 +80,10 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
 
+
+    public boolean hasSameValue(final String refreshToken){
+        return this.refreshToken.equals(refreshToken);
+    }
 
 
 

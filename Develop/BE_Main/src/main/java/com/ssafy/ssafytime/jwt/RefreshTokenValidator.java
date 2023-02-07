@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.jwt;
 
+import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.UserRepository;
 import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Component;
@@ -21,12 +22,13 @@ public class RefreshTokenValidator {
 
 
     public boolean validate(final String userIdx, String refreshToken){
-        return tokenProvider.validateToken(refreshToken);
+        final User user = getSavedRefreshToken(userIdx);
+        return tokenProvider.validateRefreshToken(refreshToken)&& user.hasSameValue(refreshToken);
     }
 
     private User getSavedRefreshToken(final String userIdx){
-        return userRepository.findById(userIdx)
-                .orElseThrow(() -> new NotFoundException("리프레수 토큰을 찾을 수 없습니다."))
+        return userRepository.findByUserEmail(userIdx)
+                .orElseThrow(() -> new NotFoundException("리프레수 토큰을 찾을 수 없습니다."));
     }
 
 }
