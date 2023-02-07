@@ -15,8 +15,10 @@ public class ScheduleController {
     @Autowired
     ScheduleServiceImpl scheduleService;
 
+    // required = false로 설정할 경우 해당 parameter가 들어오지 않는다고 해서 오류 발생 X
+    // defaultValue = parameter가 들어오지 않을 경우 defaultValue로 대체
     @GetMapping("schedule/now")
-    public ResponseEntity<Object> currentSchedule(@RequestParam("track_code") int trackCode, @RequestParam("interval") int interval) {
+    public ResponseEntity<Object> currentSchedule(@RequestParam("track_code") int trackCode, @RequestParam(value="interval", required = false, defaultValue="0") int interval) {
         try {
             return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, scheduleService.getCurrentSchedule(trackCode, interval));
         } catch (Exception e) {
