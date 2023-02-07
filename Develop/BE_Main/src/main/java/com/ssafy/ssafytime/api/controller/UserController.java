@@ -2,7 +2,7 @@ package com.ssafy.ssafytime.api.controller;
 
 //import com.ssafy.ssafytime.api.dto.AttendanceDto;
 //import com.ssafy.ssafytime.api.dto.AttendanceDto;
-import com.ssafy.ssafytime.api.dto.FCMTokenDTO;
+import com.ssafy.ssafytime.db.dto.FCMTokenDTO;
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
 import com.ssafy.ssafytime.api.service.UserService;
@@ -54,6 +54,7 @@ public class UserController {
         Optional<User> user = userService.findById(userDto.getId());  // DTO 통해 User 엔티티 불러옴
         if (user.isPresent()) {  // 유저가 존재한다면
             if (userDto.getToken() == "1" || userDto.getToken() != fcmTokenDTO.getFCMToken()) {  // 해당 사용자가 FCM 토큰이 없다면
+                System.out.println(fcmTokenDTO.getFCMToken());
                 user.get().setToken(fcmTokenDTO.getFCMToken());  // 토큰 설정해서
                 userService.save(user);  // 저장
             }

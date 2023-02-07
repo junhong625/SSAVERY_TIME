@@ -1,4 +1,4 @@
-package com.ssafy.ssafytime.api.dto;
+package com.ssafy.ssafytime.db.dto;
 
 import lombok.*;
 
