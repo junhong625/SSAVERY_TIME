@@ -16,5 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     List<User> findByClassNumAndRegionCode(Integer classNum, Integer regionCode);
 
-    List<User> findByIsAdmin(int isAdmin);
+    List<User> findByIsAdminAndAlarm(int isAdmin, int Alaram);
 }
