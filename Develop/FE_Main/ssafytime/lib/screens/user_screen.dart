@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/auth_controller.dart';
 import 'package:ssafytime/controllers/noti_state_controller.dart';
+import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/user_screen_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/user_screen_mileage.dart';
 import 'package:ssafytime/widgets/user_screen_user_info_widget.dart';
@@ -19,7 +20,7 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenStates extends State<UserScreen> {
-  AuthController authController = Get.find<AuthController>();
+  UserController userController = Get.find<UserController>();
   NotiStateController stateController =
       Get.put(NotiStateController(Get.arguments ?? 0));
   TextEditingController _titleController = TextEditingController();
@@ -182,7 +183,7 @@ class _UserScreenStates extends State<UserScreen> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    authController.logout();
+                    AuthService.to.logout();
                   },
                   child: Text("로그아웃")),
             ],

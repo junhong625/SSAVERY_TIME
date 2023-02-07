@@ -10,6 +10,7 @@ import 'package:ssafytime/controllers/auth_controller.dart';
 import 'package:ssafytime/controllers/home_controller.dart';
 import 'package:ssafytime/screens/notification_screen.dart';
 import 'package:ssafytime/screens/user_screen.dart';
+import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/home_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/home_employment_info_total_widget.dart';
 import 'package:ssafytime/widgets/home_schedule_item.dart';
@@ -22,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenStates extends State<HomeScreen> {
-  AuthController authController = Get.find<AuthController>();
+  UserController userController = Get.find<UserController>();
 
   List<CNI> bannerItems = <CNI>[
     CNI(
@@ -61,10 +62,10 @@ class _HomeScreenStates extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     HomeController homeController = Get.put(HomeController(
-        authController.user.value?.userIdx,
-        authController.user.value?.regionCode,
-        authController.token.value,
-        authController.user.value?.trackCode));
+        userController.user.value?.userIdx,
+        userController.user.value?.regionCode,
+        AuthService.to.token,
+        userController.user.value?.trackCode));
 
     log(homeController.homeMenu.toString());
     return Scaffold(

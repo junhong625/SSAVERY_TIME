@@ -4,7 +4,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
-class NotificationController extends GetxController {
+class FCMService extends GetxService {
+  static FCMService get to => Get.find();
+
   FirebaseMessaging fcm = FirebaseMessaging.instance;
 
   final AndroidNotificationChannel channel = const AndroidNotificationChannel(
@@ -33,7 +35,7 @@ class NotificationController extends GetxController {
     super.onInit();
   }
 
-// local_notification 활용한 notification 알림
+  // local_notification 활용한 notification 알림
   void _onMessage() async {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
