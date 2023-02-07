@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/screens/notification_screen.dart';
-import 'package:saffytime/screens/user_screen.dart';
+import 'package:ssafytime/screens/notification_screen.dart';
+import 'package:ssafytime/screens/user_screen.dart';
 
 import '../widgets/schedule_day_of_week.dart';
 

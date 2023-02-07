@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/controllers/councel_bottom_date.dart';
-import 'package:saffytime/controllers/councel_bottom_time.dart';
+import 'package:ssafytime/controllers/councel_bottom_date.dart';
+import 'package:ssafytime/controllers/councel_bottom_time.dart';
 
 import '../controllers/councel_bottom_councelor.dart';
 import '../controllers/councel_bottom_text.dart';

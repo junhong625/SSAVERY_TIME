@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/controllers/notification_tabbar_controller.dart';
-import 'package:saffytime/screens/user_screen.dart';
+import 'package:ssafytime/controllers/notification_tabbar_controller.dart';
+import 'package:ssafytime/screens/user_screen.dart';
 
 class NotificationScreen extends GetView<NotificationTabBarController> {
   const NotificationScreen({Key? key}) : super(key: key);

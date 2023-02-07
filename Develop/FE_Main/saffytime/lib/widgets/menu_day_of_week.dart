@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/custom_button.dart';
-import 'package:saffytime/widgets/menu_book_item.dart';
+import 'package:ssafytime/custom_button.dart';
+import 'package:ssafytime/widgets/menu_book_item.dart';
 import '../controllers/menu_week_controller.dart';
 import 'menu_detail.dart';
 

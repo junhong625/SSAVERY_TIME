@@ -1,6 +1,6 @@
 import 'package:diffutil_sliverlist/diffutil_sliverlist.dart';
 import 'package:flutter/material.dart';
-import 'package:saffytime/flutter_survey-0.1.4/extensions/deep_copy.dart';
+import 'package:ssafytime/flutter_survey-0.1.4/extensions/deep_copy.dart';
 
 import '../models/question.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/controllers/bottom_navbar_controller.dart';
+import 'package:ssafytime/controllers/bottom_navbar_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomBottomNavBar extends GetView<BottomNavigationBarController> {

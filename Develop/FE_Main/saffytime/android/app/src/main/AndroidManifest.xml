@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.saffy.saffytime">
+    package="com.ssafy.ssafytime">
    <application
-        android:label="saffytime"
+        android:label="ssafytime"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

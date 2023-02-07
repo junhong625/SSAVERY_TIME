@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:saffytime/widgets/schedule_total.dart';
+import 'package:ssafytime/widgets/schedule_total.dart';
 import '../controllers/schedule_week_controller.dart';
 
 

@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/controllers/survey_controller.dart';
-import 'package:saffytime/flutter_survey-0.1.4/flutter_survey.dart';
+import 'package:ssafytime/controllers/survey_controller.dart';
+import 'package:ssafytime/flutter_survey-0.1.4/flutter_survey.dart';
 
 class SurveyScreen extends GetView<SurveyController> {
   const SurveyScreen({Key? key}) : super(key: key);

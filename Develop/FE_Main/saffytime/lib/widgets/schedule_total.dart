@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:saffytime/widgets/schedule_single_item.dart';
+import 'package:ssafytime/widgets/schedule_single_item.dart';
 
 import '../model/schedule_week.dart';
 

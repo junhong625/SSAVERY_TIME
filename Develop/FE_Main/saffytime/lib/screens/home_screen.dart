@@ -4,12 +4,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/screens/notification_screen.dart';
-import 'package:saffytime/screens/user_screen.dart';
-import 'package:saffytime/widgets/home_attendance_state_widget.dart';
-import 'package:saffytime/widgets/home_employment_info_total_widget.dart';
-import 'package:saffytime/widgets/home_schedule_item.dart';
-import 'package:saffytime/widgets/notification_infomation.dart';
+import 'package:ssafytime/screens/notification_screen.dart';
+import 'package:ssafytime/screens/user_screen.dart';
+import 'package:ssafytime/widgets/home_attendance_state_widget.dart';
+import 'package:ssafytime/widgets/home_employment_info_total_widget.dart';
+import 'package:ssafytime/widgets/home_schedule_item.dart';
+import 'package:ssafytime/widgets/notification_infomation.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

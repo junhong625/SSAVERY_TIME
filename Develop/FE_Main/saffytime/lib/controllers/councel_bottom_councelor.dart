@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:saffytime/controllers/councel_bottom_date.dart';
+import 'package:ssafytime/controllers/councel_bottom_date.dart';
 import 'dart:convert';
 import '../model/councel_bottom_councelor.dart';
 import 'councel_bottom_time.dart';

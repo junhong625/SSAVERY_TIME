@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/controllers/bottom_navbar_controller.dart';
-import 'package:saffytime/screens/calendar_screen.dart';
-import 'package:saffytime/screens/counsel_screen.dart';
-import 'package:saffytime/screens/home_screen.dart';
-import 'package:saffytime/screens/menu_book_screen.dart';
-import 'package:saffytime/screens/survey_screen.dart';
-import 'package:saffytime/widgets/bottom_navbar.dart';
+import 'package:ssafytime/controllers/bottom_navbar_controller.dart';
+import 'package:ssafytime/screens/calendar_screen.dart';
+import 'package:ssafytime/screens/counsel_screen.dart';
+import 'package:ssafytime/screens/home_screen.dart';
+import 'package:ssafytime/screens/menu_book_screen.dart';
+import 'package:ssafytime/screens/survey_screen.dart';
+import 'package:ssafytime/widgets/bottom_navbar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

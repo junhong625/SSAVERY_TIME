@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
-import 'package:saffytime/widgets/login_input.dart';
+import 'package:ssafytime/widgets/login_input.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

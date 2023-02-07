@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/screens/notification_screen.dart';
-import 'package:saffytime/screens/user_screen.dart';
+import 'package:ssafytime/screens/notification_screen.dart';
+import 'package:ssafytime/screens/user_screen.dart';
 
 import '../model/menu_week.dart';
 import '../widgets/day_of_week_pick_up.dart';

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:saffytime/screens/notification_screen.dart';
+import 'package:ssafytime/screens/notification_screen.dart';
 
 import '../widgets/councel_my_councel.dart';
 import '../controllers/pick_day_controller.dart';

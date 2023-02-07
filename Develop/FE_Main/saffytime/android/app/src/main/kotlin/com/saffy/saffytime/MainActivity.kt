@@ -1,4 +1,4 @@
-package com.saffy.saffytime
+package com.ssafy.ssafytime
 
 import io.flutter.embedding.android.FlutterActivity
 

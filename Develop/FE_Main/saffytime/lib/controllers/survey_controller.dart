@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:saffytime/models/survey_option_model.dart';
-import 'package:saffytime/models/survey_result_model.dart';
+import 'package:ssafytime/models/survey_option_model.dart';
+import 'package:ssafytime/models/survey_result_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
