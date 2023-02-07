@@ -28,21 +28,21 @@ class AuthController extends GetxController {
   void onInit() async {
     pref = await SharedPreferences.getInstance();
     autoLoginFlag.value = pref.getBool("autoLoginFlag") ?? false;
-    log("${autoLoginFlag.value}");
-    ever(user, _moveToPage);
+    await autoLoginCheck();
+    await fetchUser();
+    log("${user.value}");
+    // ever(user, _moveToPage);
     super.onInit();
   }
 
   @override
   void onReady() async {
-    await autoLoginCheck();
     super.onReady();
   }
 
   Future<void> autoLoginCheck() async {
     if (autoLoginFlag.value) {
       token.value = await storage.read(key: "Token");
-      await fetchUser();
     }
   }
 
@@ -60,7 +60,10 @@ class AuthController extends GetxController {
             vapidKey:
                 "BKEyfl55H2kgfEnSwt3yqPp9CwLtf9Ntgwv13RiT-U-jjzrozda7WadN2v6Z4Cl6x4_dOxHLMdeh3rfKjiL2YTM");
         updateFCMToken(fcmToken);
+        Get.offAll(() => RootScreen());
       }
+    } else {
+      Get.offAll(() => LoginScreen());
     }
   }
 
@@ -114,14 +117,9 @@ class AuthController extends GetxController {
   void logout() async {
     await storage.deleteAll();
     await pref.remove("autoLoginFlag");
+    autoLoginFlag.value = false;
+    token.value = null;
     user.value = null;
-  }
-
-  Widget defaultScreen() {
-    if (token.value == null) {
-      return LoginScreen();
-    } else {
-      return RootScreen();
-    }
+    Get.offAll(() => LoginScreen());
   }
 }

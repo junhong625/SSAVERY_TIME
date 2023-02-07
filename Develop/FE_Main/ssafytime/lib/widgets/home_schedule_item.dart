@@ -15,14 +15,14 @@ class HSIW extends StatefulWidget {
 
   const HSIW(
       {Key? key,
-      required this.color,
-      required this.category,
-      required this.studyPlace,
-      required this.subject,
-      required this.content,
-      required this.classTime,
-      required this.isClassTime,
-      required this.progressPercent})
+      this.color = 0000000,
+      this.category = "",
+      this.studyPlace = "",
+      this.subject = "데이터가 없습니다",
+      this.content = "데이터가 없습니다",
+      this.classTime = "",
+      this.isClassTime = false,
+      this.progressPercent = 0})
       : super(key: key);
 
   @override

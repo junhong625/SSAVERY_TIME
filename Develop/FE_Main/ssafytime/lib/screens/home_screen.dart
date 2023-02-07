@@ -127,15 +127,25 @@ class _HomeScreenStates extends State<HomeScreen> {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  const HSIW(
-                      color: 0xff3094F2,
-                      category: "알고리즘",
-                      studyPlace: "오프라인",
-                      subject: "잘먹고 잘사는법",
-                      content: "돈이면 다 된다",
-                      classTime: "16:00 ~ 18:00",
-                      isClassTime: false,
-                      progressPercent: 0.4),
+                  Obx(() => homeController.scheduleNow.value != null
+                      ? const HSIW(
+                          color: 0xff3094F2,
+                          category: "알고리즘",
+                          studyPlace: "오프라인",
+                          subject: "잘먹고 잘사는법",
+                          content: "돈이면 다 된다",
+                          classTime: "16:00 ~ 18:00",
+                          isClassTime: false,
+                          progressPercent: 0.4)
+                      : const HSIW(
+                          color: 0xff2E5359,
+                          category: "",
+                          studyPlace: "",
+                          subject: "",
+                          content: "일과 종료",
+                          classTime: "",
+                          isClassTime: false,
+                          progressPercent: 0))
                 ],
               ),
             ),

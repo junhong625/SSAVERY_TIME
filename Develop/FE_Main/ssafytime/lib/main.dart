@@ -41,7 +41,16 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: Get.find<AuthController>().defaultScreen());
+        home: StartScreen());
+  }
+}
+
+class StartScreen extends StatelessWidget {
+  const StartScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
 
