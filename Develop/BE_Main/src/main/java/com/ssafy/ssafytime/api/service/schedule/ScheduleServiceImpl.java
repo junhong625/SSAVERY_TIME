@@ -20,13 +20,14 @@ public class ScheduleServiceImpl implements ScheduleService{
     final ScheduleRepository scheduleRepository;
 
     @Override
-    public List<ScheduleResponseDto> getCurrentSchedule(int trackCode) {
-        String[] dateTime = LocalDateTime.now().toString().split("T");
+    public List<ScheduleResponseDto> getCurrentSchedule(int trackCode, int interval) {
+        String[] dateTime = LocalDateTime.now().plusMinutes(interval).toString().split("T");
         int date = Integer.parseInt(dateTime[0].toString().replace("-", ""));
-        int time = Integer.parseInt(dateTime[1].replace(":", "").substring(0, 6));
-
+        int time = Integer.parseInt(dateTime[1].replace(":", "").substring(0, 2));
+        System.out.println(date + ":" + time);
         List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
-        scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanAndEndTimeGreaterThan(trackCode, date, time, time).forEach((scheduleEntity -> {
+        scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(trackCode, date, time, time).forEach((scheduleEntity -> {
+            System.out.println(scheduleEntity);
             scheduleResponseDtoList.add(new ScheduleResponseDto(scheduleEntity));
         }));
         return scheduleResponseDtoList;

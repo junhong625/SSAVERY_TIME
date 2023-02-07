@@ -20,6 +20,11 @@ public class LunchMenuController {
     @Autowired
     LunchMenuServiceImpl lunchMenuService;
 
+    /* 오늘의 점심 메뉴 조회(develop_AJH)
+    region : 지역 코드(1: 서울, 2: 부울경, 3: 구미, 4: 광주)
+    1, 2, 3 -> Crawling from Welstory+
+    4 -> Crawling from Freshmeal
+     */
     @GetMapping("menu/today")
     public ResponseEntity<Object> todayMenu(@RequestParam("region") int region) {
         List<LunchMenuResponseDto> menu = lunchMenuService.getTodayMenu(region);
@@ -29,6 +34,11 @@ public class LunchMenuController {
             return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
     }
 
+    /* 이번 주 점심 메뉴 조회 (develop_AJH)
+    region : 지역 코드(1: 서울, 2: 부울경, 3: 구미, 4: 광주)
+    1, 2, 3 -> Crawling from Welstory+
+    4 -> Crawling from Freshmeal
+     */
     @GetMapping("menu/week")
     public ResponseEntity<Object> WeekMenu(@RequestParam("region") int region) {
         HashMap<Integer, List<LunchMenuResponseDto>> menu = lunchMenuService.getWeekMenu(region);
@@ -38,6 +48,9 @@ public class LunchMenuController {
             return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
     }
 
+    /* 단일 점심 메뉴 세부 정보 조회(develop_AJH)
+    id : 점심 메뉴 id
+     */
     @GetMapping("menu/detail")
     public ResponseEntity<Object> menuDetail(@RequestParam("id") Long id) {
         return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getMenuDetail(id));
