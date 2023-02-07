@@ -2,16 +2,21 @@ package com.ssafy.ssafytime.api.service;
 
 import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.api.dto.AttendanceInterface;
+import com.ssafy.ssafytime.api.dto.TokenDto;
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Attendance;
 import com.ssafy.ssafytime.db.entity.AttendanceId;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AttendanceRepository;
+import com.ssafy.ssafytime.db.repository.RefreshTokenRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
 import com.ssafy.ssafytime.exception.DuplicateUserException;
 import com.ssafy.ssafytime.exception.NotFoundUserException;
+import com.ssafy.ssafytime.jwt.TokenProvider;
 import com.ssafy.ssafytime.util.SecurityUtil;
+import jdk.nashorn.internal.parser.Token;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +29,18 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenProvider tokenProvider;
     private final AttendanceRepository attendanceRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                       AttendanceRepository attendanceRepository) {
+    public UserService(UserRepository userRepository, TokenProvider tokenProvider, PasswordEncoder passwordEncoder,
+                       AttendanceRepository attendanceRepository,
+                       RefreshTokenRepository refreshTokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenProvider = tokenProvider;
         this.attendanceRepository = attendanceRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
 
@@ -74,6 +84,16 @@ public class UserService {
                         .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
                         .orElseThrow(() -> new NotFoundUserException("User not found"))
         );
+    }
+
+    @Transactional
+    public void logout(TokenDto tokenDto){
+        tokenProvider.validateAccessToken(tokenDto.getToken());
+
+        Authentication authentication = tokenProvider.getAuthentication(tokenDto.getToken());
+
+        authentication.getName();
+
     }
 
 

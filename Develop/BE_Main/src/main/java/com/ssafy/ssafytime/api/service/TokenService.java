@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenService {
     private final TokenProvider tokenProvider;
-    private final UserRepository userRepository;
     private final long refreshTokenValidityInMilliseconds;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final UserRepository userRepository;
 
     public TokenService(
             final TokenProvider tokenProvider,

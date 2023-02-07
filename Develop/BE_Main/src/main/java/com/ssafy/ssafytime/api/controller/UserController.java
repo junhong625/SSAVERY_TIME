@@ -3,10 +3,12 @@ package com.ssafy.ssafytime.api.controller;
 import com.ssafy.ssafytime.api.dto.AttendanceInterface;
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.api.service.UserService;
+import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AttendanceRepository;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +50,11 @@ public class UserController {
 
     @GetMapping("/attendance")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<Collection<AttendanceInterface>> getAttendance(HttpServletRequest request) {
+    public ResponseEntity<Collection<AttendanceInterface>> getAttendance(HttpServletRequest request, @AuthenticationPrincipal User user) {
+
+        if(user==null) System.out.println("널인데유");
+        else System.out.println(user.getUserIdx());
+
         Long userIdx = userService.getMyUserWithAuthorities().getUserIdx();
 
         List<AttendanceInterface> list = attendanceRepository.findAllAttendance(userIdx);

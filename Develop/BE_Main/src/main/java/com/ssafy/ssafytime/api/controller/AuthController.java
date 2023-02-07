@@ -2,9 +2,12 @@ package com.ssafy.ssafytime.api.controller;
 
 import com.ssafy.ssafytime.api.dto.LoginDto;
 import com.ssafy.ssafytime.api.dto.TokenDto;
+import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.api.service.AuthService;
 import com.ssafy.ssafytime.api.service.TokenService;
 import com.ssafy.ssafytime.api.service.UserService;
+import com.ssafy.ssafytime.config.CurrentUser;
+import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.jwt.JwtFilter;
 import com.ssafy.ssafytime.jwt.TokenProvider;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api")
@@ -51,13 +55,11 @@ public class AuthController {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUserEmail(), loginDto.getPassword());
 
-
-
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
+
+
         TokenDto tokenDto = tokenService.createTokenDto(authentication);
-
-
 
         tokenService.saveRefreshToken(authentication.getName(), tokenDto.getRefreshToken());
 
@@ -72,11 +74,16 @@ public class AuthController {
         final TokenDto tokenDto1 = authService.refreshToken(tokenDto);
 
         final HttpHeaders httpHeaders = new HttpHeaders();
-        System.out.println("=--=-=-=-=-=-=-==-=-여기에요 여기-==--=-=-=-=-=");
         httpHeaders.setBearerAuth(tokenDto1.getToken());
 
         return new ResponseEntity<>(tokenDto1, httpHeaders, HttpStatus.OK);
     }
+
+
+    @
+
+
+
 
 
 

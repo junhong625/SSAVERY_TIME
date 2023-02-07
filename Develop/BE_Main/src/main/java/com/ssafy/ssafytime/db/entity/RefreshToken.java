@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Builder
 @Entity
@@ -16,11 +17,15 @@ import javax.persistence.*;
 public class RefreshToken {
 
     @Id
-    @Column(name = "user_idx")
-    private Long userIdx;
+    @Column(name = "user_email")
+    private String userEmail;
 
     @Column(name = "token")
     private String token;
+
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @Column(name = "timeout")
     private Long timeout;

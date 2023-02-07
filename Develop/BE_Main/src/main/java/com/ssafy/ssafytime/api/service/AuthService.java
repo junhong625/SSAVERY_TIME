@@ -34,7 +34,6 @@ public class AuthService {
 
         System.out.println(authentication.getPrincipal());
         validateRefreshToken(authentication.getName(), refreshToken);
-        System.out.println("-=-=-==-=-=-=-=4시11분여기-=-=-=-");
 
 
         final TokenDto tokenDto1 = tokenService.createTokenDto(authentication);
