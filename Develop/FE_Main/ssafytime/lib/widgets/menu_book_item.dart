@@ -38,12 +38,13 @@ class _MIWState extends State<MIW> {
       child: Row(
         children: [
           Container(width: 179, height: 163,
-            padding: EdgeInsets.fromLTRB(12, 5, 12, 5),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                // option1 imgUrl
-                child: Image.network(imgUrl, fit: BoxFit.fill
-                )
+            margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
+            decoration: BoxDecoration(
+              color: Color(0x08000000),
+              border: Border.all(width: 2, color: Color(0x05000000)),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Image.network(imgUrl, fit: BoxFit.contain
             ),
           ),
           Container(

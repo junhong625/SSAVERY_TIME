@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/councel_bottom_councelor.dart';
+import '../controllers/councel_controller.dart';
 
 
 class CBCounselorItem extends StatelessWidget {
@@ -20,19 +20,20 @@ class CBCounselorItem extends StatelessWidget {
   }) : super(key: key);
 
   // CBCouncelorController controller = Get.put(CBCouncelorController());
-  CBCouncelorController controller = Get.find<CBCouncelorController>();
+  // CBCouncelorController controller = Get.find<CBCouncelorController>();
+  MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => InkWell(
         onTap: () {
-          controller.select(managerId);
+          controller.selectCouncelor(managerId);
           FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
         },
         child: Container(
           width: 71, height: 84,
           decoration: BoxDecoration(
-            color: controller.myPick.value == managerId ? Color(0xffE7E7E7) : Colors.white,
+            color: controller.myPickCouncelor.value == managerId ? Color(0xffE7E7E7) : Colors.white,
             borderRadius: BorderRadius.circular(10.0)
           ),
           child: Column(

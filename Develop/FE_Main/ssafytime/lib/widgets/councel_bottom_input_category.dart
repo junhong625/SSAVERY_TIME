@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/councel_bottom_text.dart';
+import '../controllers/councel_controller.dart';
 import '../model/councel_bottom.dart';
 
 class CBCategoryTotal extends StatefulWidget {
@@ -14,7 +14,8 @@ class CBCategoryTotal extends StatefulWidget {
 class _CBCategoryTotalState extends State<CBCategoryTotal> {
   TextEditingController textController = TextEditingController();
 
-  CBCategoryController controller = Get.put(CBCategoryController());
+  // CBCategoryController controller = Get.put(CBCategoryController());
+  MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class _CBCategoryTotalState extends State<CBCategoryTotal> {
             ),
             keyboardType: TextInputType.text,
             onChanged: (textController) {
-              controller.myInput.value = textController;
+              controller.myInputCategory.value = textController;
             },
           ),
         ),

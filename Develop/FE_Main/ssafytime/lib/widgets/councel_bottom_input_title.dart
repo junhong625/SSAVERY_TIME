@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/councel_bottom_text.dart';
+import '../controllers/councel_controller.dart';
 
 
 class CBInputTitle extends StatefulWidget {
@@ -15,7 +15,9 @@ class _CBInputTitleState extends State<CBInputTitle> {
   TextEditingController textController = TextEditingController();
 
   // CBTitleController controller = Get.put(CBTitleController());
-  CBTitleController controller = Get.find<CBTitleController>();
+  // CBTitleController controller = Get.find<CBTitleController>();
+  MyCouncelController controller = Get.find<MyCouncelController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class _CBInputTitleState extends State<CBInputTitle> {
         ),
         keyboardType: TextInputType.text,
         onChanged: (textController) {
-          controller.myInput.value = textController;
+          controller.myInputTitle.value = textController;
         },
       ),
     );

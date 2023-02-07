@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ssafytime/controllers/councel_bottom_date.dart';
-import 'package:ssafytime/controllers/councel_bottom_time.dart';
 
-import '../controllers/councel_bottom_councelor.dart';
-import '../controllers/councel_bottom_text.dart';
+import 'package:ssafytime/controllers/councel_controller.dart';
+
 import '../custom_button.dart';
 import 'councel_bottom_counselor_total.dart';
 import 'councel_bottom_input_category.dart';
@@ -15,6 +13,7 @@ import 'package:http/http.dart' as http;
 
 
 void openCouncelBottomSheet(BuildContext context) {
+    MyCouncelController controller = Get.find<MyCouncelController>();
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -52,17 +51,17 @@ void openCouncelBottomSheet(BuildContext context) {
                       CBCouncelorTotal(),
 
                       // 관리자가 선택 되어야 낳짜를 선택할 수 있다.
-                      Get.find<CBCouncelorController>().myPick.value != 0 ?
+                      controller.myPickCouncelor.value != 0 ?
                       CBDate() : SizedBox(), // 날짜 선택
 
                       // 날짜가 선택되어야 시간을 선택할 수 있다.
-                      (Get.find<CBDatePickController>().myPick.value != '') ?
+                      (controller.myPickDateDisplay.value != '') ?
                       CBTimeTotal() : SizedBox(), // 시간 선택
 
                       // 시간을 선택하고 나면 제목과 카테고리를 입력할 수 있다.
-                      (Get.find<CBTimeController>().myPick.value != '') ?
+                      (controller.myPickTime.value != '') ?
                       CBInputTitle() : SizedBox(), // 내용 입력
-                      (Get.find<CBTimeController>().myPick.value != '') ?
+                      (controller.myPickTime.value != '') ?
                       CBCategoryTotal() : SizedBox(), // 카테고리 입력
 
                       Container(
@@ -78,7 +77,7 @@ void openCouncelBottomSheet(BuildContext context) {
                               width: 171, height: 40,
                               label: '닫기',
                             ),
-                            if (Get.find<CBTitleController>().myInput.value != '' && Get.find<CBCategoryController>().myInput.value != '')
+                            if (controller.myInputTitle.value != '' && controller.myInputCategory.value != '')
                               CustomElevatedButton(
                                 onPressed: () {
                                   submitCouncelApplication();
@@ -88,7 +87,7 @@ void openCouncelBottomSheet(BuildContext context) {
                                 label: '제출',
                                 labelColor: 0xffFFFFFF,
                               ),
-                            if (Get.find<CBTitleController>().myInput.value == '' || Get.find<CBCategoryController>().myInput.value == '')
+                            if (controller.myInputTitle.value == '' || controller.myInputCategory.value == '')
                               CustomElevatedButton(
                                 onPressed: () {
                                 },
@@ -113,29 +112,24 @@ void openCouncelBottomSheet(BuildContext context) {
 }
 
 void resetApplyData() {
-  Get.find<CBCouncelorController>().myPick.value = 0;
-  Get.find<CBDatePickController>().myDate.value = '';
-  Get.find<CBDatePickController>().myPick.value = '';
-  Get.find<CBTimeController>().myPick.value = '';
-  Get.find<CBTitleController>().myInput.value = '';
-  Get.find<CBCategoryController>().myInput.value = '';
+  MyCouncelController controller = Get.find<MyCouncelController>();
+  controller.myPickCouncelor.value = 0;
+  controller.myPickDateDisplay.value = '';
+  controller.myPickDateServe.value = '';
+  controller.myPickTime.value = '';
+  controller.myInputTitle.value = '';
+  controller.myInputCategory.value = '';
 }
 
 // 상담 신청 제출
 void submitCouncelApplication() async {
+  MyCouncelController controller = Get.find<MyCouncelController>();
   int studentId = 3241114; // 유저 정보 컨트롤러 생기면 가져오면 됨
-  int managerId = Get.find<CBCouncelorController>().myPick.value;
-  String rezDate = Get.find<CBDatePickController>().myPick.value;
-  String rezTime = Get.find<CBTimeController>().myPick.value;
-  String title = Get.find<CBTitleController>().myInput.value;
-  String category = Get.find<CBCategoryController>().myInput.value;
-
-  print(studentId);
-  print(managerId);
-  print(rezDate);
-  print(rezTime);
-  print(title);
-  print(category);
+  int managerId = controller.myPickCouncelor.value;
+  String rezDate = controller.myPickDateServe.value;
+  String rezTime = controller.myPickTime.value;
+  String title = controller.myInputTitle.value;
+  String category = controller.myInputCategory.value;
 
   var body = {
     studentId : studentId,
@@ -146,10 +140,8 @@ void submitCouncelApplication() async {
     category : category,
   };
 
+  // post 가 안되는데 어떻게 함
   var res = await http.post(Uri.parse('http://i8a602.p.ssafy.io:9090/reserve/submit'), body: body);
 
-  print(res.statusCode);
-
-  // 서버로 jsonData 보내는 기능 구현 필요
 
 }

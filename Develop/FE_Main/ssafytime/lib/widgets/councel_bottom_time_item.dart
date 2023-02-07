@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/councel_bottom_time.dart';
+
+import '../controllers/councel_controller.dart';
 
 class CBTimeItem extends StatelessWidget {
 
@@ -12,7 +13,8 @@ class CBTimeItem extends StatelessWidget {
   }) : super(key: key);
 
   // CBTimeController controller = Get.put(CBTimeController());
-  CBTimeController controller = Get.find<CBTimeController>();
+  // CBTimeController controller = Get.find<CBTimeController>();
+  MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class CBTimeItem extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
-              backgroundColor: time == controller.myPick.value ? Color(0xff0079D1) : Colors.white,
+              backgroundColor: time == controller.myPickTime.value ? Color(0xff0079D1) : Colors.white,
             ),
             onPressed: () {
               controller.select(time);
@@ -37,7 +39,7 @@ class CBTimeItem extends StatelessWidget {
             child: Text(time,
               style: TextStyle(fontWeight: FontWeight.w900,
                 fontSize: 11,
-                color: time == controller.myPick.value ? Colors.white : Color(0xff0079D1)
+                color: time == controller.myPickTime.value ? Colors.white : Color(0xff0079D1)
               ),
             ),
           ),

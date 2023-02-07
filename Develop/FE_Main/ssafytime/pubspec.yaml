@@ -45,6 +45,7 @@ dependencies:
   shared_preferences: ^2.0.17
   intl: ^0.18.0
   ntp: ^2.0.0
+  expandable: ^5.0.1
 
   # Custom flutter_survey (https://github.com/Michelphoenix98/flutter_survey)
   diffutil_sliverlist: ^0.5.1
