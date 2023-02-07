@@ -16,9 +16,9 @@ public class ScheduleController {
     ScheduleServiceImpl scheduleService;
 
     @GetMapping("schedule/now")
-    public ResponseEntity<Object> currentSchedule(@RequestParam("track_code") int trackCode) {
+    public ResponseEntity<Object> currentSchedule(@RequestParam("track_code") int trackCode, @RequestParam("interval") int interval) {
         try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, scheduleService.getCurrentSchedule(trackCode));
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, scheduleService.getCurrentSchedule(trackCode, interval));
         } catch (Exception e) {
             return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
