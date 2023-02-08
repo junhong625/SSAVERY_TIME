@@ -68,31 +68,31 @@ public class UserController {
         }
     }
 
-    @GetMapping("alarm/default/{userId}")
+    @GetMapping("alarm/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<Object> getAlarmSettings(@PathVariable Long userId) {
+    public ResponseEntity<Object> getAlarm(@PathVariable Long userId) {
         return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, alarmService.getDefaultAlarmSetting(userId));
     }
 
-    @PutMapping("alarm/notice/{userId}")
+    @PatchMapping("alarm/notice/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateNotice(@PathVariable Long userId) {
         alarmService.noticeChange(userId);
-        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, null);
+        return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
     }
 
-    @PutMapping("alarm/survey/{userId}")
+    @PatchMapping("alarm/survey/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateSurvey(@PathVariable Long userId) {
         alarmService.noticeChange(userId);
-        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, null);
+        return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
     }
 
-    @PutMapping("alarm/consulting/{userId}")
+    @PatchMapping("alarm/consulting/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateConsulting(@PathVariable Long userId) {
         alarmService.noticeChange(userId);
-        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, null);
+        return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
     }
 
 //    @GetMapping("/attendance")
