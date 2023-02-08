@@ -1,5 +1,10 @@
 package com.ssafy.ssafytime.api.service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.api.dto.AttendanceInterface;
 import com.ssafy.ssafytime.db.dto.TokenDto;
@@ -72,6 +77,7 @@ public class UserService {
                 .regionCode(userDto.getRegionCode())
                 .authorities(Collections.singleton(authority))
                 .build();
+
         return UserDto.from(userRepository.save(user));
     }
 

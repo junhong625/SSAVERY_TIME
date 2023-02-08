@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.api.dto;
 
+import com.ssafy.ssafytime.db.entity.Attendance;
 import lombok.*;
 
 

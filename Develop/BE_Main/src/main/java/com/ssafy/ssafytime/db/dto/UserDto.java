@@ -1,4 +1,4 @@
-package com.ssafy.ssafytime.db.dto;
+package com.ssafy.ssafytime.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.ssafytime.db.dto.AuthorityDto;

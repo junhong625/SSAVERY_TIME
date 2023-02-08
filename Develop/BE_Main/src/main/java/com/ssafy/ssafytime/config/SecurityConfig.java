@@ -74,6 +74,7 @@ public class SecurityConfig {
 
                 .anyRequest().authenticated()
 
+                  //JwtFilter 가 등록된 JwtSecurityConfig 클래스 적용
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
 
