@@ -1,5 +1,11 @@
 package com.ssafy.ssafytime.api.controller;
 
+import alarmDefaultService.SurveyUserTokens;
+import com.google.api.client.util.Value;
+import com.google.firebase.messaging.*;
+import com.ssafy.ssafytime.api.firebase.FirebaseCloudMessageService;
+import com.ssafy.ssafytime.api.firebase.MessageDTO;
+import com.ssafy.ssafytime.db.dto.AlarmDefaultResponseDto;
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.request.SurveyConductPostReq;
 import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
@@ -19,16 +25,32 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.kurento.jsonrpc.client.JsonRpcClient.log;
+
 @Api(value = "설문 API", tags = {"Survey"})
 @RestController
 @RequestMapping("/surveys")
 public class SurveyController {
+
+    private final String API_URL = "https://fcm.googleapis.com/v1/projects/ssafytime/messages:send";
+
+    @Value("${project.properties.firebase-create-scoped}")
+
+    @Autowired
+    FirebaseCloudMessageService firebaseCloudMessageService;
+
+    @Autowired
+    AlarmDefaultService alarmDefaultService;
+
+    @Autowired
+    AlarmDefaultRepository alarmDefaultRepository;
 
     @Qualifier("surveyService")
     @Autowired
@@ -135,7 +157,7 @@ public class SurveyController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> registerSurvey(@RequestBody @ApiParam(value="설문 등록 정보", required = true) SurveyRegisterPostReq surveyRegisterPostReq) {  // 설문 등록 API
+    public ResponseEntity registerSurvey(@RequestBody @ApiParam(value="설문 등록 정보", required = true) SurveyRegisterPostReq surveyRegisterPostReq) throws IOException, FirebaseMessagingException {  // 설문 등록 API
         Survey survey = new Survey();
 
         String title = surveyRegisterPostReq.getTitle();
@@ -153,12 +175,17 @@ public class SurveyController {
         surveyService.save(survey);  // create
 
         try {
-            DbConnector.main(createdAt, endedAt);
+            DbConnector.main(createdAt, endedAt);  // 상태변경 스케줄러 호출
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        MessageDTO messageDTO = MessageDTO.builder().title("새로운 설문이 있습니다").body(title).build();  // 알림에 넣을 인자들
+        List<String> registrationTokens = alarmDefaultService.getUserTokens(1, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
+        Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
+        Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
+        return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
+
     }
 
     @PostMapping("/survey/conduct/{surveyId}")
@@ -266,4 +293,5 @@ public class SurveyController {
         return ResponseEntity.status(200).body(returnSurvey);
 
     }
+
 }

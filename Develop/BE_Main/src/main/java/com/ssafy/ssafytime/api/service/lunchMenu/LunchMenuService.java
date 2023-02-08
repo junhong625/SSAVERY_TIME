@@ -10,6 +10,8 @@ public interface LunchMenuService {
 
     List<LunchMenuResponseDto> getTodayMenu(int region);
 
+    List<LunchMenuResponseDto> getTomorrowMenu(int region);
+
     LunchMenuDetailResponseDto getMenuDetail(Long id);
 
     HashMap<Integer, List<LunchMenuResponseDto>> getWeekMenu(int region);

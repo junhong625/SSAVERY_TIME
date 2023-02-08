@@ -20,8 +20,17 @@ public class LunchMenuServiceImpl implements LunchMenuService {
 
     @Override
     public List<LunchMenuResponseDto> getTodayMenu(int region) {
-        LocalDate now = LocalDate.now();
-        String date = now.toString().replace("-", "");
+        String date = LocalDate.now().toString().replace("-", "");
+        List<LunchMenuResponseDto> menuList = new ArrayList<>();
+        lunchMenuRepository.findByRegionAndDate(region, date).forEach((LunchMenuEntity)-> {
+            menuList.add(new LunchMenuResponseDto(LunchMenuEntity));
+        });
+        return menuList;
+    }
+
+    @Override
+    public List<LunchMenuResponseDto> getTomorrowMenu(int region) {
+        String date = LocalDate.now().plusDays(1).toString().replace("-", "");
         List<LunchMenuResponseDto> menuList = new ArrayList<>();
         lunchMenuRepository.findByRegionAndDate(region, date).forEach((LunchMenuEntity)-> {
             menuList.add(new LunchMenuResponseDto(LunchMenuEntity));

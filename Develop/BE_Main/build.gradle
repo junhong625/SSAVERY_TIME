@@ -107,6 +107,9 @@ dependencies {
 	//JSON
 	implementation 'com.google.code.gson:gson:2.8.5'
 
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.6'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6'
+
 }
 tasks.named('test') {
 	useJUnitPlatform()
