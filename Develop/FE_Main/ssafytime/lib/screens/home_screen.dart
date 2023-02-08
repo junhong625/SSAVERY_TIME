@@ -1,11 +1,16 @@
 // main screen
 
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:ssafytime/controllers/user_controller.dart';
+import 'package:ssafytime/controllers/home_controller.dart';
 import 'package:ssafytime/screens/notification_screen.dart';
 import 'package:ssafytime/screens/user_screen.dart';
+import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/home_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/home_employment_info_total_widget.dart';
 import 'package:ssafytime/widgets/home_schedule_item.dart';
@@ -18,6 +23,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenStates extends State<HomeScreen> {
+  UserController userController = Get.find<UserController>();
+
   List<CNI> bannerItems = <CNI>[
     CNI(
         opacity: 1,
@@ -54,6 +61,13 @@ class _HomeScreenStates extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    HomeController homeController = Get.put(HomeController(
+        userController.user.value?.userIdx,
+        userController.user.value?.regionCode,
+        AuthService.to.token,
+        userController.user.value?.trackCode));
+
+    log(homeController.homeMenu.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text("1231234 김싸피"),
@@ -114,15 +128,25 @@ class _HomeScreenStates extends State<HomeScreen> {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  const HSIW(
-                      color: 0xff3094F2,
-                      category: "알고리즘",
-                      studyPlace: "오프라인",
-                      subject: "잘먹고 잘사는법",
-                      content: "돈이면 다 된다",
-                      classTime: "16:00 ~ 18:00",
-                      isClassTime: false,
-                      progressPercent: 0.4),
+                  Obx(() => homeController.scheduleNow.value != null
+                      ? const HSIW(
+                          color: 0xff3094F2,
+                          category: "알고리즘",
+                          studyPlace: "오프라인",
+                          subject: "잘먹고 잘사는법",
+                          content: "돈이면 다 된다",
+                          classTime: "16:00 ~ 18:00",
+                          isClassTime: false,
+                          progressPercent: 0.4)
+                      : const HSIW(
+                          color: 0xff2E5359,
+                          category: "",
+                          studyPlace: "",
+                          subject: "",
+                          content: "일과 종료",
+                          classTime: "",
+                          isClassTime: false,
+                          progressPercent: 0))
                 ],
               ),
             ),

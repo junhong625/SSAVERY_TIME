@@ -2,8 +2,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:ssafytime/controllers/auth_controller.dart';
+import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/login_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,10 +15,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController userEmail = TextEditingController();
   TextEditingController userPassWord = TextEditingController();
-  bool? _autoLogin = false; // 자동로그인 값
-  final bool _btnFlag = false;
-  AuthController authController = Get.find<AuthController>();
 
+  bool? autoLoginFlag = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -65,9 +62,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   ElevatedButton(
                     /// toDo : 로그인 기능 구현 ///
-                    onPressed: () {
+                    onPressed: () async {
                       log("${userEmail.text} / ${userPassWord.text}");
-                      authController.login(userEmail.text, userPassWord.text);
+                      await AuthService.to.login(
+                          userEmail.text, userPassWord.text, autoLoginFlag);
+                      log("${AuthService.to.isLogin}");
+                      //   Get.offAllNamed('/');
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
@@ -91,12 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           const Padding(padding: EdgeInsets.only(left: 30)),
                           Checkbox(
-                              value: _autoLogin,
+                              value: autoLoginFlag,
                               onChanged: (value) {
                                 setState(() {
-                                  _autoLogin = value;
-                                  print(_autoLogin);
+                                  autoLoginFlag = value;
                                 });
+                                log("autoCheck : ${autoLoginFlag}");
                               }),
                           const Text(
                             '자동로그인',

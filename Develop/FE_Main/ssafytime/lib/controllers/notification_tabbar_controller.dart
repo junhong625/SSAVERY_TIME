@@ -34,8 +34,4 @@ class NotificationTabBarController extends GetxController
     tabController.dispose();
     super.onClose();
   }
-
-  void increase() {
-    count++;
-  }
 }
