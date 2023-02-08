@@ -32,10 +32,12 @@ public class UserController {
     private final AlarmDefaultServiceImpl alarmService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(
+    public ResponseEntity<Object> signup(
             @Valid @RequestBody UserDto userDto
     ) {
-        return ResponseEntity.ok(userService.signup(userDto));
+        UserDto user = userService.signup(userDto);
+        alarmService.save(user.getId());
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, null);
     }
 
     @GetMapping("/my-page")

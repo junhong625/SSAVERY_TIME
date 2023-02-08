@@ -2,8 +2,11 @@ package com.ssafy.ssafytime.api.service;
 
 import com.ssafy.ssafytime.db.dto.AlarmDefaultRequestDto;
 import com.ssafy.ssafytime.db.dto.AlarmDefaultResponseDto;
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.AlarmDefault;
+import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AlarmDefaultRepository;
+import com.ssafy.ssafytime.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import java.util.Optional;
 @Service
 public class AlarmDefaultServiceImpl implements AlarmDefaultService{
 
+    final UserRepository userRepository;
     final AlarmDefaultRepository alarmDefaultRepository;
 
     @Override
@@ -44,6 +48,13 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
         Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
         AlarmDefault alarmDefault = userAlarmSettings.get();
         AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getId(), alarmDefault.getUserId(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), !alarmDefault.getConsultingAlarm());
+        alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
+    }
+
+    @Override
+    public void save(Long userId) {
+        AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto();
+        alarmDefaultRequestDto.setUser(userRepository.findById(userId).get());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 }
