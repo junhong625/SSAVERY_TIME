@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface NoticeService {
 
+    NoticeResponseDto getCurrentNotice();
+
     NoticeResponseDto getNotice(Long id);
 
     List<NoticeResponseDto> getAllNotice();

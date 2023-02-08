@@ -15,15 +15,22 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("notice")
 public class NoticeController {
 
     private final NoticeServiceImpl noticeService;
 
+    @GetMapping("")
+    public ResponseEntity<Object> recentNotice() {
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getCurrentNotice());
+    }
+
+
     /* 단일 공지사항 조회(develop_AJH)
     id : 공지사항 id
      */
-    @GetMapping("notice")
-    public ResponseEntity<Object> notice(@RequestParam("id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> notice(@PathVariable Long id) {
         try {
             return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getNotice(id));
         } catch (Exception e) {
@@ -33,7 +40,7 @@ public class NoticeController {
 
     /* 전체 공지사항 조회(develop_AJH)
      */
-    @GetMapping("notice/all")
+    @GetMapping("/all")
     public ResponseEntity<Object> noticeAll(){
         List<NoticeResponseDto> notice = noticeService.getAllNotice();
         if (!notice.isEmpty())
@@ -47,9 +54,9 @@ public class NoticeController {
     category : 분류
     contentUrl : 내용 이미지 URL
      */
-    @PostMapping(value = "notice/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNotice(@RequestBody NoticeRequestDto noticeRequestDto) {
         noticeService.save(noticeRequestDto);
-        return ResponseHandler.generateResponse(true, "OK", HttpStatus.CREATED, null);
+        return ResponseHandler.generateResponse(true, "CREATED", HttpStatus.CREATED, null);
     }
 }
