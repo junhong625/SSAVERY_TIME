@@ -7,12 +7,13 @@ import '../model/councel_bottom_councelor.dart';
 import '../model/councel_detail.dart';
 
 class MyCouncelController extends GetxController {
-
   List myCouncelList = <CouncelDetail>[].obs; // 내 상담 신청 현황들
   Rx<DateTime> currentTime = DateTime.now().obs;
   var doubleTypeCurrentTime = 1.0.obs; // 현재 시간은 더블 타입으로 바꾼것
-  List<double> myCouncelStartTimeList = []; // 내 상담의 시작 시간 리스트 (myCouncelList 의 인덱스 순서와 같다.)
-  List<double> myCouncelEndTimeList = []; // 내 상담의 종료 시간 리스트 (myCouncelList 의 인덱스 순서와 같다.)
+  List<double> myCouncelStartTimeList =
+      []; // 내 상담의 시작 시간 리스트 (myCouncelList 의 인덱스 순서와 같다.)
+  List<double> myCouncelEndTimeList =
+      []; // 내 상담의 종료 시간 리스트 (myCouncelList 의 인덱스 순서와 같다.)
 
   RxInt myPickCouncelor = 0.obs; // 내가 선택한 관리자의 ID
   RxList councelorList = <MyCouncelor>[].obs; // 나를 담당하고 있는 관리자 리스트
@@ -25,8 +26,6 @@ class MyCouncelController extends GetxController {
 
   RxString myInputTitle = ''.obs; // 입력한 제목
   RxString myInputCategory = ''.obs; // 입력한 카테고리
-
-
 
   @override
   void onInit() {
@@ -47,29 +46,27 @@ class MyCouncelController extends GetxController {
     myCouncelList = <CouncelDetail>[].obs; // 초기화
     myCouncelStartTimeList = <double>[]; // 시작시간 종료 시간도 초기화
     myCouncelEndTimeList = <double>[];
-    var res = await http.get(Uri.parse("http://i8a602.p.ssafy.io:9090/meet/${userId}/${code}"));
+    var res = await http
+        .get(Uri.parse("http://i8a602.p.ssafy.io:9090/meet/${userId}/${code}"));
     var data = json.decode(res.body);
 
-    for (int i=0; i < data.length; i++) {
-      myCouncelList.add(
-          CouncelDetail(
-            rezDate: DateTime.parse(data[i]["rezDate"]),
-            rezTime: data[i]["rezTime"]?.toDouble(),
-            title: data[i]["title"],
-            category: data[i]["category"],
-            meetUrl: data[i]["meetUrl"],
-            rezIdx: data[i]["rezIdx"],
-            reject: data[i]["reject"],
-            state: data[i]["state"],
-            name: data[i]["name"],
-          )
-      );
-      myCouncelStartTimeList.add(
-          calculatorTimeOfClass(myCouncelList[i].rezDate, myCouncelList[i].rezTime)
-      );
-      myCouncelEndTimeList.add(
-          myCouncelStartTimeList[i] + 100 // 상담은 1시간 한다고 가정해서 +100임 1이 시간 00이 분이라서
-      );
+    for (int i = 0; i < data.length; i++) {
+      myCouncelList.add(CouncelDetail(
+        rezDate: DateTime.parse(data[i]["rezDate"]),
+        rezTime: data[i]["rezTime"]?.toDouble(),
+        title: data[i]["title"],
+        category: data[i]["category"],
+        meetUrl: data[i]["meetUrl"],
+        rezIdx: data[i]["rezIdx"],
+        reject: data[i]["reject"],
+        state: data[i]["state"],
+        name: data[i]["name"],
+      ));
+      myCouncelStartTimeList.add(calculatorTimeOfClass(
+          myCouncelList[i].rezDate, myCouncelList[i].rezTime));
+      myCouncelEndTimeList.add(myCouncelStartTimeList[i] +
+              100 // 상담은 1시간 한다고 가정해서 +100임 1이 시간 00이 분이라서
+          );
       print('1  myCouncelList : ${myCouncelList}');
     }
   }
@@ -77,9 +74,8 @@ class MyCouncelController extends GetxController {
   // 현재시간 초기화해서 doubleTypeCurrentTime 에 넣어줌
   Future setNowTime() async {
     currentTime = await DateTime.now().add(Duration(hours: 9)).obs;
-    calculatorTime(currentTime.value!);
+    calculatorTime(currentTime.value);
   }
-
 
   // DateTime 형태 (CouncelDetail 클래스 는 변환 안됨)
   // 현재 시간, 년 월 일 시 분 을 숫자로 변환 2023-03-15 13:32 을 202303151332 로 바꿔줌
@@ -87,63 +83,57 @@ class MyCouncelController extends GetxController {
     String year = time.year.toString();
     String mon = time.month.toString();
     String day = time.day.toString();
-    mon.length == 1 ? mon = '0'+mon : null;
-    day.length == 1 ? day = '0'+day : null;
-    String tmpDate = year+mon+day;
+    mon.length == 1 ? mon = '0' + mon : null;
+    day.length == 1 ? day = '0' + day : null;
+    String tmpDate = year + mon + day;
 
     String hour = time.hour.toString();
     String min = time.minute.toString();
-    hour.length == 1 ? hour = '0'+hour : null;
-    min.length == 1 ? min = '0'+min : null;
+    hour.length == 1 ? hour = '0' + hour : null;
+    min.length == 1 ? min = '0' + min : null;
     String tmpTime = hour + min;
 
-    double value = double.parse((tmpDate+tmpTime));
+    double value = double.parse((tmpDate + tmpTime));
     doubleTypeCurrentTime.value = value;
   }
-
 
   // CouncelDetail 클래스의 시간을 변환 rezDate : 2023-02-22 rezTime: 13.5 -> 202302221330 으로
   double calculatorTimeOfClass(DateTime rezDate, double rezTime) {
     String year = rezDate.year.toString();
     String mon = rezDate.month.toString();
     String day = rezDate.day.toString();
-    mon.length == 1 ? mon = '0'+mon : null;
-    day.length == 1 ? day = '0'+day : null;
-    String tmpDate = year+mon+day;
+    mon.length == 1 ? mon = '0' + mon : null;
+    day.length == 1 ? day = '0' + day : null;
+    String tmpDate = year + mon + day;
     double dateValue = double.parse(tmpDate);
-
 
     // 13.0 -> 1300 으로 , 14.5 -> 1430 으로
     double rezHour = rezTime;
-    double rezMin = rezHour%1;
+    double rezMin = rezHour % 1;
     rezHour -= rezMin;
-    double rezHourToMin = rezMin*60;
-    double timeFinal = rezHour*100 + rezHourToMin;
+    double rezHourToMin = rezMin * 60;
+    double timeFinal = rezHour * 100 + rezHourToMin;
 
-    return dateValue*10000 + timeFinal;
+    return dateValue * 10000 + timeFinal;
   }
-
-
 
   // [반] 과 [지역코드] 로 그 반 관리자들 호출해서 리스트에 저장
   Future fetchCouncelor(int classNum, int region) async {
-    var res = await http.get(Uri.parse('http://i8a602.p.ssafy.io:9090/reserve/info?classNum=${classNum}&regionCode=${region}'));
+    var res = await http.get(Uri.parse(
+        'http://i8a602.p.ssafy.io:9090/reserve/info?classNum=${classNum}&regionCode=${region}'));
     List data = json.decode(res.body);
     // councelorList = <MyCouncelor>[].obs;
     if (res.statusCode == 200) {
       data.forEach((ele) {
-        councelorList.add(
-          MyCouncelor(
-            isAdmin: ele["is_admin"],
-            userName: ele["user_name"],
-            userIdx: ele["user_idx"],
-            userImg: ele["user_img"],
-            )
-          );
-        }
-      );
+        councelorList.add(MyCouncelor(
+          isAdmin: ele["is_admin"],
+          userName: ele["user_name"],
+          userIdx: ele["user_idx"],
+          userImg: ele["user_img"],
+        ));
+      });
     }
-    print('fetchCouncelor 실행 : ${}')
+    print('fetchCouncelor 실행 ');
   }
 
   // 관리자 선택하기
@@ -159,35 +149,35 @@ class MyCouncelController extends GetxController {
     }
   }
 
-
   // 달력 선택시에 반영하고 관리자 + 날짜로 예약 현황 API 호출한다.
   void selectDateAndFetchReservation(List dateList) async {
     const Map<String, String> Eformat = {
-      'Sun' : '일',
-      'Mon' : '월',
-      'Tue' : '화',
-      'Wed' : '수',
-      'Thu' : '목',
-      'Fri' : '금',
-      'Sat' : '토',
+      'Sun': '일',
+      'Mon': '월',
+      'Tue': '화',
+      'Wed': '수',
+      'Thu': '목',
+      'Fri': '금',
+      'Sat': '토',
     };
     var EE = Eformat[dateList[3]]; // 요일
-    myPickDateDisplay.value = '${dateList[0]}년 ${dateList[1]}월 ${dateList[2]}일 (${EE})';
+    myPickDateDisplay.value =
+        '${dateList[0]}년 ${dateList[1]}월 ${dateList[2]}일 (${EE})';
     myPickDateServe.value = '${dateList[0]}-${dateList[1]}-${dateList[2]}';
 
     int managerId = myPickCouncelor.value; // 내가 선택한 관리자 아이디
     String date = myPickDateServe.value; // 내가 선택한 날짜 서버 전송용
 
     // 842167, 2022-10-12
-    var res = await http.get(Uri.parse("http://i8a602.p.ssafy.io:9090/reserve/time?date=${date}&managerId=${managerId}"));
+    var res = await http.get(Uri.parse(
+        "http://i8a602.p.ssafy.io:9090/reserve/time?date=${date}&managerId=${managerId}"));
     var data = json.decode(res.body);
-
 
     // 시간 선택 컨트롤러는 미리 생성해 놓았다.
     myPickTime.value = "";
     reservedTime.clear();
-    reservedTime.assignAll(List<double>.from(data['time'].map((x)=>x))); // 예약된시간들을 넣어 놓는다.
-
+    reservedTime.assignAll(
+        List<double>.from(data['time'].map((x) => x))); // 예약된시간들을 넣어 놓는다.
   }
 
   // 시간 선택
@@ -198,5 +188,4 @@ class MyCouncelController extends GetxController {
       myPickTime.value = time;
     }
   }
-
 }

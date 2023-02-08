@@ -20,7 +20,7 @@ class CounselTestPage extends StatelessWidget {
                 child: Text('뒤로')),
             FloatingActionButton(
                 child: Icon(Icons.add),
-                onPressed: () => {openCouncelBottomSheet()})
+                onPressed: () => {openCouncelBottomSheet(context)})
           ],
         ),
       ),
