@@ -2,12 +2,6 @@ package com.ssafy.ssafytime.api.controller;
 
 import com.ssafy.ssafytime.api.dto.LoginDto;
 import com.ssafy.ssafytime.api.dto.TokenDto;
-import com.ssafy.ssafytime.api.dto.UserDto;
-import com.ssafy.ssafytime.api.service.AuthService;
-import com.ssafy.ssafytime.api.service.TokenService;
-import com.ssafy.ssafytime.api.service.UserService;
-import com.ssafy.ssafytime.config.CurrentUser;
-import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.jwt.JwtFilter;
 import com.ssafy.ssafytime.jwt.TokenProvider;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +18,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;

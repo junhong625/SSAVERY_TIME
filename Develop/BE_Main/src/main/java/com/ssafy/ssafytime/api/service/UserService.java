@@ -6,6 +6,11 @@ import com.ssafy.ssafytime.api.dto.TokenDto;
 import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Attendance;
 import com.ssafy.ssafytime.db.entity.AttendanceId;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AttendanceRepository;
@@ -27,6 +32,7 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
@@ -102,5 +108,19 @@ public class UserService {
 
     }
 
+    public Optional<User> findById(Long Id) {
+        return userRepository.findById(Id);
+    }
 
+    public Long count() {
+        return userRepository.count();
+    }
+
+    public List<User> findByIsAdminAndAlarm(int isAdmin, int alarm) {
+        return userRepository.findByIsAdminAndAlarm(isAdmin, alarm);
+    }
+
+    public void save(Optional<User> user) {
+        userRepository.save(user.get());
+    }
 }
