@@ -8,12 +8,11 @@
 //import org.springframework.web.bind.annotation.RestController;
 //
 //import java.util.List;
-//
+//@RequiredArgsConstructor
 //@RestController
 //public class ReadNoticeController {
 //
-//    @Autowired
-//    ReadNoticeServiceImpl readNoticeService;
+//    private final ReadNoticeServiceImpl readNoticeService;
 //
 //    @GetMapping("notice/unread/all")
 //    public List<ReadNoticeResponseDto> allUnReadNotice(@RequestParam("id") Long id, @RequestParam("is_read") int isRead) throws Exception {

@@ -4,6 +4,7 @@ import com.ssafy.ssafytime.db.dto.notice.NoticeRequestDto;
 import com.ssafy.ssafytime.db.dto.notice.NoticeResponseDto;
 import com.ssafy.ssafytime.exception.ResponseHandler;
 import com.ssafy.ssafytime.api.service.notice.NoticeServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 public class NoticeController {
 
-    @Autowired
-    NoticeServiceImpl noticeService;
+    private final NoticeServiceImpl noticeService;
 
     /* 단일 공지사항 조회(develop_AJH)
     id : 공지사항 id
@@ -34,9 +35,9 @@ public class NoticeController {
      */
     @GetMapping("notice/all")
     public ResponseEntity<Object> noticeAll(){
-        List<NoticeResponseDto> menu = noticeService.getAllNotice();
-        if (!menu.isEmpty())
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, menu);
+        List<NoticeResponseDto> notice = noticeService.getAllNotice();
+        if (!notice.isEmpty())
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, notice);
         else
             return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
     }

@@ -3,6 +3,7 @@ package com.ssafy.ssafytime.api.controller;
 //import com.ssafy.ssafytime.api.dto.AttendanceDto;
 //import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.db.dto.FCMTokenDTO;
+import com.ssafy.ssafytime.api.service.AlarmDefaultServiceImpl;
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
 import com.ssafy.ssafytime.api.service.UserService;
@@ -10,6 +11,9 @@ import com.ssafy.ssafytime.api.service.UserService;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
 import com.ssafy.ssafytime.db.entity.User;
 import io.swagger.annotations.ApiParam;
+import com.ssafy.ssafytime.exception.ResponseHandler;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -20,14 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final AlarmDefaultServiceImpl alarmService;
 
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signup(
@@ -62,6 +64,33 @@ public class UserController {
         } else {
             return ResponseEntity.ok().body(BaseResponseBody.of(401, "no user"));
         }
+    }
+
+    @GetMapping("alarm/default/{userId}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Object> getAlarmSettings(@PathVariable Long userId) {
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, alarmService.getDefaultAlarmSetting(userId));
+    }
+
+    @PutMapping("alarm/notice/{userId}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Object> updateNotice(@PathVariable Long userId) {
+        alarmService.noticeChange(userId);
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, null);
+    }
+
+    @PutMapping("alarm/survey/{userId}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Object> updateSurvey(@PathVariable Long userId) {
+        alarmService.noticeChange(userId);
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, null);
+    }
+
+    @PutMapping("alarm/consulting/{userId}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Object> updateConsulting(@PathVariable Long userId) {
+        alarmService.noticeChange(userId);
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, null);
     }
 
 //    @GetMapping("/attendance")
