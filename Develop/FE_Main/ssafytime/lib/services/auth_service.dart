@@ -38,11 +38,13 @@ class AuthService extends GetxService {
         body: json.encode({"userEmail": email, "password": password}),
         encoding: Encoding.getByName("utf-8"),
       );
+      log("${res.statusCode}");
       if (res.statusCode == 200) {
         token = json.decode(res.body)['token'];
         if (autoLoginFlag ?? false) {
           await storage.write(key: "token", value: token);
         }
+        log("$token");
         isLogin = true;
         Get.offAllNamed('/');
       }

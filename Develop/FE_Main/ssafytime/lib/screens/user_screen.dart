@@ -111,62 +111,7 @@ class _UserScreenStates extends State<UserScreen> {
                                     _titleController.clear();
                                     stateController.dateSelected.clear();
                                   },
-                                  content: Obx(
-                                    () => Column(
-                                      children: [
-                                        TimePickerSpinner(
-                                          is24HourMode: false,
-                                          itemHeight: 40,
-                                          itemWidth: 60,
-                                          onTimeChange: (time) {
-                                            stateController.dateTime.value =
-                                                time;
-                                          },
-                                        ),
-                                        TextField(
-                                          controller: _titleController,
-                                          decoration: InputDecoration(
-                                              labelText: "알람 제목"),
-                                        ),
-                                        SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            children: dateSelect.keys
-                                                .map(
-                                                  ((e) => FilterChip(
-                                                        showCheckmark: false,
-                                                        label: Text(e),
-                                                        onSelected:
-                                                            (bool value) {
-                                                          if (value) {
-                                                            if (!stateController
-                                                                .dateSelected
-                                                                .contains(e)) {
-                                                              stateController
-                                                                  .dateSelected
-                                                                  .add(e);
-                                                            }
-                                                          } else {
-                                                            stateController
-                                                                .dateSelected
-                                                                .removeWhere(
-                                                                    (element) =>
-                                                                        element ==
-                                                                        e);
-                                                          }
-                                                        },
-                                                        selected:
-                                                            stateController
-                                                                .dateSelected
-                                                                .contains(e),
-                                                      )),
-                                                )
-                                                .toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  content: Obx(() => setCustomAlarmDialog()),
                                 );
                               },
                               icon: FaIcon(FontAwesomeIcons.plus))
@@ -175,14 +120,32 @@ class _UserScreenStates extends State<UserScreen> {
                     ),
                     stateController.displayCustomState.length > 0
                         ? Column(
-                            children: stateController.displayCustomState,
+                            children: [
+                              for (int i = 0;
+                                  i < stateController.customState.length;
+                                  i++) ...[
+                                SwitchListTile(
+                                  visualDensity: VisualDensity(
+                                      horizontal: 0, vertical: -4),
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(32, 0, 16, 0),
+                                  title: Text(
+                                      stateController.customState[i].title),
+                                  value: stateController.customState[i].isOn,
+                                  onChanged: (value) => {
+                                    stateController.customState[i].isOn = value
+                                  },
+                                ),
+                                Divider()
+                              ]
+                            ],
                           )
                         : Text("${_titleController.text}")
                   ],
                 ),
               ),
-              ElevatedButton(
-                  onPressed: () {
+              GestureDetector(
+                  onTap: () {
                     AuthService.to.logout();
                   },
                   child: Text("로그아웃")),
@@ -190,6 +153,49 @@ class _UserScreenStates extends State<UserScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget setCustomAlarmDialog() {
+    return Column(
+      children: [
+        TimePickerSpinner(
+          is24HourMode: false,
+          itemHeight: 40,
+          itemWidth: 60,
+          onTimeChange: (time) {
+            stateController.dateTime.value = time;
+          },
+        ),
+        TextField(
+          controller: _titleController,
+          decoration: InputDecoration(labelText: "알람 제목"),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: dateSelect.keys
+                .map(
+                  ((e) => FilterChip(
+                        showCheckmark: false,
+                        label: Text(e),
+                        onSelected: (bool value) {
+                          if (value) {
+                            if (!stateController.dateSelected.contains(e)) {
+                              stateController.dateSelected.add(e);
+                            }
+                          } else {
+                            stateController.dateSelected
+                                .removeWhere((element) => element == e);
+                          }
+                        },
+                        selected: stateController.dateSelected.contains(e),
+                      )),
+                )
+                .toList(),
+          ),
+        ),
+      ],
     );
   }
 }

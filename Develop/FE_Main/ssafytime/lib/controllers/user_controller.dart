@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/models/user_model.dart';
-import 'package:http/http.dart' as http;
+import 'package:ssafytime/repositories/user_repository.dart';
 import 'package:ssafytime/services/auth_service.dart';
 
 class UserController extends GetxController {
@@ -13,11 +10,11 @@ class UserController extends GetxController {
 
   Rx<User?> user = Rx<User?>(null);
 
-  final storage = const FlutterSecureStorage();
+  UserRepo userApi = UserRepo(token: AuthService.to.token ?? "");
 
   @override
   void onInit() async {
-    await fetchUser(AuthService.to.token);
+    await fetchUser();
     super.onInit();
   }
 
@@ -26,32 +23,19 @@ class UserController extends GetxController {
     super.onReady();
   }
 
-  Future<void> fetchUser(String? token) async {
-    if (token != null) {
-      var response = await http.get(
-          Uri.parse("http://i8a602.p.ssafy.io:9090/user/my-page"),
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer ${token}"
-          });
-      if (response.statusCode == 200) {
-        user.value = User.fromRawJson(response.body);
-        String? fcmToken = await FirebaseMessaging.instance.getToken(
-            vapidKey:
-                "BKEyfl55H2kgfEnSwt3yqPp9CwLtf9Ntgwv13RiT-U-jjzrozda7WadN2v6Z4Cl6x4_dOxHLMdeh3rfKjiL2YTM");
-        updateFCMToken(fcmToken, AuthService.to.token);
+  Future<void> fetchUser() async {
+    user.value = await userApi.fetchUserInfo();
+    log("${user.value?.userEmail}");
+    if (user.value != null) {
+      var fcmToken = await userApi.fetchFcmToken();
+      bool res = await userApi.updateFcmToken(fcmToken);
+      if (res) {
+        log("Login : Success / FcmToken : Success");
+      } else {
+        log("Login : Success / FcmToken : Failed");
       }
+    } else {
+      log("Login : Failed / FcmToken : Failed");
     }
-  }
-
-  void updateFCMToken(String? fcmToken, String? token) async {
-    var response = await http.post(
-        Uri.parse("http://i8a602.p.ssafy.io:9090/user/alarm"),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer ${token}"
-        },
-        body: json.encode({"fcmtoken": fcmToken}));
-    log("fcm Regist : ${response.statusCode}");
   }
 }

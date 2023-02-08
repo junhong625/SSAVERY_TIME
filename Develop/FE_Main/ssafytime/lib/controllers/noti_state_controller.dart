@@ -104,22 +104,6 @@ class NotiStateController extends GetxController {
         time: dateTime.value ?? DateTime.now(),
         isOn: state);
     customState.add(custom);
-    displayCustomState.add(
-      Column(
-        children: [
-          SwitchListTile(
-            visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-            contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
-            title: Text(custom.title),
-            value: custom.isOn,
-            onChanged: (bool value) {
-              custom.isOn = value;
-            },
-          ),
-          Divider()
-        ],
-      ),
-    );
   }
 
 // 서버에서 기본 알림 설정 가져오기
