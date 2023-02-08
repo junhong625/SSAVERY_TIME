@@ -21,6 +21,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -50,7 +51,7 @@ public class FcmController {
 
 
     @PostMapping("/fcm")
-    public ResponseEntity pushMessage(@ApiIgnore Authentication authentication) throws IOException {
+    public ResponseEntity pushMessage(@ApiIgnore Authentication authentication) throws IOException, FirebaseMessagingException {
 
 //        System.out.println(requestDTO.getTargetToken() + " "
 //                +requestDTO.getTitle() + " " + requestDTO.getBody());
@@ -62,10 +63,30 @@ public class FcmController {
 //            token.add(users.get(i).getToken());  // 토큰들 추출
 //        }
 //        token.add(userDto.getToken());
-        firebaseCloudMessageService.sendMessageTo(
-                "fE9fmDSWSzWAldDQ-3jyw9:APA91bHEo59QnioI97JE5taDjNG7iox_GmrG6jyFQpuq04UKebelseHU5vmAHqtNXiY1rpLvPX97aCpyfEU-Oc8zkLduf9Tid6QxGzSy0Vi-iSCwk1z5lX9A7wS2DecNHShSjVsmb04F",
-                "hi",
-                "bye");
+
+
+
+//        firebaseCloudMessageService.sendMessageTo(
+//                "fE9fmDSWSzWAldDQ-3jyw9:APA91bHEo59QnioI97JE5taDjNG7iox_GmrG6jyFQpuq04UKebelseHU5vmAHqtNXiY1rpLvPX97aCpyfEU-Oc8zkLduf9Tid6QxGzSy0Vi-iSCwk1z5lX9A7wS2DecNHShSjVsmb04F",
+//                "hi",
+//                "bye");
+
+        // This registration token comes from the client FCM SDKs.
+        String registrationToken = "fE9fmDSWSzWAldDQ-3jyw9:APA91bHEo59QnioI97JE5taDjNG7iox_GmrG6jyFQpuq04UKebelseHU5vmAHqtNXiY1rpLvPX97aCpyfEU-Oc8zkLduf9Tid6QxGzSy0Vi-iSCwk1z5lX9A7wS2DecNHShSjVsmb04F";
+
+// See documentation on defining a message payload.
+        Message message = Message.builder()
+                .putData("score", "850")
+                .putData("time", "2:45")
+                .setToken(registrationToken)
+                .build();
+
+// Send a message to the device corresponding to the provided
+// registration token.
+        String response = FirebaseMessaging.getInstance().send(message);
+// Response is a message ID string.
+        System.out.println("Successfully sent message: " + response);
+
         return ResponseEntity.ok().build();
     }
 
@@ -82,12 +103,15 @@ public class FcmController {
     public ResponseEntity pushMultiMessage() throws IOException, FirebaseMessagingException {
 
         List<String> registrationTokens = Arrays.asList(
-                "fE9fmDSWSzWAldDQ-3jyw9:APA91bHEo59QnioI97JE5taDjNG7iox_GmrG6jyFQpuq04UKebelseHU5vmAHqtNXiY1rpLvPX97aCpyfEU-Oc8zkLduf9Tid6QxGzSy0Vi-iSCwk1z5lX9A7wS2DecNHShSjVsmb04F",
+                "fE9fmDSWSzWAldDQ-3jyw9:APA91bHEo59QnioI97JE5taDjNG7iox_GmrG6jyFQpuq04UKebelseHU5vmAHqtNXiY1rpLvPX97aCpyfEU-Oc8zkLduf9Tid6QxGzSy0Vi-iSCwk1z5lX9A7wS2DecNHShSjVsmb04F"
                 // ...
-                "cd4x0KNwTT6kt4Atjz1YY7:APA91bHOKpw7KnRrDF09ZzKcmu8tNLWsgjo3Mdlff7W1ncRI67Z0EEXm2khW1t5hysoJxWkPo46xJtiFipVOvzhz2Km0xFrMkJE8Cs9hYyyS26Ui19CSxhonTIvoHH-zeMcM3Mij5RD6"
+//                "cd4x0KNwTT6kt4Atjz1YY7:APA91bHOKpw7KnRrDF09ZzKcmu8tNLWsgjo3Mdlff7W1ncRI67Z0EEXm2khW1t5hysoJxWkPo46xJtiFipVOvzhz2Km0xFrMkJE8Cs9hYyyS26Ui19CSxhonTIvoHH-zeMcM3Mij5RD6"
         );
 
+        Notification notification = Notification.builder().setTitle("hi").setBody("hi").setImage(null).build();
+
         MulticastMessage message = MulticastMessage.builder()
+                .setNotification(notification)
                 .putData("title", "850")
                 .putData("content", "2:45")
                 .addAllTokens(registrationTokens)
