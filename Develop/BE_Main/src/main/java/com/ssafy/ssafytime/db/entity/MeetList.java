@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Entity
@@ -50,6 +51,7 @@ public class MeetList {
     @Column(name = "meet_url")
     String meetUrl;
 
-
+    @Column(name = "sub_time", columnDefinition = "TIMESTAMP")
+    LocalDateTime subTime;
 
 }
