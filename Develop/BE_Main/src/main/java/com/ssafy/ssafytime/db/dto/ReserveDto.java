@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Getter
@@ -40,7 +41,7 @@ public class ReserveDto {
     // Dto -> Entity
     public MeetList toEntity(User studentId, User managerId, Double rezTime) {
 
-        return MeetList.builder().studentId(studentId).managerId(managerId).rezDate(rezDate).rezTime(rezTime).title(title).category(category).build();
+        return MeetList.builder().studentId(studentId).managerId(managerId).rezDate(rezDate).rezTime(rezTime).title(title).category(category).subTime(LocalDateTime.now()).build();
     }
 }
 

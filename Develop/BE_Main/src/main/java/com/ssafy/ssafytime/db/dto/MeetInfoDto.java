@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -31,5 +32,6 @@ public class MeetInfoDto {
     private Long state;
     // 이름
     private String name;
-
+    // 등록 날짜
+    private LocalDateTime subTime;
 }

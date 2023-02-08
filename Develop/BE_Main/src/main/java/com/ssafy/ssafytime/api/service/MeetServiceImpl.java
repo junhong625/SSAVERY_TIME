@@ -49,11 +49,16 @@ public class MeetServiceImpl implements MeetService{
 
         userList.stream()
                 .forEach(user -> {
+
                     HashMap<String, Object> info = new HashMap<String, Object>();
-                    info.put("user_name", user.getUserName());
-                    info.put("user_img", user.getUserImg());
-                    info.put("is_admin", user.getIsAdmin());
-                    info.put("user_idx", user.getUserIdx());
+                    if(user.getIsAdmin()!=0) {
+
+                        info.put("user_name", user.getUserName());
+                        info.put("user_img", user.getUserImg());
+                        info.put("is_admin", user.getIsAdmin());
+                        info.put("user_idx", user.getUserIdx());
+
+                    }
                     manager.add(info);
                 });
         return manager;
@@ -78,6 +83,7 @@ public class MeetServiceImpl implements MeetService{
                 meetInfoDto.setState(m.getState());
                 meetInfoDto.setCategory(m.getCategory());
                 meetInfoDto.setRezIdx(m.getRezIdx());
+                meetInfoDto.setSubTime(m.getSubTime());
 
                 manager.add(meetInfoDto);
             }
@@ -104,6 +110,7 @@ public class MeetServiceImpl implements MeetService{
                     meetInfoDto.setState(m.getState());
                     meetInfoDto.setCategory(m.getCategory());
                     meetInfoDto.setRezIdx(m.getRezIdx());
+                    meetInfoDto.setSubTime(m.getSubTime());
 
                     manager.add(meetInfoDto);
                 }
@@ -128,7 +135,7 @@ public class MeetServiceImpl implements MeetService{
     public void save(ReserveDto reserveDto) {
 
         User std = userRepository.findById(reserveDto.getStudentId()).get();
-        User manager = userRepository.findById(reserveDto.getStudentId()).get();
+        User manager = userRepository.findById(reserveDto.getManagerId()).get();
 
         String[] timeSplit = reserveDto.getRezTime().split(":");
         Double rezTime = Double.parseDouble(timeSplit[0]) + ((Double.parseDouble(timeSplit[1]) / 6) * 0.1);
