@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: AppRoutes.inital,
+      initialRoute: '/testCouncel',
       getPages: AppRoutes.routes,
       initialBinding: BindingsBuilder(() {}),
     );

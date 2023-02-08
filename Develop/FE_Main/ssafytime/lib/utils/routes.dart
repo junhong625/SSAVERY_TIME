@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/user_controller.dart';
+import 'package:ssafytime/screens/counsel_screen.dart';
 import 'package:ssafytime/screens/login_screen.dart';
 import 'package:ssafytime/screens/root_screen.dart';
 import 'package:ssafytime/screens/user_screen.dart';
+import 'package:ssafytime/test_page.dart';
 import 'package:ssafytime/utils/auth_guard.dart';
 
 class AppRoutes {
@@ -21,5 +23,7 @@ class AppRoutes {
         middlewares: [AuthGuard()],
         name: '/userPage',
         page: () => UserScreen()),
+    GetPage(name: '/testCouncel', page: ()=>CounselScreen()),
+    GetPage(name: '/TestPage', page: ()=>TestPage()),
   ];
 }

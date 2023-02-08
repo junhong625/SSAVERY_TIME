@@ -19,7 +19,7 @@ class MyCouncelor {
   int isAdmin;
   String userName;
   int userIdx;
-  String userImg;
+  String? userImg;
 
   factory MyCouncelor.fromJson(Map<String, dynamic> json) => MyCouncelor(
     isAdmin: json["is_admin"],
