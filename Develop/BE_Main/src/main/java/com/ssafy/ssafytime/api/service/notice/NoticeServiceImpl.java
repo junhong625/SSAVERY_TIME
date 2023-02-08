@@ -6,6 +6,7 @@ import com.ssafy.ssafytime.db.dto.notice.NoticeResponseDto;
 import com.ssafy.ssafytime.db.repository.NoticeRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,10 +23,15 @@ public class NoticeServiceImpl implements NoticeService{
     final NoticeRepository noticeRepository;
 
     @Override
+    public NoticeResponseDto getCurrentNotice() {
+        List<NoticeEntity> notice = noticeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        return new NoticeResponseDto(notice.get(0));
+    }
+
+    @Override
     public NoticeResponseDto getNotice(Long id){
         Optional<NoticeEntity> notice = noticeRepository.findById(id);
-        NoticeEntity noticeEntity = notice.get();
-        return new NoticeResponseDto(noticeEntity);
+        return new NoticeResponseDto(notice.get());
     }
 
     @Override
