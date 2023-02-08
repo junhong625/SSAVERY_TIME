@@ -3,30 +3,26 @@ package com.ssafy.ssafytime.api.firebase;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
-import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
-
+@Service
 @Component
-@RequiredArgsConstructor
 public class firebaseCloudMessageService {
 
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/ssafytime/messages:send";
     private final ObjectMapper objectMapper;
+
+    public firebaseCloudMessageService(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     public void sendMessageTo(String targetToken, String title, String body) throws IOException {
         String message = makeMessage(targetToken, title, body);
@@ -46,7 +42,7 @@ public class firebaseCloudMessageService {
         System.out.println(response.body().string());
     }
 
-    private String makeMessage(String targetToken, String title, String body) throws JsonParseException, JsonProcessingException {
+    public String makeMessage(String targetToken, String title, String body) throws JsonParseException, JsonProcessingException {
         FcmMessage fcmMessage = FcmMessage.builder()
                 .message(FcmMessage.Message.builder()
                         .token(targetToken).notification(FcmMessage.Notification.builder()
@@ -61,7 +57,7 @@ public class firebaseCloudMessageService {
 
 
 
-    private String getAccessToken() throws IOException {
+    public String getAccessToken() throws IOException {
         String firebaseConfigPath = "/firebase/ssafytime-firebase-adminsdk-uq8xh-c0ce82262a.json";
 
         GoogleCredentials googleCredentials = GoogleCredentials

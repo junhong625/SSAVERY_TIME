@@ -1,5 +1,10 @@
 package com.ssafy.ssafytime.api.firebase;
 
+import com.google.api.client.util.Value;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.common.net.HttpHeaders;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.service.UserService;
@@ -10,14 +15,16 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +34,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FcmController {
 
-    private final firebaseCloudMessageService firebaseCloudMessageService;
+    private final String API_URL = "https://fcm.googleapis.com/v1/projects/ssafytime/messages:send";
+
+    @Value("${project.properties.firebase-create-scoped}")
+    String fireBaseCreateScoped;
+
+    @Autowired
+    firebaseCloudMessageService firebaseCloudMessageService;
 
     @Autowired
     UserService userService;
@@ -38,6 +51,7 @@ public class FcmController {
 
     @PostMapping("/fcm")
     public ResponseEntity pushMessage(@ApiIgnore Authentication authentication) throws IOException {
+
 //        System.out.println(requestDTO.getTargetToken() + " "
 //                +requestDTO.getTitle() + " " + requestDTO.getBody());
 
@@ -54,7 +68,8 @@ public class FcmController {
                 "bye");
         return ResponseEntity.ok().build();
     }
-    @PostMapping("/api/fcm")
+
+    @PostMapping("/multi/fcm")
     @ApiOperation(value = "FCM 알림보내기", notes = "<strong>FCM 알림보내기</strong>")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -64,7 +79,7 @@ public class FcmController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity pushMessage(@RequestBody MessageDTO messageDTO, @ApiIgnore Authentication authentication) throws IOException, FirebaseMessagingException {
+    public ResponseEntity pushMultiMessage() throws IOException, FirebaseMessagingException {
 
         List<String> registrationTokens = Arrays.asList(
                 "fE9fmDSWSzWAldDQ-3jyw9:APA91bHEo59QnioI97JE5taDjNG7iox_GmrG6jyFQpuq04UKebelseHU5vmAHqtNXiY1rpLvPX97aCpyfEU-Oc8zkLduf9Tid6QxGzSy0Vi-iSCwk1z5lX9A7wS2DecNHShSjVsmb04F",
@@ -73,14 +88,30 @@ public class FcmController {
         );
 
         MulticastMessage message = MulticastMessage.builder()
-                .putData("score", "850")
-                .putData("time", "2:45")
+                .putData("title", "850")
+                .putData("content", "2:45")
                 .addAllTokens(registrationTokens)
                 .build();
+
+//        String message = makeMessage(targetToken, title, body);
+
+        OkHttpClient client = new OkHttpClient();
+        okhttp3.RequestBody requestBody = RequestBody.create(message.toString(),
+                MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(API_URL)
+                .post(requestBody)
+                .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + firebaseCloudMessageService.getAccessToken())
+                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+                .build();
+
+
+//        Response response = client.newCall(request).execute();
+
         BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
 // See the BatchResponse reference documentation
 // for the contents of response.
-        System.out.println(response.getSuccessCount() + " messages were sent successfully");
+//        System.out.println(response.getSuccessCount() + " messages were sent successfully");
 
 //
 //        // 로그인되지않은 유저라면 에러보냄
@@ -132,4 +163,17 @@ public class FcmController {
 //        return ResponseEntity.ok().build();
         return null;
     }
+
+//    @PostConstruct
+//    public void firebaseSetting() throws IOException {
+//        GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource("/firebase/ssafytime-firebase-adminsdk-uq8xh-c0ce82262a.json").getInputStream())
+//                .createScoped((Arrays.asList(fireBaseCreateScoped)));
+//
+//        FirebaseOptions secondaryAppConfig = FirebaseOptions.builder()
+//                .setCredentials(googleCredentials)
+//                .build();
+//        if (FirebaseApp.getApps().isEmpty()) {
+//            FirebaseApp.initializeApp(secondaryAppConfig);
+//        }
+//    }
 }
