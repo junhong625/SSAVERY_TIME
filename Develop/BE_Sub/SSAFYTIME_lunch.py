@@ -112,7 +112,9 @@ def lunch_menu_data():
                     # image_url : 메뉴 이미지 URL
 
                     # DB에 데이터 Insert
-                    cur.execute(f"INSERT INTO lunch_menu (date, region, course, main_menu, side_menu, kcal, cho, fat, protein, sodium, image_url) VALUES('{date}', '{region}', '{course}', '{main_menu}', '{side_menu}', '{kcal}', '{cho}', '{fat}', '{protein}', '{sodium}', '{image_url}')")
+                    cur.execute(f"SELECT * FROM lunch_menu where imagr_url={image_url}")
+                    if (not cur.fetchall()):
+                        cur.execute(f"INSERT INTO lunch_menu (date, region, course, main_menu, side_menu, kcal, cho, fat, protein, sodium, image_url) VALUES('{date}', '{region}', '{course}', '{main_menu}', '{side_menu}', '{kcal}', '{cho}', '{fat}', '{protein}', '{sodium}', '{image_url}')")
 
 
             date_data = date_data + datetime.timedelta(days=1)
@@ -180,8 +182,10 @@ def lunch_menu_data():
                 # image_url : 메뉴 이미지 URL
 
                 # DB에 데이터 Insert
-                cur.execute(f"INSERT INTO lunch_menu (date, region, course, main_menu, side_menu, kcal, cho, fat, protein, sodium, image_url) VALUES('{date}', '{region}', '{course}', '{main_menu}', '{side_menu}', '{kcal}', '{cho}', '{fat}', '{protein}', '{sodium}', '{image_url}')")
-
+                cur.execute(f"SELECT * FROM lunch_menu where imagr_url={image_url}")
+                if (not cur.fetchall()):
+                    cur.execute(f"INSERT INTO lunch_menu (date, region, course, main_menu, side_menu, kcal, cho, fat, protein, sodium, image_url) VALUES('{date}', '{region}', '{course}', '{main_menu}', '{side_menu}', '{kcal}', '{cho}', '{fat}', '{protein}', '{sodium}', '{image_url}')")
+                
         # DB에 데이터 적용
         conn.commit()
         
