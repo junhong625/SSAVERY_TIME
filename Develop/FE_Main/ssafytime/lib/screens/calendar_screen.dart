@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:ssafytime/screens/notification_screen.dart';
 import 'package:ssafytime/screens/user_screen.dart';
 
+import '../widgets/schedule_day_of_week.dart';
+
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({Key? key}) : super(key: key);
   @override
@@ -20,7 +22,7 @@ class _CalendarScreenStates extends State<CalendarScreen> {
         title: const Text("시간표"),
         actions: <Widget>[
           IconButton(
-            onPressed: () => Get.to(() => const UserScreen()),
+            onPressed: () => Get.to(() => UserScreen()),
             icon: const FaIcon(
               FontAwesomeIcons.user,
               size: 20,
@@ -36,10 +38,10 @@ class _CalendarScreenStates extends State<CalendarScreen> {
         ],
       ),
       body: SizedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [Text("CalendarScreen")],
+        child: Column(
+          children: [
+            SDay0fWeek(),
+          ],
         ),
       ),
     );

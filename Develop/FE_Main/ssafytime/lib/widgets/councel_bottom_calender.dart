@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../controllers/councel_controller.dart';
 
-import '../controllers/councel_bottom.dart';
 
 class CBCalender extends StatelessWidget {
 
   CBCalender({Key? key}) : super(key: key);
 
-  CBDatePickController controller = Get.put(CBDatePickController());
+  // CBDatePickController controller = Get.put(CBDatePickController());
+  // CBDatePickController controller = Get.find<CBDatePickController>();
+  MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class CBCalender extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
-            child: Text(controller.myDate.value,
+            child: Text(controller.myPickDateDisplay.value,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w900,
@@ -26,9 +28,14 @@ class CBCalender extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              print("따라라란");
               DateTime? pickedDate = await showDatePicker(
                 context: context,
+                // 하루 뒤 부터 예약가능
+                // initialDate: DateTime.now().add(Duration(hours: 24)),
+                // firstDate: DateTime.now().add(Duration(hours: 24)),
+                // lastDate: DateTime.now().add(Duration(hours: 720)),
+
+                // 일단 선택 범위 없애고
                 initialDate: DateTime.now(),
                 firstDate: DateTime(2000),
                 lastDate: DateTime(2100),
@@ -36,7 +43,7 @@ class CBCalender extends StatelessWidget {
               if (pickedDate != null) {
                 String formattedDate = DateFormat('yyyy-MM-dd-EE').format(pickedDate);
                 List<String> formatDateList = formattedDate.split('-');
-                controller.selectDate(formatDateList);
+                controller.selectDateAndFetchReservation(formatDateList);
               }
             },
             child: Text('날짜 선택',

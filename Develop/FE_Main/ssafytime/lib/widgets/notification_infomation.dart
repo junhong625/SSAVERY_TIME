@@ -7,7 +7,7 @@ class CNI extends StatefulWidget {
   final IconData myIcon; // 넣을 아이콘
   // 공지 : FontAwesomeIcons.bullhorn,
   // 설문 : FontAwesomeIcons.pen,
-  // 상담 : FontAwesomeIcons.userFriends
+  // 상담 : FontAwesomeIcons.userGroup
 
   final int iconColor; // 아이콘 색상
   // 공지 : 0xffFF5449

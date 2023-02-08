@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/councel_bottom.dart';
+
+import '../controllers/councel_controller.dart';
 import '../model/councel_bottom.dart';
 
-class CBCategoryTotal extends StatelessWidget {
+class CBCategoryTotal extends StatefulWidget {
   CBCategoryTotal({Key? key}) : super(key: key);
 
+  @override
+  State<CBCategoryTotal> createState() => _CBCategoryTotalState();
+}
+
+class _CBCategoryTotalState extends State<CBCategoryTotal> {
   TextEditingController textController = TextEditingController();
-  CBCategoryController controller = Get.put(CBCategoryController());
+
+  // CBCategoryController controller = Get.put(CBCategoryController());
+  MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +40,7 @@ class CBCategoryTotal extends StatelessWidget {
             ),
             keyboardType: TextInputType.text,
             onChanged: (textController) {
-              controller.myInput.value = textController;
+              controller.myInputCategory.value = textController;
             },
           ),
         ),

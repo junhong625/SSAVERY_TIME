@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../controllers/councel_bottom.dart';
 import 'package:get/get.dart';
+
+import '../controllers/councel_controller.dart';
 
 class CBTimeItem extends StatelessWidget {
 
@@ -11,7 +12,9 @@ class CBTimeItem extends StatelessWidget {
   required this.time,
   }) : super(key: key);
 
-  CBTimeController controller = Get.put(CBTimeController());
+  // CBTimeController controller = Get.put(CBTimeController());
+  // CBTimeController controller = Get.find<CBTimeController>();
+  MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +30,16 @@ class CBTimeItem extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
-              backgroundColor: time == controller.myPick.value ? Color(0xff0079D1) : Colors.white,
+              backgroundColor: time == controller.myPickTime.value ? Color(0xff0079D1) : Colors.white,
             ),
             onPressed: () {
               controller.select(time);
+              FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
             },
             child: Text(time,
               style: TextStyle(fontWeight: FontWeight.w900,
                 fontSize: 11,
-                color: time == controller.myPick.value ? Colors.white : Color(0xff0079D1)
+                color: time == controller.myPickTime.value ? Colors.white : Color(0xff0079D1)
               ),
             ),
           ),
@@ -64,6 +68,7 @@ class CBLunchItem extends StatelessWidget {
             backgroundColor: Color(0xff76777A)
           ),
           onPressed: () {
+            FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
           },
           child: Text('점심',
             style: TextStyle(fontWeight: FontWeight.w900,
@@ -105,6 +110,7 @@ class CBReservedTime extends StatelessWidget {
             backgroundColor: Color(0xffC3C6CF)
           ),
           onPressed: () {
+            FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
           },
           child: Text(time,
             style: TextStyle(fontWeight: FontWeight.w900,

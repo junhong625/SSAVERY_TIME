@@ -59,7 +59,7 @@ class _HomeScreenStates extends State<HomeScreen> {
         title: const Text("1231234 김싸피"),
         actions: <Widget>[
           IconButton(
-            onPressed: () => Get.to(() => const UserScreen()),
+            onPressed: () => Get.to(() => UserScreen()),
             icon: const FaIcon(
               FontAwesomeIcons.user,
               size: 20,
