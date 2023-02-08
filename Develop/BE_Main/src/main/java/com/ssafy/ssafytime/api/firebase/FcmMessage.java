@@ -18,7 +18,8 @@ public class FcmMessage {
     @Getter
     public static class Message {
         private Notification notification;
-        private String registration_ids;
+        private String token;
+
     }
 
     @Builder
@@ -29,5 +30,4 @@ public class FcmMessage {
         private String body;
         private String image;
     }
-
 }

@@ -67,9 +67,6 @@ public class User {
     @Lob
     private String token;
 
-    @ColumnDefault("0")  // 0 : 알림받음
-    private Integer alarm;  // 알림 토글
-
 
     @ManyToMany
     @JoinTable(
