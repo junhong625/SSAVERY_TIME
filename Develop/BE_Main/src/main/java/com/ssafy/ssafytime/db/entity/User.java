@@ -70,6 +70,11 @@ public class User {
     @ColumnDefault("0")  // 0 : 알림받음
     private Integer alarm;  // 알림 토글
 
+    @Column
+    private String refreshToken;
+
+    @Column
+    private Long timeout;
 
     @ManyToMany
     @JoinTable(
@@ -77,6 +82,14 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_idx", referencedColumnName = "user_idx")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
+
+
+    public boolean hasSameValue(final String refreshToken){
+        return this.refreshToken.equals(refreshToken);
+    }
+
+
+
 }
 
 

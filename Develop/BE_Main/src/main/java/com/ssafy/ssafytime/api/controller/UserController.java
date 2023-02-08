@@ -1,5 +1,7 @@
 package com.ssafy.ssafytime.api.controller;
 
+import com.ssafy.ssafytime.api.dto.AttendanceInterface;
+import com.ssafy.ssafytime.api.dto.UserDto;
 //import com.ssafy.ssafytime.api.dto.AttendanceDto;
 //import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.db.dto.FCMTokenDTO;
@@ -10,23 +12,32 @@ import com.ssafy.ssafytime.api.service.UserService;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
 import com.ssafy.ssafytime.db.entity.User;
 import io.swagger.annotations.ApiParam;
+import com.ssafy.ssafytime.db.entity.User;
+import com.ssafy.ssafytime.db.repository.AttendanceRepository;
+import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final AttendanceRepository attendanceRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          AttendanceRepository attendanceRepository) {
         this.userService = userService;
+        this.attendanceRepository = attendanceRepository;
     }
 
     @PostMapping("/signup")
@@ -42,7 +53,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities());
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserWithAuthorities(username));
@@ -64,15 +75,26 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/attendance")
-//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-//    public ResponseEntity<AttendanceDto> getAttendance(HttpServletRequest request) {
-//        Long userIdx = userService.getMyUserWithAuthorities().getUserIdx();
-//        System.out.println(userIdx);
-//
-//        System.out.println("-----------------------여기까지는 됨---------------------");
-//        return ResponseEntity.ok(userService.getAttendances(userIdx));
-//    }
+    @GetMapping("/attendance")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Collection<AttendanceInterface>> getAttendance(HttpServletRequest request, @AuthenticationPrincipal User user) {
+
+        if(user==null) System.out.println("널인데유");
+        else System.out.println(user.getUserIdx());
+
+        Long userIdx = userService.getMyUserWithAuthorities().getUserIdx();
+
+        List<AttendanceInterface> list = attendanceRepository.findAllAttendance(userIdx);
+        List<AttendanceInterface> list2 = attendanceRepository.findMonthAttendance(userIdx);
+
+        list.addAll(list2);
+
+        return  ResponseEntity.ok(list);
+    }
+
+
+
+
 }
 
 
