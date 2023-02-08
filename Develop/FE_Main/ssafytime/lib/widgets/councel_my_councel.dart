@@ -22,15 +22,32 @@ class CMyCouncel extends StatelessWidget {
         child: Column(
           children: [
             CustomElevatedButton(
+              label: '생성',
+              onPressed: () async {
+                // await controller.fetchMyCouncelList(20168125, 0);
+                await controller.fetchCouncelor(1,2);
+                print('2');
+              }
+            ),
+            CustomElevatedButton(
+              label: '삭제',
                 onPressed: () async {
-                  controller.fetchCouncelor(20168125, 0);
+                  controller.myCouncelList.clear();
+                  print(controller.myCouncelList);
+                }
+            ),
+            CustomElevatedButton(
+                label: '조회',
+                onPressed: () async {
+                  print(controller.myCouncelList);
+                  print(controller.councelorList);
                 }
             ),
             for (int i=0; i < controller.myCouncelList.length; i++) ... [
               CouncelListItem(
                 startTime: controller.myCouncelStartTimeList[i],
                 endTime: controller.myCouncelEndTimeList[i],
-                rezTime: controller.myCouncelList.value[i].rezTime,
+                rezTime: controller.myCouncelList[i].rezTime,
                 currentTime: controller.doubleTypeCurrentTime.value,
                 title: controller.myCouncelList[i].title,
                 reject : controller.myCouncelList[i].reject,

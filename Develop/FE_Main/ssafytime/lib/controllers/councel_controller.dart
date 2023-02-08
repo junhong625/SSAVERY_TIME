@@ -8,7 +8,7 @@ import '../model/councel_detail.dart';
 
 class MyCouncelController extends GetxController {
 
-  var myCouncelList = <CouncelDetail>[].obs; // 내 상담 신청 현황들
+  List myCouncelList = <CouncelDetail>[].obs; // 내 상담 신청 현황들
   Rx<DateTime> currentTime = DateTime.now().obs;
   var doubleTypeCurrentTime = 1.0.obs; // 현재 시간은 더블 타입으로 바꾼것
   List<double> myCouncelStartTimeList = []; // 내 상담의 시작 시간 리스트 (myCouncelList 의 인덱스 순서와 같다.)
@@ -70,7 +70,7 @@ class MyCouncelController extends GetxController {
       myCouncelEndTimeList.add(
           myCouncelStartTimeList[i] + 100 // 상담은 1시간 한다고 가정해서 +100임 1이 시간 00이 분이라서
       );
-
+      print('1  myCouncelList : ${myCouncelList}');
     }
   }
 
@@ -129,19 +129,21 @@ class MyCouncelController extends GetxController {
   Future fetchCouncelor(int classNum, int region) async {
     var res = await http.get(Uri.parse('http://i8a602.p.ssafy.io:9090/reserve/info?classNum=${classNum}&regionCode=${region}'));
     List data = json.decode(res.body);
-
-    councelorList = <MyCouncelor>[].obs;
-    data.forEach((ele) {
-      councelorList.add(
+    // councelorList = <MyCouncelor>[].obs;
+    if (res.statusCode == 200) {
+      data.forEach((ele) {
+        councelorList.add(
           MyCouncelor(
             isAdmin: ele["is_admin"],
             userName: ele["user_name"],
             userIdx: ele["user_idx"],
             userImg: ele["user_img"],
-          )
+            )
+          );
+        }
       );
     }
-    );
+    print('fetchCouncelor 실행 : ${}')
   }
 
   // 관리자 선택하기

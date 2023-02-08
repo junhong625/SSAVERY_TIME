@@ -68,7 +68,7 @@ class UserScreen extends StatelessWidget {
                       CouncelListItem(
                         startTime: controller.myCouncelStartTimeList[0],
                         endTime: controller.myCouncelEndTimeList[0],
-                        rezTime: controller.myCouncelList.value[0].rezTime,
+                        rezTime: controller.myCouncelList[0].rezTime,
                         currentTime: controller.doubleTypeCurrentTime.value,
                         title: controller.myCouncelList[0].title,
                         reject : controller.myCouncelList[0].reject,
@@ -83,7 +83,7 @@ class UserScreen extends StatelessWidget {
                       CouncelListItem(
                       startTime: controller.myCouncelStartTimeList[0],
                       endTime: controller.myCouncelEndTimeList[0],
-                      rezTime: controller.myCouncelList.value[0].rezTime,
+                      rezTime: controller.myCouncelList[0].rezTime,
                       currentTime: controller.doubleTypeCurrentTime.value,
                       title: controller.myCouncelList[0].title,
                       reject : controller.myCouncelList[0].reject,
