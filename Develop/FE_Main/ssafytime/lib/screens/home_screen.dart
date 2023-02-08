@@ -6,7 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:ssafytime/controllers/auth_controller.dart';
+import 'package:ssafytime/controllers/user_controller.dart';
 import 'package:ssafytime/controllers/home_controller.dart';
 import 'package:ssafytime/screens/notification_screen.dart';
 import 'package:ssafytime/screens/user_screen.dart';

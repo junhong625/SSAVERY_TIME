@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:ssafytime/services/auth_service.dart';
 
 class UserController extends GetxController {
-  static UserController instance = Get.find();
+  static UserController get to => Get.find();
 
   Rx<User?> user = Rx<User?>(null);
 
@@ -17,8 +17,7 @@ class UserController extends GetxController {
 
   @override
   void onInit() async {
-    // await fetchUser(AuthService.to.token);
-    log("${user.value}");
+    await fetchUser(AuthService.to.token);
     super.onInit();
   }
 

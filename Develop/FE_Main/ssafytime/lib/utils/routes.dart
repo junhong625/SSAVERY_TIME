@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ssafytime/controllers/auth_controller.dart';
+import 'package:ssafytime/controllers/user_controller.dart';
 import 'package:ssafytime/screens/login_screen.dart';
 import 'package:ssafytime/screens/root_screen.dart';
 import 'package:ssafytime/screens/user_screen.dart';
