@@ -1,4 +1,8 @@
 version: "3.7"
+volumes:
+  ssafytime_db:
+    external: true
+    name: ssafytime_db
 services:
   database:
     image: mysql:8.0.30
@@ -9,8 +13,7 @@ services:
       TZ: Asia/Seoul
 
     volumes:
-      - ./db/data:/var/lib/mysql
-      - ./src/main/resource:/docker-entrypoint-initdb.d
+      - ssafytime_db:/var/lib/mysql
 
     ports:
       - 3306:3306
