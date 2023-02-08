@@ -1,6 +1,7 @@
-package com.ssafy.ssafytime.api.dto;
+package com.ssafy.ssafytime.db.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.ssafytime.db.dto.AuthorityDto;
 import com.ssafy.ssafytime.db.entity.User;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;

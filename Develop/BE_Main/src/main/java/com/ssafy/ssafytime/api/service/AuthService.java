@@ -1,6 +1,6 @@
 package com.ssafy.ssafytime.api.service;
 
-import com.ssafy.ssafytime.api.dto.TokenDto;
+import com.ssafy.ssafytime.db.dto.TokenDto;
 import com.ssafy.ssafytime.jwt.RefreshTokenValidator;
 import com.ssafy.ssafytime.jwt.TokenProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,7 +29,8 @@ public class AuthService {
         final String accessToken = tokenDto.getToken();
         final String refreshToken = tokenDto.getRefreshToken();
 
-
+        System.out.println(accessToken);
+        System.out.println(refreshToken);
         final Authentication authentication = tokenProvider.getAuthentication(accessToken);
 
         System.out.println(authentication.getPrincipal());

@@ -1,6 +1,7 @@
 package com.ssafy.ssafytime.api.service;
 
-import com.ssafy.ssafytime.api.dto.TokenDto;
+import com.ssafy.ssafytime.db.dto.TokenDto;
+import com.ssafy.ssafytime.db.entity.RefreshToken;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.RefreshTokenRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
@@ -9,20 +10,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Service
 public class TokenService {
     private final TokenProvider tokenProvider;
     private final long refreshTokenValidityInMilliseconds;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserRepository userRepository;
 
     public TokenService(
             final TokenProvider tokenProvider,
-            final UserRepository userRepository,
             @Value("${jwt.token-validity-in-seconds}") final long refreshTokenValidityInMilliseconds,
             RefreshTokenRepository refreshTokenRepository){
         this.tokenProvider = tokenProvider;
-        this.userRepository = userRepository;
         this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds;
         this.refreshTokenRepository = refreshTokenRepository;
     }
@@ -35,10 +37,14 @@ public class TokenService {
     }
 
     public void saveRefreshToken(final String userIdx, String refreshToken){
-        User user = userRepository.findByUserEmail(userIdx).orElse(null);
-        user.setRefreshToken(refreshToken);
-        user.setTimeout(refreshTokenValidityInMilliseconds);
-        userRepository.save(user);
+
+        long now = (new Date()).getTime();
+        Date validity = new Date(now + this.refreshTokenValidityInMilliseconds*10000);
+        LocalDateTime localDateTime = new Timestamp(validity.getTime()).toLocalDateTime();
+
+        System.out.println("DB 리프레시토큰 만료시간-==--=");
+        System.out.println(localDateTime);
+        refreshTokenRepository.save(new RefreshToken(userIdx, refreshToken, localDateTime));
     }
 
     public void invalidateRefreshToken(final Long userIdx){
@@ -46,6 +52,6 @@ public class TokenService {
     }
 
     public void invalidateRefreshToken(final String userIdx){
-        userRepository.deleteById(Long.valueOf(userIdx));
+        refreshTokenRepository.deleteById(Long.valueOf(userIdx));
     }
 }

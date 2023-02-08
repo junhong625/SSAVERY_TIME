@@ -67,11 +67,6 @@ public class User {
     @Lob
     private String token;
 
-    @Column
-    private String refreshToken;
-
-    @Column
-    private Long timeout;
     @ColumnDefault("0")  // 0 : 알림받음
     private Integer alarm;  // 알림 토글
 
@@ -83,10 +78,6 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
 
-
-    public boolean hasSameValue(final String refreshToken){
-        return this.refreshToken.equals(refreshToken);
-    }
 
 
 

@@ -2,15 +2,14 @@ package com.ssafy.ssafytime.api.service;
 
 import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.api.dto.AttendanceInterface;
-import com.ssafy.ssafytime.api.dto.TokenDto;
-import com.ssafy.ssafytime.api.dto.UserDto;
+import com.ssafy.ssafytime.db.dto.TokenDto;
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Attendance;
 import com.ssafy.ssafytime.db.entity.AttendanceId;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AttendanceRepository;
@@ -20,7 +19,6 @@ import com.ssafy.ssafytime.exception.DuplicateUserException;
 import com.ssafy.ssafytime.exception.NotFoundUserException;
 import com.ssafy.ssafytime.jwt.TokenProvider;
 import com.ssafy.ssafytime.util.SecurityUtil;
-import jdk.nashorn.internal.parser.Token;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

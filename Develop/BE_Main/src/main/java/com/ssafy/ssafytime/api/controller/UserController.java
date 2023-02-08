@@ -1,12 +1,11 @@
 package com.ssafy.ssafytime.api.controller;
 
 import com.ssafy.ssafytime.api.dto.AttendanceInterface;
-import com.ssafy.ssafytime.api.dto.UserDto;
 import com.ssafy.ssafytime.api.service.UserService;
+import com.ssafy.ssafytime.db.dto.FCMTokenDTO;
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AttendanceRepository;
-import io.swagger.annotations.Api;
-//import com.ssafy.ssafytime.db.entity.AttendanceId;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
 import com.ssafy.ssafytime.db.entity.User;
 import io.swagger.annotations.ApiParam;
@@ -27,6 +26,8 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+
+    private final AttendanceRepository attendanceRepository;
 
     public UserController(UserService userService,
                           AttendanceRepository attendanceRepository) {
@@ -60,7 +61,7 @@ public class UserController {
         if(user==null) System.out.println("널인데유");
         else System.out.println(user.getUserIdx());
 
-        Long userIdx = userService.getMyUserWithAuthorities().getUserIdx();
+        Long userIdx = userService.getMyUserWithAuthorities().getId();
 
         List<AttendanceInterface> list = attendanceRepository.findAllAttendance(userIdx);
         List<AttendanceInterface> list2 = attendanceRepository.findMonthAttendance(userIdx);

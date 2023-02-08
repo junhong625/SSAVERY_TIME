@@ -1,9 +1,6 @@
 package com.ssafy.ssafytime.db.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +8,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Getter
+@Setter
 @Table(name = "refresh_token")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,11 +22,14 @@ public class RefreshToken {
     private String token;
 
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "expired_at")
+    private LocalDateTime expiredAt;
 
-    @Column(name = "timeout")
-    private Long timeout;
+
+    public boolean hasSameValue(final String token){
+        return this.token.equals(token);
+    }
+
 
 
 

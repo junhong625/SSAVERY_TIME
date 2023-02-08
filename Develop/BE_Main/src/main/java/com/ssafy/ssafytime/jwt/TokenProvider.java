@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.jwt;
 
+import com.ssafy.ssafytime.db.dto.TokenType;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -15,6 +16,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -28,6 +31,8 @@ public class TokenProvider implements InitializingBean {
 
    private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
    private static final String AUTHORITIES_KEY = "auth";
+   static final String TOKEN_TYPE_KEY = "typ";
+
    private final String secret;
    private final long tokenValidityInMilliseconds;
    private Key key;
@@ -51,22 +56,32 @@ public class TokenProvider implements InitializingBean {
          .map(GrantedAuthority::getAuthority)
          .collect(Collectors.joining(","));
 
-      long now = (new Date()).getTime();
-      Date validity = new Date(now + this.tokenValidityInMilliseconds);
+      final Date now = new Date();
+
+      Date validity = new Date(now.getTime() + this.tokenValidityInMilliseconds);
+
 
       return Jwts.builder()
          .setSubject(authentication.getName())
+         .claim(TOKEN_TYPE_KEY, TokenType.ACCESS)
          .claim(AUTHORITIES_KEY, authorities)
          .signWith(key, SignatureAlgorithm.HS512)
          .setExpiration(validity)
+         .setIssuedAt(now)
          .compact();
    }
 
    public String createRefreshToken() {
-      long now = (new Date()).getTime();
-      Date validity = new Date(now + this.tokenValidityInMilliseconds);
+      final Date now = new Date();
 
+      Date validity = new Date(now.getTime() + this.tokenValidityInMilliseconds*10);
+      LocalDateTime localDateTime = new Timestamp(validity.getTime()).toLocalDateTime();
+
+      System.out.println("실제 리프레시토큰 만료시간-==--=");
+      System.out.println(localDateTime);
       return Jwts.builder()
+              .claim(TOKEN_TYPE_KEY, TokenType.REFRESH)
+              .setIssuedAt(now)
               .signWith(key, SignatureAlgorithm.HS512)
               .setExpiration(validity)
               .compact();
@@ -104,16 +119,18 @@ public class TokenProvider implements InitializingBean {
     */
 
    public boolean validateAccessToken(final String token){
-      return validateToken(token, false);
+      return validateToken(token, TokenType.ACCESS);
    }
 
    public boolean validateRefreshToken(final String token){
-      return validateToken(token, true);
+      return validateToken(token, TokenType.REFRESH);
    }
 
-   public boolean validateToken(String token, final boolean isRefreshToken) {
+   public boolean validateToken(String token, final TokenType tokenType) {
       try {
-         Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+         final Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+         final TokenType extractedType = TokenType.valueOf((String)claims.get(TOKEN_TYPE_KEY));
+
          return true;
       } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
          logger.info("잘못된 JWT 서명입니다.");
