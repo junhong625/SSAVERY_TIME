@@ -29,11 +29,8 @@ public class AuthService {
         final String accessToken = tokenDto.getToken();
         final String refreshToken = tokenDto.getRefreshToken();
 
-        System.out.println(accessToken);
-        System.out.println(refreshToken);
         final Authentication authentication = tokenProvider.getAuthentication(accessToken);
 
-        System.out.println(authentication.getPrincipal());
         validateRefreshToken(authentication.getName(), refreshToken);
 
 

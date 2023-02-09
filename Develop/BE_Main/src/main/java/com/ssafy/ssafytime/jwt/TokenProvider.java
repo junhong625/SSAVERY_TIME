@@ -129,9 +129,16 @@ public class TokenProvider implements InitializingBean {
    public boolean validateToken(String token, final TokenType tokenType) {
       try {
          final Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+         System.out.println("-=-=-=-==--=-=-=-=-=-==-");
+         System.out.println("클레임은");
+         System.out.println(claims.toString());
          final TokenType extractedType = TokenType.valueOf((String)claims.get(TOKEN_TYPE_KEY));
+         System.out.println("타입은");
+         System.out.println(extractedType);
+         System.out.println("-=-=-=-==--=-=-=-=-=-==-");
 
-         return true;
+
+         return !claims.getExpiration().before(new Date()) && extractedType == tokenType;
       } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
          logger.info("잘못된 JWT 서명입니다.");
       } catch (ExpiredJwtException e) {

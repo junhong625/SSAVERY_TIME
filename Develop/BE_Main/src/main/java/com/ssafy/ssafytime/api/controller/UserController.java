@@ -1,45 +1,27 @@
 package com.ssafy.ssafytime.api.controller;
 
-<<<<<<<<< Temporary merge branch 1
-//import com.ssafy.ssafytime.api.dto.AttendanceDto;
-//import com.ssafy.ssafytime.api.dto.AttendanceDto;
 import com.ssafy.ssafytime.db.dto.FCMTokenDTO;
-import com.ssafy.ssafytime.db.dto.UserDto;
-import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
 import com.ssafy.ssafytime.api.service.UserService;
-//import com.ssafy.ssafytime.db.entity.AttendanceId;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.User;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-=========
 import com.ssafy.ssafytime.api.dto.AttendanceInterface;
-import com.ssafy.ssafytime.api.dto.UserDto;
-import com.ssafy.ssafytime.api.service.UserService;
-import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AttendanceRepository;
 import io.swagger.annotations.Api;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
->>>>>>>>> Temporary merge branch 2
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-<<<<<<<<< Temporary merge branch 1
-import java.util.Optional;
-=========
-import java.util.Collection;
-import java.util.List;
->>>>>>>>> Temporary merge branch 2
+import java.util.*;
 
-@Api(value = "유저API", tags = {"User"})
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
     private final AttendanceRepository attendanceRepository;
@@ -71,7 +53,7 @@ public class UserController {
 
     @GetMapping("/attendance")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<Collection<AttendanceInterface>> getAttendance(HttpServletRequest request, @AuthenticationPrincipal User user) {
+    public ResponseEntity<Map<String, Object>> getAttendance(HttpServletRequest request, @AuthenticationPrincipal User user) {
 
         if(user==null) System.out.println("널인데유");
         else System.out.println(user.getUserIdx());
@@ -83,7 +65,10 @@ public class UserController {
 
         list.addAll(list2);
 
-        return  ResponseEntity.ok(list);
+        Map<String, Object> result = new HashMap<>();
+        result.put("attendance", list);
+
+        return  ResponseEntity.ok().body(result);
     }
 
 
@@ -105,15 +90,6 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/attendance")
-//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-//    public ResponseEntity<AttendanceDto> getAttendance(HttpServletRequest request) {
-//        Long userIdx = userService.getMyUserWithAuthorities().getUserIdx();
-//        System.out.println(userIdx);
-//
-//        System.out.println("-----------------------여기까지는 됨---------------------");
-//        return ResponseEntity.ok(userService.getAttendances(userIdx));
-//    }
 }
 
 

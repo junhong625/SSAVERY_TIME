@@ -11,9 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 public class AttendanceDto {
 
-    private Long userIdx;
+    private Integer Category;
 
-    private Integer attendanceCategory;
-
-    private Integer sum;
+    private Integer count;
 }
