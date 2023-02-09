@@ -1,8 +1,10 @@
 package com.ssafy.ssafytime.db.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.ssafytime.db.dto.AuthorityDto;
 import com.ssafy.ssafytime.db.entity.User;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -43,10 +45,16 @@ public class UserDto {
 
    private Integer mileage;
 
+
+   @NotNull
+   private Integer class_num;
+
+
    private Integer isAdmin;
 
    private String token;  // FCM 토큰
 
+   private String refreshToken;
 
 
    private Set<AuthorityDto> authorityDtoSet;
@@ -62,6 +70,7 @@ public class UserDto {
               .userImg(user.getUserImg())
               .isAdmin(user.getIsAdmin())
               .regionCode(user.getRegionCode())
+              .class_num(user.getClassNum())
               .exp(user.getExp())
               .mileage(user.getMileage())
               .token(user.getToken())
@@ -72,16 +81,17 @@ public class UserDto {
    }
 
 
+   public void updatePassWord(PasswordEncoder passwordEncoder, String password){
+      this.password =  passwordEncoder.encode(password);
+   }
 
 
+   public void updateRefreshToken(String refreshToken){
+      this.refreshToken = refreshToken;
+   }
 
-//   public static AttendanceDto from(Attendance attendance) {
-//      if(attendance == null) return null;
-//
-//      return AttendanceDto.builder()
-//              .userIdx(attendance.getId().getUserIdx())
-//              .attendanceCategory(attendance.getId().getAttendanceCategory())
-//              .attendanceDate(attendance.getId().getAttendanceDate())
-//              .build();
-//   }
+   public void destroyRefreshToken(){
+      this.refreshToken = null;
+   }
+
 }

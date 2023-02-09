@@ -1,15 +1,10 @@
 package com.ssafy.ssafytime.db.dto;
 
-import lombok.*;
+import lombok.Getter;
 
 @Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class TokenDto {
+public class TokenRequest {
 
     private String token;
-
     private String refreshToken;
 }

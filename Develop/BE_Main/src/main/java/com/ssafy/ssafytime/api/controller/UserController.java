@@ -1,17 +1,17 @@
 package com.ssafy.ssafytime.api.controller;
 
-//import com.ssafy.ssafytime.api.dto.AttendanceDto;
-//import com.ssafy.ssafytime.api.dto.AttendanceDto;
+import com.ssafy.ssafytime.db.dto.AttendanceInterface;
 import com.ssafy.ssafytime.db.dto.FCMTokenDTO;
 import com.ssafy.ssafytime.api.service.AlarmDefaultServiceImpl;
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
 import com.ssafy.ssafytime.api.service.UserService;
-//import com.ssafy.ssafytime.db.entity.AttendanceId;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
+import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import com.ssafy.ssafytime.exception.ResponseHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import com.ssafy.ssafytime.db.repository.AttendanceRepository;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -26,14 +28,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.*;
 import java.net.URL;
-import java.util.Optional;
+import java.util.*;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
     private final AlarmDefaultServiceImpl alarmService;
+    private final AttendanceRepository attendanceRepository;
+
 
     @PostMapping("/signup")
     public ResponseEntity<Object> signup(
@@ -50,11 +54,32 @@ public class UserController {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities());
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserWithAuthorities(username));
     }
+
+    @GetMapping("/attendance")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Map<String, Object>> getAttendance(HttpServletRequest request, @AuthenticationPrincipal User user) {
+
+        if(user==null) System.out.println("널인데유");
+        else System.out.println(user.getUserIdx());
+
+        Long userIdx = userService.getMyUserWithAuthorities().getId();
+
+        List<AttendanceInterface> list = attendanceRepository.findAllAttendance(userIdx);
+        List<AttendanceInterface> list2 = attendanceRepository.findMonthAttendance(userIdx);
+
+        list.addAll(list2);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("attendance", list);
+
+        return  ResponseEntity.ok().body(result);
+    }
+
 
     @PostMapping("/alarm")  // FCM 토큰 저장 및 갱신
     public ResponseEntity<? extends BaseResponseBody> saveFCMToken(@RequestBody @ApiParam(value="FCM 토큰", required = true) FCMTokenDTO fcmTokenDTO, @ApiIgnore Authentication authentication) {

@@ -23,6 +23,10 @@ public class CustomUserDetailsService implements UserDetailsService {
       this.userRepository = userRepository;
    }
 
+
+   /*
+   DB에서 유저정보와 권한정보를 가져와 해당정보를 기반으로 userDetails.user객체를 생성
+    */
    @Override
    @Transactional
    public UserDetails loadUserByUsername(final String userEmail) {
@@ -36,7 +40,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
    private org.springframework.security.core.userdetails.User createUser(String userName, User user) {
-
       List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
               .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
               .collect(Collectors.toList());

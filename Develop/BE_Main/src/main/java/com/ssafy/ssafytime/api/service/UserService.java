@@ -5,31 +5,58 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ssafy.ssafytime.db.dto.UserDto;
+import com.ssafy.ssafytime.api.dto.AttendanceDto;
+import com.ssafy.ssafytime.db.dto.TokenDto;
+import com.ssafy.ssafytime.db.dto.UserDto;
+import com.ssafy.ssafytime.db.entity.Attendance;
+import com.ssafy.ssafytime.db.entity.AttendanceId;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
+import com.ssafy.ssafytime.db.repository.AttendanceRepository;
+import com.ssafy.ssafytime.db.repository.RefreshTokenRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
 import com.ssafy.ssafytime.exception.DuplicateUserException;
 import com.ssafy.ssafytime.exception.NotFoundUserException;
+import com.ssafy.ssafytime.jwt.TokenProvider;
 import com.ssafy.ssafytime.util.SecurityUtil;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-//    private final AttendanceRepository attendanceRepository;
+    private final TokenProvider tokenProvider;
+    private final AttendanceRepository attendanceRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder
-//                       AttendanceRepository attendanceRepository
-    ) {
+    public UserService(UserRepository userRepository, TokenProvider tokenProvider, PasswordEncoder passwordEncoder,
+                       AttendanceRepository attendanceRepository,
+                       RefreshTokenRepository refreshTokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-//        this.attendanceRepository = attendanceRepository;
+        this.tokenProvider = tokenProvider;
+        this.attendanceRepository = attendanceRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
+
+    /**
+     * UserEmail로 중복확인후 Authority와 User정보를 생성해 DB에 저장
+     * @param userDto
+     * @return
+     */
     @Transactional
     public UserDto signup(UserDto userDto) {
         if (userRepository.findOneWithAuthoritiesByUserEmail(userDto.getUserEmail()).orElse(null) != null) {
@@ -54,9 +81,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDto getUserWithAuthorities(String username) {
+    public UserDto getUserWithAuthorities(String userEmail) {
 
-        return UserDto.from(userRepository.findOneWithAuthoritiesByUserEmail(username).orElse(null));
+        return UserDto.from(userRepository.findOneWithAuthoritiesByUserEmail(userEmail).orElse(null));
     }
 
     @Transactional(readOnly = true)
@@ -66,6 +93,22 @@ public class UserService {
                         .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
                         .orElseThrow(() -> new NotFoundUserException("User not found"))
         );
+    }
+
+    @Transactional
+    public void logout(TokenDto tokenDto){
+        tokenProvider.validateAccessToken(tokenDto.getToken());
+
+        Authentication authentication = tokenProvider.getAuthentication(tokenDto.getToken());
+
+        String userEmail = authentication.getName();
+
+        refreshTokenRepository.findRefreshTokenByUserEmail(userEmail);
+
+
+
+
+
     }
 
     public Optional<User> findById(Long Id) {

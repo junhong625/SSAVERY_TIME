@@ -1,8 +1,8 @@
-package com.ssafy.ssafytime.db.dto;
+package com.ssafy.ssafytime.api.dto;
 
+import com.ssafy.ssafytime.db.entity.Attendance;
 import lombok.*;
 
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,21 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AttendanceDto {
 
-    private String userIdx;
+    private Integer Category;
 
-    private Integer attendanceCategory;
-
-    private LocalDateTime attendanceDate;
-
-    private LocalDateTime attendanceTime;
-
-//    public static AttendanceDto from(Attendance attendance) {
-//        if(attendance == null) return null;
-//
-//        return AttendanceDto.builder()
-//                .userIdx(attendance.getUser().getUserIdx())
-//                .attendanceCategory(attendance.getId().getAttendanceCategory())
-//                .attendanceDate(attendance.getId().getAttendanceDate())
-//                .build();
-//    }
+    private Integer count;
 }

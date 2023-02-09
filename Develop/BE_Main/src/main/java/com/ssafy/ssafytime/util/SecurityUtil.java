@@ -14,7 +14,11 @@ public class SecurityUtil {
 
    private SecurityUtil() {}
 
-   public static Optional<String>  getCurrentUsername() {
+   /*
+   Security Context의 Authentication 객체를 통해 username을 리턴해주는 메소드
+   이때 authentication 객체는 jwtfilter 의 dofilter 메소드에서 request가 들어올때 securitycontext에 저장됨
+    */
+   public static Optional<String> getCurrentUsername() {
       final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
       if (authentication == null) {
