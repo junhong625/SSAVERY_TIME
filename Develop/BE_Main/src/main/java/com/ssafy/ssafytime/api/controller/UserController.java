@@ -125,7 +125,7 @@ public class UserController {
     }
 
     @GetMapping("images")  // 프로필 이미지를 C://image 폴더에 학번이름으로 저장하기
-    public ResponseEntity downloadImage(@ApiIgnore Authentication authentication) throws IOException, NullPointerException{
+    public ResponseEntity<?> downloadImage(@ApiIgnore Authentication authentication) throws IOException, NullPointerException{
         UserDto userdto = userService.getMyUserWithAuthorities();
         String img = userdto.getUserImg();  // 이미지 url 받아옴
         Long id = userdto.getId();  // 현재 로그인된 사용자의 학번 받아와서 이미지이름으로 사용하도록
@@ -151,13 +151,17 @@ public class UserController {
             FileOutputStream fos = new FileOutputStream("C:\\image\\"+id+".png");  // 만들고
             fos.write(response);  // 해당 url 이미지 넣음
             fos.close();
-        }
 
-        return null;
+            return ResponseEntity.status(200).body("Success");
+        } else
+            return ResponseEntity.status(204).body("Already Saved");
+
+
+
     }
 
     @GetMapping(value="/images/view", produces= MediaType.IMAGE_PNG_VALUE)  // 저장된 이미지 파일 가져오기
-    public @ResponseBody byte[] getImage(@ApiIgnore Authentication authentication) throws IOException{
+    public ResponseEntity<?> getImage(@ApiIgnore Authentication authentication) throws IOException{
         FileInputStream fis = null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         UserDto userDto = userService.getMyUserWithAuthorities(); // 현재 유저 DTO 가져오기
@@ -185,7 +189,7 @@ public class UserController {
         } catch(IOException e){
             throw new RuntimeException("File Error");
         }
-        return fileArray;
+        return ResponseEntity.status(200).body(fileArray);
     }
 
 
