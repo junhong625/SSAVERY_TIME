@@ -14,12 +14,23 @@ import 'package:ssafytime/services/auth_service.dart';
 class UserController extends GetxController {
   static UserController get to => Get.find();
 
+  List<String> attenCategory = [
+    "absentR",
+    "absentO",
+    "AttenT",
+    "AttenN",
+    "lateR",
+    "lateO"
+  ];
+
   Rxn<User> user = Rxn<User>();
-  Rxn<AttenModel> userAtten = Rxn<AttenModel>();
+  Rxn<AttenModel> atten = Rxn<AttenModel>();
   Rxn<HomeMenu> homeMenu = Rxn<HomeMenu>();
   Rxn<ScheduleNow> scheduleNow = Rxn<ScheduleNow>();
   Rxn<JobInfo> jobInfo = Rxn<JobInfo>();
   Rxn<SurveyModel> homeSurvey = Rxn<SurveyModel>();
+
+  Rxn<Map<String, int>> userAtten = Rxn<Map<String, int>>();
 
   UserRepo userApi = UserRepo(token: AuthService.to.token ?? "");
   HomeRepo homeApi = HomeRepo(token: AuthService.to.token ?? "");
@@ -30,6 +41,7 @@ class UserController extends GetxController {
     await fetchHomeMenu();
     await fetchScheduleNow();
     await fetchAttence();
+    setAtten();
     super.onInit();
   }
 
@@ -64,6 +76,16 @@ class UserController extends GetxController {
   }
 
   Future<void> fetchAttence() async {
-    userAtten.value = await homeApi.fetchAttendence();
+    atten.value = await homeApi.fetchAttendence();
+  }
+
+  String getUserIdName() {
+    return "${user.value?.userIdx ?? "000000"} ${user.value?.userName ?? "NAME"}";
+  }
+
+  void setAtten() {
+    userAtten.value?.clear();
+    atten.value?.attendance
+        .map((e) => {userAtten.value?[attenCategory[e.category]] = e.count});
   }
 }

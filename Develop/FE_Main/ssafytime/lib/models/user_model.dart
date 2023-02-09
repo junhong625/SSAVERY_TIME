@@ -10,6 +10,7 @@ class User {
     required this.exp,
     required this.mileage,
     required this.isAdmin,
+    required this.userImg,
   });
 
   int userIdx;
@@ -20,6 +21,7 @@ class User {
   int exp;
   int mileage;
   int isAdmin;
+  String userImg;
 
   factory User.fromRawJson(String str) => User.fromJson(json.decode(str));
 
@@ -34,6 +36,7 @@ class User {
         exp: json["exp"],
         mileage: json["mileage"],
         isAdmin: json["isAdmin"] ?? 0,
+        userImg: json["userImg"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,5 +48,6 @@ class User {
         "exp": exp,
         "mileage": mileage,
         "isAdmin": isAdmin,
+        "userImg": userImg,
       };
 }

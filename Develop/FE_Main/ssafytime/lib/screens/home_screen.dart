@@ -61,38 +61,39 @@ class _HomeScreenStates extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("1231234 김싸피"),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => Get.toNamed('/userPage'),
-            icon: const FaIcon(
-              FontAwesomeIcons.user,
-              size: 20,
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+          title: Text(
+              "${widget.userC.user.value?.userIdx ?? "000000"} ${widget.userC.user.value?.userName ?? "NAME"}"),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () => Get.toNamed('/userPage'),
+              icon: const FaIcon(
+                FontAwesomeIcons.user,
+                size: 20,
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () => Get.toNamed('/notification'),
-            icon: const FaIcon(
-              FontAwesomeIcons.bell,
-              size: 20,
+            IconButton(
+              onPressed: () => Get.toNamed('/notification'),
+              icon: const FaIcon(
+                FontAwesomeIcons.bell,
+                size: 20,
+              ),
             ),
-          ),
-        ],
-      ),
-      body: Container(
-        margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-        child: Obx(
-          () => Column(
+          ],
+        ),
+        body: Container(
+          margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+          child: Column(
             //   mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const HA(
-                  absent: 1,
-                  attendance: 1,
-                  tardy: 2,
-                  imgURL: "assets/image/no_profile_image.png"),
+              HA(
+                  absent: widget.userC.userAtten.value?['absentO'] ?? 0,
+                  attendance: widget.userC.userAtten.value?['attenN'] ?? 0,
+                  tardy: widget.userC.userAtten.value?['lateO'] ?? 0,
+                  imgURL: widget.userC.user.value?.userImg),
               // CarouselSlider =========================================
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),

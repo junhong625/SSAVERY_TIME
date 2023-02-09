@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 // 홈 스크린 출결 상태 위젯
 class HA extends StatefulWidget {
-  final int absent; // 결석 횟수
-  final int tardy; // 지각 횟수
-  final int attendance; // 출석 횟수
-  final String imgURL; // 교육생 이미지 URL
+  final int? absent; // 결석 횟수
+  final int? tardy; // 지각 횟수
+  final int? attendance; // 출석 횟수
+  final String? imgURL; // 교육생 이미지 URL
 
   const HA(
       {Key? key,
-      required this.absent,
-      required this.attendance,
-      required this.tardy,
-      required this.imgURL})
+      this.absent = 0,
+      this.attendance = 0,
+      this.tardy = 0,
+      this.imgURL})
       : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class _HAState extends State<HA> {
     String absent = widget.absent.toString();
     String tardy = widget.tardy.toString();
     String attendance = widget.attendance.toString();
-    String imgURL = widget.imgURL;
+    String? imgURL = widget.imgURL;
 
     return Container(
       color: Colors.white,
@@ -39,7 +39,10 @@ class _HAState extends State<HA> {
             fit: BoxFit.contain,
             child: CircleAvatar(
               radius: 20,
-              backgroundImage: AssetImage(imgURL),
+              backgroundImage: imgURL != null
+                  ? NetworkImage(imgURL)
+                  : AssetImage("assets/image/no_profile_image.png")
+                      as ImageProvider,
             ),
           ),
           SizedBox(

@@ -36,6 +36,7 @@ class _HSIW extends State<HSIW> {
     4: {'category': '기타', 'color': 0xff0079D1},
   };
 
+  DateTime _now = DateTime.now();
   late int color = table[widget.category]['color'];
   late String studyPlace = widget.onOff == 0 ? '온라인' : '오프라인';
   late String classTime = getClassTime(widget.startTime, widget.endTime);
@@ -44,17 +45,26 @@ class _HSIW extends State<HSIW> {
   late double progressPercent = getPercent(widget.startTime, widget.endTime);
   late String categoryToString = table[widget.category]['category'];
 
-  DateTime _now = DateTime.now();
+  late var timer;
 
   @override
   void initState() {
-    Timer.periodic(Duration(minutes: 1), (timer) {
-      setState(() {
-        _now = DateTime.now();
-        progressPercent = getPercent(widget.startTime, widget.endTime);
-      });
+    timer = new Timer.periodic(Duration(minutes: 1), (timer) {
+      if (mounted) {
+        setState(() {
+          _now = DateTime.now();
+          progressPercent = getPercent(widget.startTime, widget.endTime);
+        });
+      }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    timer = null;
+    super.dispose();
   }
 
   @override
@@ -193,6 +203,7 @@ class _HSIW extends State<HSIW> {
     DateTime time = _now.add(Duration(hours: 9));
     String hour = time.hour.toString();
     String min = time.minute.toString();
+    log("시간 : ${hour}:${min}");
     hour.length == 1 ? hour = '0' + hour : null;
     min.length == 1 ? min = '0' + min : null;
     String tmpTime = hour + min;
