@@ -1,5 +1,6 @@
 package com.ssafy.ssafytime.jwt;
 
+import com.ssafy.ssafytime.db.dto.TokenType;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -15,16 +16,23 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+/**
+ * 빈 생성후 주입 후에 BASE64 디코드를 통해 key변수에 할당
+ */
 @Component
 public class TokenProvider implements InitializingBean {
 
    private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
    private static final String AUTHORITIES_KEY = "auth";
+   static final String TOKEN_TYPE_KEY = "typ";
+
    private final String secret;
    private final long tokenValidityInMilliseconds;
    private Key key;
@@ -42,22 +50,49 @@ public class TokenProvider implements InitializingBean {
       this.key = Keys.hmacShaKeyFor(keyBytes);
    }
 
+   //Jwt 토큰 생성
    public String createToken(Authentication authentication) {
       String authorities = authentication.getAuthorities().stream()
          .map(GrantedAuthority::getAuthority)
          .collect(Collectors.joining(","));
 
-      long now = (new Date()).getTime();
-      Date validity = new Date(now + this.tokenValidityInMilliseconds);
+      final Date now = new Date();
+
+      Date validity = new Date(now.getTime() + this.tokenValidityInMilliseconds);
+
 
       return Jwts.builder()
          .setSubject(authentication.getName())
+         .claim(TOKEN_TYPE_KEY, TokenType.ACCESS)
          .claim(AUTHORITIES_KEY, authorities)
          .signWith(key, SignatureAlgorithm.HS512)
          .setExpiration(validity)
+         .setIssuedAt(now)
          .compact();
    }
 
+   public String createRefreshToken() {
+      final Date now = new Date();
+
+      Date validity = new Date(now.getTime() + this.tokenValidityInMilliseconds*10);
+      LocalDateTime localDateTime = new Timestamp(validity.getTime()).toLocalDateTime();
+
+      System.out.println("실제 리프레시토큰 만료시간-==--=");
+      System.out.println(localDateTime);
+      return Jwts.builder()
+              .claim(TOKEN_TYPE_KEY, TokenType.REFRESH)
+              .setIssuedAt(now)
+              .signWith(key, SignatureAlgorithm.HS512)
+              .setExpiration(validity)
+              .compact();
+   }
+
+
+   /**
+    Token 정보를 받아서 권한 객체반환
+    * Token에서 권한객체 추출
+    * 권한객체를 이용해 유저 객체 생성 유저 객체, 토큰, 권한정보를 이용해 권한객체 반환
+    */
    public Authentication getAuthentication(String token) {
       Claims claims = Jwts
               .parserBuilder()
@@ -77,10 +112,33 @@ public class TokenProvider implements InitializingBean {
    }
 
 
-   public boolean validateToken(String token) {
+   /**
+    * 토큰을 파싱해서 검증
+    * @param token
+    * @return
+    */
+
+   public boolean validateAccessToken(final String token){
+      return validateToken(token, TokenType.ACCESS);
+   }
+
+   public boolean validateRefreshToken(final String token){
+      return validateToken(token, TokenType.REFRESH);
+   }
+
+   public boolean validateToken(String token, final TokenType tokenType) {
       try {
-         Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-         return true;
+         final Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+         System.out.println("-=-=-=-==--=-=-=-=-=-==-");
+         System.out.println("클레임은");
+         System.out.println(claims.toString());
+         final TokenType extractedType = TokenType.valueOf((String)claims.get(TOKEN_TYPE_KEY));
+         System.out.println("타입은");
+         System.out.println(extractedType);
+         System.out.println("-=-=-=-==--=-=-=-=-=-==-");
+
+
+         return !claims.getExpiration().before(new Date()) && extractedType == tokenType;
       } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
          logger.info("잘못된 JWT 서명입니다.");
       } catch (ExpiredJwtException e) {
@@ -92,4 +150,6 @@ public class TokenProvider implements InitializingBean {
       }
       return false;
    }
+
+
 }
