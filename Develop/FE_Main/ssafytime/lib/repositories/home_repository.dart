@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:http/http.dart' as http;
 import 'package:ssafytime/models/attendance_model.dart';
 
@@ -20,6 +22,7 @@ class HomeRepo {
     var res = await http.get(
         Uri.parse(baseUrl + "schedule/now?track_code=${trackCode}"),
         headers: headers);
+    log("trackCode : ${trackCode}");
     if (res.statusCode == 200) {
       return ScheduleNow.fromRawJson(res.body);
     }

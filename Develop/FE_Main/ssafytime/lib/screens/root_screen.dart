@@ -10,7 +10,7 @@ import 'package:ssafytime/widgets/bottom_navbar.dart';
 class RootScreen extends StatelessWidget {
   const RootScreen({Key? key}) : super(key: key);
   static List<Widget> tabPages = <Widget>[
-    const HomeScreen(),
+    HomeScreen(),
     const CalendarScreen(),
     const MenuBookScreen(),
     const CounselScreen()

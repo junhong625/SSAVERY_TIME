@@ -1,11 +1,12 @@
 // main screen
 
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/user_controller.dart';
-import 'package:ssafytime/controllers/home_controller.dart';
 import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/home_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/home_employment_info_total_widget.dart';
@@ -13,13 +14,20 @@ import 'package:ssafytime/widgets/home_schedule_item.dart';
 import 'package:ssafytime/widgets/notification_infomation.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+
+  final UserController userC = Get.find<UserController>();
+
   @override
   State<StatefulWidget> createState() => _HomeScreenStates();
 }
 
 class _HomeScreenStates extends State<HomeScreen> {
-  UserController userController = Get.find<UserController>();
+  @override
+  initState() {
+    log("현재 class : ${widget.userC.scheduleNow.value?.data.title}");
+    super.initState();
+  }
 
   List<Widget> bannerItems = <Widget>[
     CNI(
@@ -53,10 +61,6 @@ class _HomeScreenStates extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = Get.put(HomeController(
-        userController.user.value?.userIdx,
-        userController.user.value?.regionCode,
-        userController.user.value?.trackCode));
     return Scaffold(
       appBar: AppBar(
         title: const Text("1231234 김싸피"),
@@ -118,23 +122,27 @@ class _HomeScreenStates extends State<HomeScreen> {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Obx(() => homeController.scheduleNow.value != null
+                    widget.userC.scheduleNow.value != null
                         ? HSIW(
-                            category: 1,
-                            onOff: 1,
-                            title: "잘먹고 잘사는법",
-                            subTitle: "돈이면 다 된다",
-                            startTime: 9,
-                            endTime: 10,
+                            category:
+                                widget.userC.scheduleNow.value!.data.category,
+                            onOff: widget.userC.scheduleNow.value!.data.onOff,
+                            title: widget.userC.scheduleNow.value!.data.title,
+                            subTitle:
+                                widget.userC.scheduleNow.value!.data.subTitle,
+                            startTime:
+                                widget.userC.scheduleNow.value!.data.startTime,
+                            endTime:
+                                widget.userC.scheduleNow.value!.data.endTime,
                           )
                         : HSIW(
                             category: 1,
                             onOff: 1,
                             title: "",
-                            subTitle: "일과 종료",
-                            startTime: 9,
-                            endTime: 10,
-                          ))
+                            subTitle: "테스트",
+                            startTime: DateTime.now().hour + 9,
+                            endTime: DateTime.now().hour + 10,
+                          ),
                   ],
                 ),
               ),

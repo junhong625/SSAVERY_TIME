@@ -8,11 +8,12 @@ import 'package:ssafytime/models/user_model.dart';
 class UserRepo {
   String token;
   Map<String, String>? headers;
-  String baseUrl = "http://i8a602.p.ssafy.io:9090/user/";
+  String baseUrl = "http://i8a602.p.ssafy.io:9090/user";
   String vapiKey =
       "BKEyfl55H2kgfEnSwt3yqPp9CwLtf9Ntgwv13RiT-U-jjzrozda7WadN2v6Z4Cl6x4_dOxHLMdeh3rfKjiL2YTM";
 
   UserRepo({required this.token}) {
+    log("UserRepo create token : $token");
     headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${token}"
@@ -20,8 +21,8 @@ class UserRepo {
   }
 
   Future<User?> fetchUserInfo() async {
-    var res = await http.get(Uri.parse(baseUrl + "my-page"), headers: headers);
-    log("res : ${token}");
+    var res = await http.get(Uri.parse("${baseUrl}/my-page"), headers: headers);
+    log("fetchUserInfo status : ${res.statusCode}");
     if (res.statusCode == 200) {
       return User.fromRawJson(res.body);
     } else {
@@ -34,7 +35,7 @@ class UserRepo {
   }
 
   Future<bool> updateFcmToken(String? fcmToken) async {
-    var res = await http.post(Uri.parse(baseUrl + "alarm"),
+    var res = await http.post(Uri.parse(baseUrl + "/alarm"),
         headers: headers, body: json.encode({"fcmtoken": fcmToken}));
 
     if (res.statusCode == 200) {

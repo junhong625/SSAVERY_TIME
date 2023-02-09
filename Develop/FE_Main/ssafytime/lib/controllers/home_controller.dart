@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:ssafytime/models/attendance_model.dart';
 import 'package:ssafytime/models/home_jobs_model.dart';
@@ -13,13 +15,16 @@ class HomeController extends GetxController {
   Rx<AttenModel?> userAtten = Rx<AttenModel?>(null);
   Rx<JobInfo?> jobInfo = Rx<JobInfo?>(null);
   Rx<SurveyModel?> homeSurvey = Rx<SurveyModel?>(null);
-  final int? userIdx;
-  final int? regionCode;
-  final int? trackCode;
+  final int userIdx;
+  final int regionCode;
+  final int trackCode;
 
   HomeRepo homeApi = HomeRepo(token: AuthService.to.token ?? "");
 
-  HomeController(this.userIdx, this.regionCode, this.trackCode);
+  HomeController(
+      {required this.userIdx,
+      required this.regionCode,
+      required this.trackCode});
 
   @override
   void onInit() async {
@@ -35,6 +40,7 @@ class HomeController extends GetxController {
 
   Future<void> fetchScheduleNow() async {
     scheduleNow.value = await homeApi.fetchScheduleNow(trackCode);
+    log("sheduleNow : ${scheduleNow.value?.data.startTime} / ${scheduleNow.value?.data.endTime}");
   }
 
   Future<void> fetchAttence() async {
