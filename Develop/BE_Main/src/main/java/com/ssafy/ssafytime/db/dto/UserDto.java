@@ -54,7 +54,6 @@ public class UserDto {
 
    private String token;  // FCM 토큰
 
-   private String refreshToken;
 
 
    private Set<AuthorityDto> authorityDtoSet;
@@ -72,7 +71,6 @@ public class UserDto {
               .class_num(user.getClassNum())
               .exp(user.getExp())
               .mileage(user.getMileage())
-              .token(user.getToken())
               .authorityDtoSet(user.getAuthorities().stream()
                       .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
                       .collect(Collectors.toSet()))
@@ -85,12 +83,6 @@ public class UserDto {
    }
 
 
-   public void updateRefreshToken(String refreshToken){
-      this.refreshToken = refreshToken;
-   }
 
-   public void destroyRefreshToken(){
-      this.refreshToken = null;
-   }
 
 }
