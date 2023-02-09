@@ -17,63 +17,29 @@ class _TestPageState extends State<TestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body:  SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // CouncelAdminListItem(
-            //   rezTime: 13.5,
-            //   endTime: 202302061430,
-            //   startTime: 202302061630,
-            //   currentTime: 202302061530.0,
-            //   title: '앞의로의 진로방향에 대해 고민이 있습니다.',
-            //   reject: '',
-            //   category: '진로 상담',
-            //   name: '김아무개',
-            //   state: 1,
-            //   url: 'dsfdf'
-            // ),
-
-            // Container(
-            //   width: 400,
-            //   child: ExpansionTile(
-            //     leading: Icon(Icons.ac_unit),
-            //     title: Text('Expansion Tile'),
-            //     children: <Widget>[
-            //       ListTile(
-            //         title: Text('Item 1'),
-            //       ),
-            //       ListTile(
-            //         title: Text('Item 2'),
-            //       ),
-            //     ],
-            //     trailing: Container(
-            //       width: 0,
-            //     ),
-            //   ),
-            // ),
-            //
-            //
-            // Container(
-            //   width: MediaQuery.of(context).size.width * 0.8,
-            //   child: ExpansionTile(
-            //     leading: Icon(Icons.ac_unit),
-            //     title: Text('Expansion Tile'),
-            //     children: <Widget>[
-            //       ListTile(
-            //         title: Text('Item 1'),
-            //       ),
-            //       ListTile(
-            //         title: Text('Item 2'),
-            //       ),
-            //     ],
-            //     trailing: Container(
-            //       width: 0,
-            //     ),
-            //   ),
-            // ),
-
-
-          ],
+        child: Container(
+          color: Colors.lightBlueAccent,
+          width: 400, height: 600,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ExpansionTile(
+                title: Text('야야야야'),
+                trailing: Container(width: 0,),
+                children: [
+                  ExpansionTile(
+                    title: Text('11324115'),
+                    children: [
+                      Container(
+                        color: Colors.black,
+                        width: 100, height: 100,
+                      )
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
         )
       ),
     );

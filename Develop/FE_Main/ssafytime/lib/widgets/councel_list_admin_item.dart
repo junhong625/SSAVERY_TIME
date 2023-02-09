@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:ssafytime/controllers/councel_controller.dart';
 import 'package:ssafytime/custom_button.dart';
 import 'package:ssafytime/model/councel_detail.dart';
+import 'package:ssafytime/widgets/custom_text.dart';
 
 class CouncelAdminListItem extends StatelessWidget {
 
@@ -19,6 +23,9 @@ class CouncelAdminListItem extends StatelessWidget {
     required this.startTime,
     required this.endTime,
   }) : super(key: key);
+
+  MyCouncelController controller = Get.find<MyCouncelController>();
+  TextEditingController _textController = TextEditingController(); // 거절사유
 
   @override
   Widget build(BuildContext context) {
@@ -52,122 +59,113 @@ class CouncelAdminListItem extends StatelessWidget {
     double opacity = currentTime > endTime ? 0.4 : 1;
 
     return Container(
-      color: Colors.white,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: ExpansionTile(
-        leading: table[state]['icon'],
-        title: Column(
-          children: [
-            Text('${name} - ${category}'),
-            Text('${councelDate} ${councelTime}')
-          ],
-        ),
-        children: [
-          Text(title),
-          ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                if (state == 1) ... [
-                CustomElevatedButton(
-                  label: '승인',
-                  width: 100, height: 40,
-                  onPressed: () {}
-                ),
-                CustomElevatedButton(
-                    label: '거절',
-                    width: 100, height: 40,
-                    onPressed: () {}
-                )
-                ] else if (state == 2) ... [
-                  CustomElevatedButton(
-                      label: '상담하기',
-                      width: 100, height: 40,
-                      onPressed: () {}
-                  ),
-                ] else if (state == 3) ... [
-                  Flexible(
-                      child: RichText(
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 20,
-                        text: TextSpan(
-                            text: '거절사유 : ${reject}',
-                            style: TextStyle(
-                              color: Colors.black,
-                              height: 1.4,
-                            )
-                        ),
-                      )
-                  ),
-                ] else ... [
-                  Text('종료')
-                ]
-              ],
-            )
-          ),
-        ],
-        trailing: Container(
-          width: 0,
-        ),
-      ),
-    );
-  }
-
-}
-
-
-// 진행 중일때 나타위젯 프로그래스바 있는거 =========================================
-class CItemIng extends StatelessWidget {
-
-  double currentTime; // 현재시간 202302061530.0 이런 형태로 들어옴
-  double startTime; // 시작 시간
-  double endTime; // 끝나는 시간
-
-  double rezTime; // 시작 시간 13.5 이런 형태
-
-  CItemIng({Key? key,
-    required this.currentTime,
-    required this.startTime,
-    required this.endTime,
-    required this.rezTime,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    double persent = CItemPersent(currentTime, rezTime);
-    String councelTime = getCouncelTime(rezTime); // 13:00 ~ 14:00
-    return Container(
-      width: 280,
-      child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          LinearPercentIndicator(
-            padding: EdgeInsets.zero,
-            lineHeight: 8,
-            barRadius: const Radius.circular(4),
-            percent: persent, // optinal 6_1
-            progressColor: const Color(0xffFC6161),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+        color: Colors.white,
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: ExpansionTile(
+          leading: table[state]['icon'],
+          title: Column(
             children: [
-              // option 6
-              Text(
-                councelTime,
-                style: const TextStyle(
-                    fontSize: 11,
-                    color: Color(0xffABABAE),
-                    fontWeight: FontWeight.w900),
-              ),
+              CustomText(content: '${name}'),
+              CustomText(content: '${councelDate} ${councelTime}', fontSize: 15,)
             ],
           ),
-        ],
-      ),
-    );
+          children: [
+            CustomText(content: category,),
+            CustomText(content: title),
+            ListTile(
+              title: Column(
+                children: [
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if (state == 1) ... [
+                        CustomElevatedButton(
+                          label: '승인',
+                          width: 100, height: 40,
+                          onPressed: () {}
+                        ),
+                        CustomElevatedButton(
+                            label: '거절',
+                            width: 100, height: 40,
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('거절 사유를 입력해주세요.'),
+                                    content: TextField(
+                                      controller: _textController,
+                                      textInputAction: TextInputAction.go,
+                                      decoration: InputDecoration(hintText: '거절 사유',
+                                        suffixIcon: IconButton(
+                                          onPressed: _textController.clear,
+                                          icon: Icon(Icons.clear),
+                                        ),
+                                      ),
+                                    ),
+                                    actions: [
+                                      CustomElevatedButton(
+                                        label: '제출',
+                                        width: 100, height: 40,
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        }
+                                      ),
+                                      CustomElevatedButton(
+                                          label: '닫기',
+                                          width: 100, height: 40,
+                                          onPressed: () {
+                                            _textController.clear();
+                                            Navigator.of(context).pop();
+                                          }
+                                      )
+                                    ],
+                                    actionsAlignment: MainAxisAlignment.spaceAround
+                                  );
+                                }
+                              );
+                            }
+                        )
+                        ] else if (state == 2) ... [
+                          CustomElevatedButton(
+                              label: '상담하기',
+                              width: 100, height: 40,
+                              onPressed: () {}
+                          ),
+                        ] else if (state == 3) ... [
+                          Flexible(
+                              child: RichText(
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 20,
+                                text: TextSpan(
+                                    text: '거절사유 : ${reject}',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      height: 1.4,
+                                    )
+                                ),
+                              )
+                          ),
+                        ] else ... [
+                          Text('종료')
+                        ]
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ),
+          ],
+          trailing: Container(
+            width: 0,
+          ),
+        ),
+      );
   }
+
 }
-
-
 
 // 스트링으로 날짜 뽑기 2023-02-06
 String CItemDate(double startTime) {
@@ -193,22 +191,4 @@ String getCouncelTime(double rezTime) {
   }
 
   return '${sh}:${min} ~ ${eh}:${min}';
-}
-
-// 얼마나 지났는지 퍼센트 구하기
-double CItemPersent(double currentTime, double rezTime) {
-  // double rezTime = 14.5;
-  int sh = rezTime.toInt(); // 시작 시간
-  int m = ((rezTime - sh)*60).toInt(); // 분
-  int exRezTime = sh*60 + m; // 분으로 환산한 rezTime
-
-  // 현재 시간 계산
-  // currentTime = 202302061530.0;
-  String b = currentTime.toInt().toInt().toString().substring(8, 10); // 시간
-  String c = currentTime.toInt().toInt().toString().substring(10, 12); // 분
-  int ch = int.parse(b)*60; // 시간을 분으로 맞춰주기
-  int cm = int.parse(c);
-  int exCurrentTime = ch + cm; // 분으로 환산한 currentTime
-
-  return (exCurrentTime - exRezTime)/60;
 }
