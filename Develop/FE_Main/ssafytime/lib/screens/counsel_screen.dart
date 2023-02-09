@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/screens/notification_screen.dart';
+import 'package:ssafytime/widgets/councel_admin_councel.dart';
 import 'package:ssafytime/widgets/councel_admin_total.dart';
 
 import '../widgets/councel_my_councel.dart';
@@ -40,43 +41,16 @@ class _CounselScreenStates extends State<CounselScreen> {
             ),
           ],
         ),
-        floatingActionButton: Stack(
-          children: [
-            Align(
-              alignment: Alignment(
-                Alignment.bottomRight.x, Alignment.bottomRight.y - 0.1
-              ),
-              child: FloatingActionButton(
-                backgroundColor: Color(0xffD3E4FF),
-                onPressed: () {
-                  openCouncelBottomSheet(context);
-                },
-                child: Icon(Icons.add, color: Color(0xff0079D1)),
-              ),
-                // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            ),
+        floatingActionButton: FloatingActionButton(
+            backgroundColor: Color(0xffD3E4FF),
+            onPressed: () {
+              openCouncelBottomSheet(context);
+            },
+            child: Icon(Icons.add, color: Color(0xff0079D1)),
+          ),
+            // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
-            if (userCode == 1) // 유저 코드가 1일 경우 == 관리자 일 경우 상단 신청을 확인한다.
-            Align(
-              alignment: Alignment(
-              Alignment.bottomLeft.x + 0.15, Alignment.bottomLeft.y - 0.1),
-              child: FloatingActionButton(
-                backgroundColor: Color(0xffD3E4FF),
-                onPressed: () {
-                  // 관리자에게 온 상담 신청 목록 확인
-                  openCouncelAdmin(context);
-                },
-              child: FaIcon(
-                FontAwesomeIcons.check,
-                size: 20,
-                color: Color(0xff686ADB),
-              ),
-              ),
-            )
-          ],
-        ),
-
-
-        body: Container(color: Colors.black12, child: CMyCouncel()));
+        // body: Container(color: Colors.black12, child: CMyCouncel()));
+        body: Container(color: Colors.black12, child: CAdminCouncel()));
   }
 }

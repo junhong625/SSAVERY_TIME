@@ -35,7 +35,7 @@ class MyCouncelController extends GetxController {
 
   void initialRun() async {
     // currentTime.value = DateTime.now().add(Duration(hours: 9));
-    await fetchMyCouncelList(20168125, 0);
+    await fetchMyCouncelList(842167, 1);
     await fetchCouncelor(1, 1);
   }
 
@@ -43,33 +43,23 @@ class MyCouncelController extends GetxController {
   // userId : 학번, code : 학생, 관리자 구분 코드 -> 유저 정보에서 가져와야함
   Future fetchMyCouncelList(int userId, int code) async {
     await setNowTime(); // 요청 시간을 기준으로 시간 설정 -> 프로그래스바 등에서 사용할거임
-    myCouncelList = <CouncelDetail>[].obs; // 초기화
+    myCouncelList.clear(); // = <CouncelDetail>[].obs; // 초기화 는 clear 로 해야만 되는듯
     myCouncelStartTimeList = <double>[]; // 시작시간 종료 시간도 초기화
     myCouncelEndTimeList = <double>[];
     var res = await http
         .get(Uri.parse("http://i8a602.p.ssafy.io:9090/meet/${userId}/${code}"));
     var data = json.decode(res.body);
-    print('fetchMyCouncelList 호출 -> ${data}');
+    // print('fetchMyCouncelList 호출 -> ${data}');
 
     for (int i = 0; i < data.length; i++) {
-      myCouncelList.add(CouncelDetail(
-        rezDate: DateTime.parse(data[i]["rezDate"]),
-        rezTime: data[i]["rezTime"]?.toDouble(),
-        title: data[i]["title"],
-        category: data[i]["category"],
-        meetUrl: data[i]["meetUrl"],
-        rezIdx: data[i]["rezIdx"],
-        reject: data[i]["reject"],
-        state: data[i]["state"],
-        name: data[i]["name"],
-      ));
+      myCouncelList.add(CouncelDetail.fromJson(data[i]));
       myCouncelStartTimeList.add(calculatorTimeOfClass(
           myCouncelList[i].rezDate, myCouncelList[i].rezTime));
       myCouncelEndTimeList.add(myCouncelStartTimeList[i] +
               100 // 상담은 1시간 한다고 가정해서 +100임 1이 시간 00이 분이라서
           );
-      print('1  myCouncelList : ${myCouncelList}');
     }
+    print(myCouncelList);
   }
 
   // 현재시간 초기화해서 doubleTypeCurrentTime 에 넣어줌
@@ -134,7 +124,6 @@ class MyCouncelController extends GetxController {
         ));
       });
     }
-    print('fetchCouncelor 실행 ');
   }
 
   // 관리자 선택하기

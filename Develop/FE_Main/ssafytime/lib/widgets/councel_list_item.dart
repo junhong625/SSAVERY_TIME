@@ -30,20 +30,6 @@ class CouncelListItem extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          // Text('currentTime : ${currentTime}'),
-          // Text('startTime : ${startTime}'),
-          // Text('endTime : ${endTime}'),
-          // Text('councelTime : ${councelTime}'),
-          // Text('councelDate : ${councelDate}'),
-          // Text('opacity : ${opacity}'),
-          // Text('reject : ${reject}'),
-          // CItemIng(
-          //   currentTime: 202302061120,
-          //   startTime: 202302061100,
-          //   endTime: 202302061200,
-          //   rezTime: 11.0,
-          // ),
-          ////=====================================================================
           Container(
             color: Colors.white,
             width: 358,

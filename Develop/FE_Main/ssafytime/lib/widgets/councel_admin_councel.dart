@@ -1,63 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:ssafytime/custom_button.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' ;
+import 'package:ssafytime/widgets/councel_list_admin_item.dart';
 
 import '../controllers/councel_controller.dart';
 import 'councel_list_item.dart';
 
+// 관리자에게 온 상담 신청 현황 전체 위젯
 
+class CAdminCouncel extends StatelessWidget {
 
-class CMyCouncel extends StatelessWidget {
-
-  CMyCouncel({Key? key}) : super(key: key);
+  CAdminCouncel({Key? key}) : super(key: key);
 
   MyCouncelController controller = Get.put(MyCouncelController());
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-        color: Colors.yellowAccent,
-        margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-        width: 390, height: 666,
+      color: Colors.yellowAccent,
+      margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+      width: 390, height: 666,
+      child: SingleChildScrollView(
         child: Column(
           children: [
             CustomElevatedButton(
-              label: '생성',
-              onPressed: () async {
-                await controller.fetchMyCouncelList(842167, 1);
-                // await controller.fetchCouncelor(1,1);
-              }
-            ),
-            CustomElevatedButton(
-              label: '삭제',
+                label: '생성admin',
                 onPressed: () async {
-                  controller.myCouncelList.clear();
-                  print(controller.myCouncelList);
                 }
             ),
             CustomElevatedButton(
-                label: '조회',
+                label: '삭제admin',
                 onPressed: () async {
-                  print('myCouncelList : ${controller.myCouncelList}');
-                  print('councelorList : ${controller.councelorList}');
-                  // print('controller.myCouncelList.length : ${controller.myCouncelList.length}');
                 }
             ),
             CustomElevatedButton(
-              label: '이동',
-              onPressed: () {
-                Get.toNamed('/TestPage');
-              }
+                label: '조회admin',
+                onPressed: () async {
+                }
+            ),
+            CustomElevatedButton(
+                label: '이동admin',
+                onPressed: () {
+                  Get.toNamed('/TestPage');
+                }
             ),
             Text('${controller.myCouncelList.length}'),
             for (int i=0; i < controller.myCouncelList.length; i++) ... [
-              CouncelListItem(
+              CouncelAdminListItem(
+                data: controller.myCouncelList[i],
+                currentTime: controller.doubleTypeCurrentTime.value,
                 startTime: controller.myCouncelStartTimeList[i],
                 endTime: controller.myCouncelEndTimeList[i],
-                rezTime: controller.myCouncelList[i].rezTime,
-                currentTime: controller.doubleTypeCurrentTime.value,
-                title: controller.myCouncelList[i].title,
-                reject : controller.myCouncelList[i].reject,
               ),
               Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
             ],
@@ -65,6 +58,7 @@ class CMyCouncel extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }
