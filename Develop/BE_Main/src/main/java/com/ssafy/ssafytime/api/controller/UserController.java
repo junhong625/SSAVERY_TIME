@@ -1,15 +1,16 @@
 package com.ssafy.ssafytime.api.controller;
 
+import com.ssafy.ssafytime.db.dto.AttendanceInterface;
 import com.ssafy.ssafytime.db.dto.FCMTokenDTO;
 import com.ssafy.ssafytime.api.service.UserService;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.User;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import com.ssafy.ssafytime.api.dto.AttendanceInterface;
 import com.ssafy.ssafytime.db.repository.AttendanceRepository;
 import io.swagger.annotations.Api;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,15 +23,11 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
     private final AttendanceRepository attendanceRepository;
 
-    public UserController(UserService userService,
-                          AttendanceRepository attendanceRepository) {
-        this.userService = userService;
-        this.attendanceRepository = attendanceRepository;
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signup(
