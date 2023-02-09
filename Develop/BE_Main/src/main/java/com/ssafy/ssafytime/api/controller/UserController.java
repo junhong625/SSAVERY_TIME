@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor

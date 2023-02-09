@@ -19,6 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
     Optional<User> findByUserEmail(String userEmail);
 
 
-    List<User> findByIsAdminAndAlarm(int isAdmin, int Alaram);
 //    List<User> findByIsAdminAndAlarm(int isAdmin, int Alaram);
 }
