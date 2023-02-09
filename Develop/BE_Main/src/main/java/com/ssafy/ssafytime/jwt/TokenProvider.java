@@ -74,7 +74,7 @@ public class TokenProvider implements InitializingBean {
    public String createRefreshToken() {
       final Date now = new Date();
 
-      Date validity = new Date(now.getTime() + this.tokenValidityInMilliseconds*10);
+      Date validity = new Date(now.getTime() + this.tokenValidityInMilliseconds);
       LocalDateTime localDateTime = new Timestamp(validity.getTime()).toLocalDateTime();
 
       System.out.println("실제 리프레시토큰 만료시간-==--=");
@@ -94,12 +94,9 @@ public class TokenProvider implements InitializingBean {
     * 권한객체를 이용해 유저 객체 생성 유저 객체, 토큰, 권한정보를 이용해 권한객체 반환
     */
    public Authentication getAuthentication(String token) {
-      Claims claims = Jwts
-              .parserBuilder()
-              .setSigningKey(key)
-              .build()
-              .parseClaimsJws(token)
-              .getBody();
+
+      Claims claims = parseClaims(token);
+
 
       Collection<? extends GrantedAuthority> authorities =
          Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
@@ -107,8 +104,16 @@ public class TokenProvider implements InitializingBean {
             .collect(Collectors.toList());
 
       User principal = new User(claims.getSubject(), "", authorities);
-
+      System.out.println(principal.getUsername());
       return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+   }
+
+   private Claims parseClaims(String token) {
+      try {
+         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+      } catch (ExpiredJwtException e) {
+         return e.getClaims();
+      }
    }
 
 

@@ -1,6 +1,7 @@
 package com.ssafy.ssafytime.api.service;
 
 import com.ssafy.ssafytime.db.dto.TokenDto;
+import com.ssafy.ssafytime.db.dto.TokenResponse;
 import com.ssafy.ssafytime.db.entity.RefreshToken;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.RefreshTokenRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TokenService {
@@ -29,11 +31,11 @@ public class TokenService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
-    public TokenDto createTokenDto(final Authentication authentication){
+    public TokenResponse createTokenResponse(final Authentication authentication){
         final String accessToken = tokenProvider.createToken(authentication);
         final String refreshToken = tokenProvider.createRefreshToken();
 
-        return new TokenDto(accessToken, refreshToken);
+        return new TokenResponse(accessToken, refreshToken);
     }
 
     public void saveRefreshToken(final String userIdx, String refreshToken){
@@ -53,5 +55,10 @@ public class TokenService {
 
     public void invalidateRefreshToken(final String userIdx){
         refreshTokenRepository.deleteById(Long.valueOf(userIdx));
+
     }
+
+//    public void deleteToken(){
+//        Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findRefreshTokenByUserEmail();
+//    }
 }

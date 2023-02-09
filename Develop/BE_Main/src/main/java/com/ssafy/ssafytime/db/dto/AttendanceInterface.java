@@ -1,8 +1,8 @@
-package com.ssafy.ssafytime.api.dto;
+package com.ssafy.ssafytime.db.dto;
 
 public interface AttendanceInterface {
 
-    Long getAttendanceCategory();
+    Long getCategory();
     Long getCount();
 
 }

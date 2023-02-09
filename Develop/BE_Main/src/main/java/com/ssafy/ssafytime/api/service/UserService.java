@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.dto.AttendanceDto;
-import com.ssafy.ssafytime.api.dto.AttendanceInterface;
 import com.ssafy.ssafytime.db.dto.TokenDto;
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Attendance;
