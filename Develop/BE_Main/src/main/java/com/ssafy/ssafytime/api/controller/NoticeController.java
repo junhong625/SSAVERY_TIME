@@ -23,11 +23,9 @@ import java.util.List;
 @RequestMapping("notice")
 public class NoticeController {
 
-    @Autowired
-    AlarmDefaultService alarmDefaultService;
+    private final AlarmDefaultService alarmDefaultService;
 
-    @Autowired
-    AlarmDefaultRepository alarmDefaultRepository;
+    private final AlarmDefaultRepository alarmDefaultRepository;
 
     private final NoticeServiceImpl noticeService;
 
