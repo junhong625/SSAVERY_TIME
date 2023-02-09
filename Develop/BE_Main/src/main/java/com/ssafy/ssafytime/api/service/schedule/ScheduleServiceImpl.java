@@ -20,8 +20,8 @@ public class ScheduleServiceImpl implements ScheduleService{
     final ScheduleRepository scheduleRepository;
 
     @Override
-    public ScheduleResponseDto getCurrentSchedule(int trackCode, int interval) {
-        String[] dateTime = LocalDateTime.now().plusMinutes(interval).toString().split("T");
+    public ScheduleResponseDto getCurrentSchedule(int trackCode) {
+        String[] dateTime = LocalDateTime.now().toString().split("T");
         int date = Integer.parseInt(dateTime[0].toString().replace("-", ""));
         int time = Integer.parseInt(dateTime[1].replace(":", "").substring(0, 2));
         System.out.println(date + ":" + time);

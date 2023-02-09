@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface ScheduleService {
-    ScheduleResponseDto getCurrentSchedule(int trackCode, int interval);
+    ScheduleResponseDto getCurrentSchedule(int trackCode);
 
     HashMap<Integer, List<ScheduleResponseDto>> getWeekSchedule(int trackCode);
 }
