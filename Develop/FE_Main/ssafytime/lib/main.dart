@@ -44,6 +44,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+      builder: (context, child) {
+        // 디바이스의 글자 크기 설정 무시
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: child!,
+        );
+      },
       initialRoute: AppRoutes.inital,
       getPages: AppRoutes.routes,
       initialBinding: BindingsBuilder(() {}),
