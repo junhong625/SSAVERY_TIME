@@ -44,63 +44,93 @@ class CouncelListItem extends StatelessWidget {
           //   rezTime: 11.0,
           // ),
           ////=====================================================================
-          InkWell(
-            onTap: () {
-              print('!!!');
-            },
-            child: Container(
-              color: Colors.white,
-              width: 358,
-              height: 62,
-              child: Opacity(
-                opacity: opacity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // // 아이콘 컨네이너
-                    Row(
-                      children: [
-                        Container(
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Color(0xff686ADB), width: 2),
-                          ),
-                          // option 아이콘 모양, 색상
-                          child: Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.userGroup,
-                              size: 20,
-                              color: Color(0xff686ADB),
-                            )
+          Container(
+            color: Colors.white,
+            width: 358,
+            height: 62,
+            child: Opacity(
+              opacity: opacity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // // 아이콘 컨네이너
+                  Row(
+                    children: [
+                      Container(
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Color(0xff686ADB), width: 2),
+                        ),
+                        // option 아이콘 모양, 색상
+                        child: Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.userGroup,
+                            size: 20,
+                            color: Color(0xff686ADB),
                           )
+                        )
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    // 진행바가 있는경우는 290 , 없는 경우는 230
+                    width: (currentTime > endTime || reject != null) ? 230 : 290,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // option 제목
+                        Text(
+                          title,
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w900),
                         ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      // 진행바가 있는경우는 290 , 없는 경우는 230
-                      width: (currentTime > endTime || reject != null) ? 230 : 290,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // option 제목
-                          Text(
-                            title,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w900),
-                          ),
 
-                          // 시작 전 이라면 reject == null  : 승인 되었다.
-                          if (currentTime < startTime && reject == null) ... [
-                            Row(
+                        // 시작 전 이라면 reject == null  : 승인 되었다.
+                        if (currentTime < startTime && reject == null) ... [
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              // option 6
+                              Text(
+                                councelDate+' '+councelTime,
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xffABABAE),
+                                    fontWeight: FontWeight.w900),
+                              ),
+                              const SizedBox(
+                                width: 16,
+                              ),
+                            ],
+                          ),
+                        ],
+
+                        // 진행 중이라면
+                        if (startTime <= currentTime && currentTime <= endTime && reject == null) ... [
+                          Container(
+
+                            child: CItemIng(
+                              currentTime: currentTime,
+                              endTime: endTime,
+                              rezTime: rezTime,
+                              startTime: startTime,
+                            ),
+                          )
+                        ],
+
+                        // 끝났다면 형태는 시작 전하고 같음
+                        if (currentTime > endTime || reject != null) ... [
+                          // Text('끝난 경우'),
+                          Container(
+                            child: Row(
                               // mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                // option 6
                                 Text(
                                   councelDate+' '+councelTime,
                                   style: const TextStyle(
@@ -113,61 +143,26 @@ class CouncelListItem extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ],
-
-                          // 진행 중이라면
-                          if (startTime <= currentTime && currentTime <= endTime && reject == null) ... [
-                            Container(
-
-                              child: CItemIng(
-                                currentTime: currentTime,
-                                endTime: endTime,
-                                rezTime: rezTime,
-                                startTime: startTime,
-                              ),
-                            )
-                          ],
-
-                          // 끝났다면 형태는 시작 전하고 같음
-                          if (currentTime > endTime || reject != null) ... [
-                            // Text('끝난 경우'),
-                            Container(
-                              child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    councelDate+' '+councelTime,
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Color(0xffABABAE),
-                                        fontWeight: FontWeight.w900),
-                                  ),
-                                  const SizedBox(
-                                    width: 16,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                    if (currentTime > endTime) ... [
-                      Opacity(
-                        opacity: opacity,
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Text(
-                            reject != null ? '반려' : '종료' ,
-                            // '종료',
-                            style: const TextStyle(
-                                color: Colors.black, fontWeight: FontWeight.w900),
                           ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  if (currentTime > endTime) ... [
+                    Opacity(
+                      opacity: opacity,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Text(
+                          reject != null ? '반려' : '종료' ,
+                          // '종료',
+                          style: const TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.w900),
                         ),
-                      )
-                    ],
+                      ),
+                    )
                   ],
-                ),
+                ],
               ),
             ),
           )

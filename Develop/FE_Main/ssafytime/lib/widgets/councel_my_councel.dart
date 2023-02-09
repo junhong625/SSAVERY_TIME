@@ -24,9 +24,8 @@ class CMyCouncel extends StatelessWidget {
             CustomElevatedButton(
               label: '생성',
               onPressed: () async {
-                // await controller.fetchMyCouncelList(20168125, 0);
-                await controller.fetchCouncelor(1,2);
-                print('2');
+                await controller.fetchMyCouncelList(20168125, 0);
+                // await controller.fetchCouncelor(1,1);
               }
             ),
             CustomElevatedButton(
@@ -39,9 +38,16 @@ class CMyCouncel extends StatelessWidget {
             CustomElevatedButton(
                 label: '조회',
                 onPressed: () async {
-                  print(controller.myCouncelList);
-                  print(controller.councelorList);
+                  print('myCouncelList : ${controller.myCouncelList}');
+                  print('councelorList : ${controller.councelorList}');
+                  // print('controller.myCouncelList.length : ${controller.myCouncelList.length}');
                 }
+            ),
+            CustomElevatedButton(
+              label: '이동',
+              onPressed: () {
+                Get.toNamed('/TestPage');
+              }
             ),
             for (int i=0; i < controller.myCouncelList.length; i++) ... [
               CouncelListItem(

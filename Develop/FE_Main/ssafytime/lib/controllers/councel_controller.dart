@@ -7,7 +7,7 @@ import '../model/councel_bottom_councelor.dart';
 import '../model/councel_detail.dart';
 
 class MyCouncelController extends GetxController {
-  List myCouncelList = <CouncelDetail>[].obs; // 내 상담 신청 현황들
+  RxList myCouncelList = <CouncelDetail>[].obs; // 내 상담 신청 현황들
   Rx<DateTime> currentTime = DateTime.now().obs;
   var doubleTypeCurrentTime = 1.0.obs; // 현재 시간은 더블 타입으로 바꾼것
   List<double> myCouncelStartTimeList =
@@ -36,7 +36,7 @@ class MyCouncelController extends GetxController {
   void initialRun() async {
     // currentTime.value = DateTime.now().add(Duration(hours: 9));
     await fetchMyCouncelList(20168125, 0);
-    await fetchCouncelor(1, 2);
+    await fetchCouncelor(1, 1);
   }
 
   // 내 상담신청 현황 요청
@@ -49,6 +49,7 @@ class MyCouncelController extends GetxController {
     var res = await http
         .get(Uri.parse("http://i8a602.p.ssafy.io:9090/meet/${userId}/${code}"));
     var data = json.decode(res.body);
+    print('fetchMyCouncelList 호출 -> ${data}');
 
     for (int i = 0; i < data.length; i++) {
       myCouncelList.add(CouncelDetail(

@@ -27,7 +27,7 @@ class CBCouncelorTotal extends StatelessWidget {
                 name: controller.councelorList[i].userName,
                 position: adminCode[controller.councelorList[i].isAdmin],
                 // imgUrl: controller.councelorList[i].userImg,
-                imgUrl: 'asset/tmp.png', // 임시 방편
+                imgUrl: 'assets/image/no_profile_image.png', // 임시 방편
                 managerId: controller.councelorList[i].userIdx,
               ),
             ]
