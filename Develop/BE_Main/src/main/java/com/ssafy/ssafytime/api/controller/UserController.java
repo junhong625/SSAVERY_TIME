@@ -10,10 +10,12 @@ import com.ssafy.ssafytime.api.service.UserService;
 //import com.ssafy.ssafytime.db.entity.AttendanceId;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
 import com.ssafy.ssafytime.db.entity.User;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import com.ssafy.ssafytime.exception.ResponseHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.*;
+import java.net.URL;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -52,7 +56,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserWithAuthorities(username));
     }
 
-    @PostMapping("/alarm")
+    @PostMapping("/alarm")  // FCM 토큰 저장 및 갱신
     public ResponseEntity<? extends BaseResponseBody> saveFCMToken(@RequestBody @ApiParam(value="FCM 토큰", required = true) FCMTokenDTO fcmTokenDTO, @ApiIgnore Authentication authentication) {
         UserDto userDto = userService.getMyUserWithAuthorities();  // jwt 토큰을 통해 DTO불러옴
         Optional<User> user = userService.findById(userDto.getId());  // DTO 통해 User 엔티티 불러옴
@@ -94,6 +98,71 @@ public class UserController {
         alarmService.noticeChange(userId);
         return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
     }
+
+    @GetMapping("images")  // 프로필 이미지를 C://image 폴더에 학번이름으로 저장하기
+    public ResponseEntity downloadImage(@ApiIgnore Authentication authentication) throws IOException, NullPointerException{
+        UserDto userdto = userService.getMyUserWithAuthorities();
+        String img = userdto.getUserImg();  // 이미지 url 받아옴
+        Long id = userdto.getId();  // 현재 로그인된 사용자의 학번 받아와서 이미지이름으로 사용하도록
+        URL url = new URL(img);
+        InputStream in = new BufferedInputStream(url.openStream());
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        int n = 0;
+        while(-1!=(n=in.read(buf))){
+            out.write(buf,0,n);
+        }
+        out.close();
+        in.close();
+        byte[] response = out.toByteArray();
+
+        File fileDir = new File("C:\\image");  // 폴더 만듬
+        if(!fileDir.isDirectory()){
+            fileDir.mkdirs();
+        }
+
+        File fileData = new File("C:\\image\\"+id+".png");  // 파일 생성
+        if(!fileData.exists()) {  // 해당 경로의 파일이 존재하지 않으면!!
+            FileOutputStream fos = new FileOutputStream("C:\\image\\"+id+".png");  // 만들고
+            fos.write(response);  // 해당 url 이미지 넣음
+            fos.close();
+        }
+
+        return null;
+    }
+
+    @GetMapping(value="/images/view", produces= MediaType.IMAGE_PNG_VALUE)  // 저장된 이미지 파일 가져오기
+    public @ResponseBody byte[] getImage(@ApiIgnore Authentication authentication) throws IOException{
+        FileInputStream fis = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        UserDto userDto = userService.getMyUserWithAuthorities(); // 현재 유저 DTO 가져오기
+        Long id = userDto.getId();  // 학번 가져오기
+
+        String fileDir = "C:\\image\\" + id + ".png"; // 파일경로
+
+        try{
+            fis = new FileInputStream(fileDir);
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        int readCount = 0;
+        byte[] buffer = new byte[1024];
+        byte[] fileArray = null;
+
+        try{
+            while((readCount = fis.read(buffer)) != -1){
+                baos.write(buffer, 0, readCount);
+            }
+            fileArray = baos.toByteArray();
+            fis.close();
+            baos.close();
+        } catch(IOException e){
+            throw new RuntimeException("File Error");
+        }
+        return fileArray;
+    }
+
 
 //    @GetMapping("/attendance")
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
