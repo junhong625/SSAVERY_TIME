@@ -35,9 +35,9 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
             case 1:  // 설문
                 alarmList = this.findAllBySurveyAlarm(true);  // 설문 설정해놓은 알람들 DTO 리스트 가져옴
             case 2:
-                alarmList = this.findAllByNoticeAlarm(true);  // 설문 설정해놓은 알람들 DTO 리스트 가져옴
+                alarmList = this.findAllByNoticeAlarm(true);  // 공지 설정해놓은 알람들 DTO 리스트 가져옴
             case 3:
-                alarmList = this.findAllByConsultingAlarm(true);  // 설문 설정해놓은 알람들 DTO 리스트 가져옴
+                alarmList = this.findAllByConsultingAlarm(true);  // 상담 설정해놓은 알람들 DTO 리스트 가져옴
             default:
                 break;
 
