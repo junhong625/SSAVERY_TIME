@@ -1,70 +1,97 @@
 import 'dart:convert';
 
-class HomeMenu {
-  HomeMenu({
-    required this.data,
-    required this.message,
-    required this.isSuccess,
-    required this.status,
+class MenuToday {
+  MenuToday({
+    this.data,
+    this.message,
+    this.isSuccess,
+    this.status,
   });
 
-  List<Data> data;
-  String message;
-  bool isSuccess;
-  String status;
+  List<Datum>? data;
+  String? message;
+  bool? isSuccess;
+  String? status;
 
-  factory HomeMenu.fromRawJson(String str) =>
-      HomeMenu.fromJson(json.decode(str));
+  factory MenuToday.fromRawJson(String str) =>
+      MenuToday.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory HomeMenu.fromJson(Map<String, dynamic> json) => HomeMenu(
-        data: List<Data>.from(json["data"].map((x) => Data.fromJson(x))),
+  factory MenuToday.fromJson(Map<String, dynamic> json) => MenuToday(
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
         message: json["message"],
         isSuccess: json["isSuccess"],
         status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "message": message,
         "isSuccess": isSuccess,
         "status": status,
       };
 }
 
-class Data {
-  Data({
-    required this.id,
-    required this.mainMenu,
-    required this.sideMenu,
-    required this.kcal,
-    required this.imageUrl,
+class Datum {
+  Datum({
+    this.region,
+    this.course,
+    this.mainMenu,
+    this.sideMenu,
+    this.cho,
+    this.kcal,
+    this.fat,
+    this.protein,
+    this.sodium,
+    this.imageUrl,
   });
 
-  int id;
-  String mainMenu;
-  List<String> sideMenu;
-  int kcal;
-  String imageUrl;
+  int? region;
+  String? course;
+  String? mainMenu;
+  List<String>? sideMenu;
+  int? cho;
+  int? kcal;
+  int? fat;
+  int? protein;
+  int? sodium;
+  String? imageUrl;
 
-  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
+  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        region: json["region"],
+        course: json["course"],
         mainMenu: json["mainMenu"],
-        sideMenu: List<String>.from(json["sideMenu"].map((x) => x)),
+        sideMenu: json["sideMenu"] == null
+            ? []
+            : List<String>.from(json["sideMenu"]!.map((x) => x)),
+        cho: json["cho"],
         kcal: json["kcal"],
+        fat: json["fat"],
+        protein: json["protein"],
+        sodium: json["sodium"],
         imageUrl: json["imageUrl"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "region": region,
+        "course": course,
         "mainMenu": mainMenu,
-        "sideMenu": List<dynamic>.from(sideMenu.map((x) => x)),
+        "sideMenu":
+            sideMenu == null ? [] : List<dynamic>.from(sideMenu!.map((x) => x)),
+        "cho": cho,
         "kcal": kcal,
+        "fat": fat,
+        "protein": protein,
+        "sodium": sodium,
         "imageUrl": imageUrl,
       };
 }

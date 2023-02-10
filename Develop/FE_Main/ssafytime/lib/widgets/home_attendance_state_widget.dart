@@ -22,11 +22,6 @@ class HA extends StatefulWidget {
 class _HAState extends State<HA> {
   @override
   Widget build(BuildContext context) {
-    String absent = widget.absent.toString();
-    String tardy = widget.tardy.toString();
-    String attendance = widget.attendance.toString();
-    String? imgURL = widget.imgURL;
-
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -39,8 +34,8 @@ class _HAState extends State<HA> {
             fit: BoxFit.contain,
             child: CircleAvatar(
               radius: 20,
-              backgroundImage: imgURL != null
-                  ? NetworkImage(imgURL)
+              backgroundImage: widget.imgURL != null
+                  ? NetworkImage(widget.imgURL ?? "")
                   : AssetImage("assets/image/no_profile_image.png")
                       as ImageProvider,
             ),
@@ -58,7 +53,7 @@ class _HAState extends State<HA> {
                       SizedBox(
                         // option1 결석 횟수
                         child: Text(
-                          absent,
+                          widget.absent.toString(),
                           style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 14,
@@ -86,7 +81,7 @@ class _HAState extends State<HA> {
                       SizedBox(
                         // option2 지각 횟수
                         child: Text(
-                          tardy,
+                          widget.tardy.toString(),
                           style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 14,
@@ -114,7 +109,7 @@ class _HAState extends State<HA> {
                       SizedBox(
                         // option3 출석 횟수
                         child: Text(
-                          attendance,
+                          widget.attendance.toString(),
                           style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 14,

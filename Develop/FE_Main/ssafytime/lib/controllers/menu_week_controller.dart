@@ -22,7 +22,7 @@ class MenuPickDayController extends GetxController {
     print('생성!!!!!!!!!!!!!');
     // 이번주 식단 가져오기 =======================
     // 지역 번호 넣어서
-    await requstMenuWeek(AuthService.to.user.value?.regionCode ?? 0);
+    await requstMenuWeek(AuthService.to.user.value.regionCode ?? 0);
 
     // 오늘 날짜 확인하기 ========================
     for (int i = 0; i < 5; i++) {

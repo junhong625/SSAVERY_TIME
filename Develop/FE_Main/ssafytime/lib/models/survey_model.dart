@@ -1,45 +1,65 @@
 import 'dart:convert';
 
-class SurveyModel {
-  SurveyModel({
-    required this.idx,
-    required this.title,
-    required this.status,
-    required this.category,
-    required this.startDate,
-    required this.endDate,
+class SurveyList {
+  SurveyList({
+    this.survey,
   });
 
-  int idx;
-  String title;
-  int status;
-  int category;
-  DateTime startDate;
-  DateTime endDate;
+  List<Survey>? survey;
 
-  factory SurveyModel.fromRawJson(String str) =>
-      SurveyModel.fromJson(json.decode(str));
+  factory SurveyList.fromRawJson(String str) =>
+      SurveyList.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory SurveyModel.fromJson(Map<String, dynamic> json) => SurveyModel(
-        idx: json["idx"],
-        title: json["title"],
-        status: json["status"],
-        category: json["category"],
-        startDate: DateTime.parse(json["startDate"]),
-        endDate: DateTime.parse(json["endDate"]),
-        // options:
-        //     List<Option>.from(json["options"].map((x) => Option.fromJson(x))),
+  factory SurveyList.fromJson(Map<String, dynamic> json) => SurveyList(
+        survey: json["survey"] == null
+            ? []
+            : List<Survey>.from(json["survey"]!.map((x) => Survey.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "idx": idx,
+        "survey": survey == null
+            ? []
+            : List<dynamic>.from(survey!.map((x) => x.toJson())),
+      };
+}
+
+class Survey {
+  Survey({
+    this.title,
+    this.status,
+    this.category,
+    this.startDate,
+    this.endDate,
+  });
+
+  String? title;
+  int? status;
+  int? category;
+  DateTime? startDate;
+  DateTime? endDate;
+
+  factory Survey.fromRawJson(String str) => Survey.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Survey.fromJson(Map<String, dynamic> json) => Survey(
+        title: json["title"],
+        status: json["status"],
+        category: json["category"],
+        startDate: json["startDate"] == null
+            ? null
+            : DateTime.parse(json["startDate"]),
+        endDate:
+            json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+      );
+
+  Map<String, dynamic> toJson() => {
         "title": title,
         "status": status,
         "category": category,
-        "startDate": startDate.toIso8601String(),
-        "endDate": endDate.toIso8601String(),
-        // "options": List<dynamic>.from(options.map((x) => x.toJson())),
+        "startDate": startDate?.toIso8601String(),
+        "endDate": endDate?.toIso8601String(),
       };
 }

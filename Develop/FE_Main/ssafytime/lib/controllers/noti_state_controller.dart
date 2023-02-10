@@ -29,9 +29,9 @@ class NotiStateController extends GetxController {
 
   Rxn<DateTime> dateTime = Rxn<DateTime>(DateTime.now());
   RxList<String> dateSelected = <String>[].obs;
-  final int userIdx;
+  final int? userIdx;
 
-  NotiStateController(this.userIdx);
+  NotiStateController({this.userIdx});
 
   @override
   void onInit() async {

@@ -29,12 +29,12 @@ class HomeRepo {
     return null;
   }
 
-  Future<HomeMenu?> fetchHomeMenu(int? regionCode) async {
+  Future<MenuToday?> fetchMenuToday(int? regionCode) async {
     var res = await http.get(
         Uri.parse(baseUrl + "menu/today?region=${regionCode}"),
         headers: headers);
     if (res.statusCode == 200) {
-      return HomeMenu.fromRawJson(res.body);
+      return MenuToday.fromRawJson(res.body);
     }
     return null;
   }

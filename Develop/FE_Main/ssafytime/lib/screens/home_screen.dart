@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenStates extends State<HomeScreen> {
   @override
   initState() {
-    log("현재 class : ${widget.userC.scheduleNow.value?.data.title}");
+    log("현재 class : ${widget.userC.scheduleNow.value.data?.title}");
     super.initState();
   }
 
@@ -65,7 +65,7 @@ class _HomeScreenStates extends State<HomeScreen> {
       () => Scaffold(
         appBar: AppBar(
           title: Text(
-              "${widget.userC.user.value?.userIdx ?? "000000"} ${widget.userC.user.value?.userName ?? "NAME"}"),
+              "${AuthService.to.user.value.userIdx} ${AuthService.to.user.value.userName}"),
           actions: <Widget>[
             IconButton(
               onPressed: () => Get.toNamed('/userPage'),
@@ -90,10 +90,10 @@ class _HomeScreenStates extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               HA(
-                  absent: widget.userC.userAtten.value?['absentO'] ?? 0,
-                  attendance: widget.userC.userAtten.value?['attenN'] ?? 0,
-                  tardy: widget.userC.userAtten.value?['lateO'] ?? 0,
-                  imgURL: widget.userC.user.value?.userImg),
+                  absent: widget.userC.userAtten.value.absentO ?? 0,
+                  attendance: widget.userC.userAtten.value.attenN ?? 0,
+                  tardy: widget.userC.userAtten.value.lateO ?? 0,
+                  imgURL: AuthService.to.user.value.userImg),
               // CarouselSlider =========================================
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
@@ -123,27 +123,19 @@ class _HomeScreenStates extends State<HomeScreen> {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    widget.userC.scheduleNow.value != null
-                        ? HSIW(
-                            category:
-                                widget.userC.scheduleNow.value!.data.category,
-                            onOff: widget.userC.scheduleNow.value!.data.onOff,
-                            title: widget.userC.scheduleNow.value!.data.title,
-                            subTitle:
-                                widget.userC.scheduleNow.value!.data.subTitle,
-                            startTime:
-                                widget.userC.scheduleNow.value!.data.startTime,
-                            endTime:
-                                widget.userC.scheduleNow.value!.data.endTime,
-                          )
-                        : HSIW(
-                            category: 1,
-                            onOff: 1,
-                            title: "",
-                            subTitle: "테스트",
-                            startTime: DateTime.now().hour + 9,
-                            endTime: DateTime.now().hour + 10,
-                          ),
+                    HSIW(
+                      category:
+                          widget.userC.scheduleNow.value.data?.category ?? 1,
+                      onOff: widget.userC.scheduleNow.value.data?.onOff ?? 1,
+                      title: widget.userC.scheduleNow.value.data?.title ?? "",
+                      subTitle: widget.userC.scheduleNow.value.data?.subTitle ??
+                          "등록된 일과가 없습니다",
+                      startTime:
+                          widget.userC.scheduleNow.value.data?.startTime ??
+                              DateTime.now().hour + 9,
+                      endTime: widget.userC.scheduleNow.value.data?.endTime ??
+                          DateTime.now().hour + 10,
+                    )
                   ],
                 ),
               ),

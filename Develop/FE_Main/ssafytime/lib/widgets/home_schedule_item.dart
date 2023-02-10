@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:ssafytime/controllers/user_controller.dart';
 
 // HSIW 홈스크린 스케줄 아이템 위젯
 // 변수값 설명은 노션 참고
@@ -53,7 +54,12 @@ class _HSIW extends State<HSIW> {
       if (mounted) {
         setState(() {
           _now = DateTime.now();
-          progressPercent = getPercent(widget.startTime, widget.endTime);
+          var nowPercent = getPercent(widget.startTime, widget.endTime);
+          if (nowPercent > 1) {
+            UserController.to.fetchScheduleNow();
+          } else {
+            progressPercent = getPercent(widget.startTime, widget.endTime);
+          }
         });
       }
     });

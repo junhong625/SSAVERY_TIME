@@ -20,9 +20,8 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenStates extends State<UserScreen> {
-  UserController userController = Get.find<UserController>();
-  NotiStateController stateController =
-      Get.put(NotiStateController(Get.arguments ?? 0));
+  UserController userC = UserController.to;
+  NotiStateController stateC = Get.find<NotiStateController>();
   TextEditingController _titleController = TextEditingController();
   String test = "테스트";
   DateTime _dateTime = DateTime.now();
@@ -35,8 +34,7 @@ class _UserScreenStates extends State<UserScreen> {
     "반복": 5,
   };
 //   final List<String> dateSelected = <String>[];
-//   List<bool> dateValue = [false, false, false, false, false];
-  List<int> userAttendance = [0, 0, 0, 0, 0, 0]; // User 출결현황 데이터 확인
+//   List<bool> dateValue = [false, false, false, false, false];// User 출결현황 데이터 확인
 
   @override
   void dispose() {
@@ -57,11 +55,22 @@ class _UserScreenStates extends State<UserScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              MUI(name: "김싸피", studentID: 123456),
+              MUI(
+                name: AuthService.to.user.value.userName,
+                studentID: AuthService.to.user.value.userIdx,
+                imgURL: AuthService.to.user.value.userImg,
+              ),
               Divider(),
-              MAW(stateCntList: userAttendance),
+              MAW(
+                absentO: userC.userAtten.value.absentO,
+                absentR: userC.userAtten.value.absentR,
+                lateR: userC.userAtten.value.lateR,
+                lateO: userC.userAtten.value.lateO,
+                attenN: userC.userAtten.value.attenN,
+                attenT: userC.userAtten.value.attenT,
+              ),
               Divider(),
-              MMileage(myMileage: 5000000),
+              MMileage(myMileage: AuthService.to.user.value.mileage),
               Divider(),
               Container(
                 color: Colors.white,
@@ -80,8 +89,8 @@ class _UserScreenStates extends State<UserScreen> {
                         ],
                       ),
                     ),
-                    stateController.displayDefaultState.length > 0
-                        ? Column(children: stateController.displayDefaultState)
+                    stateC.displayDefaultState.length > 0
+                        ? Column(children: stateC.displayDefaultState)
                         : Text("데이터가 없습니다"),
                   ],
                 ),
@@ -109,7 +118,7 @@ class _UserScreenStates extends State<UserScreen> {
                                   textCancel: "취소",
                                   onCancel: () {
                                     _titleController.clear();
-                                    stateController.dateSelected.clear();
+                                    stateC.dateSelected.clear();
                                   },
                                   content: Obx(() => setCustomAlarmDialog()),
                                 );
@@ -118,23 +127,21 @@ class _UserScreenStates extends State<UserScreen> {
                         ],
                       ),
                     ),
-                    stateController.displayCustomState.length > 0
+                    stateC.displayCustomState.length > 0
                         ? Column(
                             children: [
                               for (int i = 0;
-                                  i < stateController.customState.length;
+                                  i < stateC.customState.length;
                                   i++) ...[
                                 SwitchListTile(
                                   visualDensity: VisualDensity(
                                       horizontal: 0, vertical: -4),
                                   contentPadding:
                                       EdgeInsets.fromLTRB(32, 0, 16, 0),
-                                  title: Text(
-                                      stateController.customState[i].title),
-                                  value: stateController.customState[i].isOn,
-                                  onChanged: (value) => {
-                                    stateController.customState[i].isOn = value
-                                  },
+                                  title: Text(stateC.customState[i].title),
+                                  value: stateC.customState[i].isOn,
+                                  onChanged: (value) =>
+                                      {stateC.customState[i].isOn = value},
                                 ),
                                 Divider()
                               ]
@@ -164,7 +171,7 @@ class _UserScreenStates extends State<UserScreen> {
           itemHeight: 40,
           itemWidth: 60,
           onTimeChange: (time) {
-            stateController.dateTime.value = time;
+            stateC.dateTime.value = time;
           },
         ),
         TextField(
@@ -181,15 +188,15 @@ class _UserScreenStates extends State<UserScreen> {
                         label: Text(e),
                         onSelected: (bool value) {
                           if (value) {
-                            if (!stateController.dateSelected.contains(e)) {
-                              stateController.dateSelected.add(e);
+                            if (!stateC.dateSelected.contains(e)) {
+                              stateC.dateSelected.add(e);
                             }
                           } else {
-                            stateController.dateSelected
+                            stateC.dateSelected
                                 .removeWhere((element) => element == e);
                           }
                         },
-                        selected: stateController.dateSelected.contains(e),
+                        selected: stateC.dateSelected.contains(e),
                       )),
                 )
                 .toList(),

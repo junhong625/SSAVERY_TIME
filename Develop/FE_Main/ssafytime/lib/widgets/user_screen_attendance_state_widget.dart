@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 
 class MAW extends StatefulWidget {
   // [사유결석, 임의결석, 사유지각, 임의지각, 정상출석, 전체출석] 순으로
-  final List<int> stateCntList;
+  final int? absentR;
+  final int? absentO;
+  final int? lateR;
+  final int? lateO;
+  final int? attenN;
+  final int? attenT;
 
   const MAW({
     Key? key,
-    required this.stateCntList,
+    this.absentR,
+    this.absentO,
+    this.lateR,
+    this.lateO,
+    this.attenN,
+    this.attenT,
   }) : super(key: key);
 
   @override
@@ -16,13 +26,6 @@ class MAW extends StatefulWidget {
 class _MAWState extends State<MAW> {
   @override
   Widget build(BuildContext context) {
-    int a = widget.stateCntList[0];
-    int b = widget.stateCntList[1];
-    int c = widget.stateCntList[2];
-    int d = widget.stateCntList[3];
-    int e = widget.stateCntList[4];
-    int f = widget.stateCntList[5];
-
     return Container(
         width: 390,
         height: 110,
@@ -40,9 +43,18 @@ class _MAWState extends State<MAW> {
             ),
             Row(
               children: [
-                MAWdetail(attendanceType: 0, firstCnt: a, secCnt: b),
-                MAWdetail(attendanceType: 1, firstCnt: c, secCnt: d),
-                MAWdetail(attendanceType: 2, firstCnt: e, secCnt: f)
+                MAWdetail(
+                    attendanceType: 0,
+                    firstCnt: widget.absentR,
+                    secCnt: widget.absentR),
+                MAWdetail(
+                    attendanceType: 1,
+                    firstCnt: widget.lateR,
+                    secCnt: widget.lateO),
+                MAWdetail(
+                    attendanceType: 2,
+                    firstCnt: widget.attenN,
+                    secCnt: widget.attenT)
               ],
             )
           ],
@@ -52,15 +64,15 @@ class _MAWState extends State<MAW> {
 
 // 세부사항 부분
 class MAWdetail extends StatefulWidget {
-  final int attendanceType; // 결석 : 0, 지각 : 1,  출석 : 2
-  final int firstCnt; // 사유 or 정상 횟수
-  final int secCnt; // 임의 or 전체 횟수
+  int? attendanceType; // 결석 : 0, 지각 : 1,  출석 : 2
+  int? firstCnt; // 사유 or 정상 횟수
+  int? secCnt; // 임의 or 전체 횟수
 
-  const MAWdetail({
+  MAWdetail({
     Key? key,
-    required this.attendanceType,
-    required this.firstCnt,
-    required this.secCnt,
+    this.attendanceType,
+    this.firstCnt,
+    this.secCnt,
   }) : super(key: key);
 
   @override
@@ -79,10 +91,10 @@ class _MAWdetailState extends State<MAWdetail> {
     List typeInfo = board[widget.attendanceType]!.toList();
 
     String attendanceType = typeInfo[0];
-    int firstCnt = widget.firstCnt;
+    int? firstCnt = widget.firstCnt;
     String firstString = typeInfo[1];
     int color = typeInfo[3];
-    int secCnt = widget.secCnt;
+    int? secCnt = widget.secCnt;
     String secString = typeInfo[2]; // 임의 or 전체
 
     return Container(

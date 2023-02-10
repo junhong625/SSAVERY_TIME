@@ -2,10 +2,10 @@ import 'dart:convert';
 
 class AttenModel {
   AttenModel({
-    required this.attendance,
+    this.attendance,
   });
 
-  List<Attendance> attendance;
+  List<Attendance>? attendance;
 
   factory AttenModel.fromRawJson(String str) =>
       AttenModel.fromJson(json.decode(str));
@@ -13,23 +13,27 @@ class AttenModel {
   String toRawJson() => json.encode(toJson());
 
   factory AttenModel.fromJson(Map<String, dynamic> json) => AttenModel(
-        attendance: List<Attendance>.from(
-            json["attendance"].map((x) => Attendance.fromJson(x))),
+        attendance: json["attendance"] == null
+            ? []
+            : List<Attendance>.from(
+                json["attendance"]!.map((x) => Attendance.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "attendance": List<dynamic>.from(attendance.map((x) => x.toJson())),
+        "attendance": attendance == null
+            ? []
+            : List<dynamic>.from(attendance!.map((x) => x.toJson())),
       };
 }
 
 class Attendance {
   Attendance({
-    required this.category,
-    required this.count,
+    this.category,
+    this.count,
   });
 
-  int category;
-  int count;
+  int? category;
+  int? count;
 
   factory Attendance.fromRawJson(String str) =>
       Attendance.fromJson(json.decode(str));

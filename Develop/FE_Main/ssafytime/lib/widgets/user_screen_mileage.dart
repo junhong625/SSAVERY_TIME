@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // 마이 스크린 마일리지 위젯
 class MMileage extends StatefulWidget {
-  final int myMileage;
+  int? myMileage;
 
-  const MMileage({Key? key, required this.myMileage}) : super(key: key);
+  MMileage({Key? key, this.myMileage}) : super(key: key);
 
   @override
   State<MMileage> createState() => _MMileageState();
 }
 
 class _MMileageState extends State<MMileage> {
+  final f = NumberFormat("###,###,###,###");
   @override
   Widget build(BuildContext context) {
-    String myMileage = convertMileage(widget.myMileage);
-
     return Container(
       width: 390,
       height: 72,
@@ -41,7 +41,7 @@ class _MMileageState extends State<MMileage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  myMileage,
+                  f.format(widget.myMileage),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
                 ),
                 SizedBox(
@@ -61,7 +61,7 @@ class _MMileageState extends State<MMileage> {
 }
 
 // int 30000 -> String 30,000 이렇게 바꾸는 함수
-String convertMileage(int money) {
+String convertMileage(int? money) {
   List tmp = money.toString().split("");
   String res = '';
   int cnt = 1;

@@ -6,6 +6,7 @@ import 'package:ssafytime/models/home_jobs_model.dart';
 import 'package:ssafytime/models/home_menu_model.dart';
 import 'package:ssafytime/models/schedule_now_model.dart';
 import 'package:ssafytime/models/survey_model.dart';
+import 'package:ssafytime/models/user_atten_model.dart';
 import 'package:ssafytime/models/user_model.dart';
 import 'package:ssafytime/repositories/home_repository.dart';
 import 'package:ssafytime/repositories/user_repository.dart';
@@ -17,23 +18,22 @@ class UserController extends GetxController {
   List<String> attenCategory = [
     "absentR",
     "absentO",
-    "AttenT",
-    "AttenN",
+    "attenT",
+    "attenN",
     "lateR",
     "lateO"
   ];
 
-  Rxn<User> user = Rxn<User>();
-  Rxn<AttenModel> atten = Rxn<AttenModel>();
-  Rxn<HomeMenu> homeMenu = Rxn<HomeMenu>();
-  Rxn<ScheduleNow> scheduleNow = Rxn<ScheduleNow>();
-  Rxn<JobInfo> jobInfo = Rxn<JobInfo>();
-  Rxn<SurveyModel> homeSurvey = Rxn<SurveyModel>();
+  final atten = AttenModel().obs;
+  final menuToday = MenuToday().obs;
+  final scheduleNow = ScheduleNow().obs;
+  final jobInfo = JobInfo().obs;
+  final homeSurvey = Survey().obs;
 
-  Rxn<Map<String, int>> userAtten = Rxn<Map<String, int>>();
+  final userAtten = UserAtten().obs;
 
-  UserRepo userApi = UserRepo(token: AuthService.to.token ?? "");
-  HomeRepo homeApi = HomeRepo(token: AuthService.to.token ?? "");
+  UserRepo userApi = UserRepo(token: AuthService.to.accessToken.value);
+  HomeRepo homeApi = HomeRepo(token: AuthService.to.accessToken.value);
 
   @override
   void onInit() async {
@@ -51,13 +51,14 @@ class UserController extends GetxController {
   }
 
   Future<void> fetchUser() async {
-    user.value = await userApi.fetchUserInfo();
-    log("${user.value?.userEmail}");
-    if (user.value != null) {
+    User? userInfo = await userApi.fetchUserInfo();
+    log("${userInfo?.userEmail}");
+    if (userInfo != null) {
       var fcmToken = await userApi.fetchFcmToken();
       bool res = await userApi.updateFcmToken(fcmToken);
       if (res) {
         log("Login : Success / FcmToken : Success");
+        AuthService.to.user(userInfo);
       } else {
         log("Login : Success / FcmToken : Failed");
       }
@@ -67,25 +68,35 @@ class UserController extends GetxController {
   }
 
   Future<void> fetchHomeMenu() async {
-    homeMenu.value = await homeApi.fetchHomeMenu(user.value?.regionCode);
+    menuToday(
+        await homeApi.fetchMenuToday(AuthService.to.user.value.regionCode));
   }
 
   Future<void> fetchScheduleNow() async {
-    scheduleNow.value = await homeApi.fetchScheduleNow(user.value?.trackCode);
-    log("수업 시간 : ${scheduleNow.value?.data.startTime} / ${scheduleNow.value?.data.endTime}");
+    scheduleNow(
+        await homeApi.fetchScheduleNow(AuthService.to.user.value.trackCode));
+    log("수업 시간 : ${scheduleNow.value.data?.startTime} / ${scheduleNow.value.data?.endTime}");
   }
 
   Future<void> fetchAttence() async {
-    atten.value = await homeApi.fetchAttendence();
-  }
-
-  String getUserIdName() {
-    return "${user.value?.userIdx ?? "000000"} ${user.value?.userName ?? "NAME"}";
+    atten(await homeApi.fetchAttendence());
   }
 
   void setAtten() {
-    userAtten.value?.clear();
-    atten.value?.attendance
-        .map((e) => {userAtten.value?[attenCategory[e.category]] = e.count});
+    Map<String, int> attenRaw = {};
+    atten.value.attendance?.forEach(
+        (e) => {attenRaw[attenCategory[e.category ?? 0]] = e.count ?? 0});
+
+    userAtten(UserAtten(
+      absentO: attenRaw['absentO'] ?? 0,
+      absentR: attenRaw['absentR'] ?? 0,
+      lateR: attenRaw['lateR'] ?? 0,
+      lateO: attenRaw['lateO'] ?? 0,
+      attenN: attenRaw['attenN'] ?? 0,
+      attenT: attenRaw['attenT'] ?? 0,
+    ));
+
+    log("attendance : ${attenRaw['absentO']} / ${attenRaw['absentR']} / ${attenRaw['lateO']} / ${attenRaw['lateR']} / ${attenRaw['attenN']} / ${attenRaw['attenT']}");
+    log("attendance : ${userAtten.value.absentO} / ${userAtten.value.absentR} / ${userAtten.value.lateO} / ${userAtten.value.lateR} / ${userAtten.value.attenN} / ${userAtten.value.attenT}");
   }
 }

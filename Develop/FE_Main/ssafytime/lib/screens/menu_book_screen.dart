@@ -1,9 +1,5 @@
 // check menubook screen
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-import 'package:ssafytime/screens/notification_screen.dart';
-import 'package:ssafytime/screens/user_screen.dart';
 
 import '../widgets/menu_day_of_week.dart';
 
@@ -19,22 +15,6 @@ class _MenuBookScreenStates extends State<MenuBookScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("식단표"),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => Get.to(() => UserScreen()),
-            icon: const FaIcon(
-              FontAwesomeIcons.user,
-              size: 20,
-            ),
-          ),
-          IconButton(
-            onPressed: () => Get.to(() => NotificationScreen()),
-            icon: const FaIcon(
-              FontAwesomeIcons.bell,
-              size: 20,
-            ),
-          ),
-        ],
       ),
       body: SizedBox(
           child: Column(
