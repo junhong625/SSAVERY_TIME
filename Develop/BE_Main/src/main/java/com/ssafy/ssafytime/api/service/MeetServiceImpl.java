@@ -57,9 +57,9 @@ public class MeetServiceImpl implements MeetService{
                         info.put("user_img", user.getUserImg());
                         info.put("is_admin", user.getIsAdmin());
                         info.put("user_idx", user.getUserIdx());
-
+                        manager.add(info);
                     }
-                    manager.add(info);
+
                 });
         return manager;
     }
