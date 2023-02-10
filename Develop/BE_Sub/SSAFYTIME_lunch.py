@@ -1,6 +1,7 @@
 from flask import Flask, request
 import pymysql, requests, datetime, requests
 from apscheduler.schedulers.background import BackgroundScheduler
+from requests.auth import HTTPBasicAuth
 
 app = Flask(__name__)
 
@@ -10,17 +11,45 @@ app = Flask(__name__)
 # password  : DB 접속 password
 # db        : 연결할 DB 이름
 # charset   : 문자 인코딩 방식 
-host        = "127.0.0.1"
-port        = 9090
+host        = "i8a602.p.ssafy.io"
+port        = 3306
 user        = "root"
 password    = "ssafy"
 db          = "ssafy_web_db"
 charset     = "utf8"
 
+@app.route("/jira/issue", methods=["GET"])
+def get_issues():
+    params = request.get_json()
+    name = params['name']
+    token = params['token']
+    email = params['email']
+    if request.method == "GET":
+        jql = f"assignee={name} and status not in (closed, done)"
+
+        url = f"https://ssafy.atlassian.net/rest/api/3/search"
+
+        auth = HTTPBasicAuth(email, token)
+
+        headers = {
+        "Accept": "application/json"
+        }
+
+        query = {
+        'jql' : jql
+        }
+
+        issues = requests.get(url=url, headers=headers, params=query, auth=auth).json()['issues']
+        issue_list = []
+        for issue in issues:
+            issue_list.append(issue['fields']['summary'])
+
+        return {'issue_list':issue_list}
 
 @app.route("/lunch_menu", methods=['GET'])
 def lunch_menu_data():
     if request.method == 'GET':
+
         conn    = pymysql.connect(host=host, port=port, user=user, password=password, db=db, charset=charset)
         cur     = conn.cursor()
 
@@ -112,10 +141,11 @@ def lunch_menu_data():
                     # image_url : 메뉴 이미지 URL
 
                     # DB에 데이터 Insert
-                    cur.execute(f"SELECT * FROM lunch_menu where imagr_url={image_url}")
+                    cur.execute(f"SELECT * FROM lunch_menu where image_url='{image_url}' and main_menu='{main_menu}' and side_menu='{side_menu}'")
                     if (not cur.fetchall()):
                         cur.execute(f"INSERT INTO lunch_menu (date, region, course, main_menu, side_menu, kcal, cho, fat, protein, sodium, image_url) VALUES('{date}', '{region}', '{course}', '{main_menu}', '{side_menu}', '{kcal}', '{cho}', '{fat}', '{protein}', '{sodium}', '{image_url}')")
-
+                    else:
+                        return "Duplicate Data", 202
 
             date_data = date_data + datetime.timedelta(days=1)
             weekday = datetime.datetime.weekday(date_data)
@@ -182,17 +212,21 @@ def lunch_menu_data():
                 # image_url : 메뉴 이미지 URL
 
                 # DB에 데이터 Insert
-                cur.execute(f"SELECT * FROM lunch_menu where imagr_url={image_url}")
+                cur.execute(f"SELECT * FROM lunch_menu where image_url='{image_url}' and side_menu='{side_menu}' and main_menu='{main_menu}'")
                 if (not cur.fetchall()):
                     cur.execute(f"INSERT INTO lunch_menu (date, region, course, main_menu, side_menu, kcal, cho, fat, protein, sodium, image_url) VALUES('{date}', '{region}', '{course}', '{main_menu}', '{side_menu}', '{kcal}', '{cho}', '{fat}', '{protein}', '{sodium}', '{image_url}')")
-                
+                else:
+                    print("Duplicate Data")
+                    return "Duplicate Data", 202
         # DB에 데이터 적용
         conn.commit()
-        
-        return "success Insert Data" ,201
-    else:
-        return "fail Insert Data", 401
+        print("Done!")
 
+        print("Success Insert Data")
+        return "Success Insert Data" ,201
+    else:
+        print("Method Not Allowed")
+        return "Method Not Allowed", 405
 
 def lunch_data_crawling():
     print("점심메뉴 크롤링")
@@ -200,10 +234,10 @@ def lunch_data_crawling():
     requests.get(url)
 
 scheduler = BackgroundScheduler()
-scheduler.start()
+# scheduler.start()
 
 ## Interval 매주 월요일 00:00마다 실행
-scheduler.add_job(lunch_data_crawling, 'interval', weeks=1, start_date="2023-02-06 00:00:00", timezone="asia/seoul")
+scheduler.add_job(lunch_data_crawling, 'interval', seconds=30, start_date="2023-02-06 00:00:00", timezone="asia/seoul")
 
 if __name__ == '__main__':
     app.run() 
