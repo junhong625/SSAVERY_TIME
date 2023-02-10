@@ -15,10 +15,12 @@ import com.ssafy.ssafytime.api.service.*;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
 import com.ssafy.ssafytime.db.entity.*;
 import com.ssafy.ssafytime.db.repository.*;
+import com.ssafy.ssafytime.exception.ResponseHandler;
 import com.ssafy.ssafytime.jdbc_connection.DbConnector;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -180,13 +182,19 @@ public class SurveyController {
             throw new RuntimeException(e);
         }
 
+        // 알림보내기
         MessageDTO messageDTO = MessageDTO.builder().title("새로운 설문이 있습니다").body(title).build();  // 알림에 넣을 인자들
         List<String> registrationTokens = alarmDefaultService.getUserTokens(1, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
-        Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
-        Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
-        return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
 
+        if (registrationTokens.isEmpty()) {  // 토큰이 있는 사람중에 알림 보낼 사람이 하나도 없을 때
+            return ResponseHandler.generateResponse(false, "there is no people to send FCM", HttpStatus.NOT_FOUND, null);
+        } else {
+            Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
+            Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
+            return ResponseHandler.generateResponse(true, "FailedAlarmCnt : " + FailedAlarmCnt, HttpStatus.OK, null);
+        }
     }
+
 
     @PostMapping("/survey/conduct/{surveyId}")
     @ApiOperation(value = "설문 완료 ", notes = "<strong>설문 완료</strong>")

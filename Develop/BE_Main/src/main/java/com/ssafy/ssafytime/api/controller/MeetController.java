@@ -93,7 +93,7 @@ public class MeetController {
                 return ResponseHandler.generateResponse(false, "there is null FCMtoken", HttpStatus.NOT_FOUND, null);
             Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
             Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
-            return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
+            return ResponseHandler.generateResponse(true, "FailedAlarmCnt : " + FailedAlarmCnt, HttpStatus.OK, null);
         }
     }
 
@@ -132,7 +132,7 @@ public class MeetController {
                 return ResponseHandler.generateResponse(false, "there is null FCMtoken", HttpStatus.NOT_FOUND, null);
             Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
             Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
-            return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
+            return ResponseHandler.generateResponse(true, "FailedAlarmCnt : " + FailedAlarmCnt, HttpStatus.OK, null);
         }
 
     }

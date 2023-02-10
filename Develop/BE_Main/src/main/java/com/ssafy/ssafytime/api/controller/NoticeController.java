@@ -66,11 +66,18 @@ public class NoticeController {
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNotice(@RequestBody NoticeRequestDto noticeRequestDto) throws FirebaseMessagingException {
         noticeService.save(noticeRequestDto);
-        MessageDTO messageDTO = MessageDTO.builder().title("새로운 설문이 있습니다").body(noticeRequestDto.getTitle()).build();  // 알림에 넣을 인자들
-        List<String> registrationTokens = alarmDefaultService.getUserTokens(2, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
-        Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
-        Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
-        return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
-//        return ResponseHandler.generateResponse(true, "OK", HttpStatus.CREATED, null);
+        MessageDTO messageDTO = MessageDTO.builder().title("새로운 공지가 있습니다").body(noticeRequestDto.getTitle()).build();  // 알림에 넣을 인자들
+        List<String> registrationTokens = alarmDefaultService.getUserTokens(3, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
+
+        if(registrationTokens.isEmpty()) {  // 알림 보낼 사람이 하나도 없을 때
+            return ResponseHandler.generateResponse(false, "there is no people to send FCM", HttpStatus.NOT_FOUND, null);
+        } else {
+            if (registrationTokens.contains(null))  // 알림 보낼 사람은 있는데 FCMtoken이 null일때
+                return ResponseHandler.generateResponse(false, "there is null FCMtoken", HttpStatus.NOT_FOUND, null);
+            Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
+            Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
+            return ResponseHandler.generateResponse(true, "FailedAlarmCnt : " + FailedAlarmCnt, HttpStatus.OK, null);
+        }
+
     }
 }

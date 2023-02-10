@@ -66,7 +66,7 @@ public class ReserveController {
             if (registrationTokens.contains(null))  // 알림 보낼 사람은 있는데 FCMtoken이 null일때
                 return ResponseHandler.generateResponse(false, "there is null FCMtoken", HttpStatus.NOT_FOUND, null);
             Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);  // 알림보냄
-            return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);  // 실패한 알림 개수리턴
+            return ResponseHandler.generateResponse(true, "FailedAlarmCnt : " + FailedAlarmCnt, HttpStatus.OK, null);
         }
     }
 
