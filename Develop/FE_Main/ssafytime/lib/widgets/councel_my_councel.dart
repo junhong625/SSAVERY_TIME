@@ -19,48 +19,108 @@ class CMyCouncel extends StatelessWidget {
         color: Colors.yellowAccent,
         margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
         width: 390, height: 666,
-        child: Column(
-          children: [
-            CustomElevatedButton(
-              label: '생성',
-              onPressed: () async {
-                await controller.fetchMyCouncelList(20168125, 0);
-                // await controller.fetchCouncelor(1,1);
-              }
-            ),
-            CustomElevatedButton(
-              label: '삭제',
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomElevatedButton(
+                label: '생성',
                 onPressed: () async {
-                  controller.myCouncelList.clear();
-                  print(controller.myCouncelList);
+                  await controller.fetchMyCouncelList(20168125, 0);
                 }
-            ),
-            CustomElevatedButton(
-                label: '조회',
-                onPressed: () async {
-                  print('myCouncelList : ${controller.myCouncelList}');
-                  print('councelorList : ${controller.councelorList}');
-                  // print('controller.myCouncelList.length : ${controller.myCouncelList.length}');
-                }
-            ),
-            CustomElevatedButton(
-              label: '이동',
-              onPressed: () {
-                Get.toNamed('/TestPage');
-              }
-            ),
-            for (int i=0; i < controller.myCouncelList.length; i++) ... [
-              CouncelListItem(
-                startTime: controller.myCouncelStartTimeList[i],
-                endTime: controller.myCouncelEndTimeList[i],
-                rezTime: controller.myCouncelList[i].rezTime,
-                currentTime: controller.doubleTypeCurrentTime.value,
-                title: controller.myCouncelList[i].title,
-                reject : controller.myCouncelList[i].reject,
               ),
-              Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
-            ]
-          ],
+              CustomElevatedButton(
+                label: '삭제',
+                  onPressed: () async {
+                    controller.myCouncelList.clear();
+                    print(controller.myCouncelList);
+                  }
+              ),
+              CustomElevatedButton(
+                  label: '조회',
+                  onPressed: () async {
+                    print('myCouncelList : ${controller.myCouncelList}');
+                    print('councelorList : ${controller.councelorList}');
+                    // print('controller.myCouncelList.length : ${controller.myCouncelList.length}');
+                  }
+              ),
+              CustomElevatedButton(
+                label: '이동',
+                onPressed: () {
+                  Get.toNamed('/TestPage');
+                }
+              ),
+
+              // 진행 중인 상담 ==============================================
+              for (int i=0; i < controller.myCouncelList.length; i++) ... [
+                if (controller.myCouncelStartTimeList[i] <= controller.doubleTypeCurrentTime.value &&
+                    controller.doubleTypeCurrentTime.value <= controller.myCouncelEndTimeList[i]) ... [
+                CouncelListItem(
+                  startTime: controller.myCouncelStartTimeList[i],
+                  endTime: controller.myCouncelEndTimeList[i],
+                  rezTime: controller.myCouncelList[i].value.rezTime,
+                  currentTime: controller.doubleTypeCurrentTime.value,
+                  title: controller.myCouncelList[i].value.title,
+                  reject : controller.myCouncelList[i].value.reject,
+                  state: controller.myCouncelList[i].value.state,
+                ),
+                Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
+                ]
+              ],
+
+              // 승인된 상담 ============================================== state == 2 인 것중에 진행중이 아닌거
+              for (int i=0; i < controller.myCouncelList.length; i++) ... [
+                if (controller.myCouncelList[i].value.state == 2 &&
+                !(controller.myCouncelStartTimeList[i] <= controller.doubleTypeCurrentTime.value &&
+                    controller.doubleTypeCurrentTime.value <= controller.myCouncelEndTimeList[i])) ... [
+                  CouncelListItem(
+                    startTime: controller.myCouncelStartTimeList[i],
+                    endTime: controller.myCouncelEndTimeList[i],
+                    rezTime: controller.myCouncelList[i].value.rezTime,
+                    currentTime: controller.doubleTypeCurrentTime.value,
+                    title: controller.myCouncelList[i].value.title,
+                    reject : controller.myCouncelList[i].value.reject,
+                    state: controller.myCouncelList[i].value.state,
+                  ),
+                  Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
+                ]
+              ],
+
+              // 승인 대기중인 상담 ==============================================
+              for (int i=0; i < controller.myCouncelList.length; i++) ... [
+                if (controller.myCouncelList[i].value.state == 1) ... [
+                  CouncelListItem(
+                    startTime: controller.myCouncelStartTimeList[i],
+                    endTime: controller.myCouncelEndTimeList[i],
+                    rezTime: controller.myCouncelList[i].value.rezTime,
+                    currentTime: controller.doubleTypeCurrentTime.value,
+                    title: controller.myCouncelList[i].value.title,
+                    reject : controller.myCouncelList[i].value.reject,
+                    state: controller.myCouncelList[i].value.state,
+                  ),
+                  Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
+                ]
+              ],
+
+              // 종료 or 거절 된 상담 ==============================================
+              for (int i=0; i < controller.myCouncelList.length; i++) ... [
+                if (controller.myCouncelList[i].value.state == 3 ||
+                    controller.myCouncelList[i].value.state == 4) ... [
+                  CouncelListItem(
+                    startTime: controller.myCouncelStartTimeList[i],
+                    endTime: controller.myCouncelEndTimeList[i],
+                    rezTime: controller.myCouncelList[i].value.rezTime,
+                    currentTime: controller.doubleTypeCurrentTime.value,
+                    title: controller.myCouncelList[i].value.title,
+                    reject : controller.myCouncelList[i].value.reject,
+                    state: controller.myCouncelList[i].value.state,
+                  ),
+                  Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
+                ]
+              ],
+
+
+            ],
+          ),
         ),
       ),
     );

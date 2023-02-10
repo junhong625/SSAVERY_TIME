@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ssafytime/widgets/councel_admin_councel.dart';
+import 'package:ssafytime/widgets/councel_list_admin_item.dart';
 import 'package:ssafytime/widgets/councel_list_item.dart';
 
 class TestPage extends StatefulWidget {
@@ -10,43 +12,37 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
-  testController controller = Get.put(testController());
-
-  bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body:  SingleChildScrollView(
-        child: ExpansionPanelList(
-          children: [
-            ExpansionPanel(
-              headerBuilder: (context, isExpanded) {
-                return Text("확장패널 헤더1");
-              },
-              body: Text("확장패널 바디1"),
-              isExpanded: _expanded,
-            ),
-            ExpansionPanel(
-              headerBuilder: (context, isExpanded) {
-                return Text("확장패널 헤더2");
-              },
-              body: Text("확장패널 바디2"),
-              isExpanded: _expanded,
-            ),
-          ],
-          expansionCallback: (panelIndex, isExpanded) {
-            setState(() {
-              _expanded = !_expanded;
-            });
-          },
-        ),
+        child: Container(
+          color: Colors.lightBlueAccent,
+          width: 400, height: 600,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ExpansionTile(
+                title: Text('야야야야'),
+                trailing: Container(width: 0,),
+                children: [
+                  ExpansionTile(
+                    title: Text('11324115'),
+                    children: [
+                      Container(
+                        color: Colors.black,
+                        width: 100, height: 100,
+                      )
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+        )
       ),
     );
   }
 }
 
-
-class testController extends GetxController {
-  var testInt = 0.obs;
-}
