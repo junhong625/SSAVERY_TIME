@@ -10,6 +10,8 @@ import 'councel_bottom_date.dart';
 import 'councel_bottom_input_title.dart';
 import 'councel_bottom_time_total.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 
 void openCouncelBottomSheet(BuildContext context) {
@@ -80,7 +82,8 @@ void openCouncelBottomSheet(BuildContext context) {
                             if (controller.myInputTitle.value != '' && controller.myInputCategory.value != '')
                               CustomElevatedButton(
                                 onPressed: () {
-                                  submitCouncelApplication();
+                                  controller.submitCouncelApplication();
+                                  Get.back();
                                 },
                                 color: 0xff3094F2,
                                 width: 171, height: 40,
@@ -90,6 +93,7 @@ void openCouncelBottomSheet(BuildContext context) {
                             if (controller.myInputTitle.value == '' || controller.myInputCategory.value == '')
                               CustomElevatedButton(
                                 onPressed: () {
+                                  print('제출 내용 부족');
                                 },
                                 color: 0xffD9D9D9,
                                 width: 171, height: 40,
@@ -122,26 +126,32 @@ void resetApplyData() {
 }
 
 // 상담 신청 제출
-void submitCouncelApplication() async {
-  MyCouncelController controller = Get.find<MyCouncelController>();
-  int studentId = 3241114; // 유저 정보 컨트롤러 생기면 가져오면 됨
-  int managerId = controller.myPickCouncelor.value;
-  String rezDate = controller.myPickDateServe.value;
-  String rezTime = controller.myPickTime.value;
-  String title = controller.myInputTitle.value;
-  String category = controller.myInputCategory.value;
-
-  var body = {
-    studentId : studentId,
-    managerId : managerId,
-    rezDate : rezDate,
-    rezTime : rezTime,
-    title : title,
-    category : category,
-  };
-
-  // post 가 안되는데 어떻게 함
-  var res = await http.post(Uri.parse('http://i8a602.p.ssafy.io:9090/reserve/submit'), body: body);
-
-
-}
+// void submitCouncelApplication() async {
+//   MyCouncelController controller = Get.find<MyCouncelController>();
+//   int studentId = 3241114; // 유저 정보 컨트롤러 생기면 가져오면 됨
+//   int managerId = controller.myPickCouncelor.value;
+//   String rezDate = controller.myPickDateServe.value;
+//   String rezTime = controller.myPickTime.value;
+//   String title = controller.myInputTitle.value;
+//   String category = controller.myInputCategory.value;
+//
+//   var body = json.encode({
+//     "studentId" : studentId,
+//     "managerId" : managerId,
+//     "rezDate" : rezDate,
+//     "rezTime" : rezTime,
+//     "title" : title,
+//     "category" : category,
+//   });
+//
+//   var headers = {"Content-Type": "application/json"};
+//
+//   print(body.runtimeType);
+//   print(managerId);
+//
+//   // post 가 안되는데 어떻게 함
+//   var res = await http.post(Uri.parse('http://i8a602.p.ssafy.io:9090/reserve/submit'), headers: headers, body: body);
+//   print(res.statusCode);
+//
+//   await controller.fetchMyCouncelList(842167, 1);
+// }

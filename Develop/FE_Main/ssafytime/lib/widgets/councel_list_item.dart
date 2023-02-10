@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:ssafytime/custom_button.dart';
 
 class CouncelListItem extends StatelessWidget {
 
@@ -12,6 +13,7 @@ class CouncelListItem extends StatelessWidget {
 
   double rezTime; // 13.5 이런값 api에서 받는 값
   String? reject;
+  int state;
 
   CouncelListItem({Key? key,
     required this.title,
@@ -20,139 +22,173 @@ class CouncelListItem extends StatelessWidget {
     required this.endTime,
     required this.rezTime,
     required this.reject,
+    required this.state,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String councelTime = CItemCouncelTime(rezTime); // 13:00 ~ 14:00
     String councelDate = CItemDate(startTime);
-    double opacity = currentTime > endTime ? 0.4 : 1;
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            width: 358,
-            height: 62,
-            child: Opacity(
-              opacity: opacity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // // 아이콘 컨네이너
-                  Row(
+    double opacity = (state == 3 || state == 4) ? 0.4 : 1;
+    return InkWell(
+      onTap: () {
+        print('dodo');
+        if (startTime <= currentTime && currentTime <= endTime) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('방에 접속해주세요!'),
+                content: Container(
+                  child: Row(
                     children: [
-                      Container(
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Color(0xff686ADB), width: 2),
-                        ),
-                        // option 아이콘 모양, 색상
-                        child: Center(
+                      CustomElevatedButton(
+                        onPressed: () {
+
+                        }
+                      ),
+                      CustomElevatedButton(
+                          onPressed: () {
+
+                          }
+                      ),
+                    ],
+                  )
+                ),
+              )
+            }
+          );
+        }
+      },
+      child: Container(
+        color: Colors.white,
+        width: 358,
+        height: 62,
+        child: Opacity(
+          opacity: opacity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // // 아이콘 컨네이너
+              Row(
+                children: [
+                  Container(
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Color(0xff686ADB), width: 2),
+                      ),
+                      // option 아이콘 모양, 색상
+                      child: Center(
                           child: FaIcon(
                             FontAwesomeIcons.userGroup,
                             size: 20,
                             color: Color(0xff686ADB),
                           )
-                        )
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                    ],
+                      )
                   ),
-                  Container(
-                    // 진행바가 있는경우는 290 , 없는 경우는 230
-                    width: (currentTime > endTime || reject != null) ? 230 : 290,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // option 제목
-                        Text(
-                          title,
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w900),
-                        ),
-
-                        // 시작 전 이라면 reject == null  : 승인 되었다.
-                        if (currentTime < startTime && reject == null) ... [
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              // option 6
-                              Text(
-                                councelDate+' '+councelTime,
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xffABABAE),
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                            ],
-                          ),
-                        ],
-
-                        // 진행 중이라면
-                        if (startTime <= currentTime && currentTime <= endTime && reject == null) ... [
-                          Container(
-
-                            child: CItemIng(
-                              currentTime: currentTime,
-                              endTime: endTime,
-                              rezTime: rezTime,
-                              startTime: startTime,
-                            ),
-                          )
-                        ],
-
-                        // 끝났다면 형태는 시작 전하고 같음
-                        if (currentTime > endTime || reject != null) ... [
-                          // Text('끝난 경우'),
-                          Container(
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  councelDate+' '+councelTime,
-                                  style: const TextStyle(
-                                      fontSize: 12,
-                                      color: Color(0xffABABAE),
-                                      fontWeight: FontWeight.w900),
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
+                  SizedBox(
+                    width: 15,
                   ),
-                  if (currentTime > endTime) ... [
-                    Opacity(
-                      opacity: opacity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Text(
-                          reject != null ? '반려' : '종료' ,
-                          // '종료',
-                          style: const TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                    )
-                  ],
                 ],
               ),
-            ),
-          )
-        ],
+              Container(
+                // 진행바가 있는경우는 290 , 없는 경우는 230
+                width: (state == 2 && startTime <= currentTime && currentTime <= endTime) ? 290 : 230,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // option 제목
+                    Text(
+                      title,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w900),
+                    ),
+
+                    // 시작 전 이라면 reject == null  : 승인 되었다.
+                    if (currentTime < startTime && reject == null) ... [
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          // option 6
+                          Text(
+                            councelDate+' '+councelTime,
+                            style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xffABABAE),
+                                fontWeight: FontWeight.w900),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                        ],
+                      ),
+                    ],
+
+                    // 진행 중이라면
+                    if (startTime <= currentTime && currentTime <= endTime && state == 2) ... [
+                      Container(
+
+                        child: CItemIng(
+                          currentTime: currentTime,
+                          endTime: endTime,
+                          rezTime: rezTime,
+                          startTime: startTime,
+                        ),
+                      )
+                    ],
+
+                    // 끝났다면 형태는 시작 전하고 같음
+                    if (currentTime > endTime || reject != null) ... [
+                      // Text('끝난 경우'),
+                      Container(
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              councelDate+' '+councelTime,
+                              style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xffABABAE),
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              if (currentTime > endTime || state == 3 || state == 4) ... [
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    state == 3 ? '반려' : '종료' ,
+                    // '종료',
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.w900),
+                  ),
+                )
+              ] else if (!(startTime <= currentTime && currentTime <= endTime)) ... [
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    state == 1 ? '대기' : '승인' ,
+                    // '종료',
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.w900),
+                  ),
+                )
+              ]
+            ],
+          ),
+        ),
       ),
     );
   }

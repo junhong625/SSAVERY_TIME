@@ -18,7 +18,7 @@ class CounselScreen extends StatefulWidget {
 }
 
 class _CounselScreenStates extends State<CounselScreen> {
-  int userCode = 1; // 임시로 둔 것 유저 정보에서 가져와야 할 것
+  int userCode = 0; // 임시로 둔 것 유저 정보에서 가져와야 할 것
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +51,10 @@ class _CounselScreenStates extends State<CounselScreen> {
             // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
         // body: Container(color: Colors.black12, child: CMyCouncel()));
-        body: Container(color: Colors.black12, child: CAdminCouncel()));
+        body: Container(
+          color: Colors.black12,
+          child: userCode == 1 ? CAdminCouncel() : CMyCouncel()
+        )
+    );
   }
 }

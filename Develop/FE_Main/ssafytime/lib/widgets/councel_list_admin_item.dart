@@ -10,7 +10,7 @@ import 'package:ssafytime/widgets/custom_text.dart';
 
 class CouncelAdminListItem extends StatelessWidget {
 
-  final CouncelDetail data;
+  final Rx<CouncelDetail> data;
 
   // controller 에서 받아올 값들
   double currentTime; //   currentTime: 202302061120,
@@ -31,28 +31,30 @@ class CouncelAdminListItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     // state 상태 값에 따른 변수
+    double iconSize = 30;
     Map table = {
       1: {
-        'icon' : Icon(Icons.live_help_outlined, size: 40,)
+        'icon' : Icon(Icons.live_help_outlined, size: iconSize,)
       },
       2: {
-        'icon' : Icon(Icons.mark_chat_read_outlined, size: 40,)
+        'icon' : Icon(Icons.mark_chat_read_outlined, size: iconSize,)
       },
       3: {
-        'icon' : Icon(Icons.sms_failed_outlined, size: 40,)
+        'icon' : Icon(Icons.sms_failed_outlined, size: iconSize,)
       },
       4: {
-        'icon' : Icon(Icons.done, size: 40,)
+        'icon' : Icon(Icons.done, size: iconSize,)
       },
     };
 
-    String title = data.title; // 제목
-    double rezTime = data.rezTime; // 예약 시간 12.0 등
-    String? reject = data.reject; // 거절 사유
-    String name = data.name; // 신청자 이름
-    String category = data.category; // 카테고리
-    int state = data.state; //  대기(1), 승인(2), 거절(3), 종료(4)
-    String? url = data.meetUrl; // 상담 url
+    String title = data.value.title; // 제목
+    double rezTime = data.value.rezTime; // 예약 시간 12.0 등
+    String? reject = data.value.reject; // 거절 사유
+    String name = data.value.name; // 신청자 이름
+    String category = data.value.category; // 카테고리
+    int state = data.value.state; //  대기(1), 승인(2), 거절(3), 종료(4)
+    String? url = data.value.meetUrl; // 상담 url
+    int rezIdx = data.value.rezIdx; // 상담번호
 
     String councelTime = getCouncelTime(rezTime); // 13:00 ~ 14:00
     String councelDate = CItemDate(startTime);
@@ -62,11 +64,23 @@ class CouncelAdminListItem extends StatelessWidget {
         color: Colors.white,
         width: MediaQuery.of(context).size.width * 0.8,
         child: ExpansionTile(
-          leading: table[state]['icon'],
+          leading: Container(
+            width: 50,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.black54, width: 2),
+            ),
+            // option 아이콘 모양, 색상
+            child: Center(
+                child: table[state]['icon'],
+            )
+          ),
           title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(content: '${name}'),
-              CustomText(content: '${councelDate} ${councelTime}', fontSize: 15,)
+              CustomText(content: '${name}', fontSize: 20,),
+              CustomText(content: '${councelDate} ${councelTime}', fontSize: 12,)
             ],
           ),
           children: [
@@ -83,7 +97,10 @@ class CouncelAdminListItem extends StatelessWidget {
                         CustomElevatedButton(
                           label: '승인',
                           width: 100, height: 40,
-                          onPressed: () {}
+                          onPressed: () {
+                            print('${rezIdx}번 승인할거임');
+                            controller.acceptCouncel(rezIdx);
+                          }
                         ),
                         CustomElevatedButton(
                             label: '거절',
@@ -110,6 +127,8 @@ class CouncelAdminListItem extends StatelessWidget {
                                         label: '제출',
                                         width: 100, height: 40,
                                         onPressed: () {
+                                          print(_textController.text);
+                                          controller.rejectCouncel(rezIdx, _textController.text);
                                           Navigator.of(context).pop();
                                         }
                                       ),
