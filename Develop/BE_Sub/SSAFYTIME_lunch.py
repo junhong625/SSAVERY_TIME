@@ -5,7 +5,46 @@ from requests.auth import HTTPBasicAuth
 
 app = Flask(__name__)
 
-## DB 연결을 위한 기본 변수
+
+## get JIRA Issues(GET)
+# name : 사용자 이름
+# email : jira ID
+# token : jira API Token 
+@app.route("/jira/issue", methods=["GET"])
+def get_issues():
+    params = request.get_json()
+    name = params['name']
+    token = params['token']
+    email = params['email']
+
+    if request.method == "GET":
+        jql = f"assignee={name} and status not in (closed, done)" # jql : 담당자가 name이고 상태(status)가 진행 중인 이슈 조회 
+
+        url = f"https://ssafy.atlassian.net/rest/api/3/search"
+
+        auth = HTTPBasicAuth(email, token)  # Basic인증 방식
+
+        headers = {
+        "Accept": "application/json"
+        }
+
+        query = {
+        'jql' : jql
+        }
+
+        result = requests.get(url=url, headers=headers, params=query, auth=auth).json()
+        issues = result['issues']
+        issue_list = []
+
+        # result['issues']['fields']['summary'] : issue name
+        for issue in issues:
+            issue_list.append(issue['fields']['summary'])
+
+        return {'issue_list':issue_list}
+
+
+## Insert lunch menu to ssaveryTime_DB
+# DB 연결을 위한 기본 변수
 # host      : ip 주소
 # user      : DB 접속 ID
 # password  : DB 접속 password
@@ -17,34 +56,6 @@ user        = "root"
 password    = "ssafy"
 db          = "ssafy_web_db"
 charset     = "utf8"
-
-@app.route("/jira/issue", methods=["GET"])
-def get_issues():
-    params = request.get_json()
-    name = params['name']
-    token = params['token']
-    email = params['email']
-    if request.method == "GET":
-        jql = f"assignee={name} and status not in (closed, done)"
-
-        url = f"https://ssafy.atlassian.net/rest/api/3/search"
-
-        auth = HTTPBasicAuth(email, token)
-
-        headers = {
-        "Accept": "application/json"
-        }
-
-        query = {
-        'jql' : jql
-        }
-
-        issues = requests.get(url=url, headers=headers, params=query, auth=auth).json()['issues']
-        issue_list = []
-        for issue in issues:
-            issue_list.append(issue['fields']['summary'])
-
-        return {'issue_list':issue_list}
 
 @app.route("/lunch_menu", methods=['GET'])
 def lunch_menu_data():
@@ -63,14 +74,12 @@ def lunch_menu_data():
         ## 식단 날짜
         # 년원일 형식
         date_data = datetime.date.today()
+        date_data = date_data - datetime.timedelta(days=date_data.weekday()) # 이번주 월요일로 날짜 변경
         weekday = datetime.datetime.weekday(date_data)
-        while weekday:
-            date_data = date_data - datetime.timedelta(days=1)
-            weekday = datetime.datetime.weekday(date_data)
 
         date = str(date_data).split()[0].replace("-", "")
 
-        # 데이터를 수집하는 날짜는 매주 월요일이라고 가정
+        # 데이터를 수집하는 날짜는 매주 월요일
         # 월요일부터 금요일까지의 점심 데이터 수집
         while weekday <= 4:
 
@@ -148,7 +157,7 @@ def lunch_menu_data():
                         return "Duplicate Data", 202
 
             date_data = date_data + datetime.timedelta(days=1)
-            weekday = datetime.datetime.weekday(date_data)
+            weekday = date_data.weekday()
             date = str(date_data).split()[0].replace("-", "")
 
 
@@ -233,8 +242,9 @@ def lunch_data_crawling():
     url = "http://127.0.0.1:5000/lunch_menu"
     requests.get(url)
 
+## python scheduler 실행
 scheduler = BackgroundScheduler()
-# scheduler.start()
+scheduler.start()
 
 ## Interval 매주 월요일 00:00마다 실행
 scheduler.add_job(lunch_data_crawling, 'interval', seconds=30, start_date="2023-02-06 00:00:00", timezone="asia/seoul")
