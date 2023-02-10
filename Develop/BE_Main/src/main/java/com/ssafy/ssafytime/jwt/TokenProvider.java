@@ -51,7 +51,7 @@ public class TokenProvider implements InitializingBean {
    }
 
    //Jwt 토큰 생성
-   public String createToken(Authentication authentication) {
+   public String createAccessToken(Authentication authentication) {
       String authorities = authentication.getAuthorities().stream()
          .map(GrantedAuthority::getAuthority)
          .collect(Collectors.joining(","));
@@ -77,8 +77,6 @@ public class TokenProvider implements InitializingBean {
       Date validity = new Date(now.getTime() + this.tokenValidityInMilliseconds);
       LocalDateTime localDateTime = new Timestamp(validity.getTime()).toLocalDateTime();
 
-      System.out.println("실제 리프레시토큰 만료시간-==--=");
-      System.out.println(localDateTime);
       return Jwts.builder()
               .claim(TOKEN_TYPE_KEY, TokenType.REFRESH)
               .setIssuedAt(now)
@@ -104,7 +102,6 @@ public class TokenProvider implements InitializingBean {
             .collect(Collectors.toList());
 
       User principal = new User(claims.getSubject(), "", authorities);
-      System.out.println(principal.getUsername());
       return new UsernamePasswordAuthenticationToken(principal, token, authorities);
    }
 
@@ -134,13 +131,7 @@ public class TokenProvider implements InitializingBean {
    public boolean validateToken(String token, final TokenType tokenType) {
       try {
          final Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-         System.out.println("-=-=-=-==--=-=-=-=-=-==-");
-         System.out.println("클레임은");
-         System.out.println(claims.toString());
          final TokenType extractedType = TokenType.valueOf((String)claims.get(TOKEN_TYPE_KEY));
-         System.out.println("타입은");
-         System.out.println(extractedType);
-         System.out.println("-=-=-=-==--=-=-=-=-=-==-");
 
 
          return !claims.getExpiration().before(new Date()) && extractedType == tokenType;

@@ -17,7 +17,7 @@ public class DbConnector {
     public DbConnector() {
         try {
             System.out.println("create");
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("connect");
         } catch (Exception e) {

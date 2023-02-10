@@ -36,7 +36,7 @@ public class UserDto {
    @NotNull
    private Integer trackCode;
 
-//   private String userImg;
+   private String userImg;
 
    @NotNull
    private Integer regionCode;
@@ -66,6 +66,7 @@ public class UserDto {
               .userName(user.getUserName())
               .userEmail(user.getUserEmail())
               .trackCode(user.getTrackCode())
+              .userImg(user.getUserImg())
               .isAdmin(user.getIsAdmin())
               .regionCode(user.getRegionCode())
               .class_num(user.getClassNum())

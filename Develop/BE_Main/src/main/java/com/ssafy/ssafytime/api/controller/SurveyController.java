@@ -209,6 +209,8 @@ public class SurveyController {
         if(!user.isPresent() || !survey.isPresent()) // 둘 중 하나라도 null이면
             return ResponseEntity.status(204).body(BaseResponseBody.of(400, "Bad Request"));
         else {  // 요청이 제대로면
+//            if(surveyConduct.getUserIdxAndSurveyIdx(user.get().))  // 이미 저장된 설문완료는 따로 응답
+
             surveyConduct.setUserIdx(user.get());  // optional객체 말고 user로 바꾸기 위해 .get()해주어야함
             surveyConduct.setSurveyIdx(survey.get());  // optional객체 말고 일반객체로 바꾸기 위해 .get()해주어야함
             surveyConductService.save(surveyConduct);  // 객체 DB에 저장 !

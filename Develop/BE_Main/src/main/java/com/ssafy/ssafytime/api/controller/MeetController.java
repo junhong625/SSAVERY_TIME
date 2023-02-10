@@ -9,6 +9,8 @@ import com.ssafy.ssafytime.db.dto.MeetInfoDto;
 import com.ssafy.ssafytime.db.entity.MeetList;
 import com.ssafy.ssafytime.db.repository.AlarmDefaultRepository;
 import com.ssafy.ssafytime.db.repository.MeetListRepository;
+import com.ssafy.ssafytime.exception.ResponseHandler;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@Log4j2
 @RestController
 @RequestMapping("/meet")
 public class MeetController {
@@ -92,7 +94,7 @@ public class MeetController {
     // 상담승인 등록 ( 매니저가 등록 )
     // rez_idx는 예약된 상담의 번호
     @PutMapping("/update/accept")
-    public ResponseEntity<String> putAccept(@RequestParam("rez_idx") Long rezIdx) throws FirebaseMessagingException {
+    public ResponseEntity<Object> putAccept(@RequestParam("rez_idx") Long rezIdx) throws FirebaseMessagingException {
 
         // 예약된 상담의 정보 가져오기
         MeetList member = meetService.findByRezIdx(rezIdx);
@@ -101,18 +103,40 @@ public class MeetController {
         meetService.update(member);
 
         Double doubleTime = 0.0;  // 상담 알림 메시지 위함
+        doubleTime = Math.floor(member.getRezTime());
         String time = null;
         if(member.getRezTime()%1.0 == 0.5)  // 시간이 16.5 면 16:30으로 바꾸게!
             time = String.valueOf(doubleTime) + ":30";
         else
             time = String.valueOf(doubleTime) + ":00";
-
         // 알림 보내기
         MessageDTO messageDTO = MessageDTO.builder().title("상담 승인 알림").body(member.getRezDate() + " " + time + " 상담 거절됨").build();  // 알림에 넣을 인자들
         List<String> registrationTokens = alarmDefaultService.getUserTokens(3, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
-        Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
-        Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
-        return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
+        if(registrationTokens.isEmpty()) {  // 알림 보낼 사람이 하나도 없을 때
+            return ResponseHandler.generateResponse(false, "there is no FCMtoken", HttpStatus.NOT_FOUND, null);
+        } else {
+            if (registrationTokens.contains(null))  // 알림 보낼 사람은 있는데 FCMtoken이 null일때
+                return ResponseHandler.generateResponse(false, "there is null FCMtoken", HttpStatus.NOT_FOUND, null);
+            Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
+            Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
+            return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
+        }
+
     }
+
+    // api 설계서 기준 초기화 (프론트 테스트용)
+    // rez_idx는 예약된 상담의 번호
+    @PutMapping("/update/reset")
+    public ResponseEntity<Object> putReset(@RequestParam("rez_idx") Long rezIdx) throws FirebaseMessagingException {
+
+        // 예약된 상담의 정보 가져오기
+        MeetList member = meetService.findByRezIdx(rezIdx);
+        // 상태 1로 초기화
+        member.setState(1L);
+        meetService.update(member);
+
+        return ResponseEntity.ok().body("초기화 했습니돠 ");
+    }
+
 
 }

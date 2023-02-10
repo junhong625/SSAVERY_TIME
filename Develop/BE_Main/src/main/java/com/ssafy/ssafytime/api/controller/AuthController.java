@@ -53,7 +53,7 @@ public class AuthController {
         tokenService.saveRefreshToken(authentication.getName(), tokenResponse.getRefreshToken());
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + tokenResponse.getToken());
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + tokenResponse.getAccessToken());
         return new ResponseEntity<>(tokenResponse, httpHeaders, HttpStatus.OK);
     }
 
@@ -63,10 +63,8 @@ public class AuthController {
         final TokenResponse tokenResponse = authService.refreshToken(tokenRequest);
 
         final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setBearerAuth(tokenResponse.getToken());
+        httpHeaders.setBearerAuth(tokenResponse.getAccessToken());
 
-        System.out.println("여기안옴????");
-        System.out.println(tokenResponse.getToken());
         return new ResponseEntity<>(tokenResponse, httpHeaders, HttpStatus.OK);
     }
 

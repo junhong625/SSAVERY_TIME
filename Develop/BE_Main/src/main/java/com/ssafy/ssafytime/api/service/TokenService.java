@@ -32,7 +32,7 @@ public class TokenService {
     }
 
     public TokenResponse createTokenResponse(final Authentication authentication){
-        final String accessToken = tokenProvider.createToken(authentication);
+        final String accessToken = tokenProvider.createAccessToken(authentication);
         final String refreshToken = tokenProvider.createRefreshToken();
 
         return new TokenResponse(accessToken, refreshToken);
@@ -44,8 +44,6 @@ public class TokenService {
         Date validity = new Date(now + this.refreshTokenValidityInMilliseconds*10000);
         LocalDateTime localDateTime = new Timestamp(validity.getTime()).toLocalDateTime();
 
-        System.out.println("DB 리프레시토큰 만료시간-==--=");
-        System.out.println(localDateTime);
         refreshTokenRepository.save(new RefreshToken(userIdx, refreshToken, localDateTime));
     }
 
