@@ -14,7 +14,7 @@ public class SchedulerService {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
-    @Scheduled(cron = "0/10 * * * * *")
+    @Scheduled(cron = "0 0 5 * * *")
     @Transactional
     public void run(){
         LocalDateTime time = LocalDateTime.now();
