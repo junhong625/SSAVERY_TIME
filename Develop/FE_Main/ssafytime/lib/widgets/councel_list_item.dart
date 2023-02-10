@@ -4,7 +4,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:ssafytime/custom_button.dart';
 
 class CouncelListItem extends StatelessWidget {
-
   final String title; // 제목
 
   double currentTime; // 현재시간 202302061530.0 이런 형태로 들어옴
@@ -15,7 +14,8 @@ class CouncelListItem extends StatelessWidget {
   String? reject;
   int state;
 
-  CouncelListItem({Key? key,
+  CouncelListItem({
+    Key? key,
     required this.title,
     required this.currentTime,
     required this.startTime,
@@ -41,23 +41,14 @@ class CouncelListItem extends StatelessWidget {
               return AlertDialog(
                 title: Text('방에 접속해주세요!'),
                 content: Container(
-                  child: Row(
-                    children: [
-                      CustomElevatedButton(
-                        onPressed: () {
-
-                        }
-                      ),
-                      CustomElevatedButton(
-                          onPressed: () {
-
-                          }
-                      ),
-                    ],
-                  )
-                ),
-              )
-            }
+                    child: Row(
+                  children: [
+                    CustomElevatedButton(onPressed: () {}),
+                    CustomElevatedButton(onPressed: () {}),
+                  ],
+                )),
+              );
+            },
           );
         }
       },
@@ -83,12 +74,10 @@ class CouncelListItem extends StatelessWidget {
                       // option 아이콘 모양, 색상
                       child: Center(
                           child: FaIcon(
-                            FontAwesomeIcons.userGroup,
-                            size: 20,
-                            color: Color(0xff686ADB),
-                          )
-                      )
-                  ),
+                        FontAwesomeIcons.userGroup,
+                        size: 20,
+                        color: Color(0xff686ADB),
+                      ))),
                   SizedBox(
                     width: 15,
                   ),
@@ -96,7 +85,11 @@ class CouncelListItem extends StatelessWidget {
               ),
               Container(
                 // 진행바가 있는경우는 290 , 없는 경우는 230
-                width: (state == 2 && startTime <= currentTime && currentTime <= endTime) ? 290 : 230,
+                width: (state == 2 &&
+                        startTime <= currentTime &&
+                        currentTime <= endTime)
+                    ? 290
+                    : 230,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -109,13 +102,13 @@ class CouncelListItem extends StatelessWidget {
                     ),
 
                     // 시작 전 이라면 reject == null  : 승인 되었다.
-                    if (currentTime < startTime && reject == null) ... [
+                    if (currentTime < startTime && reject == null) ...[
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           // option 6
                           Text(
-                            councelDate+' '+councelTime,
+                            councelDate + ' ' + councelTime,
                             style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xffABABAE),
@@ -129,9 +122,10 @@ class CouncelListItem extends StatelessWidget {
                     ],
 
                     // 진행 중이라면
-                    if (startTime <= currentTime && currentTime <= endTime && state == 2) ... [
+                    if (startTime <= currentTime &&
+                        currentTime <= endTime &&
+                        state == 2) ...[
                       Container(
-
                         child: CItemIng(
                           currentTime: currentTime,
                           endTime: endTime,
@@ -142,14 +136,14 @@ class CouncelListItem extends StatelessWidget {
                     ],
 
                     // 끝났다면 형태는 시작 전하고 같음
-                    if (currentTime > endTime || reject != null) ... [
+                    if (currentTime > endTime || reject != null) ...[
                       // Text('끝난 경우'),
                       Container(
                         child: Row(
                           // mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              councelDate+' '+councelTime,
+                              councelDate + ' ' + councelTime,
                               style: const TextStyle(
                                   fontSize: 12,
                                   color: Color(0xffABABAE),
@@ -165,21 +159,22 @@ class CouncelListItem extends StatelessWidget {
                   ],
                 ),
               ),
-              if (currentTime > endTime || state == 3 || state == 4) ... [
+              if (currentTime > endTime || state == 3 || state == 4) ...[
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Text(
-                    state == 3 ? '반려' : '종료' ,
+                    state == 3 ? '반려' : '종료',
                     // '종료',
                     style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w900),
                   ),
                 )
-              ] else if (!(startTime <= currentTime && currentTime <= endTime)) ... [
+              ] else if (!(startTime <= currentTime &&
+                  currentTime <= endTime)) ...[
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Text(
-                    state == 1 ? '대기' : '승인' ,
+                    state == 1 ? '대기' : '승인',
                     // '종료',
                     style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w900),
@@ -194,17 +189,16 @@ class CouncelListItem extends StatelessWidget {
   }
 }
 
-
 // 진행 중일때 나타위젯 프로그래스바 있는거 =========================================
 class CItemIng extends StatelessWidget {
-
   double currentTime; // 현재시간 202302061530.0 이런 형태로 들어옴
   double startTime; // 시작 시간
   double endTime; // 끝나는 시간
 
   double rezTime; // 시작 시간 13.5 이런 형태
 
-  CItemIng({Key? key,
+  CItemIng({
+    Key? key,
     required this.currentTime,
     required this.startTime,
     required this.endTime,
@@ -249,8 +243,6 @@ class CItemIng extends StatelessWidget {
   }
 }
 
-
-
 // 스트링으로 날짜 뽑기 2023-02-06
 String CItemDate(double startTime) {
   String v = '';
@@ -259,16 +251,15 @@ String CItemDate(double startTime) {
   String m = tmp.substring(4, 6);
   String d = tmp.substring(6, 8);
 
-  v = '${y}-${m}-${d}' ;
+  v = '${y}-${m}-${d}';
   return v;
 }
-
 
 // rezTime 을 받아서 13:00 ~ 14:00 이렇게 바꿔주기
 String CItemCouncelTime(double rezTime) {
   int sh = rezTime.toInt(); // 시작 시간
-  int eh = sh+1; // 종료 시간
-  int m = ((rezTime - sh)*60).toInt(); // 분
+  int eh = sh + 1; // 종료 시간
+  int m = ((rezTime - sh) * 60).toInt(); // 분
   String min = '00';
   if (m > 0) {
     min = '30';
@@ -281,16 +272,16 @@ String CItemCouncelTime(double rezTime) {
 double CItemPersent(double currentTime, double rezTime) {
   // double rezTime = 14.5;
   int sh = rezTime.toInt(); // 시작 시간
-  int m = ((rezTime - sh)*60).toInt(); // 분
-  int exRezTime = sh*60 + m; // 분으로 환산한 rezTime
+  int m = ((rezTime - sh) * 60).toInt(); // 분
+  int exRezTime = sh * 60 + m; // 분으로 환산한 rezTime
 
   // 현재 시간 계산
   // currentTime = 202302061530.0;
   String b = currentTime.toInt().toInt().toString().substring(8, 10); // 시간
   String c = currentTime.toInt().toInt().toString().substring(10, 12); // 분
-  int ch = int.parse(b)*60; // 시간을 분으로 맞춰주기
+  int ch = int.parse(b) * 60; // 시간을 분으로 맞춰주기
   int cm = int.parse(c);
   int exCurrentTime = ch + cm; // 분으로 환산한 currentTime
 
-  return (exCurrentTime - exRezTime)/60;
+  return (exCurrentTime - exRezTime) / 60;
 }
