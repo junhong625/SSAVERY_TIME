@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/* 기본(공지사항, 상담, 설문조사) 알림 생성 & on/off 상태 변경 DTO(develop_AJH) */
 @Getter
 @Setter
 @NoArgsConstructor

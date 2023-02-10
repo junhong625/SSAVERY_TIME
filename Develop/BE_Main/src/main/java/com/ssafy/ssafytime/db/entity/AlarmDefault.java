@@ -8,6 +8,15 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+/* 알림 Entity(develop_AJH)
+================================================|| attribute ||=========================================================
+id(PK)              : 인덱싱 번호
+user_id(FK)         : 사용자 id(학번)
+notice_alarm        : 공지사항 알림 상태
+survey_alarm        : 설문조사 알림 상태
+consulting_alarm    : 상담 알림 상태
+========================================================================================================================
+*/
 @Getter
 @NoArgsConstructor
 @Entity

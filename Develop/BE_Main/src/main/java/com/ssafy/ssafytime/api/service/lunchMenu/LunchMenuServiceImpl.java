@@ -18,6 +18,11 @@ public class LunchMenuServiceImpl implements LunchMenuService {
 
     final LunchMenuRepository lunchMenuRepository;
 
+    /* 오늘의 점심 메뉴 조회(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    region : 지역 코드(0: 서울, 1: 부울경, 2: 구미, 3: 광주)
+    ========================================================================================================================
+     */
     @Override
     public List<LunchMenuResponseDto> getTodayMenu(int region) {
         String date = LocalDate.now().toString().replace("-", "");
@@ -28,6 +33,11 @@ public class LunchMenuServiceImpl implements LunchMenuService {
         return menuList;
     }
 
+    /* 내일 점심 메뉴 조회(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    region : 지역 코드(0: 서울, 1: 부울경, 2: 구미, 3: 광주)
+    ========================================================================================================================
+     */
     @Override
     public List<LunchMenuResponseDto> getTomorrowMenu(int region) {
         String date = LocalDate.now().plusDays(1).toString().replace("-", "");
@@ -38,6 +48,11 @@ public class LunchMenuServiceImpl implements LunchMenuService {
         return menuList;
     }
 
+    /* 이번주 점심 메뉴 조회(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    region : 지역 코드(0: 서울, 1: 부울경, 2: 구미, 3: 광주)
+    ========================================================================================================================
+     */
     @Override
     public HashMap<Integer, List<LunchMenuResponseDto>> getWeekMenu(int region) {
         LocalDate day = LocalDate.now();
@@ -60,6 +75,11 @@ public class LunchMenuServiceImpl implements LunchMenuService {
         return weekMenuList;
     }
 
+    /* 메뉴 상세정보 조회(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    id : 메뉴 id
+    ========================================================================================================================
+     */
     @Override
     public LunchMenuDetailResponseDto getMenuDetail(Long id) {
         Optional<LunchMenuEntity> menu = lunchMenuRepository.findById(id);

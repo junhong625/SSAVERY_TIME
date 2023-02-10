@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+/* 기본 알림 조회 DTO(develop_AJH) */
 @Getter
 @ToString
 public class AlarmDefaultResponseDto {

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+/* 시간표(현재, 주간) 조회 DTO(develop_AJH) */
 @Getter
 @ToString
 public class ScheduleResponseDto {

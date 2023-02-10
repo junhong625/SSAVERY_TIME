@@ -16,8 +16,15 @@ public class ScheduleController {
 
     private final ScheduleServiceImpl scheduleService;
 
-    // required = false로 설정할 경우 해당 parameter가 들어오지 않는다고 해서 오류 발생 X
-    // defaultValue = parameter가 들어오지 않을 경우 defaultValue로 대체
+    /* 현재 시간표 조회 (develop_AJH)
+    ================================================|| parameter ||=========================================================
+    track_code          : 트랙 코드(0: 2학기(프로젝트), 1: 파이썬(비전공), 2: 자바(비전공), 3: 자바(전공), 4: 모바일, 5: 임베디드
+    interval(default=0) : 현재 시간보다 N분 뒤의 시간표를 보고 싶을 경우 사용하는 parameter
+    ================================================|| setting ||=========================================================
+    required            : false로 설정할 경우 해당 parameter가 들어오지 않는다고 해서 오류 발생 X
+    defaultValue        : parameter가 들어오지 않을 경우 defaultValue로 대체
+    ========================================================================================================================
+     */
     @GetMapping("schedule/now")
     public ResponseEntity<Object> currentSchedule(@RequestParam("track_code") int trackCode, @RequestParam(value="interval", required = false, defaultValue="0") int interval) {
         try {
@@ -27,6 +34,11 @@ public class ScheduleController {
         }
     }
 
+    /* 주간 시간표 조회 (develop_AJH)
+    ================================================|| parameter ||=========================================================
+    track_code          : 트랙 코드(0: 2학기(프로젝트), 1: 파이썬(비전공), 2: 자바(비전공), 3: 자바(전공), 4: 모바일, 5: 임베디드
+    ========================================================================================================================
+     */
     @GetMapping("schedule/week")
     public ResponseEntity<Object> weekSchedule(@RequestParam("track_code") int trackCode) {
         try {

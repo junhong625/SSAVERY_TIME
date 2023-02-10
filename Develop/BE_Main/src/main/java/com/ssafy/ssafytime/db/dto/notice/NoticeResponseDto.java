@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+/* 공지사항(최신, 단일, 모두) 조회 DTO(develop_AJH) */
 @Getter
 @ToString
 public class NoticeResponseDto {
