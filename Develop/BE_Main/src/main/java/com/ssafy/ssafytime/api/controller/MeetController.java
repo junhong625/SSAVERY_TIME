@@ -9,6 +9,7 @@ import com.ssafy.ssafytime.db.dto.MeetInfoDto;
 import com.ssafy.ssafytime.db.entity.MeetList;
 import com.ssafy.ssafytime.db.repository.AlarmDefaultRepository;
 import com.ssafy.ssafytime.db.repository.MeetListRepository;
+import com.ssafy.ssafytime.exception.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -92,7 +93,7 @@ public class MeetController {
     // 상담승인 등록 ( 매니저가 등록 )
     // rez_idx는 예약된 상담의 번호
     @PutMapping("/update/accept")
-    public ResponseEntity<String> putAccept(@RequestParam("rez_idx") Long rezIdx) throws FirebaseMessagingException {
+    public ResponseEntity<?> putAccept(@RequestParam("rez_idx") Long rezIdx) throws FirebaseMessagingException {
 
         // 예약된 상담의 정보 가져오기
         MeetList member = meetService.findByRezIdx(rezIdx);
@@ -110,6 +111,8 @@ public class MeetController {
         // 알림 보내기
         MessageDTO messageDTO = MessageDTO.builder().title("상담 승인 알림").body(member.getRezDate() + " " + time + " 상담 거절됨").build();  // 알림에 넣을 인자들
         List<String> registrationTokens = alarmDefaultService.getUserTokens(3, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
+        if(registrationTokens.size()==0)
+            return ResponseHandler.generateResponse(false, "there is no FCMtoken", HttpStatus.NO_CONTENT, null);
         Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
         Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
         return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);

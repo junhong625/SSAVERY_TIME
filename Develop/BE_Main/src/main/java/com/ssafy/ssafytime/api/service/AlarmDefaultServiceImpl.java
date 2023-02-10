@@ -45,6 +45,8 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
 
         List<User> users = new ArrayList<>();  // 관리자가 아니면서 알림설정해놓은(alarm=0) 유저들 가져오는 리스트
         for(int i = 0; i < alarmList.size(); i++) {  // alarmDto로 받아온 리스트를
+//            User user = alarmList.get(i).getUser();  // 유저로 바꿈
+//            if(user.getIsAdmin() != 1)  // 관리자가 아니라면
             users.add(alarmList.get(i).getUser());  // 유저로 바꿔서 리스트에 넣음
         }
         for(int i = 0; i < users.size(); i++) {  // 유저리스트에서
@@ -57,8 +59,8 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
     public Integer sendMultiAlarms(Notification notification, List<String> registrationTokens) throws FirebaseMessagingException {
         MulticastMessage message = MulticastMessage.builder()  // 다수에게 보내기 위한 메세지 생성
                 .setNotification(notification)  // 꼭 넣어주기...
-                .putData("title", "hi")
-                .putData("content", "hi")
+                .putData("title", "title")
+                .putData("content", "content")
                 .addAllTokens(registrationTokens)
                 .build();
         BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);  // 결과 리턴
