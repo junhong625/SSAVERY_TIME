@@ -10,6 +10,7 @@ import com.ssafy.ssafytime.db.dto.ReserveDto;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AlarmDefaultRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
+import com.ssafy.ssafytime.exception.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,7 +50,7 @@ public class ReserveController {
 
     // 상담 등록 요청
     @PostMapping(value = "/submit", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
-    public ResponseEntity<String> postReserve(@RequestBody ReserveDto reserveDto) throws FirebaseMessagingException {
+    public ResponseEntity<Object> postReserve(@RequestBody ReserveDto reserveDto) throws FirebaseMessagingException {
         // create
         meetService.save(reserveDto);
 
@@ -59,8 +60,14 @@ public class ReserveController {
         List<String> registrationTokens = new ArrayList<>();
         registrationTokens.add(user.get().getToken());  // Optional 형식에서 user 엔티티로 바꾸어서 FCM 토큰 받아옴
         Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
-        Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);  // 알림보냄
-        return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);  // 실패한 알림 개수리턴
+        if(registrationTokens.isEmpty()) {  // 알림 보낼 사람이 하나도 없을 때
+            return ResponseHandler.generateResponse(false, "there is no people to send FCM", HttpStatus.NOT_FOUND, null);
+        } else {
+            if (registrationTokens.contains(null))  // 알림 보낼 사람은 있는데 FCMtoken이 null일때
+                return ResponseHandler.generateResponse(false, "there is null FCMtoken", HttpStatus.NOT_FOUND, null);
+            Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);  // 알림보냄
+            return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);  // 실패한 알림 개수리턴
+        }
     }
 
     // 해당 날짜에 매니저의 예약 신청 시간 리스트 호출

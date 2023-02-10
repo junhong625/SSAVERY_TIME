@@ -65,7 +65,7 @@ public class MeetController {
     // 거절사유 등록 ( 매니저가 등록 )
     // rez_idx는 예약된 상담의 번호, reject는 거절 사유
     @PutMapping("/update/reject")
-    public ResponseEntity<String> putReject(@RequestParam("rez_idx") Long rezIdx, @RequestParam("reject") String reject) throws FirebaseMessagingException {
+    public ResponseEntity<Object> putReject(@RequestParam("rez_idx") Long rezIdx, @RequestParam("reject") String reject) throws FirebaseMessagingException {
 
         // 예약된 상담의 정보 가져오기
         MeetList member = meetService.findByRezIdx(rezIdx);
@@ -77,18 +77,24 @@ public class MeetController {
 
 
         Double doubleTime = 0.0;  // 상담 알림 메시지 위함
+        doubleTime = Math.floor(member.getRezTime());
         String time = null;
         if(member.getRezTime()%1.0 == 0.5)  // 시간이 16.5 면 16:30으로 바꾸게!
             time = String.valueOf(doubleTime) + ":30";
         else
             time = String.valueOf(doubleTime) + ":00";
-
         // 알림 보내기
-        MessageDTO messageDTO = MessageDTO.builder().title("상담 알림").body(member.getRezDate() + " " + time + " 상담 거절됨").build();  // 알림에 넣을 인자들
+        MessageDTO messageDTO = MessageDTO.builder().title("상담 거절 알림").body(member.getRezDate() + " " + time + " 상담 거절됨").build();  // 알림에 넣을 인자들
         List<String> registrationTokens = alarmDefaultService.getUserTokens(3, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
-        Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
-        Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
-        return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
+        if(registrationTokens.isEmpty()) {  // 알림 보낼 사람이 하나도 없을 때
+            return ResponseHandler.generateResponse(false, "there is no people to send FCM", HttpStatus.NOT_FOUND, null);
+        } else {
+            if (registrationTokens.contains(null))  // 알림 보낼 사람은 있는데 FCMtoken이 null일때
+                return ResponseHandler.generateResponse(false, "there is null FCMtoken", HttpStatus.NOT_FOUND, null);
+            Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
+            Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
+            return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
+        }
     }
 
     // 상담승인 등록 ( 매니저가 등록 )
@@ -102,6 +108,8 @@ public class MeetController {
         member.setState(2L);
         meetService.update(member);
 
+
+
         Double doubleTime = 0.0;  // 상담 알림 메시지 위함
         doubleTime = Math.floor(member.getRezTime());
         String time = null;
@@ -110,10 +118,10 @@ public class MeetController {
         else
             time = String.valueOf(doubleTime) + ":00";
         // 알림 보내기
-        MessageDTO messageDTO = MessageDTO.builder().title("상담 승인 알림").body(member.getRezDate() + " " + time + " 상담 거절됨").build();  // 알림에 넣을 인자들
+        MessageDTO messageDTO = MessageDTO.builder().title("상담 승인 알림").body(member.getRezDate() + " " + time + " 상담 승인됨").build();  // 알림에 넣을 인자들
         List<String> registrationTokens = alarmDefaultService.getUserTokens(3, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
         if(registrationTokens.isEmpty()) {  // 알림 보낼 사람이 하나도 없을 때
-            return ResponseHandler.generateResponse(false, "there is no FCMtoken", HttpStatus.NOT_FOUND, null);
+            return ResponseHandler.generateResponse(false, "there is no people to send FCM", HttpStatus.NOT_FOUND, null);
         } else {
             if (registrationTokens.contains(null))  // 알림 보낼 사람은 있는데 FCMtoken이 null일때
                 return ResponseHandler.generateResponse(false, "there is null FCMtoken", HttpStatus.NOT_FOUND, null);
