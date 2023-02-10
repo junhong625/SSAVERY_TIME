@@ -98,9 +98,15 @@ public class MeetController {
 
         // 예약된 상담의 정보 가져오기
         MeetList member = meetService.findByRezIdx(rezIdx);
+        // 이미 상태가 1이라면 cut!
+        if(member.getState()==1L){
+            return ResponseEntity.ok().body("이미 수락 되어 있어요~");
+        }
+
         // 상태 ( 1(대기중) -> 2(승인) )
         member.setState(2L);
         meetService.update(member);
+
 
         Double doubleTime = 0.0;  // 상담 알림 메시지 위함
         doubleTime = Math.floor(member.getRezTime());
