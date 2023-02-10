@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -29,6 +30,8 @@ public class AuthController {
 
     private final TokenService tokenService;
     private final AuthService authService;
+
+    private final UserService userService;
 
 
 
@@ -67,6 +70,15 @@ public class AuthController {
 
         return new ResponseEntity<>(tokenResponse, httpHeaders, HttpStatus.OK);
     }
+
+
+
+
+
+
+
+
+
 
 
 
