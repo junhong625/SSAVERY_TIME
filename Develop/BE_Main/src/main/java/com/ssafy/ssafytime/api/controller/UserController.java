@@ -143,17 +143,16 @@ public class UserController {
         if(!fileDir.isDirectory()){
             fileDir.mkdirs();
         }
-
         File fileData = new File("C:\\image\\"+id+".png");  // 파일 생성
         if(!fileData.exists()) {  // 해당 경로의 파일이 존재하지 않으면!!
             FileOutputStream fos = new FileOutputStream("C:\\image\\"+id+".png");  // 만들고
             fos.write(response);  // 해당 url 이미지 넣음
             fos.close();
 
-            return ResponseEntity.status(200).body("Success");
-        } else
-            return ResponseEntity.status(204).body("Already Saved");
-
+            return ResponseHandler.generateResponse(true, "success", HttpStatus.OK, null);
+        } else {
+            return ResponseHandler.generateResponse(false, "Already exist", HttpStatus.NOT_FOUND, null);
+        }
 
 
     }
