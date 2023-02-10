@@ -104,6 +104,11 @@ public class MeetController {
 
         // 예약된 상담의 정보 가져오기
         MeetList member = meetService.findByRezIdx(rezIdx);
+        // 이미 상태가 1이라면 cut!
+        if(member.getState()==2L){
+            return ResponseEntity.ok().body("이미 수락 되어 있어요~");
+        }
+
         // 상태 ( 1(대기중) -> 2(승인) )
         member.setState(2L);
         meetService.update(member);
@@ -130,7 +135,21 @@ public class MeetController {
             return ResponseEntity.ok().body("FailedAlarmCnt : " + FailedAlarmCnt);
         }
 
-
     }
+
+    // api 설계서 기준 초기화 (프론트 테스트용)
+    // rez_idx는 예약된 상담의 번호
+    @PutMapping("/update/reset")
+    public ResponseEntity<Object> putReset(@RequestParam("rez_idx") Long rezIdx) throws FirebaseMessagingException {
+
+        // 예약된 상담의 정보 가져오기
+        MeetList member = meetService.findByRezIdx(rezIdx);
+        // 상태 1로 초기화
+        member.setState(1L);
+        meetService.update(member);
+
+        return ResponseEntity.ok().body("초기화 했습니돠 ");
+    }
+
 
 }
