@@ -4,9 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.ssafy.ssafytime.db.dto.UserDto;
+import com.ssafy.ssafytime.db.dto.*;
 import com.ssafy.ssafytime.api.dto.AttendanceDto;
-import com.ssafy.ssafytime.db.dto.TokenDto;
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.db.entity.Attendance;
 import com.ssafy.ssafytime.db.entity.AttendanceId;
@@ -96,20 +95,16 @@ public class UserService {
     }
 
     @Transactional
-    public void logout(TokenDto tokenDto){
-        tokenProvider.validateAccessToken(tokenDto.getToken());
+    public void logout(TokenRequest tokenRequest){
+        tokenProvider.validateAccessToken(tokenRequest.getAccessToken());
 
-        Authentication authentication = tokenProvider.getAuthentication(tokenDto.getToken());
+        Authentication authentication = tokenProvider.getAuthentication(tokenRequest.getAccessToken());
 
         String userEmail = authentication.getName();
 
         refreshTokenRepository.findRefreshTokenByUserEmail(userEmail);
-
-
-
-
-
     }
+
 
     public Optional<User> findById(Long Id) {
         return userRepository.findById(Id);
