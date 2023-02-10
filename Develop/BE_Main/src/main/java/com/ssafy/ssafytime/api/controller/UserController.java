@@ -64,8 +64,6 @@ public class UserController {
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Map<String, Object>> getAttendance(HttpServletRequest request, @AuthenticationPrincipal User user) {
 
-        if(user==null) System.out.println("널인데유");
-        else System.out.println(user.getUserIdx());
 
         Long userIdx = userService.getMyUserWithAuthorities().getId();
 

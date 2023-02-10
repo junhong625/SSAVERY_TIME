@@ -30,7 +30,7 @@ public class AuthService {
 
     @Transactional
     public TokenResponse refreshToken(final TokenRequest tokenRequest){
-        final String accessToken = tokenRequest.getToken();
+        final String accessToken = tokenRequest.getAccessToken();
         final String refreshToken = tokenRequest.getRefreshToken();
 
         final Authentication authentication = tokenProvider.getAuthentication(accessToken);
