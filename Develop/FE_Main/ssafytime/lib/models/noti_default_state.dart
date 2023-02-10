@@ -1,31 +1,31 @@
 import 'dart:convert';
 
-class NotiDefaultState {
-  NotiDefaultState({
-    required this.surveyNoti,
-    required this.announceNoti,
-    required this.counselNoti,
+class UserDefaultState {
+  UserDefaultState({
+    this.noticeAlarm,
+    this.surveyAlarm,
+    this.consultingAlarm,
   });
 
-  bool surveyNoti;
-  bool announceNoti;
-  bool counselNoti;
+  bool? noticeAlarm;
+  bool? surveyAlarm;
+  bool? consultingAlarm;
 
-  factory NotiDefaultState.fromRawJson(String str) =>
-      NotiDefaultState.fromJson(json.decode(str));
+  factory UserDefaultState.fromRawJson(String str) =>
+      UserDefaultState.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory NotiDefaultState.fromJson(Map<String, dynamic> json) =>
-      NotiDefaultState(
-        surveyNoti: json["surveyNoti"],
-        announceNoti: json["announceNoti"],
-        counselNoti: json["counselNoti"],
+  factory UserDefaultState.fromJson(Map<String, dynamic> json) =>
+      UserDefaultState(
+        noticeAlarm: json["noticeAlarm"],
+        surveyAlarm: json["surveyAlarm"],
+        consultingAlarm: json["consultingAlarm"],
       );
 
   Map<String, dynamic> toJson() => {
-        "surveyNoti": surveyNoti,
-        "announceNoti": announceNoti,
-        "counselNoti": counselNoti,
+        "noticeAlarm": noticeAlarm,
+        "surveyAlarm": surveyAlarm,
+        "consultingAlarm": consultingAlarm,
       };
 }

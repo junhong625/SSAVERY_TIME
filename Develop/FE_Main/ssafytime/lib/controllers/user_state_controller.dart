@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:ssafytime/models/noti_custom_state.dart';
+import 'package:ssafytime/models/user_custom_alarm.dart';
 import 'package:ssafytime/models/noti_default_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import 'package:ssafytime/services/auth_service.dart';
+
 // 알림 설정 관련 Controller
 // 생성 인자값 : userIdx 유저 번호
-// defaultState { 기본 알림 설정
+// defaultAlarms { 기본 알림 설정
 //      surveyNoti : 설문조사 알림 on/off
 //      announceNoti : 공지사항 알림 on/off
 //      counselNoti : 상담 알림 on/off
@@ -20,18 +22,17 @@ import 'dart:convert';
 //      isOn : 알림 on/off
 // }
 
-class NotiStateController extends GetxController {
+class UserStateController extends GetxController {
   late SharedPreferences pref;
-  late NotiDefaultState defaultState;
-  RxList<Widget> displayDefaultState = <Widget>[].obs;
-  RxList<NotiCustomState> customState = <NotiCustomState>[].obs;
+  final defaultAlarms = UserDefaultState().obs;
+  RxList<UserCustomAlarm> customState = <UserCustomAlarm>[].obs;
   RxList<Widget> displayCustomState = <Widget>[].obs;
 
   Rxn<DateTime> dateTime = Rxn<DateTime>(DateTime.now());
   RxList<String> dateSelected = <String>[].obs;
   final int? userIdx;
 
-  NotiStateController({this.userIdx});
+  UserStateController({this.userIdx});
 
   @override
   void onInit() async {
@@ -59,8 +60,8 @@ class NotiStateController extends GetxController {
     final List<String>? customStateItems =
         pref.getStringList("${userIdx}_noti");
     if (customStateItems != null) {
-      var item = List<NotiCustomState>.from(
-          customStateItems.map((e) => NotiCustomState.fromRawJson(e)));
+      var item = List<UserCustomAlarm>.from(
+          customStateItems.map((e) => UserCustomAlarm.fromRawJson(e)));
       customState.addAll(item);
       _setDisplayCustomState();
     }
@@ -98,7 +99,7 @@ class NotiStateController extends GetxController {
 // 개인 알림 추가
   void addCustomState(String title) {
     bool state = true;
-    NotiCustomState custom = NotiCustomState(
+    UserCustomAlarm custom = UserCustomAlarm(
         title: title,
         repeatDate: dateSelected,
         time: dateTime.value ?? DateTime.now(),
@@ -108,58 +109,15 @@ class NotiStateController extends GetxController {
 
 // 서버에서 기본 알림 설정 가져오기
   void fetchDefaultState() async {
-    var response = await http.get(Uri.parse(""));
-    if (response.statusCode == 200) {
-      defaultState = NotiDefaultState.fromRawJson(response.body);
-      _setDisplayDefaultState();
+    var res = await http.get(
+        Uri.parse(
+            "http://i8a602.p.ssafy.io:9090/user/alarm/${AuthService.to.user.value.userIdx}"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${AuthService.to.accessToken}"
+        });
+    if (res.statusCode == 200) {
+      defaultAlarms(UserDefaultState.fromJson(json.decode(res.body)['data']));
     }
-  }
-
-// 기본 알림 위젯 설정
-  void _setDisplayDefaultState() {
-    displayDefaultState.addAll([
-      Column(
-        children: [
-          SwitchListTile(
-            visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-            contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
-            title: Text("설문조사 알림"),
-            value: defaultState.surveyNoti,
-            onChanged: (bool value) {
-              defaultState.surveyNoti = value;
-            },
-          ),
-          Divider(),
-        ],
-      ),
-      Column(
-        children: [
-          SwitchListTile(
-            visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-            contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
-            title: Text("공지사항 알림"),
-            value: defaultState.announceNoti,
-            onChanged: (bool value) {
-              defaultState.announceNoti = value;
-            },
-          ),
-          Divider(),
-        ],
-      ),
-      Column(
-        children: [
-          SwitchListTile(
-            visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-            contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
-            title: Text("상담 알림"),
-            value: defaultState.counselNoti,
-            onChanged: (bool value) {
-              defaultState.counselNoti = value;
-            },
-          ),
-          Divider(),
-        ],
-      )
-    ]);
   }
 }

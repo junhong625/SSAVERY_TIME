@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ssafytime/controllers/noti_state_controller.dart';
+import 'package:ssafytime/controllers/user_state_controller.dart';
 import 'package:ssafytime/controllers/user_controller.dart';
 import 'package:ssafytime/screens/counsel_screen.dart';
 import 'package:ssafytime/screens/login_screen.dart';
@@ -34,7 +34,7 @@ class AppRoutes {
         binding: BindingsBuilder(() {
           UserController.to.fetchAttence();
           Get.put(
-              NotiStateController(userIdx: AuthService.to.user.value.userIdx));
+              UserStateController(userIdx: AuthService.to.user.value.userIdx));
         })),
     GetPage(
       name: '/notification',

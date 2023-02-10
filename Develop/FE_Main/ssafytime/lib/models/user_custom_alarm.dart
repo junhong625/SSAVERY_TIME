@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class NotiCustomState {
-  NotiCustomState({
+class UserCustomAlarm {
+  UserCustomAlarm({
     required this.title,
     required this.repeatDate,
     required this.time,
@@ -13,13 +13,13 @@ class NotiCustomState {
   DateTime time;
   bool isOn;
 
-  factory NotiCustomState.fromRawJson(String str) =>
-      NotiCustomState.fromJson(json.decode(str));
+  factory UserCustomAlarm.fromRawJson(String str) =>
+      UserCustomAlarm.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory NotiCustomState.fromJson(Map<String, dynamic> json) =>
-      NotiCustomState(
+  factory UserCustomAlarm.fromJson(Map<String, dynamic> json) =>
+      UserCustomAlarm(
         title: json["title"],
         repeatDate: List<String>.from(json["repeatDate"].map((x) => x)),
         time: DateTime.parse(json["time"]),

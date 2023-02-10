@@ -57,8 +57,15 @@ class _HSIW extends State<HSIW> {
           var nowPercent = getPercent(widget.startTime, widget.endTime);
           if (nowPercent > 1) {
             UserController.to.fetchScheduleNow();
+            color = table[widget.category]['color'];
+            studyPlace = widget.onOff == 0 ? '온라인' : '오프라인';
+            classTime = getClassTime(widget.startTime, widget.endTime);
+            isClassTime =
+                getCurrentTime() >= widget.startTime * 100 ? true : false;
+            progressPercent = nowPercent - 1;
+            categoryToString = table[widget.category]['category'];
           } else {
-            progressPercent = getPercent(widget.startTime, widget.endTime);
+            progressPercent = nowPercent;
           }
         });
       }

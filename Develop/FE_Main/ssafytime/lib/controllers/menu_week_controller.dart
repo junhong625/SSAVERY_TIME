@@ -6,6 +6,7 @@ import '../model/menu_week_v2.dart';
 
 // 주간 식단표 컨트롤러 =============================================
 class MenuPickDayController extends GetxController {
+  static MenuPickDayController get to => Get.find();
   RxInt myPick = 0.obs; // 월 ~ 금
   List dayofweek = [0, 0, 0, 0, 0];
   DateTime today = DateTime.now();
@@ -38,7 +39,7 @@ class MenuPickDayController extends GetxController {
     }
   }
 
-  Future requstMenuWeek(int region) async {
+  Future<void> requstMenuWeek(int region) async {
     menusofweek = <List>[].obs;
     var res = await http.get(
         Uri.parse("http://i8a602.p.ssafy.io:9090/menu/week/?region=${region}"));

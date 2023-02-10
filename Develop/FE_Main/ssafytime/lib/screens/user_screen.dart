@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/user_controller.dart';
-import 'package:ssafytime/controllers/noti_state_controller.dart';
+import 'package:ssafytime/controllers/user_state_controller.dart';
 import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/user_screen_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/user_screen_mileage.dart';
@@ -21,7 +21,7 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreenStates extends State<UserScreen> {
   UserController userC = UserController.to;
-  NotiStateController stateC = Get.find<NotiStateController>();
+  UserStateController stateC = Get.find<UserStateController>();
   TextEditingController _titleController = TextEditingController();
   String test = "테스트";
   DateTime _dateTime = DateTime.now();
@@ -33,8 +33,10 @@ class _UserScreenStates extends State<UserScreen> {
     "금": 4,
     "반복": 5,
   };
-//   final List<String> dateSelected = <String>[];
-//   List<bool> dateValue = [false, false, false, false, false];// User 출결현황 데이터 확인
+
+  late bool stateNoticeAlarm = stateC.defaultAlarms.value.noticeAlarm ?? true;
+  bool stateSurveyAlarm = true;
+  bool stateConsultingAlarm = true;
 
   @override
   void dispose() {
@@ -89,9 +91,13 @@ class _UserScreenStates extends State<UserScreen> {
                         ],
                       ),
                     ),
-                    stateC.displayDefaultState.length > 0
-                        ? Column(children: stateC.displayDefaultState)
-                        : Text("데이터가 없습니다"),
+                    defaultAlarmListTile(stateNoticeAlarm, "공지사항 알림"),
+                    defaultAlarmListTile(
+                        stateC.defaultAlarms.value.surveyAlarm ?? true,
+                        "설문조사 알림"),
+                    defaultAlarmListTile(
+                        stateC.defaultAlarms.value.consultingAlarm ?? true,
+                        "상담 알림"),
                   ],
                 ),
               ),
@@ -160,6 +166,25 @@ class _UserScreenStates extends State<UserScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget defaultAlarmListTile(bool state, String title) {
+    return Column(
+      children: [
+        SwitchListTile(
+          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+          contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
+          title: Text(title),
+          value: state,
+          onChanged: (bool value) {
+            setState(() {
+              state = value;
+            });
+          },
+        ),
+        Divider()
+      ],
     );
   }
 

@@ -125,9 +125,10 @@ class _HomeScreenStates extends State<HomeScreen> {
                     ),
                     HSIW(
                       category:
-                          widget.userC.scheduleNow.value.data?.category ?? 1,
-                      onOff: widget.userC.scheduleNow.value.data?.onOff ?? 1,
-                      title: widget.userC.scheduleNow.value.data?.title ?? "",
+                          widget.userC.scheduleNow.value.data?.category ?? 0,
+                      onOff: widget.userC.scheduleNow.value.data?.onOff ?? 0,
+                      title: widget.userC.scheduleNow.value.data?.title ??
+                          "일과시간 종료",
                       subTitle: widget.userC.scheduleNow.value.data?.subTitle ??
                           "등록된 일과가 없습니다",
                       startTime:

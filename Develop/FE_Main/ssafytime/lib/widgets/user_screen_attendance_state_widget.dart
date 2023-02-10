@@ -46,7 +46,7 @@ class _MAWState extends State<MAW> {
                 MAWdetail(
                     attendanceType: 0,
                     firstCnt: widget.absentR,
-                    secCnt: widget.absentR),
+                    secCnt: widget.absentO),
                 MAWdetail(
                     attendanceType: 1,
                     firstCnt: widget.lateR,
