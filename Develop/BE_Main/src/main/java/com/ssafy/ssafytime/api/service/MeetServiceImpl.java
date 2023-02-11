@@ -100,7 +100,7 @@ public class MeetServiceImpl implements MeetService{
                 meetInfoDto.setRezDate(m.getRezDate());
 
                 // 시간이 지났으면 state 4(종료)로 변경
-                if(nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime >= m.getRezTime() ) {
+                if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime >= m.getRezTime() ) {
                     m.setState(4L); // 4(종료) (entity)
                     meetUpdateRepository.save(m);// 4(종료) (db)
                 }
@@ -144,8 +144,8 @@ public class MeetServiceImpl implements MeetService{
                     meetInfoDto.setTitle(m.getTitle());
                     meetInfoDto.setRezTime(m.getRezTime());
                     meetInfoDto.setRezDate(m.getRezDate());
-                    // 시간이 지났으면 state 4(종료)로 변경
-                    if(nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime >= m.getRezTime() ) {
+                    // 시간이 지났으면 state 4(종료)로 변경 (3(거절)인 경우는 처리안함)
+                    if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime >= m.getRezTime() ) {
                         m.setState(4L); // 4(종료) (entity)
                         meetUpdateRepository.save(m);// 4(종료) (db)
                     }
