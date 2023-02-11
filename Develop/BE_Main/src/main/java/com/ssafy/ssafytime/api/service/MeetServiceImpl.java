@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,15 +72,38 @@ public class MeetServiceImpl implements MeetService{
 
         ArrayList<MeetInfoDto> manager = new ArrayList<MeetInfoDto>();
 
+        // 현재 시간
+        String[] dateTime = LocalDateTime.now().toString().split("T");
+        int nowDate = Integer.parseInt(dateTime[0].toString().replace("-", ""));
+        int nowHour = Integer.parseInt(dateTime[1].split(":")[0]);
+        int nowMin = Integer.parseInt(dateTime[1].split(":")[1]);
+        int nowTime;
+        if(nowMin > 30){
+            nowTime = nowHour + 1;
+        }
+        else{
+            nowTime = nowHour;
+        }
+
         member.forEach(m->{
+                // 종료시간이 지났다면
+
+
                 // 관리자의 이름을 뽑아서 추출
                 MeetInfoDto meetInfoDto = new MeetInfoDto();
                 meetInfoDto.setName(m.getManagerId().getUserName());
                 meetInfoDto.setMeetUrl(m.getMeetUrl());
                 meetInfoDto.setReject(m.getReject());
                 meetInfoDto.setTitle(m.getTitle());
+
                 meetInfoDto.setRezTime(m.getRezTime());
                 meetInfoDto.setRezDate(m.getRezDate());
+
+                // 시간이 지났으면 state 4(종료)로 변경
+                if(nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime >= m.getRezTime() ) {
+                    m.setState(4L); // 4(종료) (entity)
+                    meetUpdateRepository.save(m);// 4(종료) (db)
+                }
                 meetInfoDto.setState(m.getState());
                 meetInfoDto.setCategory(m.getCategory());
                 meetInfoDto.setRezIdx(m.getRezIdx());
@@ -98,6 +122,19 @@ public class MeetServiceImpl implements MeetService{
 
         ArrayList<MeetInfoDto> manager = new ArrayList<MeetInfoDto>();
 
+        // 현재 시간
+        String[] dateTime = LocalDateTime.now().toString().split("T");
+        int nowDate = Integer.parseInt(dateTime[0].toString().replace("-", ""));
+        int nowHour = Integer.parseInt(dateTime[1].split(":")[0]);
+        int nowMin = Integer.parseInt(dateTime[1].split(":")[1]);
+        int nowTime;
+        if(nowMin > 30){
+            nowTime = nowHour + 1;
+        }
+        else{
+            nowTime = nowHour;
+        }
+
         member.forEach(m->{
                     // 교육생의 이름을 뽑아서 추출
                     MeetInfoDto meetInfoDto = new MeetInfoDto();
@@ -107,6 +144,11 @@ public class MeetServiceImpl implements MeetService{
                     meetInfoDto.setTitle(m.getTitle());
                     meetInfoDto.setRezTime(m.getRezTime());
                     meetInfoDto.setRezDate(m.getRezDate());
+                    // 시간이 지났으면 state 4(종료)로 변경
+                    if(nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime >= m.getRezTime() ) {
+                        m.setState(4L); // 4(종료) (entity)
+                        meetUpdateRepository.save(m);// 4(종료) (db)
+                    }
                     meetInfoDto.setState(m.getState());
                     meetInfoDto.setCategory(m.getCategory());
                     meetInfoDto.setRezIdx(m.getRezIdx());
