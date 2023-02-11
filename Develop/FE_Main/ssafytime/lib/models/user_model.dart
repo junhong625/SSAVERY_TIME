@@ -5,6 +5,7 @@ class User {
     this.userIdx,
     this.userName,
     this.userEmail,
+    this.classNum,
     this.trackCode,
     this.regionCode,
     this.exp,
@@ -16,6 +17,7 @@ class User {
   int? userIdx;
   String? userName;
   String? userEmail;
+  int? classNum;
   int? trackCode;
   int? regionCode;
   int? exp;
@@ -31,6 +33,7 @@ class User {
         userIdx: json["id"],
         userName: json["userName"],
         userEmail: json["userEmail"],
+        classNum: json["class_num"],
         trackCode: json["trackCode"],
         regionCode: json["regionCode"],
         exp: json["exp"],
@@ -43,6 +46,7 @@ class User {
         "id": userIdx,
         "userName": userName,
         "userEmail": userEmail,
+        "class_num": classNum,
         "trackCode": trackCode,
         "regionCode": regionCode,
         "exp": exp,
