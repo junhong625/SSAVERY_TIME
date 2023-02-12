@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk:8u192-8.33.0.1
+FROM openjdk:11
 ARG JAR_FILE="build/libs/ssafytime-*-SNAPSHOT.jar"
 COPY ${JAR_FILE} build.jar
 ENTRYPOINT ["java","-jar","-Duser.timezone=Asia/Seoul","build.jar"]
