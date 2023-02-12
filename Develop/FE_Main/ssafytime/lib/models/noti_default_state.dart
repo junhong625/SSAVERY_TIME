@@ -2,14 +2,14 @@ import 'dart:convert';
 
 class UserDefaultState {
   UserDefaultState({
-    this.noticeAlarm,
-    this.surveyAlarm,
-    this.consultingAlarm,
+    required this.noticeAlarm,
+    required this.surveyAlarm,
+    required this.consultingAlarm,
   });
 
-  bool? noticeAlarm;
-  bool? surveyAlarm;
-  bool? consultingAlarm;
+  bool noticeAlarm;
+  bool surveyAlarm;
+  bool consultingAlarm;
 
   factory UserDefaultState.fromRawJson(String str) =>
       UserDefaultState.fromJson(json.decode(str));

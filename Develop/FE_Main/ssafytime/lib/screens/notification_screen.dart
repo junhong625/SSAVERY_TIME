@@ -1,14 +1,14 @@
 // check all notification screen
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ssafytime/controllers/notification_tabbar_controller.dart';
+import 'package:ssafytime/controllers/notification_controller.dart';
 
-class NotificationScreen extends GetView<NotificationTabBarController> {
+class NotificationScreen extends GetView<NotificationController> {
   NotificationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Get.put(NotificationTabBarController());
+    Get.put(NotificationController());
     return Scaffold(
       appBar: AppBar(
         title: const Text("알림"),

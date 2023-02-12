@@ -1,5 +1,7 @@
 // user setting screen
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -24,23 +26,21 @@ class _UserScreenStates extends State<UserScreen> {
   UserStateController stateC = Get.find<UserStateController>();
   TextEditingController _titleController = TextEditingController();
   String test = "테스트";
-  DateTime _dateTime = DateTime.now();
+//   DateTime _dateTime = DateTime.now();
   var dateSelect = {
     "월": 0,
     "화": 1,
     "수": 2,
     "목": 3,
     "금": 4,
-    "반복": 5,
+    "토": 5,
+    "일": 6,
   };
-
-  late bool stateNoticeAlarm = stateC.defaultAlarms.value.noticeAlarm ?? true;
-  bool stateSurveyAlarm = true;
-  bool stateConsultingAlarm = true;
 
   @override
   void dispose() {
     _titleController.dispose();
+    log("AlarmState : ${stateC.defaultAlarms.value.surveyAlarm}");
     super.dispose();
   }
 
@@ -91,13 +91,50 @@ class _UserScreenStates extends State<UserScreen> {
                         ],
                       ),
                     ),
-                    defaultAlarmListTile(stateNoticeAlarm, "공지사항 알림"),
-                    defaultAlarmListTile(
-                        stateC.defaultAlarms.value.surveyAlarm ?? true,
-                        "설문조사 알림"),
-                    defaultAlarmListTile(
-                        stateC.defaultAlarms.value.consultingAlarm ?? true,
-                        "상담 알림"),
+                    Column(
+                      children: [
+                        SwitchListTile(
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: -4),
+                          contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
+                          title: Text("공지사항 알림"),
+                          value: stateC.defaultAlarms.value.noticeAlarm,
+                          onChanged: (bool value) {
+                            setState(() {
+                              stateC.defaultAlarms.value.noticeAlarm = value;
+                            });
+                          },
+                        ),
+                        Divider(),
+                        SwitchListTile(
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: -4),
+                          contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
+                          title: Text("설문조사 알림"),
+                          value: stateC.defaultAlarms.value.surveyAlarm,
+                          onChanged: (bool value) {
+                            setState(() {
+                              stateC.defaultAlarms.value.surveyAlarm = value;
+                            });
+                          },
+                        ),
+                        Divider(),
+                        SwitchListTile(
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: -4),
+                          contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
+                          title: Text("상담 알림"),
+                          value: stateC.defaultAlarms.value.consultingAlarm,
+                          onChanged: (bool value) {
+                            setState(() {
+                              stateC.defaultAlarms.value.consultingAlarm =
+                                  value;
+                            });
+                          },
+                        ),
+                        Divider()
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -124,7 +161,12 @@ class _UserScreenStates extends State<UserScreen> {
                                   textCancel: "취소",
                                   onCancel: () {
                                     _titleController.clear();
-                                    stateC.dateSelected.clear();
+                                    stateC.initDateSelectItem();
+                                  },
+                                  onConfirm: () {
+                                    stateC
+                                        .addCustomState(_titleController.text);
+                                    Get.back();
                                   },
                                   content: Obx(() => setCustomAlarmDialog()),
                                 );
@@ -133,27 +175,32 @@ class _UserScreenStates extends State<UserScreen> {
                         ],
                       ),
                     ),
-                    stateC.displayCustomState.length > 0
-                        ? Column(
-                            children: [
-                              for (int i = 0;
-                                  i < stateC.customState.length;
-                                  i++) ...[
-                                SwitchListTile(
-                                  visualDensity: VisualDensity(
-                                      horizontal: 0, vertical: -4),
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(32, 0, 16, 0),
-                                  title: Text(stateC.customState[i].title),
-                                  value: stateC.customState[i].isOn,
-                                  onChanged: (value) =>
-                                      {stateC.customState[i].isOn = value},
-                                ),
-                                Divider()
-                              ]
-                            ],
-                          )
-                        : Text("${_titleController.text}")
+                    Obx(
+                      () => SizedBox(
+                        height: 300,
+                        child: stateC.customState.length > 0
+                            ? ListView.builder(
+                                itemCount: stateC.customState.length,
+                                itemBuilder: ((context, index) =>
+                                    SwitchListTile(
+                                        title: Text(
+                                            stateC.customState[index].title),
+                                        value: stateC.customState[index].isOn,
+                                        onChanged: ((value) {
+                                          setState(() {
+                                            stateC.customState[index].isOn =
+                                                value;
+                                          });
+                                          if (value) {
+                                            stateC.onCustomState(index);
+                                          } else {
+                                            stateC.offCustomState(index);
+                                          }
+                                        }))),
+                              )
+                            : Text("${_titleController.text}"),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -166,25 +213,6 @@ class _UserScreenStates extends State<UserScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget defaultAlarmListTile(bool state, String title) {
-    return Column(
-      children: [
-        SwitchListTile(
-          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-          contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
-          title: Text(title),
-          value: state,
-          onChanged: (bool value) {
-            setState(() {
-              state = value;
-            });
-          },
-        ),
-        Divider()
-      ],
     );
   }
 

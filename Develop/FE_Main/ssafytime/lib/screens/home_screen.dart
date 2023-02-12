@@ -42,11 +42,6 @@ class _HomeScreenStates extends State<HomeScreen> {
           ),
         ),
         isComplete: "진행"),
-    ElevatedButton(
-        onPressed: () {
-          AuthService.to.isLogin = false;
-        },
-        child: Text("로그인 해제")),
     CNI(
         opacity: 1,
         myIcon: FontAwesomeIcons.userGroup,
@@ -99,7 +94,28 @@ class _HomeScreenStates extends State<HomeScreen> {
                 margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                 color: Colors.white,
                 child: CarouselSlider(
-                  items: bannerItems,
+                  items: [
+                    CNI(
+                        opacity: 1,
+                        myIcon: FontAwesomeIcons.bullhorn,
+                        iconColor: 0xffFF5449,
+                        title: widget.userC.homeNotice.value.title ?? "",
+                        detail: Text(widget
+                            .userC.homeNotice.value.createDateTime
+                            .toString()
+                            .split(" ")[0]),
+                        isComplete: ""),
+                    CNI(
+                        opacity: 1,
+                        myIcon: FontAwesomeIcons.bullhorn,
+                        iconColor: 0xffFF5449,
+                        title: widget.userC.homeNotice.value.title ?? "",
+                        detail: Text(widget
+                            .userC.homeNotice.value.createDateTime
+                            .toString()
+                            .split(" ")[0]),
+                        isComplete: "")
+                  ],
                   options: CarouselOptions(
                     height: 68,
                     viewportFraction: 1,

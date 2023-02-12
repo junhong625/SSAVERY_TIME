@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ssafytime/models/attendance_model.dart';
 import 'package:ssafytime/models/home_jobs_model.dart';
 import 'package:ssafytime/models/home_menu_model.dart';
+import 'package:ssafytime/models/notice_model.dart';
 import 'package:ssafytime/models/schedule_now_model.dart';
 import 'package:ssafytime/models/survey_model.dart';
 import 'package:ssafytime/models/user_atten_model.dart';
@@ -29,6 +30,7 @@ class UserController extends GetxController {
   final scheduleNow = ScheduleNow().obs;
   final jobInfo = JobInfo().obs;
   final homeSurvey = Survey().obs;
+  final homeNotice = Notice().obs;
 
   final userAtten = UserAtten().obs;
 
@@ -41,6 +43,7 @@ class UserController extends GetxController {
     await fetchHomeMenu();
     await fetchScheduleNow();
     await fetchAttence();
+    await fetchNotice();
     setAtten();
     super.onInit();
   }
@@ -80,6 +83,10 @@ class UserController extends GetxController {
 
   Future<void> fetchAttence() async {
     atten(await homeApi.fetchAttendence());
+  }
+
+  Future<void> fetchNotice() async {
+    homeNotice(await homeApi.fetchNotice());
   }
 
   void setAtten() {
