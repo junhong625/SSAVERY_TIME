@@ -35,6 +35,9 @@ public class AuthController {
     private final TokenService tokenService;
     private final AuthService authService;
 
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+
+
 
 
 
@@ -73,6 +76,23 @@ public class AuthController {
         httpHeaders.setBearerAuth(tokenResponse.getAccessToken());
 
         return new ResponseEntity<>(tokenResponse, httpHeaders, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request){
+
+
+//        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+//
+//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+//            bearerToken =  bearerToken.substring(7);
+//        }
+
+
+
+        return ResponseEntity.status(200).body("Success");
+
     }
 
 
