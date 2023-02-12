@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/screens/notification_screen.dart';
+import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/councel_admin_councel.dart';
 import 'package:ssafytime/widgets/councel_admin_total.dart';
 
@@ -18,7 +19,7 @@ class CounselScreen extends StatefulWidget {
 }
 
 class _CounselScreenStates extends State<CounselScreen> {
-  int userCode = 0; // 임시로 둔 것 유저 정보에서 가져와야 할 것
+  int userCode = AuthService.to.user.value.isAdmin;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,20 +42,29 @@ class _CounselScreenStates extends State<CounselScreen> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-            backgroundColor: Color(0xffD3E4FF),
-            onPressed: () {
-              openCouncelBottomSheet(context);
-            },
-            child: Icon(Icons.add, color: Color(0xff0079D1)),
-          ),
+        floatingActionButton: _getFAB(),
             // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
         // body: Container(color: Colors.black12, child: CMyCouncel()));
         body: Container(
-          color: Colors.black12,
-          child: userCode == 1 ? CAdminCouncel() : CMyCouncel()
+          color: Colors.white,
+          child: userCode == 1 ? CMyCouncel() : CAdminCouncel()
         )
     );
+  }
+
+  // admin == 1 일때, 학생일때만 상담 신청 버튼이 있고 관리자는 없음
+  Widget _getFAB() {
+    if (AuthService.to.user.value.isAdmin == 0) {
+      return SizedBox();
+    } else {
+      return FloatingActionButton(
+        backgroundColor: Color(0xffD3E4FF),
+        onPressed: () {
+          openCouncelBottomSheet(context);
+        },
+        child: Icon(Icons.add, color: Color(0xff0079D1)),
+      );
+    }
   }
 }

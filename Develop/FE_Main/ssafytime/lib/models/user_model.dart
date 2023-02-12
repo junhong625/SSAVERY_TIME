@@ -5,6 +5,7 @@ class User {
     this.userIdx,
     this.userName,
     this.userEmail,
+    this.classNum,
     this.trackCode,
     this.regionCode,
     this.exp,
@@ -16,6 +17,7 @@ class User {
   int? userIdx;
   String? userName;
   String? userEmail;
+  int? classNum;
   int? trackCode;
   int? regionCode;
   int? exp;
@@ -28,26 +30,28 @@ class User {
   String toRawJson() => json.encode(toJson());
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        userIdx: json["id"],
-        userName: json["userName"],
-        userEmail: json["userEmail"],
-        trackCode: json["trackCode"],
-        regionCode: json["regionCode"],
-        exp: json["exp"],
-        mileage: json["mileage"],
-        isAdmin: json["isAdmin"],
-        userImg: json["userImg"],
-      );
+    userIdx: json["id"],
+    userName: json["userName"],
+    userEmail: json["userEmail"],
+    classNum: json["class_num"],
+    trackCode: json["trackCode"],
+    regionCode: json["regionCode"],
+    exp: json["exp"],
+    mileage: json["mileage"],
+    isAdmin: json["isAdmin"],
+    userImg: json["userImg"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": userIdx,
-        "userName": userName,
-        "userEmail": userEmail,
-        "trackCode": trackCode,
-        "regionCode": regionCode,
-        "exp": exp,
-        "mileage": mileage,
-        "isAdmin": isAdmin,
-        "userImg": userImg,
-      };
+    "id": userIdx,
+    "userName": userName,
+    "userEmail": userEmail,
+    "class_num": classNum,
+    "trackCode": trackCode,
+    "regionCode": regionCode,
+    "exp": exp,
+    "mileage": mileage,
+    "isAdmin": isAdmin,
+    "userImg": userImg,
+  };
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/menu_book_item.dart';
 import '../controllers/menu_week_controller.dart';
 import 'menu_detail.dart';
@@ -11,7 +12,7 @@ class MDay0fWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime dt = DateTime.now();
+    DateTime dt = DateTime.now().add(Duration(hours: 9));
     Map<int, List> dayList = {
       0: ['월', dt.subtract(Duration(days: dt.weekday - 1)).day.toString()],
       1: ['화', dt.subtract(Duration(days: dt.weekday - 2)).day.toString()],
@@ -23,6 +24,7 @@ class MDay0fWeek extends StatelessWidget {
     return Obx(
       () => Column(
         children: [
+
           Container(
             color: Colors.black12,
             // width: 390,
@@ -85,7 +87,7 @@ class MDay0fWeek extends StatelessWidget {
           // 메뉴 카드들 ================================
           Container(
               color: Colors.teal,
-              height: 610,
+              height: controller.menuofday.length != 0 ? 610 : 300,
               child: controller.menuofday.length != 0
                   ? ListView.builder(
                       scrollDirection: Axis.vertical,
@@ -94,7 +96,7 @@ class MDay0fWeek extends StatelessWidget {
                         return SizedBox(
                             child: InkWell(
                           onTap: () {
-                            openMenuDetail(controller.menuofday[index].id);
+                            openMenuDetail(context, controller.menuofday[index].id);
                           },
                           child: MIW(
                             imgUrl: controller.menuofday[index].imageUrl,
@@ -106,10 +108,40 @@ class MDay0fWeek extends StatelessWidget {
                       })
                   // api 에서 메뉴 정보를 못가져 올때
                   : Container(
-                      // color: Colors.white,
-                      width: 390, height: 300,
-                      child: Text('메뉴 정보가 없습니다..!'),
-                    ))
+                      // width: 390, height: 300,
+                      child: Column(
+                        children: [
+                          Container(width: 365, height: 288,
+                            decoration: BoxDecoration(
+                              color: Color(0x08000000),
+                              border: Border.all(width: 2, color: Color(0x05000000)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Image.asset('assets/image/no_menu.png', fit: BoxFit.contain
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+          ),
+
+          // 디테일 메뉴 테스트
+          ElevatedButton(
+              onPressed: () {
+                openMenuDetail(context, 1);
+              },
+              child: Text('디테일 메뉴 테스트')
+          ),
+
+          ElevatedButton(
+            onPressed: () {
+              print(AuthService.to.user.value.classNum);
+              print(AuthService.to.user.value.isAdmin);
+            },
+            child: Text('test'),
+          )
+
         ],
       ),
     );

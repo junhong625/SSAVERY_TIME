@@ -2,13 +2,20 @@
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:ssafytime/services/auth_service.dart';
 
 import '../model/councel_bottom_councelor.dart';
 import '../model/councel_detail.dart';
 
 class MyCouncelController extends GetxController {
+  int? userID = AuthService.to.user.value.userIdx;
+  int? userAdmin = AuthService.to.user.value.isAdmin;
+  int? userTrackCode = AuthService.to.user.value.trackCode;
+  int? userRegionCode = AuthService.to.user.value.regionCode;
+  int? userClassNum = AuthService.to.user.value.classNum;
+
   List myCouncelList = [].obs; // 내 상담 신청 현황들
-  Rx<DateTime> currentTime = DateTime.now().obs;
+  Rx<DateTime> currentTime = DateTime.now().add(Duration(hours: 9)).obs;
   var doubleTypeCurrentTime = 1.0.obs; // 현재 시간은 더블 타입으로 바꾼것
   List<double> myCouncelStartTimeList =
       []; // 내 상담의 시작 시간 리스트 (myCouncelList 의 인덱스 순서와 같다.)
@@ -35,17 +42,22 @@ class MyCouncelController extends GetxController {
 
   void initialRun() async {
     // currentTime.value = DateTime.now().add(Duration(hours: 9));
-    await fetchMyCouncelList(842167, 1);
-    await fetchCouncelor(1, 1);
+    await fetchMyCouncelList(userID, userAdmin);
+    await fetchCouncelor(userClassNum, userRegionCode);
   }
 
   // 내 상담신청 현황 요청
   // userId : 학번, code : 학생, 관리자 구분 코드 -> 유저 정보에서 가져와야함
-  Future fetchMyCouncelList(int userId, int code) async {
-    await setNowTime(); // 요청 시간을 기준으로 시간 설정 -> 프로그래스바 등에서 사용할거임
-    myCouncelList.clear(); // = <CouncelDetail>[].obs; // 초기화 는 clear 로 해야만 되는듯
+  Future fetchMyCouncelList(int? userId, int? code) async {
+    myCouncelList.clear(); // 초기화 는 clear 로 해야만 되는듯
     myCouncelStartTimeList = <double>[]; // 시작시간 종료 시간도 초기화
     myCouncelEndTimeList = <double>[];
+
+    if (userId == null || code == null) {
+      return ;
+    }
+
+    await setNowTime(); // 요청 시간을 기준으로 시간 설정 -> 프로그래스바 등에서 사용할거임
     var res = await http
         .get(Uri.parse("http://i8a602.p.ssafy.io:9090/meet/${userId}/${code}"));
     var data = json.decode(res.body);
@@ -109,7 +121,11 @@ class MyCouncelController extends GetxController {
   }
 
   // [반] 과 [지역코드] 로 그 반 관리자들 호출해서 리스트에 저장
-  Future fetchCouncelor(int classNum, int region) async {
+  Future fetchCouncelor(int? classNum, int? region) async {
+    if (classNum == null || region == null) {
+      return ;
+    }
+
     var res = await http.get(Uri.parse(
         'http://i8a602.p.ssafy.io:9090/reserve/info?classNum=${classNum}&regionCode=${region}'));
     List data = json.decode(res.body);
@@ -137,6 +153,7 @@ class MyCouncelController extends GetxController {
     } else {
       myPickCouncelor.value = idx;
     }
+    print('selectCouncelor : ${myPickCouncelor.value}');
   }
 
   // 달력 선택시에 반영하고 관리자 + 날짜로 예약 현황 API 호출한다.
@@ -186,22 +203,21 @@ class MyCouncelController extends GetxController {
         'http://i8a602.p.ssafy.io:9090/meet/update/accept?rez_idx=${rezIdx}'));
     print(res.statusCode);
 
-    await fetchMyCouncelList(842167, 1); // 상담 현황 다시 요청
+    await fetchMyCouncelList(userID, userAdmin); // 상담 현황 다시 요청
   }
 
   // 상담 거절
   Future rejectCouncel(int rezIdx, String comment) async{
     var res = await http.put(Uri.parse(
         'http://i8a602.p.ssafy.io:9090/meet/update/reject?rez_idx=${rezIdx}&reject=${comment}'));
-    print(res.statusCode);
 
-    await fetchMyCouncelList(842167, 1); // 상담 현황 다시 요청
+    await fetchMyCouncelList(userID, userAdmin); // 상담 현황 다시 요청
   }
 
 
   // 상담 신청 제출
   void submitCouncelApplication() async {
-    int studentId = 20168125; // 유저 정보 컨트롤러 생기면 가져오면 됨
+    int studentId = userID ?? 000000; // 유저 정보 컨트롤러 생기면 가져오면 됨
     int managerId = myPickCouncelor.value;
     String rezDate = myPickDateServe.value;
     String rezTime = myPickTime.value;
@@ -219,17 +235,9 @@ class MyCouncelController extends GetxController {
 
     var headers = {"Content-Type": "application/json"};
 
-    print(body.runtimeType);
-    print('managerId : ${managerId}');
-    print('rezDate : ${rezDate}');
-    print('rezTime : ${rezTime}');
-    print('title : ${title}');
-    print('category : ${category}');
-
-    // post 가 안되는데 어떻게 함
     var res = await http.post(Uri.parse('http://i8a602.p.ssafy.io:9090/reserve/submit'), headers: headers, body: body);
 
-    await fetchMyCouncelList(842167, 1); // 설문 요청 보내면 목록 통신으로 갱신
+    await fetchMyCouncelList(userID, userAdmin); // 상담 요청 보내면 목록 통신으로 갱신
 
   }
 

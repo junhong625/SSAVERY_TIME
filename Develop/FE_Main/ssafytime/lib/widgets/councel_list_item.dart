@@ -32,7 +32,6 @@ class CouncelListItem extends StatelessWidget {
     double opacity = (state == 3 || state == 4) ? 0.4 : 1;
     return InkWell(
       onTap: () {
-        print('dodo');
         if (startTime <= currentTime && currentTime <= endTime) {
           showDialog(
             context: context,
