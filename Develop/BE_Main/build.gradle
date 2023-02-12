@@ -111,6 +111,9 @@ dependencies {
 //	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.6'
 //	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6'
 
+	// OpenVidu
+	implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.25.0'
+
 }
 tasks.named('test') {
 	useJUnitPlatform()
