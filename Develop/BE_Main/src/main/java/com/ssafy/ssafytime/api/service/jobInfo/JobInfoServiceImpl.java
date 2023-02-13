@@ -41,9 +41,4 @@ public class JobInfoServiceImpl implements JobInfoService{
         });
         return jobInfoResponseDtoList;
     }
-
-    @Override
-    public JobInfoResponseDto getJobInfo(int id) {
-        return null;
-    }
 }
