@@ -39,4 +39,9 @@ public class JobInfoController {
             return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
         }
     }
+
+//    @GetMapping("/users")
+//    public ResponseEntity<Object> getUserJobInfo() {
+//        List<JobInfoResponseDto> userJobInfoList = jobInfoService.
+//    }
 }

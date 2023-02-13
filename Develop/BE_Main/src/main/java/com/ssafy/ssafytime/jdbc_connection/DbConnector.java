@@ -1,5 +1,7 @@
 package com.ssafy.ssafytime.jdbc_connection;
 
+import org.springframework.security.core.parameters.P;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -63,6 +65,79 @@ public class DbConnector {
         } catch (Exception e) {
             System.out.println("fail");
             System.out.println(e);
+        }
+    }
+
+    public void insertAlarmDefault() throws SQLException {  // 알림설정 데이터 넣기
+        String sql = "insert into alarm_default(user_idx, consulting_alarm, notice_alarm, survey_alarm) values(?, true, true, true)";
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conn.prepareStatement(sql);
+            for(int i = 101; i < 190; i++) {
+                pstmt.setInt(1, i);
+                pstmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertSurveyQuestion() throws SQLException {
+        String sql = "insert into survey_question(option_list, question_content, survey_idx) values(?, ?, ?)";
+        PreparedStatement pstmt = null;
+        String[] options = {"{1,2}", "{4,5,6,7,8}"};
+        String[] strs = {"현 팀원들에 대해", "현 프로젝트에 대해", "현 주제에 대해", "오전 라이브에 대해"};
+        String[] questions = {" 만족하십니까?", " 얼마나 만족하십니까?"};
+        Random random = new Random();
+        try {
+            for(int i = 1; i <= 15; i++) {  // 상담마다
+                pstmt = conn.prepareStatement(sql);
+                for (int j = 1; j <= 3; j++) {  // 3개 질문 생성
+                    if(j == 3) {  // 주관식
+                        pstmt.setString(1, "{3}");
+                        pstmt.setString(2, "이유는 무엇입니까?");
+                        pstmt.setInt(3, i);
+                        pstmt.executeUpdate();
+                        continue;
+                    }
+                    pstmt.setString(1, options[random.nextInt(2)]);
+                    pstmt.setString(2, strs[random.nextInt(4)] + questions[random.nextInt(2)]);
+                    pstmt.setInt(3, i);
+                    pstmt.executeUpdate();
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertSurveys() throws SQLException {  // 설문조사 데이터 넣기
+        String sql = "insert into survey(created_at, category, ended_at, status, survey_title) values(?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conn.prepareStatement(sql);
+            LocalDateTime startDateTime = LocalDateTime.now();
+            LocalDateTime endDateTime = LocalDateTime.of(2023, 2, 23, 18, 00);
+            String[] title = {"만족도", "행복도", "수요", "프로젝트"};
+            Random random = new Random();
+            for (int i = 0; i < 40; i++) {
+                LocalDateTime x = startDateTime.minusDays(random.nextInt(5)).plusHours(random.nextInt(6));
+                pstmt.setString(1, String.valueOf(x));
+                pstmt.setInt(2, random.nextInt(3));
+                LocalDateTime y = endDateTime.plusDays(random.nextInt(5)).plusDays(random.nextInt(6));
+                pstmt.setString(3, String.valueOf(y));
+                if (LocalDateTime.now().isBefore(x)) {  // 예정중인 설문조사면
+                    pstmt.setInt(4, 0);
+                } else if (LocalDateTime.now().isAfter(x) && LocalDateTime.now().isBefore(y)) {  // 진행중인 설문
+                    pstmt.setInt(4, 1);
+                } else {  // 끝난 설문
+                    pstmt.setInt(4, 2);
+                }
+                pstmt.setString(5, title[random.nextInt(4)] + "설문");
+                pstmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
