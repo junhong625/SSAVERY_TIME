@@ -96,8 +96,10 @@ public class SurveyController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<AllSurveyRes>> getSurvey() {
+    public ResponseEntity<List<AllSurveyRes>> getSurvey() throws SQLException {
 
+        DbConnector dbConnector = new DbConnector();
+        dbConnector.insertSurveyQuestion();
 
         List<Survey> surveyList = (List<Survey>) surveyService.findAll();  // 전체 설문 조회
         if(surveyList.size() == 0) {
