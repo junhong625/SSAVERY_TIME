@@ -30,6 +30,8 @@ public class LunchMenuServiceImpl implements LunchMenuService {
         lunchMenuRepository.findByRegionAndDate(region, date).forEach((LunchMenuEntity)-> {
             menuList.add(new LunchMenuResponseDto(LunchMenuEntity));
         });
+        if (menuList.isEmpty())
+            return null;
         return menuList;
     }
 
@@ -45,6 +47,8 @@ public class LunchMenuServiceImpl implements LunchMenuService {
         lunchMenuRepository.findByRegionAndDate(region, date).forEach((LunchMenuEntity)-> {
             menuList.add(new LunchMenuResponseDto(LunchMenuEntity));
         });
+        if (menuList.isEmpty())
+            return null;
         return menuList;
     }
 
@@ -72,6 +76,8 @@ public class LunchMenuServiceImpl implements LunchMenuService {
             weekMenuList.put(d, menuList);
             day = day.plusDays(1);
         }
+        if (weekMenuList.isEmpty())
+            return null;
         return weekMenuList;
     }
 

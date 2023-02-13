@@ -31,11 +31,7 @@ public class NoticeController {
      */
     @GetMapping("")
     public ResponseEntity<Object> recentNotice() {
-        try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getRecentNotice());
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
-        }
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getRecentNotice());
     }
 
     /* 단일 공지사항 조회(develop_AJH)
@@ -45,22 +41,14 @@ public class NoticeController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Object> notice(@PathVariable Long id) {
-        try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getNotice(id));
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
-        }
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getNotice(id));
     }
 
     /* 전체 공지사항 조회(develop_AJH)
      */
     @GetMapping("/all")
     public ResponseEntity<Object> noticeAll(){
-        try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getAllNotice());
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
-        }
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getAllNotice());
     }
 
     /* 공지사항 생성(develop_AJH)

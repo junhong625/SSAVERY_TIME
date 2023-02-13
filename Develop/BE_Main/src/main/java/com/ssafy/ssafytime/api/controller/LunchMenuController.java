@@ -32,8 +32,7 @@ public class LunchMenuController {
      */
     @GetMapping("/today")
     public ResponseEntity<Object> todayMenu(@RequestParam("region") int region) {
-        List<LunchMenuResponseDto> menu = lunchMenuService.getTodayMenu(region);
-        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, menu);
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getTodayMenu(region));
     }
 
     /* 내일 점심 메뉴 조회(develop_AJH)
@@ -45,8 +44,7 @@ public class LunchMenuController {
      */
     @GetMapping("/tomorrow")
     public ResponseEntity<Object> tomorrowMenu(@RequestParam("region") int region) {
-        List<LunchMenuResponseDto> menu = lunchMenuService.getTomorrowMenu(region);
-        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, menu);
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getTomorrowMenu(region));
     }
 
     /* 이번 주 점심 메뉴 조회 (develop_AJH)
@@ -58,11 +56,7 @@ public class LunchMenuController {
      */
     @GetMapping("/week")
     public ResponseEntity<Object> WeekMenu(@RequestParam("region") int region) {
-        try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getWeekMenu(region));
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
-        }
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getWeekMenu(region));
     }
 
     /* 단일 점심 메뉴 세부 정보 조회(develop_AJH)
@@ -72,10 +66,6 @@ public class LunchMenuController {
      */
     @GetMapping("/detail")
     public ResponseEntity<Object> menuDetail(@RequestParam("id") Long id) {
-        try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getMenuDetail(id));
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
-        }
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getMenuDetail(id));
     }
 }
