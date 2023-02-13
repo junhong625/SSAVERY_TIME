@@ -22,7 +22,8 @@ class MDetailPercentBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.teal,
-      width: 42,
+      // width: 42,
+      width:63,
       height: 190,
       child: Column(
         children: [
@@ -36,11 +37,12 @@ class MDetailPercentBar extends StatelessWidget {
               verticalDirection: VerticalDirection.up,
               animatedDuration: Duration(milliseconds: 1000),
               backgroundColor: Color(0xffD6D6D6),
-              currentValue: NutritionTable().getPercent(amount, total),
+              // currentValue: NutritionTable().getPercent(amount, total),
+              currentValue: (amount*100 ~/ total).toDouble(),
             ),
           ),
           SizedBox(height: 4,),
-          CustomText(content: '${amount}${unit}', fontSize: 9,)
+          CustomText(content: '${amount}${unit}', fontSize: 10.5,)
         ],
       ),
     );
@@ -56,7 +58,7 @@ class NutritionTable {
   Map table = {
     'cho' : 248,
     'pro' : 83,
-    'fat' : 220,
+    'fat' : 97,
     'salt' : 3000,
     'kcal' : 2200,
   };

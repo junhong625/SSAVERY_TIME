@@ -5,6 +5,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ssafytime/controllers/home_time_controller.dart';
+import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/firebase_options.dart';
 import 'package:ssafytime/services/auth_service.dart';
 
@@ -21,6 +23,8 @@ void main() async {
   Get.put(AuthService());
   await AuthService.to.getToken();
   Get.put(NotiService());
+  Get.put(loadingController()); // Loading indicator controller
+  Get.put(HomeTimeController());
   runApp(const MyApp());
 }
 

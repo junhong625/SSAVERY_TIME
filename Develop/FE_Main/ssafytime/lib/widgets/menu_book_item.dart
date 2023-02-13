@@ -44,8 +44,8 @@ class _MIWState extends State<MIW> {
               border: Border.all(width: 2, color: Color(0x05000000)),
               borderRadius: BorderRadius.circular(15),
             ),
-            child: Image.network(imgUrl, fit: BoxFit.contain
-            ),
+            child: imgUrl != '' ? Image.network(imgUrl, fit: BoxFit.contain)
+            : Image.asset('assets/image/no_menu.png', fit:BoxFit.contain),
           ),
           Container(
             width: 162, height: 155,

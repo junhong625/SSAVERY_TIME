@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class ScSingleItem extends StatelessWidget {
   Map<int, List> coding = {
-    0: ['코딩과정', 0xff686ADB],
-    1: ['알고리즘', 0xff0082A1],
-    2: ['프로젝트', 0xffDE3730],
-    3: ['기타', 0xff0079D1],
+    1: ['코딩과정', 0xff686ADB],
+    2: ['알고리즘', 0xff0082A1],
+    3: ['프로젝트', 0xffDE3730],
+    4: ['기타', 0xff0079D1],
   };
+
+
 
   Map<int, String> place = {0: '오프라인', 1: '온라인'};
 
@@ -35,7 +37,7 @@ class ScSingleItem extends StatelessWidget {
         Container(
           width: 5,
           height: 81,
-          color: Colors.blueAccent, // option 1
+          color: Color(coding[classType]![1]), // option 1
         ),
         Container(
           width: 353,
@@ -51,7 +53,7 @@ class ScSingleItem extends StatelessWidget {
                   children: [
                     // option 2
                     Text(
-                      "이렇게하면",
+                      coding[classType] == null ? '${classType}' : coding[classType]![0],
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 12,
@@ -138,10 +140,10 @@ class LunchTimeTable extends StatelessWidget {
 // 블랭크는 구분선크기를 포함 시키되 보이면 안되니깐 컨테이너 자체 크기를 +1 해줌
 class BlankTimeTable extends StatelessWidget {
   Map<int, int> colorList = {
-    0: 0xff686ADB,
-    1: 0xff0082A1,
-    2: 0xffDE3730,
-    3: 0xff0079D1,
+    1: 0xff686ADB,
+    2: 0xff0082A1,
+    3: 0xffDE3730,
+    4: 0xff0079D1,
   };
 
   int color;
@@ -159,7 +161,8 @@ class BlankTimeTable extends StatelessWidget {
           Container(
             width: 5,
             height: 82,
-            color: Colors.amber,
+            // color: Colors.amber,
+            color: Color(colorList[color] ?? 0xff000000)
           ),
           Container(
             width: 353,

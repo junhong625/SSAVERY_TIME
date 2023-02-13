@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/services/auth_service.dart';
 import 'dart:convert';
 import '../model/menu_week_v2.dart';
@@ -9,7 +10,8 @@ class MenuPickDayController extends GetxController {
   static MenuPickDayController get to => Get.find();
   RxInt myPick = 0.obs; // 월 ~ 금
   List dayofweek = [0, 0, 0, 0, 0];
-  DateTime today = DateTime.now().add(Duration(hours: 9));
+  // DateTime today = DateTime.now().add(Duration(hours: 9));
+  DateTime today = DateTime.now();
   var menusofweek = <List>[].obs;
   var menuofday = [].obs;
 
@@ -21,6 +23,7 @@ class MenuPickDayController extends GetxController {
 
   void initialRun() async {
     // 이번주 식단 가져오기 =======================
+    loadingController.to.isLoading = true; // 일단 로딩 표시 on
     // 지역 번호 넣어서
     await requstMenuWeek(AuthService.to.user.value.regionCode ?? 0);
 
@@ -36,9 +39,13 @@ class MenuPickDayController extends GetxController {
         selectDay(i);
       }
     }
+    loadingController.to.isLoading = false; // 로딩 표시 off
   }
 
+
   Future<void> requstMenuWeek(int region) async {
+    loadingController.to.isLoading = true; // 일단 로딩 표시 on
+
     menusofweek = <List>[].obs;
     var res = await http.get(
         Uri.parse("http://i8a602.p.ssafy.io:9090/menu/week/?region=${region}"));
@@ -58,8 +65,8 @@ class MenuPickDayController extends GetxController {
         ));
       }
       menusofweek.add(menus);
-    }
-    ;
+    };
+    loadingController.to.isLoading = false; // 로딩 표시 off
     return;
   }
 

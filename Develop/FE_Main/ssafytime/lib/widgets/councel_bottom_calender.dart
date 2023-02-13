@@ -31,14 +31,14 @@ class CBCalender extends StatelessWidget {
               DateTime? pickedDate = await showDatePicker(
                 context: context,
                 // 하루 뒤 부터 예약가능
-                // initialDate: DateTime.now().add(Duration(hours: 24)),
-                // firstDate: DateTime.now().add(Duration(hours: 24)),
-                // lastDate: DateTime.now().add(Duration(hours: 720)),
+                initialDate: DateTime.now().add(Duration(hours: 24)),
+                firstDate: DateTime.now().add(Duration(hours: 24)),
+                lastDate: DateTime.now().add(Duration(hours: 720)),
 
                 // 일단 선택 범위 없애고
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2100),
+                // initialDate: DateTime.now(),
+                // firstDate: DateTime(2000),
+                // lastDate: DateTime(2100),
               );
               if (pickedDate != null) {
                 String formattedDate = DateFormat('yyyy-MM-dd-EE').format(pickedDate);

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ssafytime/services/auth_service.dart';
+import 'package:ssafytime/controllers/loading_controller.dart';
 
 import '../model/councel_bottom_councelor.dart';
 import '../model/councel_detail.dart';
@@ -15,7 +16,8 @@ class MyCouncelController extends GetxController {
   int? userClassNum = AuthService.to.user.value.classNum;
 
   List myCouncelList = [].obs; // 내 상담 신청 현황들
-  Rx<DateTime> currentTime = DateTime.now().add(Duration(hours: 9)).obs;
+  // Rx<DateTime> currentTime = DateTime.now().add(Duration(hours: 9)).obs;
+  Rx<DateTime> currentTime = DateTime.now().obs;
   var doubleTypeCurrentTime = 1.0.obs; // 현재 시간은 더블 타입으로 바꾼것
   List<double> myCouncelStartTimeList =
       []; // 내 상담의 시작 시간 리스트 (myCouncelList 의 인덱스 순서와 같다.)
@@ -34,6 +36,8 @@ class MyCouncelController extends GetxController {
   RxString myInputTitle = ''.obs; // 입력한 제목
   RxString myInputCategory = ''.obs; // 입력한 카테고리
 
+  RxInt adminCategory = 1.obs; // 관리가 페이지의 탭바 인덱스
+
   @override
   void onInit() {
     super.onInit();
@@ -49,11 +53,14 @@ class MyCouncelController extends GetxController {
   // 내 상담신청 현황 요청
   // userId : 학번, code : 학생, 관리자 구분 코드 -> 유저 정보에서 가져와야함
   Future fetchMyCouncelList(int? userId, int? code) async {
+    loadingController.to.isLoading = true;
+
     myCouncelList.clear(); // 초기화 는 clear 로 해야만 되는듯
     myCouncelStartTimeList = <double>[]; // 시작시간 종료 시간도 초기화
     myCouncelEndTimeList = <double>[];
 
     if (userId == null || code == null) {
+      loadingController.to.isLoading = false;
       return ;
     }
 
@@ -72,11 +79,12 @@ class MyCouncelController extends GetxController {
               100 // 상담은 1시간 한다고 가정해서 +100임 1이 시간 00이 분이라서
           );
     }
+    loadingController.to.isLoading = false;
   }
 
   // 현재시간 초기화해서 doubleTypeCurrentTime 에 넣어줌
   Future setNowTime() async {
-    currentTime = await DateTime.now().add(Duration(hours: 9)).obs;
+    currentTime = await DateTime.now().obs;
     calculatorTime(currentTime.value);
   }
 
@@ -126,6 +134,7 @@ class MyCouncelController extends GetxController {
       return ;
     }
 
+    loadingController.to.isLoading = true;
     var res = await http.get(Uri.parse(
         'http://i8a602.p.ssafy.io:9090/reserve/info?classNum=${classNum}&regionCode=${region}'));
     List data = json.decode(res.body);
@@ -140,6 +149,7 @@ class MyCouncelController extends GetxController {
         ));
       });
     }
+    loadingController.to.isLoading = false;
   }
 
   // 관리자 선택하기
@@ -153,7 +163,6 @@ class MyCouncelController extends GetxController {
     } else {
       myPickCouncelor.value = idx;
     }
-    print('selectCouncelor : ${myPickCouncelor.value}');
   }
 
   // 달력 선택시에 반영하고 관리자 + 날짜로 예약 현황 API 호출한다.
@@ -199,17 +208,22 @@ class MyCouncelController extends GetxController {
 
   // 상담승인
   Future acceptCouncel(int rezIdx) async{
+
+    loadingController.to.isLoading = true;
     var res = await http.put(Uri.parse(
         'http://i8a602.p.ssafy.io:9090/meet/update/accept?rez_idx=${rezIdx}'));
-    print(res.statusCode);
+    loadingController.to.isLoading = false;
 
     await fetchMyCouncelList(userID, userAdmin); // 상담 현황 다시 요청
   }
 
   // 상담 거절
   Future rejectCouncel(int rezIdx, String comment) async{
+
+    loadingController.to.isLoading = true;
     var res = await http.put(Uri.parse(
         'http://i8a602.p.ssafy.io:9090/meet/update/reject?rez_idx=${rezIdx}&reject=${comment}'));
+    loadingController.to.isLoading = false;
 
     await fetchMyCouncelList(userID, userAdmin); // 상담 현황 다시 요청
   }
@@ -233,12 +247,18 @@ class MyCouncelController extends GetxController {
       "category" : category,
     });
 
+    loadingController.to.isLoading = true;
     var headers = {"Content-Type": "application/json"};
 
     var res = await http.post(Uri.parse('http://i8a602.p.ssafy.io:9090/reserve/submit'), headers: headers, body: body);
+    loadingController.to.isLoading = false;
 
     await fetchMyCouncelList(userID, userAdmin); // 상담 요청 보내면 목록 통신으로 갱신
 
+  }
+
+  void selectAdminCategory(int x){
+    adminCategory.value = x;
   }
 
 }

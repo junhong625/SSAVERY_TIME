@@ -5,14 +5,15 @@ import 'package:http/http.dart' as http;
 import 'package:ssafytime/widgets/custom_text.dart';
 import 'package:ssafytime/widgets/menu_detail_percentbar.dart';
 import 'dart:convert';
+import 'package:ssafytime/controllers/loading_controller.dart';
 
 import '../model/menu_detail.dart';
 
 void openMenuDetail(BuildContext context, int id) async {
-
+  loadingController.to.isLoading = true; // 일단 로딩 표시 on
   var res = await http.get(Uri.parse('http://i8a602.p.ssafy.io:9090/menu/detail?id=${id}'));
   var data = json.decode(res.body);
-
+  loadingController.to.isLoading = false; //
   if (res.statusCode != 200) {
     print('api 오류');
     return ;
@@ -60,8 +61,8 @@ void openMenuDetail(BuildContext context, int id) async {
                   border: Border.all(width: 2, color: Color(0x05000000)),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Image.network(myMenu.imageUrl, fit: BoxFit.contain
-                ),
+                child: myMenu.imageUrl != '' ? Image.network(myMenu.imageUrl, fit: BoxFit.contain)
+                : Image.asset('assets/image/no_menu.png', fit: BoxFit.contain),
               ),
 
               Container(
@@ -100,7 +101,7 @@ void openMenuDetail(BuildContext context, int id) async {
                         children: [
                           MDetailPercentBar(
                             title: '탄수화물',
-                            amount: 100,
+                            amount: myMenu.cho,
                             total: 248,
                             unit: 'g',
                           ),
@@ -113,7 +114,7 @@ void openMenuDetail(BuildContext context, int id) async {
                           MDetailPercentBar(
                             title: '지방',
                             amount: myMenu.fat,
-                            total: 220,
+                            total: 97,
                             unit: 'g',
                           ),
                           MDetailPercentBar(

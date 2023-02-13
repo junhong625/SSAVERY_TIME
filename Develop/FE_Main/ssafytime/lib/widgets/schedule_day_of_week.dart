@@ -14,7 +14,9 @@ class SDay0fWeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    DateTime dt = DateTime.now().add(Duration(hours: 9));
+    // DateTime dt = DateTime.now().add(Duration(hours: 9));
+    DateTime dt = DateTime.now();
+
     Map<int, List> dayList = {
       0 : ['월', dt.subtract(Duration(days: dt.weekday - 1)).day.toString()],
       1 : ['화', dt.subtract(Duration(days: dt.weekday - 2)).day.toString()],

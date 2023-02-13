@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/services/auth_service.dart';
+import 'package:ssafytime/widgets/custom_text.dart';
+import 'package:ssafytime/widgets/loading_indicator.dart';
 import 'package:ssafytime/widgets/menu_book_item.dart';
 import '../controllers/menu_week_controller.dart';
 import 'menu_detail.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MDay0fWeek extends StatelessWidget {
   MDay0fWeek({Key? key}) : super(key: key);
@@ -12,7 +16,8 @@ class MDay0fWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime dt = DateTime.now().add(Duration(hours: 9));
+    // DateTime dt = DateTime.now().add(Duration(hours: 9));
+    DateTime dt = DateTime.now();
     Map<int, List> dayList = {
       0: ['월', dt.subtract(Duration(days: dt.weekday - 1)).day.toString()],
       1: ['화', dt.subtract(Duration(days: dt.weekday - 2)).day.toString()],
@@ -20,6 +25,8 @@ class MDay0fWeek extends StatelessWidget {
       3: ['목', dt.subtract(Duration(days: dt.weekday - 4)).day.toString()],
       4: ['금', dt.subtract(Duration(days: dt.weekday - 5)).day.toString()],
     };
+
+    bool testBoll = true;
 
     return Obx(
       () => Column(
@@ -30,7 +37,7 @@ class MDay0fWeek extends StatelessWidget {
             // width: 390,
             height: 48,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 for (int idx = 0; idx < 5; idx++) ...[
                   Container(
@@ -86,62 +93,49 @@ class MDay0fWeek extends StatelessWidget {
 
           // 메뉴 카드들 ================================
           Container(
-              color: Colors.teal,
-              height: controller.menuofday.length != 0 ? 610 : 300,
-              child: controller.menuofday.length != 0
-                  ? ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: controller.menuofday.length,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                            child: InkWell(
-                          onTap: () {
-                            openMenuDetail(context, controller.menuofday[index].id);
-                          },
-                          child: MIW(
-                            imgUrl: controller.menuofday[index].imageUrl,
-                            foodKcal: controller.menuofday[index].kcal,
-                            mainMenu: controller.menuofday[index].mainMenu,
-                            subMenuList: controller.menuofday[index].sideMenu,
-                          ),
-                        ));
-                      })
-                  // api 에서 메뉴 정보를 못가져 올때
-                  : Container(
-                      // width: 390, height: 300,
-                      child: Column(
-                        children: [
-                          Container(width: 365, height: 288,
-                            decoration: BoxDecoration(
-                              color: Color(0x08000000),
-                              border: Border.all(width: 2, color: Color(0x05000000)),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Image.asset('assets/image/no_menu.png', fit: BoxFit.contain
-                            ),
-                          ),
-
-                        ],
+            color: Colors.blue,
+            height: controller.menuofday.length != 0 ? 610 : 300,
+            child: controller.menuofday.length != 0
+              ? ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: controller.menuofday.length,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                        child: InkWell(
+                      onTap: () {
+                        openMenuDetail(context, controller.menuofday[index].id);
+                      },
+                      child: MIW(
+                        imgUrl: controller.menuofday[index].imageUrl,
+                        foodKcal: controller.menuofday[index].kcal,
+                        mainMenu: controller.menuofday[index].mainMenu,
+                        subMenuList: controller.menuofday[index].sideMenu,
                       ),
-                    ),
+                    ));
+                  })
+              // api 에서 메뉴 정보를 못가져 올때
+              : Container(
+                  // width: 390, height: 300,
+                  child: Column(
+                    children: [
+                      Container(width: 365, height: 288,
+                        decoration: BoxDecoration(
+                          color: Color(0x08000000),
+                          border: Border.all(width: 2, color: Color(0x05000000)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            Image.asset('assets/image/no_week_menu.png', fit: BoxFit.contain),
+                            CustomText(content: '아직 올라온 데이터가 없습니다',)
+                          ],
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
           ),
-
-          // 디테일 메뉴 테스트
-          ElevatedButton(
-              onPressed: () {
-                openMenuDetail(context, 1);
-              },
-              child: Text('디테일 메뉴 테스트')
-          ),
-
-          ElevatedButton(
-            onPressed: () {
-              print(AuthService.to.user.value.classNum);
-              print(AuthService.to.user.value.isAdmin);
-            },
-            child: Text('test'),
-          )
-
         ],
       ),
     );
