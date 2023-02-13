@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:ntp/ntp.dart';
 import 'package:ssafytime/models/user_custom_alarm.dart';
 import 'package:ssafytime/models/noti_default_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,15 +34,12 @@ class UserStateController extends GetxController {
 
   Rxn<DateTime> dateTime = Rxn<DateTime>(DateTime.now());
   RxList<String> dateSelected = <String>[].obs;
-  late DateTime _now;
   final int? userIdx = AuthService.to.user.value.userIdx;
 
 //   UserStateController({this.userIdx});
 
   @override
   void onInit() async {
-    _now = await NTP.now();
-    log("현재 시간 : ${_now}");
     log("onInit");
     initDateSelectItem();
     pref = await SharedPreferences.getInstance();
@@ -60,14 +56,7 @@ class UserStateController extends GetxController {
 
   @override
   void onClose() async {
-    // await pref.setStringList(
-    //   "${userIdx}_noti",
-    //   List<String>.from(
-    //     customState.map(
-    //       (e) => e.toJson(),
-    //     ),
-    //   ),
-    // );
+    saveCustomState();
   }
 
 // 내부 저장소에서 개인 알림 가져오기
@@ -77,6 +66,7 @@ class UserStateController extends GetxController {
     if (customStateItems != null) {
       var item = List<UserCustomAlarm>.from(
           customStateItems.map((e) => UserCustomAlarm.fromRawJson(e)));
+      log(customStateItems.toString());
       customState.addAll(item);
     }
   }
@@ -88,27 +78,42 @@ class UserStateController extends GetxController {
         title: title,
         repeatDate: _calcDayOfWeek(),
         time: dateTime.value ?? DateTime.now(),
-        isOn: state);
+        isOn: state,
+        dateSelected: dateSelected);
     customState.add(custom);
     await NotiService.to
         .addAlarm(title, dateTime.value ?? DateTime.now(), _calcDayOfWeek());
+    saveCustomState();
   }
 
 // 개인 알림 삭제
   void removeCustomState(int index) async {
     await NotiService.to.removeAlarm(customState[index].repeatDate);
     customState.removeAt(index);
+    saveCustomState();
   }
 
 // 개인 알림 켜기
   void onCustomState(int idx) async {
     await NotiService.to.addAlarm(customState[idx].title, customState[idx].time,
         customState[idx].repeatDate);
+    saveCustomState();
   }
 
 // 개인 알림 끄기
   void offCustomState(int idx) async {
     await NotiService.to.removeAlarm(customState[idx].repeatDate);
+    saveCustomState();
+  }
+
+// 개인 알림 저장
+  void saveCustomState() async {
+    List<String> saveCustomAlarm = [];
+    customState.forEach((e) {
+      saveCustomAlarm.add(e.toRawJson());
+    });
+
+    await pref.setStringList("${userIdx}_noti", saveCustomAlarm);
   }
 
 // 서버에서 기본 알림 설정 가져오기
@@ -128,7 +133,7 @@ class UserStateController extends GetxController {
   Future<void> setDefaultState() async {}
 
   List<DateTime> _calcDayOfWeek() {
-    // DateTime _now = new DateTime.now();
+    DateTime _now = new DateTime.now();
     List<DateTime> dayOfWeeks = List<DateTime>.from(dateSelected.map((e) {
       switch (e) {
         case "월":
@@ -154,7 +159,7 @@ class UserStateController extends GetxController {
   void initDateSelectItem() {
     log("onReady");
     dateSelected.clear();
-    String todayE = DateFormat.E('ko_KR').format(_now);
+    String todayE = DateFormat.E('ko_KR').format(DateTime.now());
     dateSelected.add(todayE);
   }
 
