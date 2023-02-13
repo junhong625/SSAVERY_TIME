@@ -41,23 +41,6 @@ public class MeetController {
         this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
     }
 
-    // Basic EncodeBase64(OPENVIDUAPP:<YOUR_SECRET>), Content-Type: application/json 헤더로 받기
-    // 세션 생성, 세션 아이디 반환
-    @PostMapping("/api/sessions")
-    public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params, @RequestParam("rez_idx") Long rezIdx)
-            throws OpenViduJavaClientException, OpenViduHttpException {
-        SessionProperties properties = SessionProperties.fromJson(params).build();
-        Session session = openvidu.createSession(properties);
-
-        return new ResponseEntity<>(session.getSessionId() + " " + rezIdx, HttpStatus.OK);
-    }
-//    @PostMapping("/api/sessions")
-//    public ResponseEntity<String> initializeSession(HttpServletRequest request)
-//            throws OpenViduJavaClientException, OpenViduHttpException {
-//
-//        return new ResponseEntity<>(request.getHeader("Authorization"), HttpStatus.OK);
-//    }
-
     @Autowired
     AlarmDefaultService alarmDefaultService;
 
@@ -133,6 +116,8 @@ public class MeetController {
 
     // 상담승인 등록 ( 매니저가 등록 )
     // rez_idx는 예약된 상담의 번호
+    // Basic EncodeBase64(OPENVIDUAPP:<YOUR_SECRET>), Content-Type: application/json 헤더로 받기
+    // 세션 생성
     @PutMapping("/update/accept")
     public ResponseEntity<Object> putAccept(@RequestBody(required = false) Map<String, Object> params, @RequestParam("rez_idx") Long rezIdx)
             throws OpenViduJavaClientException, OpenViduHttpException, FirebaseMessagingException {
