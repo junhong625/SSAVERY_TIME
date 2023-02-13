@@ -16,12 +16,17 @@ import java.util.Optional;
 import com.ssafy.ssafytime.db.entity.Authority;
 import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.AttendanceRepository;
+import com.ssafy.ssafytime.db.repository.LogoutTokenRepository;
 import com.ssafy.ssafytime.db.repository.RefreshTokenRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
 import com.ssafy.ssafytime.exception.DuplicateUserException;
 import com.ssafy.ssafytime.exception.NotFoundUserException;
 import com.ssafy.ssafytime.jwt.TokenProvider;
 import com.ssafy.ssafytime.util.SecurityUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,23 +37,18 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
+    @Autowired
+    private JavaMailSender mailSender;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final AttendanceRepository attendanceRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final LogoutTokenRepository logoutTokenRepository;
 
-    public UserService(UserRepository userRepository, TokenProvider tokenProvider, PasswordEncoder passwordEncoder,
-                       AttendanceRepository attendanceRepository,
-                       RefreshTokenRepository refreshTokenRepository) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.tokenProvider = tokenProvider;
-        this.attendanceRepository = attendanceRepository;
-        this.refreshTokenRepository = refreshTokenRepository;
-    }
 
 
     /**
@@ -67,7 +67,7 @@ public class UserService {
                 .build();
 
         User user = User.builder()
-
+                .userIdx(userDto.getId())
                 .userName(userDto.getUserName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .userEmail(userDto.getUserEmail())
@@ -94,16 +94,7 @@ public class UserService {
         );
     }
 
-    @Transactional
-    public void logout(TokenRequest tokenRequest){
-        tokenProvider.validateAccessToken(tokenRequest.getAccessToken());
 
-        Authentication authentication = tokenProvider.getAuthentication(tokenRequest.getAccessToken());
-
-        String userEmail = authentication.getName();
-
-        refreshTokenRepository.findRefreshTokenByUserEmail(userEmail);
-    }
 
 
     public Optional<User> findById(Long Id) {
@@ -121,4 +112,52 @@ public class UserService {
     public void save(Optional<User> user) {
         userRepository.save(user.get());
     }
+
+
+    public void temporaryPassword(TemporaryDto temporaryDto){
+        System.out.println("=-=-=--==--=-=");
+        String userEmail = temporaryDto.getUserEmail();
+        String userName = temporaryDto.getUserName();
+        String password = getTemporaryPassword();
+        String encodePassword = passwordEncoder.encode(password);
+        User user = userRepository.findByUserEmailAndUserName(userEmail, userName).orElse(null);
+        user.setPassword(encodePassword);
+        System.out.println("-==--=-==--=-=-==-=-");
+        System.out.println(password);
+        System.out.println(encodePassword);
+        System.out.println("-==--=-==--=-=-==-=-");
+
+
+        MailDto dto = new MailDto();
+        dto.setAddress(userEmail);
+        dto.setTitle("임시비밀번호 메일입니다.");
+        dto.setMsg("SSAFY 임시비밀번호는" + password +"입니다.");
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(dto.getAddress());
+        message.setSubject(dto.getTitle());
+        message.setText(dto.getMsg());
+        message.setFrom("ssafy@ssafy.com");
+        System.out.println("message"+message);
+        mailSender.send(message);
+        userRepository.save(user);
+
+
+    }
+
+    public String getTemporaryPassword(){
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String str = "";
+
+        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
+    }
+
 }

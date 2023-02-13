@@ -18,10 +18,18 @@ import java.time.LocalDateTime;
 public class LogoutToken {
 
     @Id
+    @Column(name = "user_email")
+    private String userEmail;
+    
     @Column(name = "token")
     private String token;
 
 
     @Column(name = "expired_at")
     private LocalDateTime expiredAt;
+
+    public boolean hasSameValue(final String token){
+        return this.token.equals(token);
+    }
+
 }

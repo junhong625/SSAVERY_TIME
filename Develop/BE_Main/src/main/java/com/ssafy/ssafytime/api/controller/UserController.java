@@ -62,13 +62,11 @@ public class UserController {
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Map<String, Object>> getAttendance(HttpServletRequest request, @AuthenticationPrincipal User user) {
 
-
         Long userIdx = userService.getMyUserWithAuthorities().getId();
 
         List<AttendanceInterface> list = attendanceRepository.findAbsent(userIdx);
         List<AttendanceInterface> list2 = attendanceRepository.findMonthAttendance(userIdx);
         List<AttendanceInterface> list3 = attendanceRepository.findAllAttendance(userIdx);
-
 
         list.addAll(list2);
         list.addAll(list3);
@@ -96,12 +94,22 @@ public class UserController {
         }
     }
 
+    /* 유저 기본 알람 on/off 상태 조회
+    ================================================|| parameter ||=========================================================
+    userId : 사용자 학번(user_idx)
+    ========================================================================================================================
+     */
     @GetMapping("alarm/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> getAlarm(@PathVariable Long userId) {
         return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, alarmService.getDefaultAlarmSetting(userId));
     }
 
+    /* 유저 공지사항 알림 on/off 변경
+    ================================================|| parameter ||=========================================================
+    userId : 사용자 학번(user_idx)
+    ========================================================================================================================
+     */
     @PatchMapping("alarm/notice/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateNotice(@PathVariable Long userId) {
@@ -109,6 +117,11 @@ public class UserController {
         return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
     }
 
+    /* 유저 설문조사 알림 on/off 변경
+    ================================================|| parameter ||=========================================================
+    userId : 사용자 학번(user_idx)
+    ========================================================================================================================
+     */
     @PatchMapping("alarm/survey/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateSurvey(@PathVariable Long userId) {
@@ -116,6 +129,11 @@ public class UserController {
         return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
     }
 
+    /* 유저 상담 알림 on/off 변경
+    ================================================|| parameter ||=========================================================
+    userId : 사용자 학번(user_idx)
+    ========================================================================================================================
+     */
     @PatchMapping("alarm/consulting/{userId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateConsulting(@PathVariable Long userId) {
@@ -191,16 +209,12 @@ public class UserController {
     }
 
 
+    @PostMapping("/password")
+    public ResponseEntity<?> temporaryPassword(@Valid @RequestBody TemporaryDto temporaryDto){
 
-    @GetMapping("/logout")
-    public ResponseEntity<?> logout(@Valid @RequestBody final TokenRequest tokenRequest){
-
-        userService.logout(tokenRequest);
+        userService.temporaryPassword(temporaryDto);
         return ResponseEntity.status(200).body("Success");
-
     }
-
-
 
 }
 

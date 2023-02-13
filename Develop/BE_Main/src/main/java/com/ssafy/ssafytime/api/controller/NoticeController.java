@@ -25,25 +25,30 @@ public class NoticeController {
 
     private final AlarmDefaultService alarmDefaultService;
 
-    private final AlarmDefaultRepository alarmDefaultRepository;
-
     private final NoticeServiceImpl noticeService;
 
+    /* 최신 공지사항 조회(develop_AJH)
+     */
     @GetMapping("")
     public ResponseEntity<Object> recentNotice() {
-        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getCurrentNotice());
+        try {
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getRecentNotice());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
+        }
     }
 
-
     /* 단일 공지사항 조회(develop_AJH)
+    ================================================|| parameter ||=========================================================
     id : 공지사항 id
+    ========================================================================================================================
      */
     @GetMapping("/{id}")
     public ResponseEntity<Object> notice(@PathVariable Long id) {
         try {
             return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getNotice(id));
         } catch (Exception e) {
-            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.NOT_FOUND, null);
+            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
         }
     }
 
@@ -51,17 +56,19 @@ public class NoticeController {
      */
     @GetMapping("/all")
     public ResponseEntity<Object> noticeAll(){
-        List<NoticeResponseDto> notice = noticeService.getAllNotice();
-        if (!notice.isEmpty())
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, notice);
-        else
-            return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
+        try {
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getAllNotice());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
+        }
     }
 
     /* 공지사항 생성(develop_AJH)
-    title : 제목
-    category : 분류
-    contentUrl : 내용 이미지 URL
+    ================================================|| parameter ||=========================================================
+    title       : 제목
+    category    : 분류
+    contentUrl  : 내용 이미지 URL
+    ========================================================================================================================
      */
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNotice(@RequestBody NoticeRequestDto noticeRequestDto) throws FirebaseMessagingException {

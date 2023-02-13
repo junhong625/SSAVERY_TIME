@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/* 공지사항 생성 DTO (develop_AJH) */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,6 +21,7 @@ public class NoticeRequestDto {
         this.title = title;
         this.category = category;
         this.contentUrl = contentUrl;
+        // createDate & createTime 할당
         String[] dateTime = createDateTime.split("T");
         String date = dateTime[0].replace("-", "");
         String time = dateTime[1].replace(":", "");

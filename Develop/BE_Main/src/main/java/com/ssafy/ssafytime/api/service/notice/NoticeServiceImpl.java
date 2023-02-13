@@ -22,18 +22,27 @@ public class NoticeServiceImpl implements NoticeService{
 
     final NoticeRepository noticeRepository;
 
+    /* 최신 공지사항 조회(develop_AJH)
+     */
     @Override
-    public NoticeResponseDto getCurrentNotice() {
+    public NoticeResponseDto getRecentNotice() {
         List<NoticeEntity> notice = noticeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return new NoticeResponseDto(notice.get(0));
     }
 
+    /* 단일 공지사항 조회(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    id : 공지사항 id
+    ========================================================================================================================
+     */
     @Override
     public NoticeResponseDto getNotice(Long id){
         Optional<NoticeEntity> notice = noticeRepository.findById(id);
         return new NoticeResponseDto(notice.get());
     }
 
+    /* 모든 공지사항 조회
+     */
     @Override
     public List<NoticeResponseDto> getAllNotice() {
         List<NoticeResponseDto> noticeList = new ArrayList<>();
@@ -44,6 +53,13 @@ public class NoticeServiceImpl implements NoticeService{
         return noticeList;
     }
 
+    /* 공지사항 생성(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    title : 제목
+    category : 카테고리
+    contentUrl : 내용 이미지 URL
+    ========================================================================================================================
+     */
     @Override
     public void save(NoticeRequestDto noticeRequestDto) {
         String[] dateTime = LocalDateTime.now().toString().split("T");
