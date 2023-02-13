@@ -48,10 +48,10 @@ public class MeetList {
     @Column(name = "category")
     String category;
 
-    @Column(name = "meet_url")
-    String meetUrl;
-
     @Column(name = "sub_time", columnDefinition = "TIMESTAMP")
     LocalDateTime subTime;
+
+    @Column(name = "session_id")
+    String sessionId;
 
 }

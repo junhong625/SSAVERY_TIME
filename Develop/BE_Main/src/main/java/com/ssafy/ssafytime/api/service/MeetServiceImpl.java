@@ -92,9 +92,9 @@ public class MeetServiceImpl implements MeetService{
                 // 관리자의 이름을 뽑아서 추출
                 MeetInfoDto meetInfoDto = new MeetInfoDto();
                 meetInfoDto.setName(m.getManagerId().getUserName());
-                meetInfoDto.setMeetUrl(m.getMeetUrl());
                 meetInfoDto.setReject(m.getReject());
                 meetInfoDto.setTitle(m.getTitle());
+                meetInfoDto.setSessionId(m.getSessionId());
 
                 meetInfoDto.setRezTime(m.getRezTime());
                 meetInfoDto.setRezDate(m.getRezDate());
@@ -139,7 +139,7 @@ public class MeetServiceImpl implements MeetService{
                     // 교육생의 이름을 뽑아서 추출
                     MeetInfoDto meetInfoDto = new MeetInfoDto();
                     meetInfoDto.setName(m.getStudentId().getUserName());
-                    meetInfoDto.setMeetUrl(m.getMeetUrl());
+                    meetInfoDto.setSessionId(m.getSessionId());
                     meetInfoDto.setReject(m.getReject());
                     meetInfoDto.setTitle(m.getTitle());
                     meetInfoDto.setRezTime(m.getRezTime());

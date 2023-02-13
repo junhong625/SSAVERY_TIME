@@ -22,8 +22,8 @@ public class MeetInfoDto {
     private String title;
     // 상담 카테고리
     private String category;
-    // 미팅 주소 (web rtc)
-    private String meetUrl;
+    // 세션 아이디
+    private String sessionId;
     // 상담 번호
     private Long rezIdx;
     // 거절 사유

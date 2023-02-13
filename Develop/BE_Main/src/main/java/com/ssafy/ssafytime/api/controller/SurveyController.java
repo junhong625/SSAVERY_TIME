@@ -1,6 +1,6 @@
 package com.ssafy.ssafytime.api.controller;
 
-import alarmDefaultService.SurveyUserTokens;
+//import alarmDefaultService.SurveyUserTokens;
 import com.google.api.client.util.Value;
 import com.google.firebase.messaging.*;
 import com.ssafy.ssafytime.api.firebase.FirebaseCloudMessageService;
