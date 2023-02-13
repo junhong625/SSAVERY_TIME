@@ -9,9 +9,10 @@ import 'package:ssafytime/screens/user_screen.dart';
 import 'package:ssafytime/admin_councel_test_page.dart';
 import 'package:ssafytime/user_councel_test_page.dart';
 import 'package:ssafytime/utils/auth_guard.dart';
+import 'package:ssafytime/webrtc_test_screen.dart';
 
 class AppRoutes {
-  static String inital = '/';
+  static String inital = '/webrtc';
   static List<GetPage> routes = [
     GetPage(
       name: '/login',
@@ -49,5 +50,6 @@ class AppRoutes {
     GetPage(name: '/UserCouncelTestPage', page: () => CounselScreen()),
     GetPage(name: '/AdminCouncelTestPage', page: () => AdminCouncelTestPage()),
     GetPage(name: '/TestPage', page: () => UserCouncelTestPage()),
+    GetPage(name: "/webrtc", page: () => WebRTCTest()),
   ];
 }

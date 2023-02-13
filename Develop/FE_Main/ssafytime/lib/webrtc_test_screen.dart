@@ -5,14 +5,12 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssafytime/utils/call_sample.dart';
 
-void main() => runApp(MaterialApp(home: MyHome()));
-
-class MyHome extends StatefulWidget {
+class WebRTCTest extends StatefulWidget {
   @override
-  _MyHomeState createState() => new _MyHomeState();
+  _WebRTCTestState createState() => new _WebRTCTestState();
 }
 
-class _MyHomeState extends State<MyHome> {
+class _WebRTCTestState extends State<WebRTCTest> {
   bool isOnline = false;
   late TextEditingController _textSessionController;
   late TextEditingController _textUserNameController;
@@ -90,22 +88,8 @@ class _MyHomeState extends State<MyHome> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          title: const Text('Flutter openVidu demo'),
-          actions: <Widget>[
-            Row(children: <Widget>[
-              isOnline
-                  ? Image(
-                      image: AssetImage('assets/openvidu_logo.png'),
-                      fit: BoxFit.fill,
-                      width: 35,
-                    )
-                  : Image(
-                      image: AssetImage('assets/offline_icon.png'),
-                      fit: BoxFit.fill,
-                      width: 35,
-                    ),
-            ]),
-          ]),
+        title: const Text('Flutter openVidu demo'),
+      ),
       body: Container(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(10.0),
