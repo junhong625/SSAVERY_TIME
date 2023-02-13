@@ -28,18 +28,20 @@ import java.util.Map;
 @RequestMapping("/meet")
 public class MeetController {
     // OpenVidu
+    // OpenVidu deployment URL, SECRET
     @Value("${OPENVIDU_URL}")
     private String OPENVIDU_URL;
-
     @Value("${OPENVIDU_SECRET}")
     private String OPENVIDU_SECRET;
+    // Openvidu object
     private OpenVidu openvidu;
-
     @PostConstruct
     public void init() {
         this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
     }
 
+    // Basic EncodeBase64(OPENVIDUAPP:<YOUR_SECRET>), Content-Type: application/json 헤더로 받기
+    // 세션 생성, 세션 아이디 반환
     @PostMapping("/api/sessions")
     public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
