@@ -26,7 +26,7 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
   final _localRenderer = new RTCVideoRenderer();
   final _remoteRenderer = new RTCVideoRenderer();
 
-  late Signaling _signaling;
+  Signaling? _signaling;
 
   @override
   void initState() {
@@ -46,11 +46,11 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
   }
 
   void _switchCamera() {
-    _signaling.switchCamera();
+    _signaling?.switchCamera();
   }
 
   void _muteMic() {
-    _signaling.muteMic();
+    _signaling?.muteMic();
   }
 
   @override
@@ -114,7 +114,7 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
   @override
   void dispose() {
     super.dispose();
-    _signaling.close();
+    _signaling?.close();
     _localRenderer.dispose();
     _remoteRenderer.dispose();
     print('◤◢◤◢◤◢◤◢◤◢◤ dispose() ALL ◤◢◤◢◤◢◤◢◤◢◤');
@@ -128,18 +128,18 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
 
       //_Create session
       final String sessionId =
-          await _signaling.createWebRtcSession(sessionId: widget.sessionName);
+          await _signaling?.createWebRtcSession(sessionId: widget.sessionName);
       print('◤◢◤◢◤◢◤◢◤◢◤ sessionId: $sessionId  ◤◢◤◢◤◢◤◢◤◢◤ ');
 
       //_Create_token
       final String token =
-          await _signaling.createWebRtcToken(sessionId: sessionId);
+          await _signaling?.createWebRtcToken(sessionId: sessionId);
       print('◤◢◤◢◤◢◤◢◤◢◤ token: $token  ◤◢◤◢◤◢◤◢◤◢◤ ');
 
       //_Connect_socket //ADDED AWAIT
-      await _signaling.connect();
+      await _signaling!.connect();
 
-      _signaling.onStateChange = (SignalingState state) {
+      _signaling?.onStateChange = (SignalingState state) {
         print('_signaling.onStateChange: $state');
         switch (state) {
           case SignalingState.CallStateNew:
@@ -151,17 +151,17 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
         }
       };
 
-      _signaling.onLocalStream = ((stream) {
+      _signaling?.onLocalStream = ((stream) {
         print('onLocalStream: ${stream.id}');
         _localRenderer.srcObject = stream;
       });
 
-      _signaling.onAddRemoteStream = ((stream) {
+      _signaling?.onAddRemoteStream = ((stream) {
         print('onAddRemoteStream: ${stream.id}');
         _remoteRenderer.srcObject = stream;
       });
 
-      _signaling.onRemoveRemoteStream = ((stream) {
+      _signaling?.onRemoveRemoteStream = ((stream) {
         print('onRemoveRemoteStream');
         _remoteRenderer.srcObject = null;
       });

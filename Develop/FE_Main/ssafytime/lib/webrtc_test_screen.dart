@@ -16,7 +16,6 @@ class _WebRTCTestState extends State<WebRTCTest> {
   late TextEditingController _textUserNameController;
   late TextEditingController _textUrlController;
   late TextEditingController _textSecretController;
-  late TextEditingController _textPortController;
   late TextEditingController _textIceServersController;
 
   @override
@@ -28,7 +27,6 @@ class _WebRTCTestState extends State<WebRTCTest> {
         TextEditingController(text: 'FlutterUser${Random().nextInt(1000)}');
     _textUrlController = TextEditingController(text: 'i8a602.p.ssafy.io');
     _textSecretController = TextEditingController(text: 'MY_SECRET');
-    _textPortController = TextEditingController(text: '4443');
     _textIceServersController =
         TextEditingController(text: 'stun.l.google.com:19302');
 
@@ -42,8 +40,6 @@ class _WebRTCTestState extends State<WebRTCTest> {
         prefs.getString('textUrl') ?? _textUrlController.text;
     _textSecretController.text =
         prefs.getString('textSecret') ?? _textSecretController.text;
-    _textPortController.text =
-        prefs.getString('textPort') ?? _textPortController.text;
     _textIceServersController.text =
         prefs.getString('textIceServers') ?? _textIceServersController.text;
     print('Loaded user inputs value.');
@@ -53,7 +49,6 @@ class _WebRTCTestState extends State<WebRTCTest> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('textUrl', _textUrlController.text);
     await prefs.setString('textSecret', _textSecretController.text);
-    await prefs.setString('textPort', _textPortController.text);
     await prefs.setString('textIceServers', _textIceServersController.text);
     print('Saved user inputs values.');
   }
@@ -127,15 +122,6 @@ class _WebRTCTestState extends State<WebRTCTest> {
                 ),
                 SizedBox(height: 10),
                 TextField(
-                  controller: _textPortController,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5),
-                      border: OutlineInputBorder(),
-                      labelText: 'openVidu server port',
-                      hintText: 'Enter openVidu server port'),
-                ),
-                SizedBox(height: 10),
-                TextField(
                   controller: _textSecretController,
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(5),
@@ -168,9 +154,7 @@ class _WebRTCTestState extends State<WebRTCTest> {
                               MaterialPageRoute(builder: (context) {
                             _saveSharedPref();
                             return CallSampleWidget(
-                                server:
-                                    // '${_textUrlController.text}:${_textPortController.text}',
-                                    '${_textUrlController.text}',
+                                server: '${_textUrlController.text}',
                                 sessionName: _textSessionController.text,
                                 userName: _textUserNameController.text,
                                 secret: _textSecretController.text,

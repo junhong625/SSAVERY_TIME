@@ -79,14 +79,14 @@ class Signaling {
     }; // Signaling
   }
 
-  late WebSocket _socket;
-  late String _url;
-  late String _secret;
-  late String token;
-  late String session;
-  late String _userName;
-  late String _iceServer;
-  late String _userId;
+  late final WebSocket _socket;
+  String? _url;
+  String? _secret;
+  String? token;
+  String? session;
+  String? _userName;
+  String? _iceServer;
+  String? _userId;
   String? _endpointName;
 
   Map<String, dynamic> _iceServers = <String, dynamic>{};
@@ -98,28 +98,28 @@ class Signaling {
   int? _idPublishVideo;
   int? _idJoinRoom;
 
-  late Timer _timer;
+  Timer? _timer;
 
   MediaStream? _localStream;
-  late RTCPeerConnection _localPeerConnection;
-  bool _localPeerConnectionHasRemoteDescription = false;
+  RTCPeerConnection? _localPeerConnection;
+  bool? _localPeerConnectionHasRemoteDescription = false;
 
-  late SignalingStateCallback onStateChange;
-  late StreamStateCallback onLocalStream;
-  late StreamStateCallback onAddRemoteStream;
-  late StreamStateCallback onRemoveRemoteStream;
+  SignalingStateCallback? onStateChange;
+  StreamStateCallback? onLocalStream;
+  StreamStateCallback? onAddRemoteStream;
+  StreamStateCallback? onRemoveRemoteStream;
 
-  late OtherEventCallback onParticipantsRemove;
-  late OtherEventCallback onParticipantsJoined;
-  late OtherEventCallback onParticipantsStreamUpdate;
-  late OtherEventCallback onMessageReceive;
-  late OtherEventCallback onUserId;
-  late OtherEventCallback onSelfEvict;
+  OtherEventCallback? onParticipantsRemove;
+  OtherEventCallback? onParticipantsJoined;
+  OtherEventCallback? onParticipantsStreamUpdate;
+  OtherEventCallback? onMessageReceive;
+  OtherEventCallback? onUserId;
+  OtherEventCallback? onSelfEvict;
 
   List<Map<String, dynamic>> _iceCandidatesParams = <Map<String, dynamic>>[];
-  late List _remoteAlreadyInRoomValues;
+  List? _remoteAlreadyInRoomValues;
 
-  bool _haveRemoteAlreadyInRoom = false;
+  bool? _haveRemoteAlreadyInRoom = false;
 
   final Map<String, dynamic> _constraints = {
     'mandatory': {
@@ -136,9 +136,9 @@ class Signaling {
   void close() {
     _localStream?.dispose();
     _localStream = null;
-    _timer.cancel();
+    _timer?.cancel();
     _sendJson(JsonConstants.leaveRoom, null);
-    _localPeerConnection.close();
+    _localPeerConnection?.close();
     _participants.forEach((String id, RemoteParticipant remoteParticipant) {
       remoteParticipant.peerConnection!.close();
     });
@@ -217,13 +217,13 @@ class Signaling {
     try {
       _socket = await WebSocket.connect('ws://$_url/openvidu');
 
-      this.onStateChange(SignalingState.ConnectionOpen);
+      this.onStateChange!(SignalingState.ConnectionOpen);
       print('◤◢◤◢◤◢◤◢◤◢◤ Socket connected <----> ◤◢◤◢◤◢◤◢◤◢◤');
 
       _socket.listen((data) {
         this.onMessage(json.decode(data));
       }, onDone: () {
-        this.onStateChange(SignalingState.ConnectionClosed);
+        this.onStateChange!(SignalingState.ConnectionClosed);
         print('◤◢◤◢◤◢◤◢◤◢◤ Socket disconnected <-/--> ◤◢◤◢◤◢◤◢◤◢◤');
       });
 
@@ -242,7 +242,7 @@ class Signaling {
       _startPingTimer();
     } catch (e) {
       print('◤◢!◤◢◤!◢◤◢!◤◢◤ connect error: $e ◤◢!◤◢◤!◢◤◢!◤◢◤');
-      this.onStateChange(SignalingState.ConnectionError);
+      //   this.onStateChange(SignalingState.ConnectionError);
     }
   }
 
@@ -274,7 +274,7 @@ class Signaling {
         // Join room reply
         List<dynamic> values = data[JsonConstants.value];
         _userId = data['id'];
-        this.onUserId(data['id']);
+        this.onUserId!(data['id']);
         for (Map<String, dynamic> iceCandidate in _iceCandidatesParams) {
           iceCandidate[JsonConstants.endpointName] =
               data['endpointName'] ?? data['id'];
@@ -347,7 +347,7 @@ class Signaling {
           .then((RTCPeerConnection remotePeerConnection) async {
         _receiveVideoFromParticipant(remoteParticipant);
       });
-      this.onStateChange(SignalingState.CallStateConnected);
+      this.onStateChange!(SignalingState.CallStateConnected);
     }
   }
 
@@ -355,14 +355,14 @@ class Signaling {
     RemoteParticipant remoteParticipant = RemoteParticipant(
         id: params[JsonConstants.id], metadata: params[JsonConstants.metadata]);
     _participants[remoteParticipant.id] = remoteParticipant;
-    this.onParticipantsJoined(remoteParticipant);
+    this.onParticipantsJoined!(remoteParticipant);
     _createRemotePeerConnection(remoteParticipant);
-    this.onStateChange(SignalingState.CallStateConnected);
+    this.onStateChange!(SignalingState.CallStateConnected);
   }
 
   void _messageReceive(Map<String, dynamic> params) {
     print('_message $params');
-    this.onMessageReceive(params);
+    this.onMessageReceive!(params);
   }
 
   void sendMessage(List to, String signalType, dynamic data) {
@@ -392,13 +392,13 @@ class Signaling {
   void _participantLeftMethod(Map<String, dynamic> params) {
     String participantId = params['connectionId'];
     if (participantId == _userId) {
-      this.onSelfEvict(_userId);
+      this.onSelfEvict!(_userId);
     } else if (_participants.containsKey(participantId)) {
-      this.onParticipantsRemove(_participants[participantId]);
+      this.onParticipantsRemove!(_participants[participantId]);
       _participants[participantId]!.peerConnection!.close();
       _participants.remove(participantId);
       if (_participants.length == 0) {
-        this.onStateChange(SignalingState.CallStateWaiting);
+        this.onStateChange!(SignalingState.CallStateWaiting);
       }
     }
   }
@@ -417,7 +417,7 @@ class Signaling {
         params['sdpMLineIndex'],
         endpointName);
     if (isLocal) {
-      _localPeerConnection.addCandidate(iceCandidate);
+      _localPeerConnection?.addCandidate(iceCandidate);
     } else if (_participants.containsKey(senderConnectionId)) {
       _participants[senderConnectionId]!
           .peerConnection!
@@ -429,8 +429,8 @@ class Signaling {
   void _saveAnswer(Map<String, dynamic> data, int id) {
     RTCSessionDescription sessionDescription =
         RTCSessionDescription(data['sdpAnswer'], 'answer');
-    if (!_localPeerConnectionHasRemoteDescription) {
-      _localPeerConnection.setRemoteDescription(sessionDescription);
+    if (!_localPeerConnectionHasRemoteDescription!) {
+      _localPeerConnection?.setRemoteDescription(sessionDescription);
       _localPeerConnectionHasRemoteDescription = true;
     } else if (_idsReceiveVideo.containsKey(id)) {
       _participants[_idsReceiveVideo[id]]!
@@ -461,7 +461,7 @@ class Signaling {
     };
     MediaStream stream = await navigator.getUserMedia(mediaConstraints);
     if (isLocalStream) {
-      this.onLocalStream(stream);
+      this.onLocalStream!(stream);
     }
     return stream;
   }
@@ -470,19 +470,19 @@ class Signaling {
     _localStream = await createStream(isLocalStream: true);
     _localPeerConnection =
         await createPeerConnection(_iceServers, _constraints);
-    _localPeerConnection.onSignalingState = ((state) {
+    _localPeerConnection?.onSignalingState = ((state) {
       if (state == RTCSignalingState.RTCSignalingStateStable) {}
     });
-    _localPeerConnection.onIceGatheringState = ((state) {
+    _localPeerConnection?.onIceGatheringState = ((state) {
       if (state == RTCIceGatheringState.RTCIceGatheringStateComplete) {
-        if (_haveRemoteAlreadyInRoom) {
-          _addParticipantsAlreadyInRoom(_remoteAlreadyInRoomValues);
-          _remoteAlreadyInRoomValues.clear();
+        if (_haveRemoteAlreadyInRoom!) {
+          _addParticipantsAlreadyInRoom(_remoteAlreadyInRoomValues!);
+          _remoteAlreadyInRoomValues?.clear();
           _haveRemoteAlreadyInRoom = false;
         }
       }
     });
-    _localPeerConnection.onIceCandidate = (candidate) {
+    _localPeerConnection?.onIceCandidate = (candidate) {
       Map<String, dynamic> iceCandidateParams = {
         'sdpMid': candidate.sdpMid,
         'sdpMLineIndex': candidate.sdpMLineIndex,
@@ -496,7 +496,7 @@ class Signaling {
         _iceCandidatesParams.add(iceCandidateParams);
       }
     };
-    _localPeerConnection.addStream(_localStream!);
+    _localPeerConnection?.addStream(_localStream!);
   }
 
   Future<RTCPeerConnection> _createRemotePeerConnection(
@@ -517,8 +517,8 @@ class Signaling {
 
     remotePeerConnection.onAddStream = ((stream) {
       remoteParticipant.mediaStream = stream;
-      this.onParticipantsStreamUpdate(remoteParticipant);
-      this.onAddRemoteStream(stream);
+      this.onParticipantsStreamUpdate!(remoteParticipant);
+      this.onAddRemoteStream!(stream);
     });
 
     remotePeerConnection.onSignalingState = ((state) {
@@ -536,8 +536,8 @@ class Signaling {
 
     remotePeerConnection.onRemoveStream = (stream) {
       remoteParticipant.mediaStream = stream;
-      this.onParticipantsStreamUpdate(remoteParticipant);
-      this.onRemoveRemoteStream(stream);
+      this.onParticipantsStreamUpdate!(remoteParticipant);
+      this.onRemoveRemoteStream!(stream);
     };
 
     remotePeerConnection.onDataChannel = (channel) {
@@ -551,8 +551,8 @@ class Signaling {
   Future<void> _createLocalOffer() async {
     try {
       RTCSessionDescription s =
-          await _localPeerConnection.createOffer(_constraints);
-      await _localPeerConnection.setLocalDescription(s);
+          await _localPeerConnection!.createOffer(_constraints);
+      await _localPeerConnection!.setLocalDescription(s);
       _idPublishVideo = _sendJson(JsonConstants.publishVideo, {
         'audioOnly': 'false',
         'hasAudio': 'true',
