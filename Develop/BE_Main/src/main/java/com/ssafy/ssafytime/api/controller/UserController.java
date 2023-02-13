@@ -62,13 +62,11 @@ public class UserController {
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Map<String, Object>> getAttendance(HttpServletRequest request, @AuthenticationPrincipal User user) {
 
-
         Long userIdx = userService.getMyUserWithAuthorities().getId();
 
         List<AttendanceInterface> list = attendanceRepository.findAbsent(userIdx);
         List<AttendanceInterface> list2 = attendanceRepository.findMonthAttendance(userIdx);
         List<AttendanceInterface> list3 = attendanceRepository.findAllAttendance(userIdx);
-
 
         list.addAll(list2);
         list.addAll(list3);

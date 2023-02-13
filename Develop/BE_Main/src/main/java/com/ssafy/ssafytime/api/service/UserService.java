@@ -67,7 +67,7 @@ public class UserService {
                 .build();
 
         User user = User.builder()
-
+                .userIdx(userDto.getId())
                 .userName(userDto.getUserName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .userEmail(userDto.getUserEmail())

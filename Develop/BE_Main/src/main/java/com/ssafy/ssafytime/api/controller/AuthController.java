@@ -3,24 +3,17 @@ package com.ssafy.ssafytime.api.controller;
 
 import com.ssafy.ssafytime.api.service.AuthService;
 import com.ssafy.ssafytime.api.service.TokenService;
-import com.ssafy.ssafytime.api.service.UserService;
 import com.ssafy.ssafytime.db.dto.LoginDto;
-import com.ssafy.ssafytime.db.dto.TokenDto;
 import com.ssafy.ssafytime.db.dto.TokenRequest;
 import com.ssafy.ssafytime.db.dto.TokenResponse;
 import com.ssafy.ssafytime.jwt.JwtFilter;
-import com.ssafy.ssafytime.jwt.TokenProvider;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,10 +29,6 @@ public class AuthController {
     private final AuthService authService;
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
-
-
-
-
 
 
     /*
@@ -88,9 +77,6 @@ public class AuthController {
 //        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 //            bearerToken =  bearerToken.substring(7);
 //        }
-
-
-
         return ResponseEntity.status(200).body("Success");
 
     }
