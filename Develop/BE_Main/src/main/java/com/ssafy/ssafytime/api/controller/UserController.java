@@ -1,9 +1,7 @@
 package com.ssafy.ssafytime.api.controller;
 
-import com.ssafy.ssafytime.db.dto.AttendanceInterface;
-import com.ssafy.ssafytime.db.dto.FCMTokenDTO;
+import com.ssafy.ssafytime.db.dto.*;
 import com.ssafy.ssafytime.api.service.AlarmDefaultServiceImpl;
-import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
 import com.ssafy.ssafytime.api.service.UserService;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
@@ -64,13 +62,14 @@ public class UserController {
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Map<String, Object>> getAttendance(HttpServletRequest request, @AuthenticationPrincipal User user) {
 
-
         Long userIdx = userService.getMyUserWithAuthorities().getId();
 
-        List<AttendanceInterface> list = attendanceRepository.findAllAttendance(userIdx);
+        List<AttendanceInterface> list = attendanceRepository.findAbsent(userIdx);
         List<AttendanceInterface> list2 = attendanceRepository.findMonthAttendance(userIdx);
+        List<AttendanceInterface> list3 = attendanceRepository.findAllAttendance(userIdx);
 
         list.addAll(list2);
+        list.addAll(list3);
 
         Map<String, Object> result = new HashMap<>();
         result.put("attendance", list);
@@ -190,15 +189,13 @@ public class UserController {
     }
 
 
-//    @GetMapping("/attendance")
-//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-//    public ResponseEntity<AttendanceDto> getAttendance(HttpServletRequest request) {
-//        Long userIdx = userService.getMyUserWithAuthorities().getUserIdx();
-//        System.out.println(userIdx);
-//
-//        System.out.println("-----------------------여기까지는 됨---------------------");
-//        return ResponseEntity.ok(userService.getAttendances(userIdx));
-//    }
+    @PostMapping("/password")
+    public ResponseEntity<?> temporaryPassword(@Valid @RequestBody TemporaryDto temporaryDto){
+
+        userService.temporaryPassword(temporaryDto);
+        return ResponseEntity.status(200).body("Success");
+    }
+
 }
 
 
