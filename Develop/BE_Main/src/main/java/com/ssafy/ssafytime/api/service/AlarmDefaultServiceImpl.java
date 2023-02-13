@@ -24,6 +24,11 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
     final UserRepository userRepository;
     final AlarmDefaultRepository alarmDefaultRepository;
 
+    /* 기본 알림(공지사항, 설문조사, 상담) 설정 가져오기(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    userId : 사용자 id(학번)
+    ========================================================================================================================
+     */
     @Override
     public AlarmDefaultResponseDto getDefaultAlarmSetting(Long userId) {
         Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
@@ -61,6 +66,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
         return registrationTokens;
     }
 
+
     @Override
     public Integer sendMultiAlarms(Notification notification, List<String> registrationTokens) throws FirebaseMessagingException {
         MulticastMessage message = MulticastMessage.builder()  // 다수에게 보내기 위한 메세지 생성
@@ -86,7 +92,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
 
 
     @Override
-    public List<AlarmDefaultResponseDto> findAllBySurveyAlarm(boolean chk) {  // 상담 알림 켜놓은 사람들의 DTO리스트 반환
+    public List<AlarmDefaultResponseDto> findAllBySurveyAlarm(boolean chk) {  // 설문조사 알림 켜놓은 사람들의 DTO 리스트 반환
         List<AlarmDefault> userFromAlarm = alarmDefaultRepository.findAllBySurveyAlarm(chk);
         List<AlarmDefaultResponseDto> list = new ArrayList<>();
         for(int i = 0; i < userFromAlarm.size(); i++) {
@@ -95,7 +101,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
         return list;
     }
 
-    public List<AlarmDefaultResponseDto> findAllByConsultingAlarm(boolean chk) {  // 상담 알림 켜놓은 사람들의 DTO리스트 반환
+    public List<AlarmDefaultResponseDto> findAllByConsultingAlarm(boolean chk) {  // 상담 알림 켜놓은 사람들의 DTO 리스트 반환
         List<AlarmDefault> userFromAlarm = alarmDefaultRepository.findAllByConsultingAlarm(chk);
         List<AlarmDefaultResponseDto> list = new ArrayList<>();
         for(int i = 0; i < userFromAlarm.size(); i++) {
@@ -104,7 +110,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
         return list;
     }
 
-    public List<AlarmDefaultResponseDto> findAllByNoticeAlarm(boolean chk) {  // 공지사항 알림 켜놓은 사람들의 DTO리스트 반환
+    public List<AlarmDefaultResponseDto> findAllByNoticeAlarm(boolean chk) {  // 공지사항 알림 켜놓은 사람들의 DTO 리스트 반환
         List<AlarmDefault> userFromAlarm = alarmDefaultRepository.findAllByNoticeAlarm(chk);
         List<AlarmDefaultResponseDto> list = new ArrayList<>();
         for(int i = 0; i < userFromAlarm.size(); i++) {
@@ -113,33 +119,52 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
         return list;
     }
 
-
+    /* 공지사항 알림 on/off 변경(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    userId : 사용자 id(학번)
+    ========================================================================================================================
+     */
     @Override
     public void noticeChange(Long userId) {
         Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
         AlarmDefault alarmDefault = userAlarmSettings.get();
         System.out.println(alarmDefault.getNoticeAlarm());
         System.out.println(!alarmDefault.getNoticeAlarm());
-        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getId(), alarmDefault.getUserId(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
+        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getUser(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 
+    /* 설문조사 알림 on/off 변경(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    userId : 사용자 id(학번)
+    ========================================================================================================================
+     */
     @Override
     public void surveyChange(Long userId) {
         Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
         AlarmDefault alarmDefault = userAlarmSettings.get();
-        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getId(), alarmDefault.getUserId(), alarmDefault.getNoticeAlarm(), !alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
+        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getUser(), alarmDefault.getNoticeAlarm(), !alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 
+    /* 상담 알림 on/off 변경(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    userId : 사용자 id(학번)
+    ========================================================================================================================
+     */
     @Override
     public void consultingChange(Long userId) {
         Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
         AlarmDefault alarmDefault = userAlarmSettings.get();
-        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getId(), alarmDefault.getUserId(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), !alarmDefault.getConsultingAlarm());
+        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getUser(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), !alarmDefault.getConsultingAlarm());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 
+    /* 유저 생성 시 기본 알림 설정 저장(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    userId : 사용자 id(학번) -> User Entity(int 타입 X)
+    ========================================================================================================================
+     */
     @Override
     public void save(Long userId) {
         AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto();

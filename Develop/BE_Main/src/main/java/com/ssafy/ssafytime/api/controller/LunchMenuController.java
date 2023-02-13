@@ -24,9 +24,11 @@ public class LunchMenuController {
     private final LunchMenuServiceImpl lunchMenuService;
 
     /* 오늘의 점심 메뉴 조회(develop_AJH)
-    region : 지역 코드(1: 서울, 2: 부울경, 3: 구미, 4: 광주)
-    1, 2, 3 -> Crawling from Welstory+
-    4 -> Crawling from Freshmeal
+    ================================================|| parameter ||=========================================================
+    region : 지역 코드(0: 서울, 1: 부울경, 2: 구미, 3: 광주)
+    0, 1, 2 -> Crawling from Welstory+
+    3 -> Crawling from Freshmeal
+    ========================================================================================================================
      */
     @GetMapping("/today")
     public ResponseEntity<Object> todayMenu(@RequestParam("region") int region) {
@@ -37,6 +39,13 @@ public class LunchMenuController {
             return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
     }
 
+    /* 내일 점심 메뉴 조회(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    region : 지역 코드(0: 서울, 1: 부울경, 2: 구미, 3: 광주)
+    0, 1, 2 -> Crawling from Welstory+
+    3 -> Crawling from Freshmeal
+    ========================================================================================================================
+     */
     @GetMapping("/tomorrow")
     public ResponseEntity<Object> tomorrowMenu(@RequestParam("region") int region) {
         List<LunchMenuResponseDto> menu = lunchMenuService.getTomorrowMenu(region);
@@ -45,10 +54,13 @@ public class LunchMenuController {
         else
             return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
     }
+
     /* 이번 주 점심 메뉴 조회 (develop_AJH)
-    region : 지역 코드(1: 서울, 2: 부울경, 3: 구미, 4: 광주)
-    1, 2, 3 -> Crawling from Welstory+
-    4 -> Crawling from Freshmeal
+    ================================================|| parameter ||=========================================================
+    region : 지역 코드(0: 서울, 1: 부울경, 2: 구미, 3: 광주)
+    0, 1, 2 -> Crawling from Welstory+
+    3 -> Crawling from Freshmeal
+    ========================================================================================================================
      */
     @GetMapping("/week")
     public ResponseEntity<Object> WeekMenu(@RequestParam("region") int region) {
@@ -60,7 +72,9 @@ public class LunchMenuController {
     }
 
     /* 단일 점심 메뉴 세부 정보 조회(develop_AJH)
+    ================================================|| parameter ||=========================================================
     id : 점심 메뉴 id
+    ========================================================================================================================
      */
     @GetMapping("/detail")
     public ResponseEntity<Object> menuDetail(@RequestParam("id") Long id) {

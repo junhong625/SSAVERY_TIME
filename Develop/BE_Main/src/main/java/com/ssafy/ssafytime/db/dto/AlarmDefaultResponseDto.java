@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+/* 기본 알림 조회 DTO(develop_AJH) */
 @Getter
 @ToString
 public class AlarmDefaultResponseDto {
@@ -19,6 +20,6 @@ public class AlarmDefaultResponseDto {
         this.noticeAlarm = alarmDefault.getNoticeAlarm();
         this.surveyAlarm = alarmDefault.getSurveyAlarm();
         this.consultingAlarm = alarmDefault.getConsultingAlarm();
-        this.user = alarmDefault.getUserId();
+        this.user = alarmDefault.getUser();
     }
 }

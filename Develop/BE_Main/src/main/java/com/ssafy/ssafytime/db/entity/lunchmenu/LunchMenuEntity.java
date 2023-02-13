@@ -6,6 +6,23 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/* 점심 메뉴 Entity(develop_AJH)
+================================================|| attribute ||=========================================================
+id(PK)      : 인덱싱 번호
+date        : 날짜 (ex : 20230210)
+region      : 지역 코드
+course      : 코스
+main_menu   : 메인 메뉴
+side_menu   : 사이드 메뉴
+kcal        : 칼로리(kcal)
+cho         : 탄수화물(g)
+fat         : 지방(g)
+protein     : 단백질(g)
+sodium      : 나트륨(mg)
+image_url   : 이미지 URL
+========================================================================================================================
+*/
+
 @Getter
 @NoArgsConstructor
 @Entity

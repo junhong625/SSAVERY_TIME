@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+/* 점심메뉴 상세정보 조회 DTO(develop_AJH) */
 @Getter
 @ToString
 public class LunchMenuDetailResponseDto {
@@ -38,6 +39,7 @@ public class LunchMenuDetailResponseDto {
         this.region = lunchMenuEntity.getRegion();
         this.course = lunchMenuEntity.getCourse();
         this.mainMenu = lunchMenuEntity.getMainMenu();
+        // side menu : String -> Array
         String[] sideMenuList = lunchMenuEntity.getSideMenu().split(",");
         for (int i=0; i < sideMenuList.length; i++) {
             sideMenuList[i] = sideMenuList[i].replace(" ", "");

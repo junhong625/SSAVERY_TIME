@@ -6,6 +6,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/* 공지사항 Entity(develop_AJH)
+================================================|| attribute ||=========================================================
+id(PK)      : 인덱싱 번호
+title       : 제목
+category    : 분류
+content_url : 내용(이미지) URL
+create_date : 생성 날짜(ex : 20230210)
+create_time : 생성 시간(ex : 170345)
+========================================================================================================================
+*/
 @Getter
 @NoArgsConstructor
 @Entity

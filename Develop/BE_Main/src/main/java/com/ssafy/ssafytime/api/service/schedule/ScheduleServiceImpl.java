@@ -19,6 +19,11 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     final ScheduleRepository scheduleRepository;
 
+    /* 현재 시간표 조회(develop_AJH)
+    ================================================|| parameter ||=========================================================
+    trackCode : 트랙 코드(0: 2학기(프로젝트), 1: 파이썬, 2:, 자바(비전공), 3: 자바(전공), 4: 모바일, 5: 임베디드)
+    ========================================================================================================================
+     */
     @Override
     public ScheduleResponseDto getCurrentSchedule(int trackCode, int interval) {
         String[] dateTime = LocalDateTime.now().plusMinutes(interval).toString().split("T");
