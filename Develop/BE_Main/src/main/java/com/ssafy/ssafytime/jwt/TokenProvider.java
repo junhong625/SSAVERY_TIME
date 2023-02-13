@@ -128,6 +128,9 @@ public class TokenProvider implements InitializingBean {
       return validateToken(token, TokenType.REFRESH);
    }
 
+   public Date validity(final String token){
+      return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration();
+   }
    public boolean validateToken(String token, final TokenType tokenType) {
       try {
          final Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();

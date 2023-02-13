@@ -18,9 +18,6 @@ import java.time.LocalDateTime;
 public class LogoutToken {
 
     @Id
-    @Column(name = "user_email")
-    private String userEmail;
-    
     @Column(name = "token")
     private String token;
 

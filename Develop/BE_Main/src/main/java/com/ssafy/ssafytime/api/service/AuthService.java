@@ -3,6 +3,7 @@ package com.ssafy.ssafytime.api.service;
 import com.ssafy.ssafytime.db.dto.TokenDto;
 import com.ssafy.ssafytime.db.dto.TokenRequest;
 import com.ssafy.ssafytime.db.dto.TokenResponse;
+import com.ssafy.ssafytime.db.entity.LogoutToken;
 import com.ssafy.ssafytime.db.entity.RefreshToken;
 import com.ssafy.ssafytime.db.repository.LogoutTokenRepository;
 import com.ssafy.ssafytime.db.repository.RefreshTokenRepository;
@@ -19,9 +20,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,7 @@ public class AuthService {
     private final TokenService tokenService;
 
     private final UserRepository userRepository;
+    private final LogoutTokenRepository logoutTokenRepository;
 
     @Transactional
     public TokenResponse refreshToken(final TokenRequest tokenRequest){
@@ -62,9 +64,14 @@ public class AuthService {
         SecurityUtil.getCurrentUsername()
                 .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
                 .orElseThrow(() -> new NotFoundUserException("User not found"));
+        System.out.println("-==--=-=-=-=-=-=-=-==-=--==-");
+        System.out.println("여긴옴");
+        Date date = tokenProvider.validity(accessToken);
+        System.out.println(date);
+        LocalDateTime localDateTime = new Timestamp(date.getTime()).toLocalDateTime();
 
-        Authentication authentication = tokenProvider.getAuthentication(accessToken);
-        System.out.println(authentication);
+        logoutTokenRepository.save(new LogoutToken(accessToken, localDateTime));
+
     }
 }
 

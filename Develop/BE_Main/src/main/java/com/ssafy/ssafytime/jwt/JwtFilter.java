@@ -1,9 +1,12 @@
 package com.ssafy.ssafytime.jwt;
 
+import com.ssafy.ssafytime.db.entity.LogoutToken;
+import com.ssafy.ssafytime.db.repository.LogoutTokenRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,6 +22,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
    private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
    public static final String AUTHORIZATION_HEADER = "Authorization";
+   private LogoutTokenRepository logoutTokenRepository;
    private TokenProvider tokenProvider;
    public JwtFilter(TokenProvider tokenProvider) {
       this.tokenProvider = tokenProvider;
@@ -37,9 +41,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
       //Token이 정상적이면 authentication객체를 받아와서 SecurityContext에 저장
       if (StringUtils.hasText(jwt) && tokenProvider.validateAccessToken(jwt)) {
-         Authentication authentication = tokenProvider.getAuthentication(jwt);
-         SecurityContextHolder.getContext().setAuthentication(authentication);
-         logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
+//         String isLogout = logoutTokenRepository.findOneByToken(jwt).toString();
+//         System.out.println("=--=-=-=-=-=-=-=-==-=-");
+//         System.out.println(isLogout);
+//         if(ObjectUtils.isEmpty(isLogout)){
+            Authentication authentication = tokenProvider.getAuthentication(jwt);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
+//         }
       } else {
          logger.debug("유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
       }

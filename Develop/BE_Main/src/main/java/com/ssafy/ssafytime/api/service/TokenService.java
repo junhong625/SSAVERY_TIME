@@ -56,7 +56,4 @@ public class TokenService {
 
     }
 
-//    public void deleteToken(){
-//        Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findRefreshTokenByUserEmail();
-//    }
 }
