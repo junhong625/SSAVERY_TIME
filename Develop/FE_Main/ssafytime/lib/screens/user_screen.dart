@@ -13,8 +13,6 @@ import 'package:ssafytime/widgets/user_screen_mileage.dart';
 import 'package:ssafytime/widgets/user_screen_user_info_widget.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
-// enum dateSelect { "dnjf", Tue, Wed, Tur, Fri }
-
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
   @override

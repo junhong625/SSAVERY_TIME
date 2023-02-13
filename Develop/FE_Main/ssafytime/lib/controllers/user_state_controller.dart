@@ -43,12 +43,19 @@ class UserStateController extends GetxController {
   @override
   void onInit() async {
     _now = await NTP.now();
+    log("현재 시간 : ${_now}");
+    log("onInit");
     initDateSelectItem();
     pref = await SharedPreferences.getInstance();
     await fetchDefaultState();
     await fetchCustomState();
     dateTime.value = DateTime.now();
     super.onInit();
+  }
+
+  @override
+  void onReady() async {
+    super.onReady();
   }
 
   @override
@@ -145,6 +152,7 @@ class UserStateController extends GetxController {
   }
 
   void initDateSelectItem() {
+    log("onReady");
     dateSelected.clear();
     String todayE = DateFormat.E('ko_KR').format(_now);
     dateSelected.add(todayE);
