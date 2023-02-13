@@ -247,7 +247,7 @@ scheduler = BackgroundScheduler()
 scheduler.start()
 
 ## Interval 매주 월요일 00:00마다 실행
-scheduler.add_job(lunch_data_crawling, 'interval', seconds=30, start_date="2023-02-06 00:00:00", timezone="asia/seoul")
+scheduler.add_job(lunch_data_crawling, 'interval', week=1, start_date="2023-02-06 00:00:00", timezone="asia/seoul")
 
 if __name__ == '__main__':
     app.run() 
