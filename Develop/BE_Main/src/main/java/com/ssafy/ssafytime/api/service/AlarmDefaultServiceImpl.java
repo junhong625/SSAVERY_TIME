@@ -53,7 +53,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
         }
         for(int i = 0; i < users.size(); i++) {  // 유저리스트에서
             String token = users.get(i).getToken(); // 토큰 추출
-            if(token.equals(null)) {// 토큰이 있는 경우만 registrationTokens에 추가
+            if(!token.equals(null)) {// 토큰이 있는 경우만 registrationTokens에 추가
                 registrationTokens.add(token);  // 토큰들 추출
             }
         }
