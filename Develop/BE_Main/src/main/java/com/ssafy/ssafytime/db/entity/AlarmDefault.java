@@ -24,12 +24,13 @@ consulting_alarm    : 상담 알림 상태
 @Table(name = "alarm_default")
 public class AlarmDefault {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name="user_id")
+    private Long userId;
 
     @OneToOne
-    @JoinColumn(name="user_id")
-    private User userId;
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "notice_alarm")
     @ColumnDefault("true")
@@ -44,9 +45,8 @@ public class AlarmDefault {
     private Boolean consultingAlarm;
 
     @Builder
-    public AlarmDefault(Long id, User user, Boolean noticeAlarm, Boolean surveyAlarm, Boolean consultingAlarm) {
-        this.id = id;
-        this.userId = user;
+    public AlarmDefault(User user, Boolean noticeAlarm, Boolean surveyAlarm, Boolean consultingAlarm) {
+        this.user = user;
         this.noticeAlarm = noticeAlarm;
         this.surveyAlarm = surveyAlarm;
         this.consultingAlarm = consultingAlarm;

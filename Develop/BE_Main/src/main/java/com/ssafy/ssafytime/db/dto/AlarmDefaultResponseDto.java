@@ -20,6 +20,6 @@ public class AlarmDefaultResponseDto {
         this.noticeAlarm = alarmDefault.getNoticeAlarm();
         this.surveyAlarm = alarmDefault.getSurveyAlarm();
         this.consultingAlarm = alarmDefault.getConsultingAlarm();
-        this.user = alarmDefault.getUserId();
+        this.user = alarmDefault.getUser();
     }
 }

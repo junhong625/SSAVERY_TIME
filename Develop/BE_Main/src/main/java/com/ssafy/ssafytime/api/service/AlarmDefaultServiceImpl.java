@@ -122,7 +122,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
         AlarmDefault alarmDefault = userAlarmSettings.get();
         System.out.println(alarmDefault.getNoticeAlarm());
         System.out.println(!alarmDefault.getNoticeAlarm());
-        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getId(), alarmDefault.getUserId(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
+        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getUser(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 
@@ -135,7 +135,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
     public void surveyChange(Long userId) {
         Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
         AlarmDefault alarmDefault = userAlarmSettings.get();
-        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getId(), alarmDefault.getUserId(), alarmDefault.getNoticeAlarm(), !alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
+        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getUser(), alarmDefault.getNoticeAlarm(), !alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 
@@ -148,7 +148,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
     public void consultingChange(Long userId) {
         Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
         AlarmDefault alarmDefault = userAlarmSettings.get();
-        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getId(), alarmDefault.getUserId(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), !alarmDefault.getConsultingAlarm());
+        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getUser(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), !alarmDefault.getConsultingAlarm());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 
