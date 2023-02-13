@@ -41,7 +41,7 @@ class _MMileageState extends State<MMileage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  f.format(widget.myMileage),
+                  f.format(widget.myMileage ?? 0),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
                 ),
                 SizedBox(

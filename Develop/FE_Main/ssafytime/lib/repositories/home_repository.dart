@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:ssafytime/models/attendance_model.dart';
 
 import 'package:ssafytime/models/home_menu_model.dart';
+import 'package:ssafytime/models/notice_model.dart';
 import 'package:ssafytime/models/schedule_now_model.dart';
 
 class HomeRepo {
@@ -44,6 +46,14 @@ class HomeRepo {
         headers: headers);
     if (res.statusCode == 200) {
       return AttenModel.fromRawJson(res.body);
+    }
+    return null;
+  }
+
+  Future<Notice?> fetchNotice() async {
+    var res = await http.get(Uri.parse(baseUrl + "notice"), headers: headers);
+    if (res.statusCode == 200) {
+      return Notice.fromJson(json.decode(res.body)['data']);
     }
     return null;
   }

@@ -9,7 +9,7 @@ class UserCustomAlarm {
   });
 
   String title;
-  List<String> repeatDate;
+  List<DateTime> repeatDate;
   DateTime time;
   bool isOn;
 
@@ -21,7 +21,7 @@ class UserCustomAlarm {
   factory UserCustomAlarm.fromJson(Map<String, dynamic> json) =>
       UserCustomAlarm(
         title: json["title"],
-        repeatDate: List<String>.from(json["repeatDate"].map((x) => x)),
+        repeatDate: List<DateTime>.from(json["repeatDate"].map((x) => x)),
         time: DateTime.parse(json["time"]),
         isOn: json["isOn"],
       );

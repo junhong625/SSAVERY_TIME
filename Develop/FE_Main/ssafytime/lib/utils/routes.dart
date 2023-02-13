@@ -6,12 +6,9 @@ import 'package:ssafytime/screens/login_screen.dart';
 import 'package:ssafytime/screens/notification_screen.dart';
 import 'package:ssafytime/screens/root_screen.dart';
 import 'package:ssafytime/screens/user_screen.dart';
-import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/admin_councel_test_page.dart';
 import 'package:ssafytime/user_councel_test_page.dart';
 import 'package:ssafytime/utils/auth_guard.dart';
-import 'package:ssafytime/widgets/councel_admin_councel.dart';
-import 'package:ssafytime/widgets/councel_my_councel.dart';
 
 class AppRoutes {
   static String inital = '/';
@@ -31,14 +28,14 @@ class AppRoutes {
       }),
     ),
     GetPage(
-        middlewares: [AuthGuard()],
-        name: '/userPage',
-        page: () => UserScreen(),
-        binding: BindingsBuilder(() {
-          UserController.to.fetchAttence();
-          Get.put(
-              UserStateController(userIdx: AuthService.to.user.value.userIdx));
-        })),
+      middlewares: [AuthGuard()],
+      name: '/userPage',
+      page: () => UserScreen(),
+      binding: BindingsBuilder(() {
+        UserController.to.fetchAttence();
+        Get.put(UserStateController());
+      }),
+    ),
     GetPage(
       name: '/notification',
       page: () => NotificationScreen(),
@@ -49,9 +46,8 @@ class AppRoutes {
         page: () => UserScreen()),
 
     /// ==== 이하 테스트 용 ===============
-    GetPage(name: '/UserCouncelTestPage', page: ()=>CounselScreen()),
-    GetPage(name: '/AdminCouncelTestPage', page: ()=>AdminCouncelTestPage()),
-    GetPage(name: '/TestPage', page: ()=>UserCouncelTestPage()),
-
+    GetPage(name: '/UserCouncelTestPage', page: () => CounselScreen()),
+    GetPage(name: '/AdminCouncelTestPage', page: () => AdminCouncelTestPage()),
+    GetPage(name: '/TestPage', page: () => UserCouncelTestPage()),
   ];
 }
