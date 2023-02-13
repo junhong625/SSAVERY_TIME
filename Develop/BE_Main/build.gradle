@@ -107,6 +107,10 @@ dependencies {
 	//JSON
 	implementation 'com.google.code.gson:gson:2.8.5'
 
+
+	//SMTP
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 //	주석 제거시 오류 터짐
 //	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.6'
 //	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6'

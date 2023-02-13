@@ -191,16 +191,12 @@ public class UserController {
     }
 
 
+    @PostMapping("/password")
+    public ResponseEntity<?> temporaryPassword(@Valid @RequestBody TemporaryDto temporaryDto){
 
-    @GetMapping("/logout")
-    public ResponseEntity<?> logout(@Valid @RequestBody final TokenRequest tokenRequest){
-
-        userService.logout(tokenRequest);
+        userService.temporaryPassword(temporaryDto);
         return ResponseEntity.status(200).body("Success");
-
     }
-
-
 
 }
 
