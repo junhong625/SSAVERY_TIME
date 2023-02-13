@@ -57,7 +57,6 @@ public class AuthController {
 
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
         TokenResponse tokenResponse = tokenService.createTokenResponse(authentication);
 
         tokenService.saveRefreshToken(authentication.getName(), tokenResponse.getRefreshToken());
@@ -83,14 +82,13 @@ public class AuthController {
     public ResponseEntity<?> logout(HttpServletRequest request){
 
 
-//        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-//
-//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-//            bearerToken =  bearerToken.substring(7);
-//        }
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            bearerToken =  bearerToken.substring(7);
+        }
 
-
+        authService.logout(bearerToken);
         return ResponseEntity.status(200).body("Success");
 
     }

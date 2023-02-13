@@ -6,6 +6,8 @@ import com.ssafy.ssafytime.db.dto.TokenResponse;
 import com.ssafy.ssafytime.db.entity.RefreshToken;
 import com.ssafy.ssafytime.db.repository.LogoutTokenRepository;
 import com.ssafy.ssafytime.db.repository.RefreshTokenRepository;
+import com.ssafy.ssafytime.db.repository.UserRepository;
+import com.ssafy.ssafytime.exception.NotFoundUserException;
 import com.ssafy.ssafytime.jwt.RefreshTokenValidator;
 import com.ssafy.ssafytime.jwt.TokenProvider;
 import com.ssafy.ssafytime.util.SecurityUtil;
@@ -28,9 +30,7 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final TokenService tokenService;
 
-    private final RefreshTokenRepository refreshTokenRepository;
-    private final LogoutTokenRepository logoutTokenRepository;
-
+    private final UserRepository userRepository;
 
     @Transactional
     public TokenResponse refreshToken(final TokenRequest tokenRequest){
@@ -58,5 +58,13 @@ public class AuthService {
     }
 
 
+    public void logout(String accessToken) {
+        SecurityUtil.getCurrentUsername()
+                .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
+                .orElseThrow(() -> new NotFoundUserException("User not found"));
+
+        Authentication authentication = tokenProvider.getAuthentication(accessToken);
+        System.out.println(authentication);
+    }
 }
 
