@@ -27,11 +27,7 @@ public class ScheduleController {
      */
     @GetMapping("schedule/now")
     public ResponseEntity<Object> currentSchedule(@RequestParam("track_code") int trackCode, @RequestParam(name="interval", required = false, defaultValue="0") int interval) {
-        try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, scheduleService.getCurrentSchedule(trackCode, interval));
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
-        }
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, scheduleService.getCurrentSchedule(trackCode, interval));
     }
 
     /* 주간 시간표 조회 (develop_AJH)
@@ -41,10 +37,6 @@ public class ScheduleController {
      */
     @GetMapping("schedule/week")
     public ResponseEntity<Object> weekSchedule(@RequestParam("track_code") int trackCode) {
-        try {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, scheduleService.getWeekSchedule(trackCode));
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
-        }
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, scheduleService.getWeekSchedule(trackCode));
     }
 }

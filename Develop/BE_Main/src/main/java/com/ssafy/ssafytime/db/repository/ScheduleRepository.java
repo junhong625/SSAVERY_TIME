@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /* develop_AJH */
 @Repository
@@ -15,7 +16,7 @@ public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Long> 
     StartTimeLessThanEqual  : 시작시간이 인자값 이하
     EndTimeGreaterThan      : 끝나는 시간이 인자값 초과
      */
-    ScheduleEntity findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(int trackCode, int date, int startTime, int endTime);
+    Optional<ScheduleEntity> findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(int trackCode, int date, int startTime, int endTime);
 
     /* 조건
     TrackCode               : 트랙코드 일치
