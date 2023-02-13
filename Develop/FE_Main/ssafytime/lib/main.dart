@@ -24,7 +24,6 @@ void main() async {
   await AuthService.to.getToken();
   Get.put(NotiService());
   Get.put(loadingController()); // Loading indicator controller
-  Get.put(HomeTimeController());
   runApp(const MyApp());
 }
 

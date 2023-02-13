@@ -10,19 +10,25 @@ import 'package:ssafytime/controllers/user_controller.dart';
 import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/home_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/home_employment_info_total_widget.dart';
+import 'package:ssafytime/widgets/home_menu_item_v2.dart';
 import 'package:ssafytime/widgets/home_schedule_item.dart';
+import 'package:ssafytime/widgets/home_schedule_item_v2.dart';
 import 'package:ssafytime/widgets/notification_infomation.dart';
+
+import '../controllers/home_time_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   final UserController userC = Get.find<UserController>();
+  HomeTimeController homeTimeController = Get.put(HomeTimeController());
 
   @override
   State<StatefulWidget> createState() => _HomeScreenStates();
 }
 
 class _HomeScreenStates extends State<HomeScreen> {
+
   @override
   initState() {
     log("현재 class : ${widget.userC.scheduleNow.value.data?.title}");
@@ -56,6 +62,7 @@ class _HomeScreenStates extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Obx(
       () => Scaffold(
         appBar: AppBar(
@@ -133,26 +140,17 @@ class _HomeScreenStates extends State<HomeScreen> {
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                      child: const Text(
-                        "시간표",
+                      child: Text(
+                        widget.homeTimeController.hour.value != 12 ? "시간표" : '점심메뉴',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    HSIW(
-                      category:
-                          widget.userC.scheduleNow.value.data?.category ?? 0,
-                      onOff: widget.userC.scheduleNow.value.data?.onOff ?? 0,
-                      title: widget.userC.scheduleNow.value.data?.title ??
-                          "일과시간 종료",
-                      subTitle: widget.userC.scheduleNow.value.data?.subTitle ??
-                          "등록된 일과가 없습니다",
-                      startTime:
-                          widget.userC.scheduleNow.value.data?.startTime ??
-                              DateTime.now().hour + 9,
-                      endTime: widget.userC.scheduleNow.value.data?.endTime ??
-                          DateTime.now().hour + 10,
-                    )
+                    if (widget.homeTimeController.hour.value != 12) ... [
+                      HScheduleItem(),
+                    ] else ... [
+                      HTodayMenuTotal(),
+                    ]
                   ],
                 ),
               ),
