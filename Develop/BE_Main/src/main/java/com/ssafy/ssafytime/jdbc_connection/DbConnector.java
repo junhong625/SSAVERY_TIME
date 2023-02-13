@@ -10,12 +10,20 @@ import java.util.Random;
 
 import static com.ssafy.ssafytime.api.controller.SurveyController.cnt;
 
+/* JDBC를 통한 DB와 연결
+==============================|| variable ||================================
+conn     : DB 인스턴스
+USERNAME : 사용자
+PASSWORD : 비밀번호
+URL      : DB 연결 URL
+ */
 public class DbConnector {
     private Connection conn;
     private static final String USERNAME = "root";
     private static final String PASSWORD = "ssafy";
     private static final String URL = "jdbc:mysql://i8a602.p.ssafy.io:3306/ssafy_web_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true";
 
+    // 생성자 : DB 연결
     public DbConnector() {
         try {
             System.out.println("create");
@@ -133,6 +141,9 @@ public class DbConnector {
         }
     }
 
+    /* 공지사항 Fake Data 생성(develop_AJH)
+    ================================|| parameter ||================================
+     */
     public void insertNotice() throws SQLException {
         String sql = "insert into notice(title, category, content_url, create_date, create_time) values(?,?,?,?,?)";
         PreparedStatement pstmt = null;
