@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ssafytime/controllers/user_state_controller.dart';
 import 'package:ssafytime/custom_button.dart';
 import 'package:get/get.dart' ;
+import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/councel_list_admin_item.dart';
 import 'package:ssafytime/widgets/custom_text.dart';
 
@@ -14,42 +16,22 @@ class CAdminCouncel extends StatelessWidget {
   CAdminCouncel({Key? key}) : super(key: key);
 
   MyCouncelController controller = Get.put(MyCouncelController());
+  UserStateController testcontroller = Get.put(UserStateController());
+
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-        color: Colors.yellowAccent,
         margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
         width: 390, height: 666,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomElevatedButton(
-                  label: '생성admin',
-                  onPressed: () async {
-                    await controller.fetchMyCouncelList(842167, 1);
-                    // await controller.fetchCouncelor(1, 1);
-                  }
-              ),
-              CustomElevatedButton(
-                  label: '삭제admin',
-                  onPressed: () async {
-                  }
-              ),
-              CustomElevatedButton(
-                  label: '조회admin',
-                  onPressed: () async {
-                    print(controller.myCouncelList[0].value.state);
-                  }
-              ),
-              CustomElevatedButton(
-                  label: '이동admin',
-                  onPressed: () {
-                    Get.toNamed('/studentPage');
-                  }
-              ),
               Container(
-                color: Colors.green,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black12
+                ),
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Column(
                   children: [

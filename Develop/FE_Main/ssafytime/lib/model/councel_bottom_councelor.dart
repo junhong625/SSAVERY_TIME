@@ -10,15 +10,15 @@ String myCouncelorToJson(MyCouncelor data) => json.encode(data.toJson());
 
 class MyCouncelor {
   MyCouncelor({
-    required this.isAdmin,
-    required this.userName,
-    required this.userIdx,
-    required this.userImg,
+    this.isAdmin,
+    this.userName,
+    this.userIdx,
+    this.userImg,
   });
 
-  int isAdmin;
-  String userName;
-  int userIdx;
+  int? isAdmin;
+  String? userName;
+  int? userIdx;
   String? userImg;
 
   factory MyCouncelor.fromJson(Map<String, dynamic> json) => MyCouncelor(

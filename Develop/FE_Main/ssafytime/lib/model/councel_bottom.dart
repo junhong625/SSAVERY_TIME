@@ -7,20 +7,20 @@ String councelApplicationToJson(CouncelApplication data) => json.encode(data.toJ
 
 class CouncelApplication {
   CouncelApplication({
-    required this.studentId,
-    required this.managerId,
-    required this.rezDate,
-    required this.rezTime,
-    required this.title,
-    required this.category,
+    this.studentId,
+    this.managerId,
+    this.rezDate,
+    this.rezTime,
+    this.title,
+    this.category,
   });
 
-  int studentId;
-  int managerId;
-  String rezDate;
-  String rezTime;
-  String title;
-  String category;
+  int? studentId;
+  int? managerId;
+  String? rezDate;
+  String? rezTime;
+  String? title;
+  String? category;
 
   factory CouncelApplication.fromJson(Map<String, dynamic> json) => CouncelApplication(
     studentId: json["studentId"],

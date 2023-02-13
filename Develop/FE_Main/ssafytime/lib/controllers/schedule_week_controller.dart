@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:ssafytime/services/auth_service.dart';
 import 'dart:convert';
 import '../model/menu_week.dart';
 import '../model/schedule_week.dart';
@@ -24,7 +25,8 @@ class SchedulePickDayController extends GetxController {
 
     // 이번주 시간표 가져오기 =======================
     // 트랙 번호 넣어서
-    await requstMenuWeek(0);
+    // await requstMenuWeek(0);
+    await requstScheduleWeek(AuthService.to.user.value.trackCode);
 
     // 오늘 날짜 확인하기 ========================
     for (int i = 0; i < 5; i++) {
@@ -40,7 +42,10 @@ class SchedulePickDayController extends GetxController {
     }
   }
 
-  Future requstMenuWeek(int trackCode) async{
+  Future requstScheduleWeek(int? trackCode) async{
+    if (trackCode == null) {
+      return ;
+    }
     scheduleofweek = <List<Schedule>>[].obs; // 일주일 시간표
     var res = await http.get(Uri.parse("http://i8a602.p.ssafy.io:9090/schedule/week?track_code=${trackCode}"));
     var data = json.decode(res.body);
@@ -70,7 +75,6 @@ class SchedulePickDayController extends GetxController {
 
   void selectDay(int idx) {
     myPick.value = idx;
-    // requstMenuWeek(0);
     scheduleofday = scheduleofweek[idx].obs;
 
   }

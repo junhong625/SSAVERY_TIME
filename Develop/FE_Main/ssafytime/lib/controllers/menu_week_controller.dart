@@ -9,7 +9,7 @@ class MenuPickDayController extends GetxController {
   static MenuPickDayController get to => Get.find();
   RxInt myPick = 0.obs; // 월 ~ 금
   List dayofweek = [0, 0, 0, 0, 0];
-  DateTime today = DateTime.now();
+  DateTime today = DateTime.now().add(Duration(hours: 9));
   var menusofweek = <List>[].obs;
   var menuofday = [].obs;
 
@@ -20,7 +20,6 @@ class MenuPickDayController extends GetxController {
   }
 
   void initialRun() async {
-    print('생성!!!!!!!!!!!!!');
     // 이번주 식단 가져오기 =======================
     // 지역 번호 넣어서
     await requstMenuWeek(AuthService.to.user.value.regionCode ?? 0);
@@ -68,6 +67,5 @@ class MenuPickDayController extends GetxController {
     myPick.value = idx;
     // requstMenuWeek(0);
     menuofday = menusofweek[idx].obs;
-    print('menuofday 길이 : ${menuofday.length}');
   }
 }

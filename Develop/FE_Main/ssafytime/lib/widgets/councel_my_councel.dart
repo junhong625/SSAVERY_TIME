@@ -13,43 +13,16 @@ class CMyCouncel extends StatelessWidget {
 
   MyCouncelController controller = Get.put(MyCouncelController());
 
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-        color: Colors.yellowAccent,
+        color: Colors.white,
         margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
         width: 390, height: 666,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomElevatedButton(
-                label: '생성',
-                onPressed: () async {
-                  await controller.fetchMyCouncelList(20168125, 0);
-                }
-              ),
-              CustomElevatedButton(
-                label: '삭제',
-                  onPressed: () async {
-                    controller.myCouncelList.clear();
-                    print(controller.myCouncelList);
-                  }
-              ),
-              CustomElevatedButton(
-                  label: '조회',
-                  onPressed: () async {
-                    print('myCouncelList : ${controller.myCouncelList}');
-                    print('councelorList : ${controller.councelorList}');
-                    // print('controller.myCouncelList.length : ${controller.myCouncelList.length}');
-                  }
-              ),
-              CustomElevatedButton(
-                label: '이동',
-                onPressed: () {
-                  Get.toNamed('/TestPage');
-                }
-              ),
-
               // 진행 중인 상담 ==============================================
               for (int i=0; i < controller.myCouncelList.length; i++) ... [
                 if (controller.myCouncelStartTimeList[i] <= controller.doubleTypeCurrentTime.value &&

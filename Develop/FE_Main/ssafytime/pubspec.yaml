@@ -50,6 +50,7 @@ dependencies:
   firebase_messaging: ^14.2.1
   flutter_local_notifications: ^13.0.0
   flutter_native_splash: ^2.2.17
+  flutter_animation_progress_bar: ^2.3.1
 
   # Custom flutter_survey (https://github.com/Michelphoenix98/flutter_survey)
   diffutil_sliverlist: ^0.5.1
@@ -79,7 +80,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/
+    - image/
     - assets/image/no_profile_image.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
