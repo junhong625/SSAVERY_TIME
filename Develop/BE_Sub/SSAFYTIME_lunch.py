@@ -150,7 +150,7 @@ def lunch_menu_data():
                     # image_url : 메뉴 이미지 URL
 
                     # DB에 데이터 Insert
-                    cur.execute(f"SELECT * FROM lunch_menu where image_url='{image_url}' and main_menu='{main_menu}' and side_menu='{side_menu}'")
+                    cur.execute(f"SELECT * FROM lunch_menu where date='{date}' and main_menu='{main_menu}' and side_menu='{side_menu}' and region='{region}'")
                     if (not cur.fetchall()):
                         cur.execute(f"INSERT INTO lunch_menu (date, region, course, main_menu, side_menu, kcal, cho, fat, protein, sodium, image_url) VALUES('{date}', '{region}', '{course}', '{main_menu}', '{side_menu}', '{kcal}', '{cho}', '{fat}', '{protein}', '{sodium}', '{image_url}')")
                     else:
@@ -221,7 +221,7 @@ def lunch_menu_data():
                 # image_url : 메뉴 이미지 URL
 
                 # DB에 데이터 Insert
-                cur.execute(f"SELECT * FROM lunch_menu where image_url='{image_url}' and side_menu='{side_menu}' and main_menu='{main_menu}'")
+                cur.execute(f"SELECT * FROM lunch_menu where date='{date}' and main_menu='{main_menu}' and side_menu='{side_menu}' and region='{region}'")
                 if (not cur.fetchall()):
                     cur.execute(f"INSERT INTO lunch_menu (date, region, course, main_menu, side_menu, kcal, cho, fat, protein, sodium, image_url) VALUES('{date}', '{region}', '{course}', '{main_menu}', '{side_menu}', '{kcal}', '{cho}', '{fat}', '{protein}', '{sodium}', '{image_url}')")
                 else:
