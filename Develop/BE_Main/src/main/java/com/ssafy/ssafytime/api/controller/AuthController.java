@@ -56,7 +56,11 @@ public class AuthController {
         return new ResponseEntity<>(tokenResponse, httpHeaders, HttpStatus.OK);
     }
 
-
+    /**
+     *  액세스 토큰과 리프레시토큰을 인자로 받아 액세스 토큰과 리프레시 토큰을 새로 발급받는다.
+     * @param tokenRequest(accessToken, refreshToken)
+     * @return (액세스,리프레시토큰) 헤더, 상태코드
+     */
     @PostMapping("/refresh-token")
     public ResponseEntity<TokenResponse> refreshToken(@Valid @RequestBody final TokenRequest tokenRequest){
         final TokenResponse tokenResponse = authService.refreshToken(tokenRequest);
