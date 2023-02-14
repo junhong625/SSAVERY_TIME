@@ -99,7 +99,7 @@ class _UserScreenStates extends State<UserScreen> {
                           value: stateC.defaultAlarms.value.noticeAlarm,
                           onChanged: (bool value) {
                             setState(() {
-                              stateC.defaultAlarms.value.noticeAlarm = value;
+                              stateC.updateNoticeAlarm(value);
                             });
                           },
                         ),
@@ -112,7 +112,7 @@ class _UserScreenStates extends State<UserScreen> {
                           value: stateC.defaultAlarms.value.surveyAlarm,
                           onChanged: (bool value) {
                             setState(() {
-                              stateC.defaultAlarms.value.surveyAlarm = value;
+                              stateC.updateSurveyAlarm(value);
                             });
                           },
                         ),
@@ -125,8 +125,7 @@ class _UserScreenStates extends State<UserScreen> {
                           value: stateC.defaultAlarms.value.consultingAlarm,
                           onChanged: (bool value) {
                             setState(() {
-                              stateC.defaultAlarms.value.consultingAlarm =
-                                  value;
+                              stateC.updateCounselAlarm(value);
                             });
                           },
                         ),

@@ -163,6 +163,48 @@ class UserStateController extends GetxController {
     dateSelected.add(todayE);
   }
 
+  void updateNoticeAlarm(bool value) async {
+    var res = await http.patch(
+        Uri.parse(
+            "http://i8a602.p.ssafy.io:9090/user/alarm/notice/${AuthService.to.user.value.userIdx}"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${AuthService.to.accessToken}"
+        });
+    log("update Notice status : ${res.statusCode}");
+    if (res.statusCode == 200) {
+      defaultAlarms.value.noticeAlarm = value;
+    }
+  }
+
+  void updateSurveyAlarm(bool value) async {
+    var res = await http.patch(
+        Uri.parse(
+            "http://i8a602.p.ssafy.io:9090/user/alarm/survey/${AuthService.to.user.value.userIdx}"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${AuthService.to.accessToken}"
+        });
+    log("update Survey status : ${res.statusCode}");
+    if (res.statusCode == 200) {
+      defaultAlarms.value.surveyAlarm = value;
+    }
+  }
+
+  void updateCounselAlarm(bool value) async {
+    var res = await http.patch(
+        Uri.parse(
+            "http://i8a602.p.ssafy.io:9090/user/alarm/consulting/${AuthService.to.user.value.userIdx}"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${AuthService.to.accessToken}"
+        });
+    log("update Counsel status : ${res.statusCode}");
+    if (res.statusCode == 200) {
+      defaultAlarms.value.consultingAlarm = value;
+    }
+  }
+
   void checkout() {
     log("${_calcDayOfWeek().toString()}");
     log("${DateTime.now().toIso8601String()}");

@@ -12,7 +12,6 @@ import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/home_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/home_employment_info_total_widget.dart';
 import 'package:ssafytime/widgets/home_menu_item_v2.dart';
-import 'package:ssafytime/widgets/home_schedule_item.dart';
 import 'package:ssafytime/widgets/home_schedule_item_v2.dart';
 import 'package:ssafytime/widgets/notification_infomation.dart';
 
@@ -22,15 +21,14 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   final UserController userC = Get.find<UserController>();
-  HomeTimeController homeTimeController = Get.put(HomeTimeController());
-  SchedulePickDayController controller = Get.put(SchedulePickDayController());
+  HomeTimeController homeTimeController = Get.find<HomeTimeController>();
+  SchedulePickDayController controller = Get.find<SchedulePickDayController>();
 
   @override
   State<StatefulWidget> createState() => _HomeScreenStates();
 }
 
 class _HomeScreenStates extends State<HomeScreen> {
-
   @override
   initState() {
     log("현재 class : ${widget.userC.scheduleNow.value.data?.title}");
@@ -64,7 +62,6 @@ class _HomeScreenStates extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Obx(
       () => Scaffold(
         appBar: AppBar(
@@ -143,14 +140,16 @@ class _HomeScreenStates extends State<HomeScreen> {
                     Container(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: Text(
-                        widget.homeTimeController.hour.value != 12 ? "시간표" : '점심메뉴',
+                        widget.homeTimeController.hour.value != 12
+                            ? "시간표"
+                            : '점심메뉴',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    if (widget.homeTimeController.hour.value != 12) ... [
+                    if (widget.homeTimeController.hour.value != 12) ...[
                       HScheduleItem(),
-                    ] else ... [
+                    ] else ...[
                       HTodayMenuTotal(),
                     ]
                   ],
