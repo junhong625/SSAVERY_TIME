@@ -29,11 +29,12 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public ScheduleResponseDto getCurrentSchedule(int trackCode, int interval) {
         String[] dateTime = LocalDateTime.now().plusMinutes(interval).toString().split("T");
+        System.out.println(dateTime[1]);
         int date = Integer.parseInt(dateTime[0].toString().replace("-", ""));
         int time = Integer.parseInt(dateTime[1].replace(":", "").substring(0, 2));
-        if (!Optional.ofNullable(scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(trackCode, date, time, time)).isPresent())
-            return new ScheduleResponseDto(scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(trackCode, date, time, time).get());
-        return null;
+        if (null == scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(trackCode, date, time, time).orElse(null))
+            return null;
+        return new ScheduleResponseDto(scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(trackCode, date, time, time).orElse(null));
     }
 
     @Override
