@@ -88,11 +88,14 @@ class NotiService extends GetxService {
     repeatDate.forEach((date) async {
       var scheduledDate = _setNotiTime(time, date);
       log("check add Alarm");
-      int id = int.parse(
-          date.year.toString() + date.month.toString() + date.day.toString());
+      int id = int.parse(date.month.toString() +
+          date.day.toString() +
+          date.hour.toString() +
+          date.day.toString() +
+          date.second.toString());
       flutterLocalNotificationsPlugin.zonedSchedule(
           id,
-          title,
+          "알림",
           title,
           scheduledDate,
           NotificationDetails(
@@ -114,8 +117,11 @@ class NotiService extends GetxService {
   Future<void> removeAlarm(List<DateTime> repeatDate) async {
     log("removeAlarm !!!!!");
     repeatDate.forEach((date) async {
-      int id = int.parse(
-          date.year.toString() + date.month.toString() + date.day.toString());
+      int id = int.parse(date.month.toString() +
+          date.day.toString() +
+          date.hour.toString() +
+          date.day.toString() +
+          date.second.toString());
       await flutterLocalNotificationsPlugin.cancel(id);
     });
   }

@@ -154,7 +154,11 @@ class _UserScreenStates extends State<UserScreen> {
                           IconButton(
                               onPressed: () {
                                 Get.defaultDialog(
-                                  title: "알람 설정",
+                                  title: "",
+                                  titlePadding:
+                                      EdgeInsets.only(top: 0, bottom: 0),
+                                  contentPadding: EdgeInsets.only(
+                                      left: 16, right: 16, bottom: 8),
                                   textConfirm: "등록",
                                   textCancel: "취소",
                                   onCancel: () {
@@ -164,6 +168,7 @@ class _UserScreenStates extends State<UserScreen> {
                                   onConfirm: () {
                                     stateC
                                         .addCustomState(_titleController.text);
+                                    stateC.initDateSelectItem();
                                     Get.back();
                                   },
                                   content: Obx(() => setCustomAlarmDialog()),
@@ -175,15 +180,34 @@ class _UserScreenStates extends State<UserScreen> {
                     ),
                     Obx(
                       () => SizedBox(
-                        height: 300,
                         child: stateC.customState.length > 0
                             ? ListView.builder(
+                                shrinkWrap: true,
                                 itemCount: stateC.customState.length,
                                 itemBuilder: ((context, index) =>
                                     SwitchListTile(
                                         title: Text(
                                             stateC.customState[index].title),
+                                        subtitle: Text(
+                                            "${stateC.customState[index].time.hour}:${stateC.customState[index].time.minute} / ${stateC.customState[index].dateSelected.toString()}"),
                                         value: stateC.customState[index].isOn,
+                                        secondary: IconButton(
+                                          icon: FaIcon(FontAwesomeIcons.eraser),
+                                          onPressed: () => {
+                                            Get.defaultDialog(
+                                              title: "",
+                                              titlePadding: EdgeInsets.only(
+                                                  top: 0, bottom: 0),
+                                              content: const Text("삭제하시겠습니까?"),
+                                              textConfirm: "확인",
+                                              textCancel: "취소",
+                                              onConfirm: () => {
+                                                stateC.removeCustomState(index),
+                                                Get.back()
+                                              },
+                                            )
+                                          },
+                                        ),
                                         onChanged: ((value) {
                                           setState(() {
                                             stateC.customState[index].isOn =
@@ -196,7 +220,7 @@ class _UserScreenStates extends State<UserScreen> {
                                           }
                                         }))),
                               )
-                            : Text("${_titleController.text}"),
+                            : Text("등록된 알람이 없습니다"),
                       ),
                     )
                   ],
