@@ -30,12 +30,12 @@ class MenuPickDayController extends GetxController {
     // 오늘 날짜 확인하기 ========================
     for (int i = 0; i < 5; i++) {
       DateTime tmp = today.subtract(Duration(days: today.weekday - (i + 1)));
-      dayofweek[i] == tmp.day;
+      dayofweek[i] = tmp.day;
     }
     selectDay(0); // 주말의 경우 월요일꺼 보여주기
     for (int i = 0; i < 5; i++) {
       if (today.day == dayofweek[i]) {
-        myPick.value == i;
+        myPick.value = i;
         selectDay(i);
       }
     }

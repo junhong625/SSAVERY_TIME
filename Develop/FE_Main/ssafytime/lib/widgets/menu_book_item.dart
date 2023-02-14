@@ -32,8 +32,16 @@ class _MIWState extends State<MIW> {
       width: 358,
       height: 180,
       decoration: BoxDecoration(
-          color: Colors.white,
-          // borderRadius: BorderRadius.circular(15)
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(width: 2, color: Colors.blue),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black54,
+            blurRadius: 7.0,
+            offset: Offset(0.0, 0.75)
+          )
+        ]
       ),
       child: Row(
         children: [

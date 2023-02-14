@@ -25,7 +25,7 @@ class HomeTimeController extends GetxController{
     2 : '' // 데이터 없음 or 일과 종료
   };
 
-  DateTime currentTime = DateTime.now();
+  DateTime currentTime = DateTime.now().add(Duration(hours: 9));
   RxInt hour = 0.obs; // 현재 시간 (시)
   int min = 0; // 현재 시간 (분)
   int scheduleHour = 0; // 시간표 시간(시작 시간)
@@ -49,15 +49,14 @@ class HomeTimeController extends GetxController{
   RxString classTime = ''.obs; // 수업 시간 표시용, 스트링
 
 
-
   @override
   void onInit() {
     super.onInit();
     setInitailTime();
 
     // 컨트롤러 생성 후 1분마다 반복
-    timer = new Timer.periodic(Duration(seconds: 2), (timer) {
-        currentTime = DateTime.now().add(Duration(hours: 9));
+    timer = new Timer.periodic(Duration(minutes: 1), (timer) {
+        currentTime = DateTime.now();
         // currentTime = DateTime.now();
         hour.value = currentTime.hour; // 현재 시간 갱신
         min = currentTime.minute;
@@ -67,7 +66,11 @@ class HomeTimeController extends GetxController{
           nextTime = 0;
         }
         fetchHomeSchedule(trackCode, nextTime);
-        print(currentTime);
+        // print(currentTime);
+        // print('isClassTime : ${isClassTime}');
+        // print('hour : ${hour}');
+        // print('scheduleHour : ${scheduleHour}');
+        // print('scheduleHourEnd : ${scheduleHourEnd}');
       }
     );
     fetchTodayMenu(regionCode); // 오늘 메뉴 호출
@@ -98,14 +101,14 @@ class HomeTimeController extends GetxController{
     scheduleHourEnd = nowSchedule.data!.endTime;
     totalTime = nowSchedule.data!.totalTime;
 
-    isClassTime.value = (hour.value == scheduleHour) ? true : false ;
+    isClassTime.value = (hour.value >= scheduleHour && hour.value < scheduleHourEnd) ? true : false ;
     percent.value = getPercent(min);
     color.value = table[nowSchedule.data!.category]['color'];
     category.value = table[nowSchedule.data!.category]['category'];
     onoff.value = studyPlace[nowSchedule.data!.onOff];
     title.value = nowSchedule.data!.title;
     subTitle.value = nowSchedule.data!.subTitle;
-    classTime.value = getClassTime(nowSchedule.data!.startTime);
+    classTime.value = getClassTime(scheduleHour, scheduleHourEnd);
 
   }
 
@@ -121,9 +124,9 @@ class HomeTimeController extends GetxController{
   }
 
   // 수업시간 스트링 뽑기
-  String getClassTime(int hour) {
-    String start = hour < 10 ? '0${hour}' : '${hour}';
-    String end = hour+1 < 10 ? '0${hour+1}' : '${hour+1}';
+  String getClassTime(int startTime, int endTime) {
+    String start = startTime < 10 ? '0${startTime}' : '${startTime}';
+    String end = endTime < 10 ? '0${endTime}' : '${endTime}';
     return '${start}:00 ~ ${end}:00';
   }
 
@@ -140,8 +143,8 @@ class HomeTimeController extends GetxController{
   }
 
   Future setInitailTime() async {
-    currentTime = DateTime.now().add(Duration(hours: 9));
-    // currentTime = await DateTime.now();
+    // currentTime = DateTime.now().add(Duration(hours: 9));
+    currentTime = await DateTime.now();
     hour.value = currentTime.hour; // 현재 시간 갱신
     min = currentTime.minute;
     if (min >= 55) {

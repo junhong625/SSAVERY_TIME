@@ -46,13 +46,16 @@ class MyCouncelController extends GetxController {
 
   void initialRun() async {
     // currentTime.value = DateTime.now().add(Duration(hours: 9));
-    await fetchMyCouncelList(userID, userAdmin);
+    await fetchMyCouncelList();
     await fetchCouncelor(userClassNum, userRegionCode);
   }
 
   // 내 상담신청 현황 요청
   // userId : 학번, code : 학생, 관리자 구분 코드 -> 유저 정보에서 가져와야함
-  Future fetchMyCouncelList(int? userId, int? code) async {
+  Future fetchMyCouncelList() async {
+    int? userId = userID;
+    int? code = userTrackCode;
+
     loadingController.to.isLoading = true;
 
     myCouncelList.clear(); // 초기화 는 clear 로 해야만 되는듯
@@ -214,7 +217,7 @@ class MyCouncelController extends GetxController {
         'http://i8a602.p.ssafy.io:9090/meet/update/accept?rez_idx=${rezIdx}'));
     loadingController.to.isLoading = false;
 
-    await fetchMyCouncelList(userID, userAdmin); // 상담 현황 다시 요청
+    await fetchMyCouncelList(); // 상담 현황 다시 요청
   }
 
   // 상담 거절
@@ -225,7 +228,7 @@ class MyCouncelController extends GetxController {
         'http://i8a602.p.ssafy.io:9090/meet/update/reject?rez_idx=${rezIdx}&reject=${comment}'));
     loadingController.to.isLoading = false;
 
-    await fetchMyCouncelList(userID, userAdmin); // 상담 현황 다시 요청
+    await fetchMyCouncelList(); // 상담 현황 다시 요청
   }
 
 
@@ -253,7 +256,7 @@ class MyCouncelController extends GetxController {
     var res = await http.post(Uri.parse('http://i8a602.p.ssafy.io:9090/reserve/submit'), headers: headers, body: body);
     loadingController.to.isLoading = false;
 
-    await fetchMyCouncelList(userID, userAdmin); // 상담 요청 보내면 목록 통신으로 갱신
+    await fetchMyCouncelList(); // 상담 요청 보내면 목록 통신으로 갱신
 
   }
 

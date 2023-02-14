@@ -9,13 +9,14 @@ class SDay0fWeek extends StatelessWidget {
 
   SDay0fWeek({Key? key}) : super(key: key);
 
-  SchedulePickDayController controller = Get.put(SchedulePickDayController());
+  // SchedulePickDayController controller = Get.put(SchedulePickDayController());
+  SchedulePickDayController controller = Get.find<SchedulePickDayController>();
 
   @override
   Widget build(BuildContext context) {
 
     // DateTime dt = DateTime.now().add(Duration(hours: 9));
-    DateTime dt = DateTime.now();
+    DateTime dt = DateTime.now().add(Duration(hours: 9));
 
     Map<int, List> dayList = {
       0 : ['월', dt.subtract(Duration(days: dt.weekday - 1)).day.toString()],
@@ -40,9 +41,10 @@ class SDay0fWeek extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
                   width: 76.8,
                   child: InkWell(
-                    onTap: () {
+                    onTap: () async{
                       print('클릭');
-                      controller.selectDay(idx);
+                      // controller.selectDay(idx);
+                      controller.fetchScheduleWeek(0);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +73,7 @@ class SDay0fWeek extends StatelessWidget {
         ),
 
         // 시간표 부분 ================================
-        ScTotal(scheduleList: controller.scheduleofday.value,)
+        ScTotal(scheduleList: controller.todaySchedule.value,)
       ],
     ),
     );

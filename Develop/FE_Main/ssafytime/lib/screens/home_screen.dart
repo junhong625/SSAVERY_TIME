@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:ssafytime/controllers/schedule_week_controller.dart';
 import 'package:ssafytime/controllers/user_controller.dart';
 import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/home_attendance_state_widget.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 
   final UserController userC = Get.find<UserController>();
   HomeTimeController homeTimeController = Get.put(HomeTimeController());
+  SchedulePickDayController controller = Get.put(SchedulePickDayController());
 
   @override
   State<StatefulWidget> createState() => _HomeScreenStates();

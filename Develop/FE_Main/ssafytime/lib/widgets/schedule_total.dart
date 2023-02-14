@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ssafytime/controllers/schedule_week_controller.dart';
 import 'package:ssafytime/widgets/schedule_single_item.dart';
 
 import '../model/schedule_week.dart';
 
 class ScTotal extends StatelessWidget {
 
-  // // 입력값 예시임 API로 받아와야함
-  // Map classList = {
-  //   // 수업종류, 제목, 내용, 오프라인 여부, 시작시간, 종료시간, 총시간
-  //   // 수업 시간 순서대로 넣어야함
-  //   0 : [0, '프레임워크 : 스프링', '수업내용...', 0, 9, 10, 1],
-  //   1 : [2, '프로젝트', '수업내용...', 0, 10, 12, 2],
-  //   2 : [1, '알고리즘', '수업내용...', 0, 13, 16, 3],
-  //   3 : [0, '프레임워크 : 스프링2', '수업내용...', 0, 16, 18, 2],
-  // };
+  SchedulePickDayController test = Get.find<SchedulePickDayController>();
 
-  List<Schedule> scheduleList;
+  List<Datum> scheduleList;
 
   ScTotal({Key? key,
     required this.scheduleList,
@@ -34,12 +28,18 @@ class ScTotal extends StatelessWidget {
             ScTimeTable(),
             Column(
               children: [
+                // ElevatedButton(
+                //   onPressed: () {
+                //     print('${scheduleList}');
+                //     print('${test.todaySchedule}');
+                //     print(test.trackCode);
+                //   },
+                //   child: Text('df'),
+                // ),
                 for (int idx = 0; idx < scheduleList.length; idx ++ ) ... [
                   ScSingleItem(
-                    classType: scheduleList[idx].category,
-                    studyPlace: scheduleList[idx].onOff,
-                    subject: scheduleList[idx].subTitle,
-                    content: scheduleList[idx].title),
+                    data: scheduleList[idx] ?? Datum(),
+                  ),
                   // 수업이 한 시간 보다 길어질 경우 처리
                   for (int j = 1; j < scheduleList[idx].totalTime; j++) ... [
                     BlankTimeTable(color: scheduleList[idx].category)

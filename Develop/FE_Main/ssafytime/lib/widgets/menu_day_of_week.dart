@@ -93,7 +93,8 @@ class MDay0fWeek extends StatelessWidget {
 
           // 메뉴 카드들 ================================
           Container(
-            color: Colors.blue,
+            color: Colors.white,
+            padding: EdgeInsets.all(5),
             height: controller.menuofday.length != 0 ? 610 : 300,
             child: controller.menuofday.length != 0
               ? ListView.builder(
