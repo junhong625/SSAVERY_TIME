@@ -34,6 +34,12 @@ public class AuthService {
     private final UserRepository userRepository;
     private final LogoutTokenRepository logoutTokenRepository;
 
+    /*
+        - refreshToken
+        accessToken 과 refreshToken을 인자로 받아 권한객체를 얻어온다.
+        권한객체 뽑은 name을 통해 refreshToken을 검증하고 accessToken과 refreshToken 새로 생성하여 저장한다.
+        그 후 두 token을 반환한다.
+     */
     @Transactional
     public TokenResponse refreshToken(final TokenRequest tokenRequest){
         final String accessToken = tokenRequest.getAccessToken();
@@ -52,6 +58,9 @@ public class AuthService {
 
     }
 
+    /*
+        refreshToken 검증. 실패시 tok
+     */
     private void validateRefreshToken(final String userIdx, String refreshToken){
         if(!refreshTokenValidator.validate(userIdx,refreshToken)){
             tokenService.invalidateRefreshToken(userIdx);
