@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:ssafytime/custom_button.dart';
+import 'package:ssafytime/screens/call_counsel.dart';
+import 'package:ssafytime/services/auth_service.dart';
 
 class CouncelListItem extends StatelessWidget {
+
   final String title; // 제목
 
   double currentTime; // 현재시간 202302061530.0 이런 형태로 들어옴
@@ -14,6 +18,9 @@ class CouncelListItem extends StatelessWidget {
   String? reject;
   int state;
 
+  String? sessionId;
+  String? name = AuthService.to.user.value.userName;
+
   CouncelListItem({
     Key? key,
     required this.title,
@@ -23,6 +30,7 @@ class CouncelListItem extends StatelessWidget {
     required this.rezTime,
     required this.reject,
     required this.state,
+    required this.sessionId,
   }) : super(key: key);
 
   @override
@@ -32,18 +40,29 @@ class CouncelListItem extends StatelessWidget {
     double opacity = (state == 3 || state == 4) ? 0.4 : 1;
     return InkWell(
       onTap: () {
-        if (startTime <= currentTime && currentTime <= endTime) {
+        if (startTime <= currentTime && currentTime <= endTime && state == 2) {
           showDialog(
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('방에 접속해주세요!'),
+                title: Text(sessionId != null ?'방에 접속해주세요!' : '승인 처리 중 ...'),
                 content: Container(
                     child: Row(
                   children: [
-                    CustomElevatedButton(onPressed: () {}),
-                    CustomElevatedButton(onPressed: () {}),
+                    if (sessionId != null) ... [
+                      CustomElevatedButton(
+                          label: '상담',
+                          onPressed: () {
+                            Get.to(() => CallCounsel(sessionName: sessionId ?? '', userName: name ?? '',));
+                          }
+                      ),
+                    ],
+                    // 닫기
+                    CustomElevatedButton(
+                      label: '닫기',
+                      onPressed: () {}
+                    ),
                   ],
                 )),
               );

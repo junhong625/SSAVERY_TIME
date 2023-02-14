@@ -15,6 +15,7 @@ class CouncelDetail {
         this.reject,
         required this.state,
         required this.name,
+        required this.sessionId,
         // required double this.exEndTime,
     });
 
@@ -27,6 +28,7 @@ class CouncelDetail {
     String? reject;
     int state;
     String name;
+    String? sessionId;
 
     // late double exStartTime = ;
     // double exEndTime;
@@ -41,6 +43,7 @@ class CouncelDetail {
         reject: json["reject"],
         state: json["state"],
         name: json["name"],
+        sessionId: json["sessionId"]
     );
 
     Map<String, dynamic> toJson() => {
@@ -53,6 +56,7 @@ class CouncelDetail {
         "reject": reject,
         "state": state,
         "name": name,
+        "sessionId" : sessionId
     };
 
 
