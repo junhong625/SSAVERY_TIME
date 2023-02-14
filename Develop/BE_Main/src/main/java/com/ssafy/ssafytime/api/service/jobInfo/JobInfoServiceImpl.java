@@ -34,7 +34,7 @@ public class JobInfoServiceImpl implements JobInfoService{
 
     @Override
     public List<JobInfoResponseDto> getAllJobInfo() {
-        Long date = Long.parseLong(LocalDateTime.now().toString().replace("-",""));
+        Long date = Long.parseLong(LocalDateTime.now().toString().replace("-","").replace(":", "").replace("T", "").substring(0,14));
         List<JobInfoResponseDto> jobInfoResponseDtoList = new ArrayList<>();
         jobInfoRepository.findByStartDateLessThanEqualOrderByStartDate(date).forEach(jobInfo -> {
             jobInfoResponseDtoList.add(new JobInfoResponseDto(jobInfo));

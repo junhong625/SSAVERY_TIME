@@ -31,7 +31,7 @@ public class JobInfoController {
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Object> getAllJobInfo() {
         try {
             return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, jobInfoService.getAllJobInfo());
