@@ -58,7 +58,8 @@ public class MeetController {
     // 회원번호로 한명의 회원 조회
     // code값이 0이면 교육생 1이면 매니저
     @GetMapping(value = "/{userId}/{code}", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
-    public ResponseEntity<List<MeetInfoDto>> getMember(@PathVariable("userId") Long userId, @PathVariable("code") int code) {
+    public ResponseEntity<List<MeetInfoDto>> getMember(@PathVariable("userId") Long userId, @PathVariable("code") int code)
+            throws OpenViduJavaClientException, OpenViduHttpException, FirebaseMessagingException{
 
         // 본인의 상담 예약 정보 리스트
         List<MeetInfoDto> member = null;
@@ -73,8 +74,29 @@ public class MeetController {
         else if(code==1){
             // Optional : 'null일 수도 있는 객체'를 감싸는 일종의 Wrapper 클래스
             member = meetService.findAllByManagerId_UserIdx(userId);
-
         }
+
+        // 종료상태면 세션 종료
+//        member.forEach(m->{
+//            if(m.getState()==4) {
+//                // 세선 닫아버리기
+//                Session session = openvidu.getActiveSession(m.getSessionId());
+//
+//                if (session != null) {
+//
+//                }
+//                if (session != null) {
+//                    try {
+//                        session.close();
+//                    } catch (OpenViduJavaClientException e) {
+//                        throw new RuntimeException(e);
+//                    } catch (OpenViduHttpException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//
+//            }
+//        });
 
         return new ResponseEntity(member, HttpStatus.OK);
     }
