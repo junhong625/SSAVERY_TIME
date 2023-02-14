@@ -29,6 +29,8 @@ class HomeTimeController extends GetxController{
   RxInt hour = 0.obs; // 현재 시간 (시)
   int min = 0; // 현재 시간 (분)
   int scheduleHour = 0; // 시간표 시간(시작 시간)
+  int scheduleHourEnd = 0; // 시간표 시간(끝나는 시간)
+  int totalTime = 0; // 전제 시간
   HomeSchedule nowSchedule = HomeSchedule(); // 현재 시간표
   int nextTime = 0; // 50 분에 다음꺼 조회하기 위한 파람쓰
   int trackCode = AuthService.to.user.value.trackCode ?? 0;
@@ -54,9 +56,9 @@ class HomeTimeController extends GetxController{
     setInitailTime();
 
     // 컨트롤러 생성 후 1분마다 반복
-    timer = new Timer.periodic(Duration(minutes: 1), (timer) {
-        // currentTime = DateTime.now().add(Duration(hours: 9));
-        currentTime = DateTime.now();
+    timer = new Timer.periodic(Duration(seconds: 2), (timer) {
+        currentTime = DateTime.now().add(Duration(hours: 9));
+        // currentTime = DateTime.now();
         hour.value = currentTime.hour; // 현재 시간 갱신
         min = currentTime.minute;
         if (min >= 55) {
@@ -65,6 +67,7 @@ class HomeTimeController extends GetxController{
           nextTime = 0;
         }
         fetchHomeSchedule(trackCode, nextTime);
+        print(currentTime);
       }
     );
     fetchTodayMenu(regionCode); // 오늘 메뉴 호출
@@ -92,6 +95,8 @@ class HomeTimeController extends GetxController{
     }
 
     scheduleHour = nowSchedule.data!.startTime;
+    scheduleHourEnd = nowSchedule.data!.endTime;
+    totalTime = nowSchedule.data!.totalTime;
 
     isClassTime.value = (hour.value == scheduleHour) ? true : false ;
     percent.value = getPercent(min);
@@ -110,7 +115,9 @@ class HomeTimeController extends GetxController{
     if (isClassTime.value == false) {
       return 0.0;
     }
-    return min / 60;
+
+    int H = (hour.value - scheduleHour)*60;
+    return (H+min) / (totalTime*60);
   }
 
   // 수업시간 스트링 뽑기
@@ -133,7 +140,8 @@ class HomeTimeController extends GetxController{
   }
 
   Future setInitailTime() async {
-    currentTime = await DateTime.now();
+    currentTime = DateTime.now().add(Duration(hours: 9));
+    // currentTime = await DateTime.now();
     hour.value = currentTime.hour; // 현재 시간 갱신
     min = currentTime.minute;
     if (min >= 55) {
@@ -141,7 +149,6 @@ class HomeTimeController extends GetxController{
     } else {
       nextTime = 0;
     }
-
   }
 
 
