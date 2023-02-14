@@ -1,5 +1,5 @@
 from flask import Flask, request
-import pymysql, requests, datetime, requests
+import pymysql, requests, datetime, requests, time
 from apscheduler.schedulers.background import BackgroundScheduler
 from requests.auth import HTTPBasicAuth
 
@@ -12,6 +12,7 @@ app = Flask(__name__)
 # token : jira API Token 
 @app.route("/jira/issue", methods=["GET"])
 def get_issues():
+    start = time.time()
     params = request.get_json()
     name = params['name']
     token = params['token']
@@ -36,10 +37,13 @@ def get_issues():
         issues = result['issues']
         issue_list = []
 
-        # result['issues']['fields']['summary'] : issue name
         for issue in issues:
-            issue_list.append(issue['fields']['summary'])
-
+            issue_info = {}
+            issue_info['story_points'] = issue['fields']['customfield_10031']
+            issue_info['title'] = issue['fields']['summary']
+            issue_info['priority'] = issue['fields']['parent']['fields']['priority']['name']
+            issue_info['epic'] = issue['fields']['parent']['fields']['summary']
+            issue_list.append(issue_info)
         return {'issue_list':issue_list}
 
 
