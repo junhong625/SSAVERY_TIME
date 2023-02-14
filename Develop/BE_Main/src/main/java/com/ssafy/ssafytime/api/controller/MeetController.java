@@ -77,11 +77,12 @@ public class MeetController {
         }
 
         // 종료상태면 세션 종료
-//        member.forEach(m->{
-//            if(m.getState()==4) {
-//                // 세선 닫아버리기
-//                Session session = openvidu.getActiveSession(m.getSessionId());
-//
+        member.forEach(m->{
+            if(m.getState()==4) {
+                // 세선 닫아버리기
+                Session session = null;
+//                        openvidu.getActiveSession(m.getSessionId());
+
 //                if (session != null) {
 //
 //                }
@@ -94,9 +95,9 @@ public class MeetController {
 //                        throw new RuntimeException(e);
 //                    }
 //                }
-//
-//            }
-//        });
+
+            }
+        });
 
         return new ResponseEntity(member, HttpStatus.OK);
     }
