@@ -16,7 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     List<User> findByClassNumAndRegionCode(Integer classNum, Integer regionCode);
 
-    Optional<User> findByUserEmail(String userEmail);
 
     Optional<User> findByUserEmailAndUserName(String userEmail, String userName);
 
