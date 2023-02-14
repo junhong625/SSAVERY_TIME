@@ -5,7 +5,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ssafytime/controllers/home_time_controller.dart';
 import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/firebase_options.dart';
 import 'package:ssafytime/services/auth_service.dart';
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'SSAFY TIME',
       theme: ThemeData(
         useMaterial3: true,
         primarySwatch: Colors.blue,
