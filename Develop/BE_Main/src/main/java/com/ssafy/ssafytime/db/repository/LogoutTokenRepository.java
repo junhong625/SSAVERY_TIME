@@ -23,6 +23,6 @@ public interface LogoutTokenRepository extends JpaRepository <LogoutToken, Strin
             "where r.expired_at < :expiredAt", nativeQuery = true)
     void deleteByExpiredAt(@Param("expiredAt") LocalDateTime now);
 
-    Optional<LogoutToken> findOneByToken(String token);
+    boolean existsByToken(String token);
 
 }

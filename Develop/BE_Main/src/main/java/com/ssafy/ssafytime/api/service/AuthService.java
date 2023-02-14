@@ -64,8 +64,6 @@ public class AuthService {
         SecurityUtil.getCurrentUsername()
                 .flatMap(userRepository::findOneWithAuthoritiesByUserEmail)
                 .orElseThrow(() -> new NotFoundUserException("User not found"));
-        System.out.println("-==--=-=-=-=-=-=-=-==-=--==-");
-        System.out.println("여긴옴");
         Date date = tokenProvider.validity(accessToken);
         System.out.println(date);
         LocalDateTime localDateTime = new Timestamp(date.getTime()).toLocalDateTime();
