@@ -54,34 +54,51 @@ class MyCouncelController extends GetxController {
   // userId : 학번, code : 학생, 관리자 구분 코드 -> 유저 정보에서 가져와야함
   Future fetchMyCouncelList() async {
     int? userId = userID;
-    int? code = userTrackCode;
-
+    int? isAdmin = userAdmin;
+    print(adminCategory);
     loadingController.to.isLoading = true;
 
     myCouncelList.clear(); // 초기화 는 clear 로 해야만 되는듯
     myCouncelStartTimeList = <double>[]; // 시작시간 종료 시간도 초기화
     myCouncelEndTimeList = <double>[];
 
-    if (userId == null || code == null) {
+    if (userId == null || isAdmin == null) {
       loadingController.to.isLoading = false;
       return ;
     }
 
     await setNowTime(); // 요청 시간을 기준으로 시간 설정 -> 프로그래스바 등에서 사용할거임
     var res = await http
-        .get(Uri.parse("http://i8a602.p.ssafy.io:9090/meet/${userId}/${code}"));
+        .get(Uri.parse("http://i8a602.p.ssafy.io:9090/meet/${userId}/${isAdmin}"));
     var data = json.decode(res.body);
     // print('fetchMyCouncelList 호출 -> ${data}');
 
+
+
     for (int i = 0; i < data.length; i++) {
       final obj = CouncelDetail.fromJson(data[i]).obs;
-      myCouncelList.add(obj);
-      myCouncelStartTimeList.add(calculatorTimeOfClass(
-          myCouncelList[i].value.rezDate, myCouncelList[i].value.rezTime));
-      myCouncelEndTimeList.add(myCouncelStartTimeList[i] +
+      if (userAdmin == 1) {
+        // 관리자 일때는 텝에 따라서 호출
+        if (obj.value.state == adminCategory.value) {
+          myCouncelList.add(obj);
+          int K = myCouncelList.length;
+          myCouncelStartTimeList.add(calculatorTimeOfClass(
+              myCouncelList[K-1].value.rezDate, myCouncelList[K-1].value.rezTime));
+          myCouncelEndTimeList.add(myCouncelStartTimeList[K-1] +
               100 // 상담은 1시간 한다고 가정해서 +100임 1이 시간 00이 분이라서
           );
+        }
+      } else {
+        myCouncelList.add(obj);
+        myCouncelStartTimeList.add(calculatorTimeOfClass(
+            myCouncelList[i].value.rezDate, myCouncelList[i].value.rezTime));
+        myCouncelEndTimeList.add(myCouncelStartTimeList[i] +
+            100 // 상담은 1시간 한다고 가정해서 +100임 1이 시간 00이 분이라서
+        );
+      }
+
     }
+
     loadingController.to.isLoading = false;
   }
 
@@ -260,8 +277,9 @@ class MyCouncelController extends GetxController {
 
   }
 
-  void selectAdminCategory(int x){
+  void selectAdminCategory(int x) async{
     adminCategory.value = x;
+    await fetchMyCouncelList();
   }
 
 }

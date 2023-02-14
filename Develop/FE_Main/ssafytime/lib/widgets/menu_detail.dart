@@ -50,39 +50,40 @@ void openMenuDetail(BuildContext context, int id) async {
           margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
           padding: EdgeInsets.fromLTRB(12.5, 17, 12.5, 0),
           decoration: BoxDecoration(
-              color: Colors.yellow,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10.0)
           ),
           child: Column(
             children: [
               Container(width: 365, height: 288,
+                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                 decoration: BoxDecoration(
-                  color: Color(0x08000000),
-                  border: Border.all(width: 2, color: Color(0x05000000)),
+                  color: Color(0x30000000),
+                  border: Border.all(width: 2, color: Color(0x503396F4)),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: myMenu.imageUrl != '' ? Image.network(myMenu.imageUrl, fit: BoxFit.contain)
                 : Image.asset('assets/image/no_menu.png', fit: BoxFit.contain),
               ),
-
+              SizedBox(height: 10,),
               Container(
                 width: 365, height: 354,
                 padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                color: Colors.lightGreen,
+                // color: Colors.lightGreen,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     CustomText(content: myMenu.mainMenu, fontSize: 16,), // 메인메뉴
                     SizedBox(height: 10,),
 
                     // 사이드 메뉴 목록
                     Container(
-                      color: Colors.lightBlue,
-                      height: 100,
+                      // color: Colors.lightBlue,
+                      height: 50,
                       child: Wrap(
                         spacing: 10,
                         runSpacing: 5,
-
                         children: [
                           for (int i=0; i < myMenu.sideMenu.length; i++) ... [
                             CustomText(content: myMenu.sideMenu[i],
@@ -143,50 +144,4 @@ void openMenuDetail(BuildContext context, int id) async {
         );
       }
   );
-
-  // Get.bottomSheet(
-  //   // isScrollControlled: true,
-  //   Container(
-  //     width: 365, height: 700,
-  //     margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-  //     padding: EdgeInsets.fromLTRB(12.5, 17, 12.5, 0),
-  //     decoration: BoxDecoration(
-  //       color: Colors.yellow,
-  //       borderRadius: BorderRadius.circular(10.0)
-  //     ),
-  //     child: Column(
-  //       children: [
-  //         Container(width: 365, height: 288,
-  //           decoration: BoxDecoration(
-  //             color: Color(0x08000000),
-  //             border: Border.all(width: 2, color: Color(0x05000000)),
-  //             borderRadius: BorderRadius.circular(10),
-  //           ),
-  //           child: Image.network(myMenu.imageUrl, fit: BoxFit.contain
-  //           ),
-  //         ),
-  //
-  //         Container(
-  //           width: 365, height: 354,
-  //           color: Colors.lightGreen,
-  //           child: Column(
-  //             children: [
-  //
-  //             ],
-  //           ),
-  //         ),
-  //
-  //
-  //
-  //         Text(myMenu.mainMenu),
-  //         Text('탄수화물 : ${myMenu.cho}g'),
-  //         Text('지방 : ${myMenu.fat}g'),
-  //         Text('단백질 : ${myMenu.protein}g'),
-  //         Text('나트륨 : ${myMenu.sodium}mg'),
-  //         Text('등등..')
-  //         // 디자인 협의 해야될듯
-  //       ],
-  //     ),
-  //   ),
-  // );
 }

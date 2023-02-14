@@ -17,13 +17,18 @@ class CMyCouncel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-        // color: Colors.white,
-        color: Colors.black26,
+        color: Colors.white,
+        // color: Colors.black26,
         margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
         width: 390, height: 666,
-        child: SingleChildScrollView(
-          child: Column(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            controller.fetchMyCouncelList();
+          },
+          child: ListView(
+            physics: AlwaysScrollableScrollPhysics(),
             children: [
+              Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
               // 진행 중인 상담 ==============================================
               for (int i=0; i < controller.myCouncelList.length; i++) ... [
                 if (controller.myCouncelStartTimeList[i] <= controller.doubleTypeCurrentTime.value &&

@@ -38,8 +38,8 @@ class _MIWState extends State<MIW> {
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.black54,
-            blurRadius: 7.0,
-            offset: Offset(0.0, 0.75)
+            blurRadius: 5.0,
+            offset: Offset(0.0, 4)
           )
         ]
       ),

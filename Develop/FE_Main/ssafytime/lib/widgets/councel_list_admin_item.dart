@@ -64,7 +64,19 @@ class CouncelAdminListItem extends StatelessWidget {
     double opacity = currentTime > endTime ? 0.4 : 1;
 
     return Container(
-        color: Colors.white,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 2, color: Colors.blue),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.black54,
+                blurRadius: 3.0,
+                offset: Offset(0.0, 5)
+            )
+          ]
+      ),
+        // color: Colors.white,
         width: MediaQuery.of(context).size.width * 0.8,
         child: ExpansionTile(
           leading: Container(
