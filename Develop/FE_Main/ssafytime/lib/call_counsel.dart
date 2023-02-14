@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
@@ -20,7 +22,8 @@ class CallCounsel extends StatefulWidget {
 class _CallCounselState extends State<CallCounsel> {
   final _localRenderer = new RTCVideoRenderer();
   final _remoteRenderer = new RTCVideoRenderer();
-  late CallSignaling? _signaling;
+  CallSignaling? _signaling = null;
+  bool isAudioOn = true;
 
   @override
   void initState() {
@@ -33,11 +36,13 @@ class _CallCounselState extends State<CallCounsel> {
     super.dispose();
     _localRenderer.dispose();
     _remoteRenderer.dispose();
+    _signaling?.close();
   }
 
   Future<void> initRenderers() async {
     await _localRenderer.initialize();
     await _remoteRenderer.initialize();
+    _connect();
   }
 
   Future<void> _connect() async {
@@ -46,21 +51,47 @@ class _CallCounselState extends State<CallCounsel> {
           url: widget.server,
           secret: widget.secret,
           sessionId: widget.sessionName,
-          userName: widget.userName,
-          onLocalStream: (stream) {
-            _localRenderer.srcObject = stream;
-          },
-          onAddRemoteStream: (stream) {
-            _remoteRenderer.srcObject = stream;
-          },
-          onRemoveRemoteStream: (stream) {
-            _remoteRenderer.srcObject = null;
-          });
+          userName: widget.userName);
 
       final String? token = await _signaling?.createWebRtcToken();
 
+      log("========token : ${token}========");
+
       if (token != null) {
         await _signaling!.connect(token);
+
+        _signaling?.onStateChange = (SignalingState state) {
+          print('_signaling.onStateChange: $state');
+          switch (state) {
+            case SignalingState.CallStateNew:
+              break;
+            case SignalingState.CallStateBye:
+              break;
+            default:
+              break;
+          }
+        };
+
+        _signaling?.onLocalStream = ((stream) {
+          setState(() {
+            _localRenderer.srcObject = stream;
+          });
+        });
+
+        _signaling?.onAddRemoteStream = ((stream) {
+          setState(() {
+            _remoteRenderer.srcObject = stream;
+          });
+        });
+
+        _signaling?.onRemoveRemoteStream = ((stream) {
+          setState(() {
+            _remoteRenderer.srcObject = null;
+          });
+        });
+      } else {
+        _signaling?.close();
+        Get.back();
       }
     }
   }
@@ -69,9 +100,15 @@ class _CallCounselState extends State<CallCounsel> {
     Get.back();
   }
 
-  void _switchCamera() {}
+  void _switchCamera() {
+    _signaling!.switchCamera();
+  }
 
-  void _muteMic() {}
+  void _muteMic() {
+    setState(() {
+      isAudioOn = _signaling!.muteMic(isAudioOn);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +160,9 @@ class _CallCounselState extends State<CallCounsel> {
               backgroundColor: Colors.pink,
             ),
             FloatingActionButton(
-              child: const Icon(Icons.mic_off),
+              child: isAudioOn
+                  ? const Icon(Icons.mic_outlined)
+                  : const Icon(Icons.mic_off),
               onPressed: _muteMic,
               heroTag: "btn_muteMic",
             )
