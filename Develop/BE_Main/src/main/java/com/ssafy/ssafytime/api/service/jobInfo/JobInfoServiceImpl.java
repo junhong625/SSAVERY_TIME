@@ -26,7 +26,7 @@ public class JobInfoServiceImpl implements JobInfoService{
         JobInfoRequestDto jobInfoRequest = new JobInfoRequestDto();
         jobInfoRequest.setStartDate(Long.parseLong(String.valueOf(jobInfo.get("startDate"))));
         jobInfoRequest.setEndDate(Long.parseLong(String.valueOf(jobInfo.get("endDate"))));
-        jobInfoRequest.setCompanyName(String.valueOf(jobInfo.get("companyName")));
+        jobInfoRequest.setCompany(String.valueOf(jobInfo.get("company")));
         jobInfoRequest.setJob(String.valueOf(jobInfo.get("job")));
         jobInfoRequest.setLink(String.valueOf(jobInfo.get("link")));
         jobInfoRepository.save(jobInfoRequest.toEntity());
