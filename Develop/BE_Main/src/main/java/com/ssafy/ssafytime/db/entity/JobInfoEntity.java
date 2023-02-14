@@ -24,8 +24,8 @@ public class JobInfoEntity {
     @Column(name = "end_date")
     private Long endDate;
 
-    @Column(name = "company_name")
-    private String companyName;
+    @Column(name = "company")
+    private String company;
 
     @Column(name = "job")
     private String job;
@@ -34,10 +34,10 @@ public class JobInfoEntity {
     private String link;
 
     @Builder
-    public JobInfoEntity(Long startDate, Long endDate, String companyName, String job, String link) {
+    public JobInfoEntity(Long startDate, Long endDate, String company, String job, String link) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.companyName = companyName;
+        this.company = company;
         this.job = job;
         this.link = link;
     }

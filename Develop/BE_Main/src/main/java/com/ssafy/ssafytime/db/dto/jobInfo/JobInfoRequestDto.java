@@ -13,20 +13,20 @@ import lombok.Setter;
 public class JobInfoRequestDto {
     private Long startDate;
     private Long endDate;
-    private String companyName;
+    private String company;
     private String job;
     private String link;
 
     @Builder
-    public JobInfoRequestDto(Long startDate, Long endDate, String companyName, String job, String link) {
+    public JobInfoRequestDto(Long startDate, Long endDate, String company, String job, String link) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.companyName = companyName;
+        this.company = company;
         this.job = job;
         this.link = link;
     }
 
     public JobInfoEntity toEntity() {
-        return JobInfoEntity.builder().startDate(startDate).endDate(endDate).companyName(companyName).job(job).link(link).build();
+        return JobInfoEntity.builder().startDate(startDate).endDate(endDate).company(company).job(job).link(link).build();
     }
 }
