@@ -126,12 +126,14 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
      */
     @Override
     public void noticeChange(Long userId) {
-        Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
-        AlarmDefault alarmDefault = userAlarmSettings.get();
-        System.out.println(alarmDefault.getNoticeAlarm());
-        System.out.println(!alarmDefault.getNoticeAlarm());
-        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getUser(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
+        AlarmDefault userAlarmSettings = alarmDefaultRepository.findById(userId).get();
+        System.out.println(userAlarmSettings.getNoticeAlarm());
+        AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto(userAlarmSettings);
+        System.out.println("request");
+        alarmDefaultRequestDto.setNoticeAlarm(!alarmDefaultRequestDto.getNoticeAlarm());
+        System.out.println(alarmDefaultRequestDto.getNoticeAlarm());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
+        System.out.println("end");
     }
 
     /* 설문조사 알림 on/off 변경(develop_AJH)
@@ -141,9 +143,9 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
      */
     @Override
     public void surveyChange(Long userId) {
-        Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
-        AlarmDefault alarmDefault = userAlarmSettings.get();
-        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getUser(), alarmDefault.getNoticeAlarm(), !alarmDefault.getSurveyAlarm(), alarmDefault.getConsultingAlarm());
+        AlarmDefault userAlarmSettings = alarmDefaultRepository.findById(userId).get();
+        AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto(userAlarmSettings);
+        alarmDefaultRequestDto.setSurveyAlarm(!alarmDefaultRequestDto.getSurveyAlarm());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 
@@ -154,9 +156,9 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
      */
     @Override
     public void consultingChange(Long userId) {
-        Optional<AlarmDefault> userAlarmSettings = alarmDefaultRepository.findById(userId);
-        AlarmDefault alarmDefault = userAlarmSettings.get();
-        AlarmDefaultRequestDto alarmDefaultRequestDto= new AlarmDefaultRequestDto(alarmDefault.getUser(), !alarmDefault.getNoticeAlarm(), alarmDefault.getSurveyAlarm(), !alarmDefault.getConsultingAlarm());
+        AlarmDefault userAlarmSettings = alarmDefaultRepository.findById(userId).get();
+        AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto(userAlarmSettings);
+        alarmDefaultRequestDto.setConsultingAlarm(!alarmDefaultRequestDto.getConsultingAlarm());
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 

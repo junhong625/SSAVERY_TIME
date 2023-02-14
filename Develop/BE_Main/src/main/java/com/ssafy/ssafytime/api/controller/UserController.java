@@ -100,7 +100,7 @@ public class UserController {
     ========================================================================================================================
      */
     @GetMapping("alarm/{userId}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> getAlarm(@PathVariable Long userId) {
         return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, alarmService.getDefaultAlarmSetting(userId));
     }
@@ -111,7 +111,7 @@ public class UserController {
     ========================================================================================================================
      */
     @PatchMapping("alarm/notice/{userId}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateNotice(@PathVariable Long userId) {
         alarmService.noticeChange(userId);
         return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
@@ -123,7 +123,7 @@ public class UserController {
     ========================================================================================================================
      */
     @PatchMapping("alarm/survey/{userId}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateSurvey(@PathVariable Long userId) {
         alarmService.noticeChange(userId);
         return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
@@ -135,7 +135,7 @@ public class UserController {
     ========================================================================================================================
      */
     @PatchMapping("alarm/consulting/{userId}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateConsulting(@PathVariable Long userId) {
         alarmService.noticeChange(userId);
         return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
