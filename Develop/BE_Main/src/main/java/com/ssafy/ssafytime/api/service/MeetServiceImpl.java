@@ -9,15 +9,25 @@ import com.ssafy.ssafytime.db.repository.MeetUpdateRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
 import io.openvidu.java.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service("meetService")
 public class MeetServiceImpl implements MeetService{
@@ -75,7 +85,6 @@ public class MeetServiceImpl implements MeetService{
 
         ArrayList<MeetInfoDto> manager = new ArrayList<MeetInfoDto>();
 
-
         // 현재 시간
         String[] dateTime = LocalDateTime.now().toString().split("T");
         int nowDate = Integer.parseInt(dateTime[0].toString().replace("-", ""));
@@ -95,9 +104,47 @@ public class MeetServiceImpl implements MeetService{
                 meetInfoDto.setRezDate(m.getRezDate());
 
                 // 시간이 지났으면 state 4(종료)로 변경
-                if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime() ) {
+                if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime()+1 ) {
                     m.setState(4L); // 4(종료) (entity)
-                    m.setSessionId(null);
+                    String sId = m.getSessionId();
+                    if(sId != null){
+                        // 세션 종료
+
+//                        // path param
+//                        Map< String, String > params = new HashMap < String, String > ();
+//                        params.put("sessionId", "ses_KQPkjRflJp");
+//                        RestTemplate restTemplate = new RestTemplate();
+//
+//                        // 1. HttpHeaders 객체 생성
+//                        HttpHeaders headers = new HttpHeaders();
+//
+//                        // 2. 헤더 설정 : ContentType
+//                        headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
+//                        headers.setBasicAuth("T1BFTlZJRFVBUFA6c3NhZnl0aW1l");
+//
+//                        // REST API 호출
+//                        restTemplate.delete("https://i8a602.p.ssafy.io/openvidu/api/sessions/{sessionId}", params, headers, String.class);
+//
+//
+////                        String result = restTemplate.postForObject("http://localhost:8082/restTest/", map, String.class);
+////                        System.out.println("------------------ TEST 결과 ------------------");
+////                        System.out.println(result);
+
+
+//                        RestTemplate restTemplate = new RestTemplate();
+//                        String url = "https://i8a602.p.ssafy.io/openvidu/api/sessions/" + "ses_AmWQkrYKj1";
+//
+//                        HttpHeaders httpHeaders = new HttpHeaders();
+//                        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//                        httpHeaders.setBasicAuth("T1BFTlZJRFVBUFA6c3NhZnl0aW1l");
+//
+//                        restTemplate.delete(url, httpHeaders, String.class);
+
+                        m.setSessionId(null); // 세션정보 삭제
+                    }
+
+
+
                     meetUpdateRepository.save(m);// db에 적용
 
 
@@ -138,9 +185,9 @@ public class MeetServiceImpl implements MeetService{
                     meetInfoDto.setRezTime(m.getRezTime());
                     meetInfoDto.setRezDate(m.getRezDate());
                     // 시간이 지났으면 state 4(종료)로 변경 (3(거절)인 경우는 처리안함)
-                    if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime() ) {
+                    if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime()+1 ) {
                         m.setState(4L); // 4(종료) (entity)
-                        m.setSessionId(null);
+//                        m.setSessionId(null);
                         meetUpdateRepository.save(m);// db에 적용
                     }
                     meetInfoDto.setState(m.getState());

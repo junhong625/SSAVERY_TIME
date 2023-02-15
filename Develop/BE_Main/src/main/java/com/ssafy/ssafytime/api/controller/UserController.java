@@ -6,6 +6,7 @@ import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
 import com.ssafy.ssafytime.api.service.UserService;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
 import com.ssafy.ssafytime.db.dto.UserDto;
+import com.ssafy.ssafytime.db.entity.AlarmDefault;
 import com.ssafy.ssafytime.db.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -102,7 +103,12 @@ public class UserController {
     @GetMapping("alarm/{userId}")
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> getAlarm(@PathVariable Long userId) {
-        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, alarmService.getDefaultAlarmSetting(userId));
+        AlarmDefaultResponseDto alarm = alarmService.getDefaultAlarmSetting(userId);
+        HashMap<String, Boolean> result = new HashMap<>();
+        result.put("noticeAlarm", alarm.getNoticeAlarm());
+        result.put("surveyAlarm", alarm.getSurveyAlarm());
+        result.put("consultingAlarm", alarm.getConsultingAlarm());
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, result);
     }
 
     /* 유저 공지사항 알림 on/off 변경
