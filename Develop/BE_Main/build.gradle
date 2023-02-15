@@ -118,6 +118,7 @@ dependencies {
 	// OpenVidu
 	implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.25.0'
 
+
 }
 tasks.named('test') {
 	useJUnitPlatform()

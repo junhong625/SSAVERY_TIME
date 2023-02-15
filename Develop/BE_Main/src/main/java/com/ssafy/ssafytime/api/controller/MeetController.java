@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -99,6 +100,57 @@ public class MeetController {
 //
 //            }
 //        });
+
+        // 정렬
+        // 1순위 : state 2 - 1 - 3 - 4
+        // 2순위 상담 시작 시간 오름차순
+
+        int endPoint = -1; // 2가 아닌 시점
+
+        // 2를 앞쪽으로
+        for(int i=0; i<member.size(); i++){
+            Long nowState = member.get(i).getState();
+            // 2면 두고 나머지는 오름차순
+            if(nowState==2) continue;
+            for(int j=i+1; j<member.size(); j++){
+                if(member.get(j).getState() == 2) {
+                    MeetInfoDto temp = member.get(i);
+                    member.set(i, member.get(j));
+                    member.set(j, temp);
+                    endPoint = i;
+                }
+            }
+        }
+
+        // 2 제외 오름차순
+        for(int i=endPoint+1; i<member.size(); i++){
+            Long nowState = member.get(i).getState();
+            for(int j=i+1; j<member.size(); j++){
+                if(nowState > member.get(j).getState()) {
+                    MeetInfoDto temp = member.get(i);
+                    member.set(i, member.get(j));
+                    member.set(j, temp);
+                }
+            }
+        }
+
+        // 상담 시작 시간 오름차순
+        // 2 제외 오름차순
+        for(int i=0; i<member.size(); i++){
+            Double preTime = Integer.parseInt(member.get(i).getRezDate().toString().replace("-", "")) + member.get(i).getRezTime();
+            Long nowState = member.get(i).getState();
+            for(int j=i+1; j<member.size(); j++){
+                if(nowState != member.get(j).getState()) continue;
+
+                Double nowTime = Integer.parseInt(member.get(j).getRezDate().toString().replace("-", "")) + member.get(j).getRezTime();
+
+                if(preTime > nowTime) {
+                    MeetInfoDto temp = member.get(i);
+                    member.set(i, member.get(j));
+                    member.set(j, temp);
+                }
+            }
+        }
 
         return new ResponseEntity(member, HttpStatus.OK);
     }
