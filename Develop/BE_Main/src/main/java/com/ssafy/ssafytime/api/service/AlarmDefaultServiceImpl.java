@@ -126,11 +126,14 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
      */
     @Override
     public void noticeChange(Long userId) {
+        /* delete & save 로 update
         AlarmDefault userAlarmSettings = alarmDefaultRepository.findById(userId).get();
         AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto(userAlarmSettings);
         alarmDefaultRequestDto.setNoticeAlarm(!alarmDefaultRequestDto.getNoticeAlarm());
         alarmDefaultRepository.delete(userAlarmSettings);
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
+         */
+        alarmDefaultRepository.noticeUpdate(userId);
     }
 
     /* 설문조사 알림 on/off 변경(develop_AJH)
@@ -140,11 +143,14 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
      */
     @Override
     public void surveyChange(Long userId) {
+        /* delete & save 로 update
         AlarmDefault userAlarmSettings = alarmDefaultRepository.findById(userId).get();
         AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto(userAlarmSettings);
         alarmDefaultRequestDto.setSurveyAlarm(!alarmDefaultRequestDto.getSurveyAlarm());
         alarmDefaultRepository.delete(userAlarmSettings);
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
+         */
+        alarmDefaultRepository.surveyUpdate(userId);
     }
 
     /* 상담 알림 on/off 변경(develop_AJH)
@@ -154,11 +160,14 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
      */
     @Override
     public void consultingChange(Long userId) {
+        /* delete & save 로 update
         AlarmDefault userAlarmSettings = alarmDefaultRepository.findById(userId).get();
         AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto(userAlarmSettings);
         alarmDefaultRequestDto.setConsultingAlarm(!alarmDefaultRequestDto.getConsultingAlarm());
         alarmDefaultRepository.delete(userAlarmSettings);
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
+         */
+        alarmDefaultRepository.consultingUpdate(userId);
     }
 
     /* 유저 생성 시 기본 알림 설정 저장(develop_AJH)

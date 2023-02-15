@@ -125,7 +125,7 @@ public class UserController {
     @PatchMapping("alarm/survey/{userId}")
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateSurvey(@PathVariable Long userId) {
-        alarmService.noticeChange(userId);
+        alarmService.surveyChange(userId);
         return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
     }
 
@@ -137,7 +137,7 @@ public class UserController {
     @PatchMapping("alarm/consulting/{userId}")
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Object> updateConsulting(@PathVariable Long userId) {
-        alarmService.noticeChange(userId);
+        alarmService.consultingChange(userId);
         return ResponseHandler.generateResponse(true, "UPDATE", HttpStatus.OK, null);
     }
 
