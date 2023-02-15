@@ -11,7 +11,7 @@ import lombok.ToString;
 public class JobInfoResponseDto {
     private Long startDate;
     private Long endDate;
-    private String companyName;
+    private String company;
     private String job;
     private String link;
 
@@ -19,7 +19,7 @@ public class JobInfoResponseDto {
     public JobInfoResponseDto(JobInfoEntity jobInfo) {
         this.startDate = jobInfo.getStartDate();
         this.endDate = jobInfo.getEndDate();
-        this.companyName = jobInfo.getCompanyName();
+        this.company = jobInfo.getCompany();
         this.job = jobInfo.getJob();
         this.link = jobInfo.getLink();
     }

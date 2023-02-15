@@ -23,17 +23,20 @@ public class JobInfoController {
 
     @PostMapping("/create")
     public ResponseEntity<Object> createJobInfo(@RequestBody HashMap<String, Object> jobInfo) {
-        jobInfoService.save(jobInfo);
-        return ResponseHandler.generateResponse(true, "CREATED", HttpStatus.CREATED, null);
+        try {
+            jobInfoService.save(jobInfo);
+            return ResponseHandler.generateResponse(true, "CREATED", HttpStatus.CREATED, null);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
+        }
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Object> getAllJobInfo() {
-        List<JobInfoResponseDto> jobInfoList = jobInfoService.getAllJobInfo();
-        if (!jobInfoList.isEmpty()) {
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, jobInfoList);
-        } else {
-            return ResponseHandler.generateResponse(false, "NULL", HttpStatus.NOT_FOUND, null);
+        try {
+            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, jobInfoService.getAllJobInfo());
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST, null);
         }
     }
 

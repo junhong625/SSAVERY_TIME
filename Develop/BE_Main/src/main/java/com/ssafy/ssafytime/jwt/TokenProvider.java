@@ -1,6 +1,8 @@
 package com.ssafy.ssafytime.jwt;
 
+import com.google.api.gax.rpc.UnauthenticatedException;
 import com.ssafy.ssafytime.db.dto.TokenType;
+import com.ssafy.ssafytime.db.repository.LogoutTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -36,12 +38,15 @@ public class TokenProvider implements InitializingBean {
    private final String secret;
    private final long tokenValidityInMilliseconds;
    private Key key;
+   private final LogoutTokenRepository logoutTokenRepository;
 
    public TokenProvider(
       @Value("${jwt.secret}") String secret,
-      @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
+      @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds,
+      LogoutTokenRepository logoutTokenRepository) {
       this.secret = secret;
       this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+      this.logoutTokenRepository = logoutTokenRepository;
    }
 
    @Override
@@ -128,11 +133,16 @@ public class TokenProvider implements InitializingBean {
       return validateToken(token, TokenType.REFRESH);
    }
 
+   public Date validity(final String token){
+      return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration();
+   }
    public boolean validateToken(String token, final TokenType tokenType) {
       try {
          final Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
          final TokenType extractedType = TokenType.valueOf((String)claims.get(TOKEN_TYPE_KEY));
-
+         if(logoutTokenRepository.existsByToken(token)){
+            throw new io.jsonwebtoken.security.SecurityException("잘못된 JWT 서명입니다.");
+         }
 
          return !claims.getExpiration().before(new Date()) && extractedType == tokenType;
       } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {

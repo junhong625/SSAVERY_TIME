@@ -19,7 +19,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(false, ex.getMessage(), HttpStatus.NOT_FOUND, null);
-        return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(false, ex.getMessage(), HttpStatus.BAD_REQUEST, null);
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }

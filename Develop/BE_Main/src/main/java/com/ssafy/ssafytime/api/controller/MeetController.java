@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -28,44 +29,17 @@ import java.util.Map;
 @RequestMapping("/meet")
 public class MeetController {
     // OpenVidu
+    // OpenVidu deployment URL, SECRET
     @Value("${OPENVIDU_URL}")
     private String OPENVIDU_URL;
-
     @Value("${OPENVIDU_SECRET}")
     private String OPENVIDU_SECRET;
+    // Openvidu object
     private OpenVidu openvidu;
-
     @PostConstruct
     public void init() {
         this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
     }
-
-    @PostMapping("/api/sessions")
-    public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
-            throws OpenViduJavaClientException, OpenViduHttpException {
-        SessionProperties properties = SessionProperties.fromJson(params).build();
-        Session session = openvidu.createSession(properties);
-        return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
-    }
-    /**
-     * @param sessionId The Session in which to create the Connection
-     * @param params    The Connection properties
-     * @return The Token associated to the Connection
-     */
-    @PostMapping("/api/sessions/{sessionId}/connections")
-    public ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId,
-                                                   @RequestBody(required = false) Map<String, Object> params)
-            throws OpenViduJavaClientException, OpenViduHttpException {
-        Session session = openvidu.getActiveSession(sessionId);
-        if (session == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        ConnectionProperties properties = ConnectionProperties.fromJson(params).build();
-        Connection connection = session.createConnection(properties);
-        return new ResponseEntity<>(connection.getToken(), HttpStatus.OK);
-    }
-
-    //
 
     @Autowired
     AlarmDefaultService alarmDefaultService;
@@ -84,7 +58,8 @@ public class MeetController {
     // 회원번호로 한명의 회원 조회
     // code값이 0이면 교육생 1이면 매니저
     @GetMapping(value = "/{userId}/{code}", produces = { MediaType.APPLICATION_JSON_VALUE }) // 요청을 json type의 데이터만 담고 있는 요청 처리
-    public ResponseEntity<List<MeetInfoDto>> getMember(@PathVariable("userId") Long userId, @PathVariable("code") int code) {
+    public ResponseEntity<List<MeetInfoDto>> getMember(@PathVariable("userId") Long userId, @PathVariable("code") int code)
+            throws OpenViduJavaClientException, OpenViduHttpException, FirebaseMessagingException{
 
         // 본인의 상담 예약 정보 리스트
         List<MeetInfoDto> member = null;
@@ -99,8 +74,30 @@ public class MeetController {
         else if(code==1){
             // Optional : 'null일 수도 있는 객체'를 감싸는 일종의 Wrapper 클래스
             member = meetService.findAllByManagerId_UserIdx(userId);
-
         }
+
+        // 종료상태면 세션 종료
+        member.forEach(m->{
+            if(m.getState()==4) {
+                // 세선 닫아버리기
+                Session session = null;
+//                        openvidu.getActiveSession(m.getSessionId());
+
+//                if (session != null) {
+//
+//                }
+//                if (session != null) {
+//                    try {
+//                        session.close();
+//                    } catch (OpenViduJavaClientException e) {
+//                        throw new RuntimeException(e);
+//                    } catch (OpenViduHttpException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+
+            }
+        });
 
         return new ResponseEntity(member, HttpStatus.OK);
     }
@@ -142,21 +139,28 @@ public class MeetController {
 
     // 상담승인 등록 ( 매니저가 등록 )
     // rez_idx는 예약된 상담의 번호
+    // Basic EncodeBase64(OPENVIDUAPP:<YOUR_SECRET>), Content-Type: application/json 헤더로 받기
+    // 세션 생성
     @PutMapping("/update/accept")
-    public ResponseEntity<Object> putAccept(@RequestParam("rez_idx") Long rezIdx) throws FirebaseMessagingException {
+    public ResponseEntity<Object> putAccept(@RequestBody(required = false) Map<String, Object> params, @RequestParam("rez_idx") Long rezIdx)
+            throws OpenViduJavaClientException, OpenViduHttpException, FirebaseMessagingException {
 
         // 예약된 상담의 정보 가져오기
         MeetList member = meetService.findByRezIdx(rezIdx);
-        // 이미 상태가 1이라면 cut!
+        // 이미 상태가 2라면 cut!
         if(member.getState()==2L){
             return ResponseEntity.ok().body("이미 수락 되어 있어요~");
         }
 
+        // 세션 생성
+        SessionProperties properties = SessionProperties.fromJson(params).build();
+        Session session = openvidu.createSession(properties);
+
+        // 세션 아이디 저장
+        member.setSessionId(session.getSessionId());
         // 상태 ( 1(대기중) -> 2(승인) )
         member.setState(2L);
         meetService.update(member);
-
-
 
         Double doubleTime = 0.0;  // 상담 알림 메시지 위함
         doubleTime = Math.floor(member.getRezTime());

@@ -250,12 +250,51 @@ public class DbConnector {
         }
     }
 
+    public void insertJobInfo() throws SQLException {
+        PreparedStatement pstmt = null;
+        String sql = "INSERT INTO job_info(company, start_date, end_date, job, link) VALUES(?,?,?,?,?)";
+        String[] companyList = {"삼성", "LG", "SK", "카카오", "네이버", "구글 코리아", "라인", "쿠팡", "배달의 민족", "당근", "토스"};
+        String[] jobList = {"백엔드", "프론트엔드", "DBA", "DE", "DevOps", "MLOps"};
+        Random random = new Random();
+        LocalDateTime dateTime = LocalDateTime.now();
+        try {
+            System.out.println("Start");
+            for (int i = 0; i < 30; i++) {
+                pstmt = conn.prepareStatement(sql);
+                PreparedStatement result = conn.prepareStatement("SELECT * FROM job_info WHERE company = ? and job = ?");
+                String company = companyList[random.nextInt(11)];
+                String job = jobList[random.nextInt(6)];
+                result.setString(1, company);
+                result.setString(2, job);
+                while (result.executeQuery().next()) {
+                    company = companyList[random.nextInt(11)];
+                    job = jobList[random.nextInt(6)];
+                    result.setString(1, company);
+                    result.setString(2, job);
+                }
+                pstmt.setString(1, company);
+                LocalDateTime startDateTime = dateTime.minusDays(random.nextInt(5)).plusDays(random.nextInt(5));
+                pstmt.setLong(2, Long.parseLong(startDateTime.toString().substring(0, 19).replace("-", "").replace(":", "").replace("T", "")));
+                pstmt.setLong(3, Long.parseLong(startDateTime.plusDays(random.nextInt(7)+14).toString().substring(0, 19).replace("-", "").replace(":", "").replace("T", "")));
+                pstmt.setString(4, job);
+                pstmt.setString(5, "www.???.com");
+                pstmt.executeUpdate();
+            }
+            System.out.println("Insert Complete");
+        } catch (Exception e) {
+            System.out.println("Fail");
+            System.out.println(e);
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
         DbConnector db = new DbConnector();
 //        db.insertScheduleCategory(); /*시간표 카테고리가 존재하지 않을 경우에만 실행*/
-        db.insertSchedule("20230206");
-        db.insertNotice();
+//        db.insertSchedule("20230206");
+//        db.insertNotice();
+        db.insertJobInfo();
     }
+
     public static void main(LocalDateTime started_at, LocalDateTime ended_at) throws SQLException {
         DbConnector conn = new DbConnector();
 //        conn.insertNotice();

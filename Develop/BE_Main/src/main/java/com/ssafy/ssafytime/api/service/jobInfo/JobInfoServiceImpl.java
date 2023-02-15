@@ -26,7 +26,7 @@ public class JobInfoServiceImpl implements JobInfoService{
         JobInfoRequestDto jobInfoRequest = new JobInfoRequestDto();
         jobInfoRequest.setStartDate(Long.parseLong(String.valueOf(jobInfo.get("startDate"))));
         jobInfoRequest.setEndDate(Long.parseLong(String.valueOf(jobInfo.get("endDate"))));
-        jobInfoRequest.setCompanyName(String.valueOf(jobInfo.get("companyName")));
+        jobInfoRequest.setCompany(String.valueOf(jobInfo.get("company")));
         jobInfoRequest.setJob(String.valueOf(jobInfo.get("job")));
         jobInfoRequest.setLink(String.valueOf(jobInfo.get("link")));
         jobInfoRepository.save(jobInfoRequest.toEntity());
@@ -34,16 +34,11 @@ public class JobInfoServiceImpl implements JobInfoService{
 
     @Override
     public List<JobInfoResponseDto> getAllJobInfo() {
-        Long date = Long.parseLong(LocalDateTime.now().toString().replace("-",""));
+        Long date = Long.parseLong(LocalDateTime.now().toString().replace("-","").replace(":", "").replace("T", "").substring(0,14));
         List<JobInfoResponseDto> jobInfoResponseDtoList = new ArrayList<>();
         jobInfoRepository.findByStartDateLessThanEqualOrderByStartDate(date).forEach(jobInfo -> {
             jobInfoResponseDtoList.add(new JobInfoResponseDto(jobInfo));
         });
         return jobInfoResponseDtoList;
-    }
-
-    @Override
-    public JobInfoResponseDto getJobInfo(int id) {
-        return null;
     }
 }

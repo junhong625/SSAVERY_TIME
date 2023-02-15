@@ -7,6 +7,7 @@ import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.MeetListRepository;
 import com.ssafy.ssafytime.db.repository.MeetUpdateRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
+import io.openvidu.java.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ public class MeetServiceImpl implements MeetService{
     MeetUpdateRepository meetUpdateRepository;
     @Autowired
     UserRepository userRepository;
+
+    private OpenVidu openvidu;
 
     // 날짜와 매니저의 id정보를 가지고 해당 날짜에 신청되어 있는 시간 정보 리스트를 반환
     @Override
@@ -72,42 +75,38 @@ public class MeetServiceImpl implements MeetService{
 
         ArrayList<MeetInfoDto> manager = new ArrayList<MeetInfoDto>();
 
+
         // 현재 시간
         String[] dateTime = LocalDateTime.now().toString().split("T");
         int nowDate = Integer.parseInt(dateTime[0].toString().replace("-", ""));
         int nowHour = Integer.parseInt(dateTime[1].split(":")[0]);
         int nowMin = Integer.parseInt(dateTime[1].split(":")[1]);
-        int nowTime;
-        if(nowMin > 30){
-            nowTime = nowHour + 1;
-        }
-        else{
-            nowTime = nowHour;
-        }
+        Double nowTime = nowHour + (nowMin/60.0);
 
         member.forEach(m->{
-                // 종료시간이 지났다면
-
-
                 // 관리자의 이름을 뽑아서 추출
                 MeetInfoDto meetInfoDto = new MeetInfoDto();
                 meetInfoDto.setName(m.getManagerId().getUserName());
-                meetInfoDto.setMeetUrl(m.getMeetUrl());
                 meetInfoDto.setReject(m.getReject());
                 meetInfoDto.setTitle(m.getTitle());
+                meetInfoDto.setSessionId(m.getSessionId());
 
                 meetInfoDto.setRezTime(m.getRezTime());
                 meetInfoDto.setRezDate(m.getRezDate());
 
                 // 시간이 지났으면 state 4(종료)로 변경
-                if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime >= m.getRezTime() ) {
+                if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime() ) {
                     m.setState(4L); // 4(종료) (entity)
-                    meetUpdateRepository.save(m);// 4(종료) (db)
+                    m.setSessionId(null);
+                    meetUpdateRepository.save(m);// db에 적용
+
+
                 }
                 meetInfoDto.setState(m.getState());
                 meetInfoDto.setCategory(m.getCategory());
                 meetInfoDto.setRezIdx(m.getRezIdx());
                 meetInfoDto.setSubTime(m.getSubTime());
+                meetInfoDto.setSessionId(m.getSessionId());
 
                 manager.add(meetInfoDto);
             }
@@ -127,32 +126,28 @@ public class MeetServiceImpl implements MeetService{
         int nowDate = Integer.parseInt(dateTime[0].toString().replace("-", ""));
         int nowHour = Integer.parseInt(dateTime[1].split(":")[0]);
         int nowMin = Integer.parseInt(dateTime[1].split(":")[1]);
-        int nowTime;
-        if(nowMin > 30){
-            nowTime = nowHour + 1;
-        }
-        else{
-            nowTime = nowHour;
-        }
+        Double nowTime = nowHour + (nowMin/60.0);
 
         member.forEach(m->{
                     // 교육생의 이름을 뽑아서 추출
                     MeetInfoDto meetInfoDto = new MeetInfoDto();
                     meetInfoDto.setName(m.getStudentId().getUserName());
-                    meetInfoDto.setMeetUrl(m.getMeetUrl());
+                    meetInfoDto.setSessionId(m.getSessionId());
                     meetInfoDto.setReject(m.getReject());
                     meetInfoDto.setTitle(m.getTitle());
                     meetInfoDto.setRezTime(m.getRezTime());
                     meetInfoDto.setRezDate(m.getRezDate());
                     // 시간이 지났으면 state 4(종료)로 변경 (3(거절)인 경우는 처리안함)
-                    if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime >= m.getRezTime() ) {
+                    if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime() ) {
                         m.setState(4L); // 4(종료) (entity)
-                        meetUpdateRepository.save(m);// 4(종료) (db)
+                        m.setSessionId(null);
+                        meetUpdateRepository.save(m);// db에 적용
                     }
                     meetInfoDto.setState(m.getState());
                     meetInfoDto.setCategory(m.getCategory());
                     meetInfoDto.setRezIdx(m.getRezIdx());
                     meetInfoDto.setSubTime(m.getSubTime());
+                    meetInfoDto.setSessionId(m.getSessionId());
 
                     manager.add(meetInfoDto);
                 }

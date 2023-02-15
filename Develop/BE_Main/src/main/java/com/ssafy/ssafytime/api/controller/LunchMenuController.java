@@ -32,11 +32,7 @@ public class LunchMenuController {
      */
     @GetMapping("/today")
     public ResponseEntity<Object> todayMenu(@RequestParam("region") int region) {
-        List<LunchMenuResponseDto> menu = lunchMenuService.getTodayMenu(region);
-        if (!menu.isEmpty())
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, menu);
-        else
-            return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getTodayMenu(region));
     }
 
     /* 내일 점심 메뉴 조회(develop_AJH)
@@ -48,11 +44,7 @@ public class LunchMenuController {
      */
     @GetMapping("/tomorrow")
     public ResponseEntity<Object> tomorrowMenu(@RequestParam("region") int region) {
-        List<LunchMenuResponseDto> menu = lunchMenuService.getTomorrowMenu(region);
-        if (!menu.isEmpty())
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, menu);
-        else
-            return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getTomorrowMenu(region));
     }
 
     /* 이번 주 점심 메뉴 조회 (develop_AJH)
@@ -64,11 +56,7 @@ public class LunchMenuController {
      */
     @GetMapping("/week")
     public ResponseEntity<Object> WeekMenu(@RequestParam("region") int region) {
-        HashMap<Integer, List<LunchMenuResponseDto>> menu = lunchMenuService.getWeekMenu(region);
-        if (!menu.isEmpty())
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, menu);
-        else
-            return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, lunchMenuService.getWeekMenu(region));
     }
 
     /* 단일 점심 메뉴 세부 정보 조회(develop_AJH)

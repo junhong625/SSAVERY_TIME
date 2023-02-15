@@ -34,7 +34,6 @@ public class NoticeController {
         return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getRecentNotice());
     }
 
-
     /* 단일 공지사항 조회(develop_AJH)
     ================================================|| parameter ||=========================================================
     id : 공지사항 id
@@ -49,11 +48,7 @@ public class NoticeController {
      */
     @GetMapping("/all")
     public ResponseEntity<Object> noticeAll(){
-        List<NoticeResponseDto> notice = noticeService.getAllNotice();
-        if (!notice.isEmpty())
-            return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, notice);
-        else
-            return ResponseHandler.generateResponse(false, "EMPTY", HttpStatus.NOT_FOUND, null);
+        return ResponseHandler.generateResponse(true, "OK", HttpStatus.OK, noticeService.getAllNotice());
     }
 
     /* 공지사항 생성(develop_AJH)

@@ -13,7 +13,4 @@ public interface JobInfoService {
     void save(HashMap<String, Object> jobInfo);
 
     List<JobInfoResponseDto> getAllJobInfo();
-
-    JobInfoResponseDto getJobInfo(int id);
-
 }

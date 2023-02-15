@@ -1,6 +1,7 @@
 package com.ssafy.ssafytime.api.service.schedule;
 
 import com.ssafy.ssafytime.db.dto.schedule.ScheduleResponseDto;
+import com.ssafy.ssafytime.db.entity.schedule.ScheduleEntity;
 import com.ssafy.ssafytime.db.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -27,10 +29,12 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public ScheduleResponseDto getCurrentSchedule(int trackCode, int interval) {
         String[] dateTime = LocalDateTime.now().plusMinutes(interval).toString().split("T");
+        System.out.println(dateTime[1]);
         int date = Integer.parseInt(dateTime[0].toString().replace("-", ""));
         int time = Integer.parseInt(dateTime[1].replace(":", "").substring(0, 2));
-        System.out.println(date + ":" + time);
-        return new ScheduleResponseDto(scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(trackCode, date, time, time));
+        if (null == scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(trackCode, date, time, time).orElse(null))
+            return null;
+        return new ScheduleResponseDto(scheduleRepository.findByTrackCodeAndDateAndStartTimeLessThanEqualAndEndTimeGreaterThan(trackCode, date, time, time).orElse(null));
     }
 
     @Override
@@ -54,6 +58,8 @@ public class ScheduleServiceImpl implements ScheduleService{
             weekScheduleList.put(d, scheduleResponseDtoList);
             date = date.plusDays(1);
         }
+        if (weekScheduleList.isEmpty())
+            return null;
         return weekScheduleList;
     }
 }
