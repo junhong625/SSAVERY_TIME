@@ -1,5 +1,5 @@
 from flask import Flask, request
-import pymysql, requests, datetime, requests, time
+import pymysql, requests, datetime, requests, time, pprint
 from apscheduler.schedulers.background import BackgroundScheduler
 from requests.auth import HTTPBasicAuth
 
@@ -38,12 +38,14 @@ def get_issues():
         issue_list = []
 
         for issue in issues:
-            issue_info = {}
-            issue_info['story_points'] = issue['fields']['customfield_10031']
-            issue_info['title'] = issue['fields']['summary']
-            issue_info['priority'] = issue['fields']['parent']['fields']['priority']['name']
-            issue_info['epic'] = issue['fields']['parent']['fields']['summary']
-            issue_list.append(issue_info)
+            if issue['fields']['customfield_10020']:
+                # pprint.pprint(issue['fields'])
+                issue_info = {}
+                issue_info['story_points'] = issue['fields']['customfield_10031']
+                issue_info['title'] = issue['fields']['summary']
+                issue_info['priority'] = issue['fields']['parent']['fields']['priority']['name']
+                issue_info['epic'] = issue['fields']['parent']['fields']['summary']
+                issue_list.append(issue_info)
         return {'issue_list':issue_list}
 
 
