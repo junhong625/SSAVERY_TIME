@@ -133,14 +133,14 @@ public class DbConnector {
     public void insertSurveys() throws SQLException {  // 설문조사 데이터 넣기
 //        String sql = "insert into survey(created_at, category, ended_at, status, survey_title, made_at) values(?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = null;
-        String sql = "update survey set made_at = ?";
+        String sql = "update survey set made_at = ? where survey_idx = ?";
         try {
             pstmt = conn.prepareStatement(sql);
-            LocalDateTime startDateTime = LocalDateTime.now();
+            LocalDateTime startDateTime = LocalDateTime.of(2023, 2, 4, 14, 00);
 //            LocalDateTime endDateTime = LocalDateTime.of(2023, 2, 23, 18, 00);
 //            String[] title = {"만족도", "행복도", "수요", "프로젝트"};
-//            Random random = new Random();
-//            for (int i = 0; i < 40; i++) {
+            Random random = new Random();
+            for (int i = 1; i < 40; i++) {
 //                LocalDateTime x = startDateTime.minusDays(random.nextInt(5)).plusHours(random.nextInt(6));
 //                pstmt.setString(1, String.valueOf(x));
 //                pstmt.setInt(2, random.nextInt(3));
@@ -154,9 +154,11 @@ public class DbConnector {
 //                    pstmt.setInt(4, 2);
 //                }
 //                pstmt.setString(5, title[random.nextInt(4)] + "설문");
-                pstmt.setString(1, String.valueOf(startDateTime));
+                LocalDateTime x = startDateTime.plusDays(random.nextInt(5)).plusHours(random.nextInt(5));
+                pstmt.setString(1, String.valueOf(x));
+                pstmt.setInt(2, i);
                 pstmt.executeUpdate();
-//            }
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
