@@ -5,21 +5,22 @@ List<CouncelDetail> councelDetailFromJson(String str) => List<CouncelDetail>.fro
 String councelDetailToJson(List<CouncelDetail> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class CouncelDetail {
+
     CouncelDetail({
-        required this.rezDate,
-        required this.rezTime,
-        required this.title,
-        required this.category,
-        this.meetUrl,
-        required this.rezIdx,
+        this.rezDate,
+        this.rezTime = 0.0,
+        this.title = '',
+        this.category = '',
+        this.meetUrl = '',
+        this.rezIdx = -1,
         this.reject,
-        required this.state,
-        required this.name,
-        required this.sessionId,
+        this.state = 0,
+        this.name = '',
+        this.sessionId,
         // required double this.exEndTime,
     });
 
-    DateTime rezDate;
+    DateTime? rezDate;
     double rezTime;
     String title;
     String category;
@@ -47,7 +48,7 @@ class CouncelDetail {
     );
 
     Map<String, dynamic> toJson() => {
-        "rezDate": "${rezDate.year.toString().padLeft(4, '0')}-${rezDate.month.toString().padLeft(2, '0')}-${rezDate.day.toString().padLeft(2, '0')}",
+        "rezDate": rezDate == null ? '9999-09-09' : "${rezDate!.year.toString().padLeft(4, '0')}-${rezDate!.month.toString().padLeft(2, '0')}-${rezDate!.day.toString().padLeft(2, '0')}",
         "rezTime": rezTime,
         "title": title,
         "category": category,

@@ -9,6 +9,8 @@ import '../model/councel_bottom_councelor.dart';
 import '../model/councel_detail.dart';
 
 class MyCouncelController extends GetxController {
+  static MyCouncelController get to => Get.find();
+
   int? userID = AuthService.to.user.value.userIdx;
   int? userAdmin = AuthService.to.user.value.isAdmin;
   int? userTrackCode = AuthService.to.user.value.trackCode;
@@ -38,6 +40,7 @@ class MyCouncelController extends GetxController {
 
   RxInt adminCategory = 1.obs; // 관리가 페이지의 탭바 인덱스
 
+
   @override
   void onInit() {
     super.onInit();
@@ -55,7 +58,7 @@ class MyCouncelController extends GetxController {
   Future fetchMyCouncelList() async {
     int? userId = userID;
     int? isAdmin = userAdmin;
-    print(adminCategory);
+
     loadingController.to.isLoading = true;
 
     myCouncelList.clear(); // 초기화 는 clear 로 해야만 되는듯
@@ -72,7 +75,6 @@ class MyCouncelController extends GetxController {
         .get(Uri.parse("http://i8a602.p.ssafy.io:9090/meet/${userId}/${isAdmin}"));
     var data = json.decode(res.body);
     // print('fetchMyCouncelList 호출 -> ${data}');
-
 
 
     for (int i = 0; i < data.length; i++) {
@@ -96,7 +98,6 @@ class MyCouncelController extends GetxController {
             100 // 상담은 1시간 한다고 가정해서 +100임 1이 시간 00이 분이라서
         );
       }
-
     }
 
     loadingController.to.isLoading = false;

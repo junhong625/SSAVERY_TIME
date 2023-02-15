@@ -1,30 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:ssafytime/models/recruitment.dart';
 
 // 홈 스크린 채용정보 단일 위젯
-class HEIS extends StatefulWidget {
-  final List info; // [회사 이름, 채용내용, 기간]
-  // final String name; // 회사 정보
-  // final String detail; // 채용 내용
-  // final String period; // 채용 기간
+class HEIS extends StatelessWidget {
+  final recruitCompany info;
 
   const HEIS({
     Key? key,
-    // required this.detail,
-    // required this.name,
-    // required this.period,
     required this.info,
   }) : super(key: key);
 
   @override
-  State<HEIS> createState() => _HEISState();
-}
-
-class _HEISState extends State<HEIS> {
-  @override
   Widget build(BuildContext context) {
-    String name = widget.info[0];
-    String detail = widget.info[1];
-    String period = widget.info[2];
+    String name = info.company!;
+    String detail = info.job!;
+    String period = info.date!;
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
       width: 358,
@@ -42,7 +32,7 @@ class _HEISState extends State<HEIS> {
           Container(
             padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
             child: Text(
-              detail,
+              '모집분야 : ' + detail,
               style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w900,

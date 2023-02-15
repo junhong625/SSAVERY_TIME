@@ -161,15 +161,7 @@ class _HomeScreenStates extends State<HomeScreen> {
                   margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                   width: double.infinity,
                   color: Colors.white,
-                  child: HEIT(
-                    infoList: [
-                      ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                      ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                      ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                      ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                      ["현대오토에버", "토요일 코딩테스트", "2023.01.15 ~ 2023.01.30"],
-                    ],
-                  ),
+                  child: HEIT(),
                 ),
               )
             ],

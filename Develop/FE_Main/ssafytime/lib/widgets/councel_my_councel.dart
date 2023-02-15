@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ssafytime/controllers/user_controller.dart';
 import 'package:ssafytime/custom_button.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +25,7 @@ class CMyCouncel extends StatelessWidget {
         child: RefreshIndicator(
           onRefresh: () async {
             controller.fetchMyCouncelList();
+            Get.find<UserController>().fetchRecruitmentInfo();
           },
           child: ListView(
             physics: AlwaysScrollableScrollPhysics(),
