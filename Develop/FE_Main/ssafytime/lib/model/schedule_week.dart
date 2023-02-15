@@ -40,12 +40,12 @@ class Datum {
   Datum({
     this.date = 0,
     this.startTime = 9,
-    this.endTime = 10,
+    this.endTime = 18,
     this.onOff = 2,
     this.title = '데이터가 없습니다.',
     this.subTitle = '서버 점검 중..',
     this.category = 0, //  0 == api 오류 or 시간표가 없을떄
-    this.totalTime = 1,
+    this.totalTime = 9,
   });
 
   int date;

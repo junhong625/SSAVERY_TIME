@@ -6,6 +6,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:ssafytime/controllers/councel_controller.dart';
 import 'package:ssafytime/custom_button.dart';
 import 'package:ssafytime/model/councel_detail.dart';
+import 'package:ssafytime/screens/call_counsel.dart';
 import 'package:ssafytime/widgets/custom_text.dart';
 
 class CouncelAdminListItem extends StatelessWidget {
@@ -56,12 +57,26 @@ class CouncelAdminListItem extends StatelessWidget {
     String? url = data.value.meetUrl; // 상담 url
     int rezIdx = data.value.rezIdx; // 상담번호
 
+    String? sessionId = data.value.sessionId;
+
     String councelTime = getCouncelTime(rezTime); // 13:00 ~ 14:00
     String councelDate = CItemDate(startTime);
     double opacity = currentTime > endTime ? 0.4 : 1;
 
     return Container(
-        color: Colors.white,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 2, color: Colors.blue),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.black54,
+                blurRadius: 3.0,
+                offset: Offset(0.0, 5)
+            )
+          ]
+      ),
+        // color: Colors.white,
         width: MediaQuery.of(context).size.width * 0.8,
         child: ExpansionTile(
           leading: Container(
@@ -148,11 +163,24 @@ class CouncelAdminListItem extends StatelessWidget {
                             }
                         )
                         ] else if (state == 2) ... [
-                          CustomElevatedButton(
-                              label: '상담하기',
-                              width: 100, height: 40,
-                              onPressed: () {}
-                          ),
+                          if (sessionId != null) ... [
+                            CustomElevatedButton(
+                                label: '상담하기',
+                                width: 100, height: 40,
+                                onPressed: () {
+                                  // 상담 이동하기
+                                  Get.to(() => CallCounsel(sessionName: sessionId, userName: name,));
+                                }
+                            ),
+                          ] else ... [
+                            CustomElevatedButton(
+                                label: '승인 중...',
+                                width: 100, height: 40,
+                                onPressed: () {
+                                  // 세션 아이디가 없는 경우
+                                }
+                            ),
+                          ]
                         ] else if (state == 3) ... [
                           Flexible(
                               child: RichText(

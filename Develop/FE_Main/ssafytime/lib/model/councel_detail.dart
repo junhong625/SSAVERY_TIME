@@ -9,21 +9,22 @@ String councelDetailToJson(List<CouncelDetail> data) =>
 
 class CouncelDetail {
   CouncelDetail({
-    required this.rezDate,
-    required this.rezTime,
-    required this.title,
-    required this.category,
-    this.meetUrl,
-    required this.rezIdx,
+    this.rezDate,
+    this.rezTime = 0.0,
+    this.title = '',
+    this.category = '',
+    this.meetUrl = '',
+    this.rezIdx = -1,
     this.reject,
-    required this.state,
-    required this.name,
+    this.state = 0,
+    this.name = '',
+    this.sessionId,
     this.createDateTime,
-    // required double this.exEndTime,
     this.notiType = 3,
+    // required double this.exEndTime,
   });
 
-  DateTime rezDate;
+  DateTime? rezDate;
   double rezTime;
   String title;
   String category;
@@ -32,6 +33,7 @@ class CouncelDetail {
   String? reject;
   int state;
   String name;
+  String? sessionId;
   DateTime? createDateTime;
   int? notiType;
 
@@ -48,13 +50,15 @@ class CouncelDetail {
         reject: json["reject"],
         state: json["state"],
         name: json["name"],
+        sessionId: json["sessionId"],
         createDateTime:
             json["subTime"] == null ? null : DateTime.parse(json["subTime"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "rezDate":
-            "${rezDate.year.toString().padLeft(4, '0')}-${rezDate.month.toString().padLeft(2, '0')}-${rezDate.day.toString().padLeft(2, '0')}",
+        "rezDate": rezDate == null
+            ? '9999-09-09'
+            : "${rezDate!.year.toString().padLeft(4, '0')}-${rezDate!.month.toString().padLeft(2, '0')}-${rezDate!.day.toString().padLeft(2, '0')}",
         "rezTime": rezTime,
         "title": title,
         "category": category,
@@ -63,6 +67,7 @@ class CouncelDetail {
         "reject": reject,
         "state": state,
         "name": name,
+        "sessionId": sessionId,
         "subTime": createDateTime?.toIso8601String(),
       };
 

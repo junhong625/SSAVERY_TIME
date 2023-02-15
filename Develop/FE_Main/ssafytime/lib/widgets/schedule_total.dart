@@ -28,25 +28,26 @@ class ScTotal extends StatelessWidget {
             ScTimeTable(),
             Column(
               children: [
-                // ElevatedButton(
-                //   onPressed: () {
-                //     print('${scheduleList}');
-                //     print('${test.todaySchedule}');
-                //     print(test.trackCode);
-                //   },
-                //   child: Text('df'),
-                // ),
-                for (int idx = 0; idx < scheduleList.length; idx ++ ) ... [
-                  ScSingleItem(
-                    data: scheduleList[idx] ?? Datum(),
-                  ),
-                  // 수업이 한 시간 보다 길어질 경우 처리
-                  for (int j = 1; j < scheduleList[idx].totalTime; j++) ... [
-                    BlankTimeTable(color: scheduleList[idx].category)
+                if (scheduleList.length >= 1) ... [
+                  for (int idx = 0; idx < scheduleList.length; idx ++ ) ... [
+                    ScSingleItem(
+                      data: scheduleList[idx],
+                    ),
+                    // 수업이 한 시간 보다 길어질 경우 처리
+                    for (int j = 1; j < scheduleList[idx].totalTime; j++) ... [
+                      BlankTimeTable(color: scheduleList[idx].category)
+                    ],
+                    Divider(thickness: 1, height: 1, color: Color(0xffC3C6CF),),
+                    scheduleList[idx].endTime == 12 ? LunchTimeTable() : SizedBox() // 점심시간 처리
                   ],
-                  Divider(thickness: 1, height: 1, color: Color(0xffC3C6CF),),
-                  scheduleList[idx].endTime == 12 ? LunchTimeTable() : SizedBox() // 점심시간 처리
-                ],
+                ] else ... [
+                  ScSingleItem(
+                    data: Datum(),
+                  ),
+                  for (int j = 1; j < Datum().totalTime; j++) ... [
+                    BlankTimeTable(color: Datum().category)
+                  ],
+                ]
               ],
             )
           ],

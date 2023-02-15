@@ -21,7 +21,7 @@ class MDetailPercentBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.teal,
+      // color: Colors.teal,
       // width: 42,
       width:63,
       height: 190,

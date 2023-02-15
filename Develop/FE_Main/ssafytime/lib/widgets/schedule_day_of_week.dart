@@ -43,8 +43,7 @@ class SDay0fWeek extends StatelessWidget {
                   child: InkWell(
                     onTap: () async{
                       print('클릭');
-                      // controller.selectDay(idx);
-                      controller.fetchScheduleWeek(0);
+                      controller.selectDay(idx);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

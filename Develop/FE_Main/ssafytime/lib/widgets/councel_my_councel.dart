@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ssafytime/controllers/user_controller.dart';
 import 'package:ssafytime/custom_button.dart';
 import 'package:get/get.dart';
 
@@ -18,11 +19,18 @@ class CMyCouncel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Container(
         color: Colors.white,
+        // color: Colors.black26,
         margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
         width: 390, height: 666,
-        child: SingleChildScrollView(
-          child: Column(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            controller.fetchMyCouncelList();
+            Get.find<UserController>().fetchRecruitmentInfo();
+          },
+          child: ListView(
+            physics: AlwaysScrollableScrollPhysics(),
             children: [
+              Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
               // 진행 중인 상담 ==============================================
               for (int i=0; i < controller.myCouncelList.length; i++) ... [
                 if (controller.myCouncelStartTimeList[i] <= controller.doubleTypeCurrentTime.value &&
@@ -35,6 +43,7 @@ class CMyCouncel extends StatelessWidget {
                   title: controller.myCouncelList[i].value.title,
                   reject : controller.myCouncelList[i].value.reject,
                   state: controller.myCouncelList[i].value.state,
+                  sessionId : controller.myCouncelList[i].value.sessionId,
                 ),
                 Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
                 ]
@@ -53,6 +62,7 @@ class CMyCouncel extends StatelessWidget {
                     title: controller.myCouncelList[i].value.title,
                     reject : controller.myCouncelList[i].value.reject,
                     state: controller.myCouncelList[i].value.state,
+                    sessionId : controller.myCouncelList[i].value.sessionId,
                   ),
                   Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
                 ]
@@ -69,6 +79,7 @@ class CMyCouncel extends StatelessWidget {
                     title: controller.myCouncelList[i].value.title,
                     reject : controller.myCouncelList[i].value.reject,
                     state: controller.myCouncelList[i].value.state,
+                    sessionId : controller.myCouncelList[i].value.sessionId,
                   ),
                   Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
                 ]
@@ -86,6 +97,7 @@ class CMyCouncel extends StatelessWidget {
                     title: controller.myCouncelList[i].value.title,
                     reject : controller.myCouncelList[i].value.reject,
                     state: controller.myCouncelList[i].value.state,
+                    sessionId : controller.myCouncelList[i].value.sessionId,
                   ),
                   Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
                 ]

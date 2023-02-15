@@ -37,8 +37,11 @@ class MDay0fWeek extends StatelessWidget {
             // width: 390,
             height: 48,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+
+                VerticalDivider(
+                    thickness: 1, width: 1, color: (controller.myPick.value == 0) ? Color(0xff3396F4) : Color(0xffC3C6CF)),
                 for (int idx = 0; idx < 5; idx++) ...[
                   Container(
                     color: Colors.white,
@@ -85,7 +88,7 @@ class MDay0fWeek extends StatelessWidget {
                     ),
                   ),
                   VerticalDivider(
-                      thickness: 1, width: 1, color: Color(0xffC3C6CF)),
+                      thickness: 1, width: 1, color: (controller.myPick.value == idx || controller.myPick.value == idx+1) ? Color(0xff3396F4) : Color(0xffC3C6CF)),
                 ],
               ],
             ),

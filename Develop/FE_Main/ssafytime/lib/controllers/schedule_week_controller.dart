@@ -25,7 +25,7 @@ class SchedulePickDayController extends GetxController {
   void onInit() async{
     super.onInit();
 
-    await fetchScheduleWeek(trackCode);
+    await fetchScheduleWeek();
 
     for (int i = 0; i < 5; i++) {
       DateTime tmp = today.subtract(Duration(days: today.weekday - (i + 1)));
@@ -43,15 +43,15 @@ class SchedulePickDayController extends GetxController {
 
 
 
-  Future fetchScheduleWeek(int? trackCode) async{
+  Future fetchScheduleWeek() async{
     if (trackCode == null) {
       weekSchedule = ScheduleWeek(
           data: {
-            '0' : [Datum()],
-            '1' : [Datum()],
-            '2' : [Datum()],
-            '3' : [Datum()],
-            '4' : [Datum()],
+            '0' : [],
+            '1' : [],
+            '2' : [],
+            '3' : [],
+            '4' : [],
           }
       );
       return ;
@@ -65,29 +65,31 @@ class SchedulePickDayController extends GetxController {
     if (res.statusCode != 200) {
       weekSchedule = ScheduleWeek(
         data: {
-          '0' : [Datum()],
-          '1' : [Datum()],
-          '2' : [Datum()],
-          '3' : [Datum()],
-          '4' : [Datum()],
+          '0' : [],
+          '1' : [],
+          '2' : [],
+          '3' : [],
+          '4' : [],
         }
       );
 
     } else {
       weekSchedule = ScheduleWeek.fromJson(data);
     }
-    print(weekSchedule.data);
   }
 
   void selectDay(int idx) {
     myPick.value = idx;
 
-    print(weekSchedule.data);
     // today 갱신
     todaySchedule.clear();
     for (int i=0; i < weekSchedule.data!['${idx}']!.length; i++) {
       todaySchedule.add(weekSchedule.data!['${idx}']![i]);
     }
-    print(todaySchedule);
+
+    print('AuthService.to.user.value.userName : ${AuthService.to.user.value.userName}');
+    print('AuthService.to.user.value.userIdx : ${AuthService.to.user.value.userIdx}');
+
+
   }
 }

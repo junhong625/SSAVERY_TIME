@@ -29,130 +29,128 @@ class CAdminCouncel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
-      children: [
-        Container(
-          // color: Colors.black12,
-          width: 390,
-          height: 48,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              VerticalDivider(
-                  thickness: 2, width: 1, color: Color(0xffC3C6CF)
-              ),
-              for (int idx = 1; idx < 5; idx++) ...[
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  width: 76.8,
-                  child: InkWell(
-                    onTap: () {
-                      controller.selectAdminCategory(idx);
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Text(
-                            table[idx]!,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: (controller.adminCategory.value == idx
-                                    ? Color(0xff3396F4)
-                                    : Color(0x40000000))),
-                          ),
-                        ),
-                        Container(
-                          width: 65,
-                          color: (controller.adminCategory.value == idx
-                              ? Color(0xff3396F4)
-                              : Color(0x003396F4)),
-                          height: 3,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+    return Obx(() => SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            // color: Colors.black,
+            width: 390,
+            height: 48,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
                 VerticalDivider(
-                  thickness: 2, width: 1, color: Color(0xffC3C6CF)
+                    thickness: 2, width: 1, color: controller.adminCategory == 1 ? Color(0xff3396F4) : Color(0xffC3C6CF)
                 ),
-              ],
-            ],
-          ),
-        ),
-
-
-        ///////////////////////////////////////////////////////////////////
-        Container(
-            margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-            width: 390, height: 600,
-            child: SingleChildScrollView(
-
-              child: Column(
-                children: [
+                for (int idx = 1; idx < 5; idx++) ...[
                   Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.black12
-                    ),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Column(
-                      children: [
-                        CustomText(content: '상담 ${table[controller.adminCategory.value]} 목록', fontSize: 25,),
-                        Divider(thickness: 1, height: 1, color: Color(0xffC3C6CF),),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxHeight: 500,
-                          ),
-                          child: RefreshIndicator(
-                            onRefresh: () async{
-                              controller.fetchMyCouncelList();
-                            },
-                            child: ListView.builder(
-                              itemCount: controller.myCouncelList.length,
-                              itemBuilder: (context, idx) {
-                                return ListTile(
-                                  title: Container(
-                                    child: CouncelAdminListItem(
-                                      data: controller.myCouncelList[idx],
-                                      currentTime: controller.doubleTypeCurrentTime.value,
-                                      startTime: controller.myCouncelStartTimeList[idx],
-                                      endTime: controller.myCouncelEndTimeList[idx],
-                                    ),
-                                    margin: EdgeInsets.only(bottom: 5),
-                                  ),
-                                );
-                              }
-
-                              // child: Column(
-                              //   children: [
-                              //     for (int i=0; i < controller.myCouncelList.length; i++) ... [
-                              //       if (controller.myCouncelList[i].value.state == controller.adminCategory.value)
-                              //       Container(
-                              //         child: CouncelAdminListItem(
-                              //           data: controller.myCouncelList[i],
-                              //           currentTime: controller.doubleTypeCurrentTime.value,
-                              //           startTime: controller.myCouncelStartTimeList[i],
-                              //           endTime: controller.myCouncelEndTimeList[i],
-                              //         ),
-                              //         margin: EdgeInsets.only(bottom: 5),
-                              //       ),
-                              //     ],
-                              //   ],
-                              // ),
+                    color: Colors.white,
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    width: 76.8,
+                    child: InkWell(
+                      onTap: () {
+                        controller.selectAdminCategory(idx);
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Text(
+                              table[idx]!,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: (controller.adminCategory.value == idx
+                                      ? Color(0xff3396F4)
+                                      : Color(0x40000000))),
                             ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            width: 70,
+                            // color: (controller.adminCategory.value == idx
+                            //     ? Color(0xff3396F4)
+                            //     : Color(0x003396F4)),
+                            height: 3,
+                            decoration: BoxDecoration(
+                              color: (controller.adminCategory.value == idx
+                                  ? Color(0xff3396F4)
+                                  : Color(0x003396F4)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(controller.adminCategory.value == idx ? 0.6 : 0) ,
+                                  blurRadius: 2.0,
+                                  offset: Offset(0, 2), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  )
+                  ),
+                  VerticalDivider(
+                    thickness: 2, width: 1,
+                    color: (controller.adminCategory == idx || controller.adminCategory == idx+1) ? Color(0xff3396F4) : Color(0xffC3C6CF)
+                  ),
                 ],
-              ),
+              ],
             ),
           ),
-      ],
+
+
+          ///////////////////////////////////////////////////////////////////
+          Container(
+              margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+              width: 390, height: 600,
+              child: SingleChildScrollView(
+
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        // color: Colors.black12
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Column(
+                        children: [
+                          CustomText(content: '상담 ${table[controller.adminCategory.value]}', fontSize: 25,),
+                          // Divider(thickness: 1, height: 1, color: Color(0xffC3C6CF),),
+                          Container(
+                            constraints: BoxConstraints(
+                              maxHeight: 500,
+                            ),
+                            child: RefreshIndicator(
+                              onRefresh: () async{
+                                controller.fetchMyCouncelList();
+                              },
+                              child: ListView.builder(
+                                itemCount: controller.myCouncelList.length,
+                                itemBuilder: (context, idx) {
+                                  return ListTile(
+                                    title: Container(
+                                      child: CouncelAdminListItem(
+                                        data: controller.myCouncelList[idx],
+                                        currentTime: controller.doubleTypeCurrentTime.value,
+                                        startTime: controller.myCouncelStartTimeList[idx],
+                                        endTime: controller.myCouncelEndTimeList[idx],
+                                      ),
+                                      margin: EdgeInsets.only(bottom: 5),
+                                    ),
+                                  );
+                                }
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
     ),
     );
   }

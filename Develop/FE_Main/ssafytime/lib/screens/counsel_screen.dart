@@ -32,7 +32,7 @@ class _CounselScreenStates extends State<CounselScreen> {
           children: [
             Container(
                 color: Colors.white,
-                child: userCode == 1 ? CMyCouncel() : CAdminCouncel()),
+                child: userCode == 0 ? CMyCouncel() : CAdminCouncel()),
             Obx(() =>
                 Offstage(
                     offstage: !loadingController.to.isLoading,
@@ -55,7 +55,7 @@ class _CounselScreenStates extends State<CounselScreen> {
 
   // admin == 1 일때, 학생일때만 상담 신청 버튼이 있고 관리자는 없음
   Widget _getFAB() {
-    if (AuthService.to.user.value.isAdmin == 0) {
+    if (AuthService.to.user.value.isAdmin != 0) {
       return SizedBox();
     } else {
       return FloatingActionButton(
