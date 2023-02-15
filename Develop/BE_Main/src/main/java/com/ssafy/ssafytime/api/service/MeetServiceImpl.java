@@ -7,10 +7,7 @@ import com.ssafy.ssafytime.db.entity.User;
 import com.ssafy.ssafytime.db.repository.MeetListRepository;
 import com.ssafy.ssafytime.db.repository.MeetUpdateRepository;
 import com.ssafy.ssafytime.db.repository.UserRepository;
-import io.openvidu.java.client.OpenVidu;
-import io.openvidu.java.client.OpenViduHttpException;
-import io.openvidu.java.client.OpenViduJavaClientException;
-import io.openvidu.java.client.Session;
+import io.openvidu.java.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,17 +97,7 @@ public class MeetServiceImpl implements MeetService{
                 // 시간이 지났으면 state 4(종료)로 변경
                 if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime() ) {
                     m.setState(4L); // 4(종료) (entity)
-                    // 세선 닫아버리기
                     m.setSessionId(null);
-                    Session session = openvidu.getActiveSession(m.getSessionId());
-                    try {
-                        session.close();
-                    } catch (OpenViduJavaClientException e) {
-                        throw new RuntimeException(e);
-                    } catch (OpenViduHttpException e) {
-                        throw new RuntimeException(e);
-                    }
-
                     meetUpdateRepository.save(m);// db에 적용
 
 
@@ -153,17 +140,7 @@ public class MeetServiceImpl implements MeetService{
                     // 시간이 지났으면 state 4(종료)로 변경 (3(거절)인 경우는 처리안함)
                     if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime() ) {
                         m.setState(4L); // 4(종료) (entity)
-                        // 세선 닫아버리기
                         m.setSessionId(null);
-                        Session session = openvidu.getActiveSession(m.getSessionId());
-                        try {
-                            session.close();
-                        } catch (OpenViduJavaClientException e) {
-                            throw new RuntimeException(e);
-                        } catch (OpenViduHttpException e) {
-                            throw new RuntimeException(e);
-                        }
-
                         meetUpdateRepository.save(m);// db에 적용
                     }
                     meetInfoDto.setState(m.getState());

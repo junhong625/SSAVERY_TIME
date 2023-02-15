@@ -18,11 +18,11 @@ public class AlarmDefaultRequestDto {
     private Boolean consultingAlarm;
 
     @Builder
-    public AlarmDefaultRequestDto(User user, Boolean noticeAlarm, Boolean surveyAlarm, Boolean consultingAlarm) {
-        this.user = user;
-        this.noticeAlarm = noticeAlarm;
-        this.surveyAlarm = surveyAlarm;
-        this.consultingAlarm = consultingAlarm;
+    public AlarmDefaultRequestDto(AlarmDefault alarmDefault) {
+        this.user = alarmDefault.getUser();
+        this.noticeAlarm = alarmDefault.getNoticeAlarm();
+        this.surveyAlarm = alarmDefault.getSurveyAlarm();
+        this.consultingAlarm = alarmDefault.getConsultingAlarm();
     }
 
     public AlarmDefault toEntity() {
