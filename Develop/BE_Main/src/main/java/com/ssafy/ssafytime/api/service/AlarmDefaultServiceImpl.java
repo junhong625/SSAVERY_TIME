@@ -88,7 +88,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
             List<String> failedTokens = new ArrayList<>();
             for (int i = 0; i < responses.size(); i++) {
                 if (!responses.get(i).isSuccessful()) {
-                    // The order of responses corresponds to the order of the registration tokens.
+                    // The order of responses corresponds ...to the order of the registration tokens.
                     failedTokens.add(registrationTokens.get(i));
                 }
             }

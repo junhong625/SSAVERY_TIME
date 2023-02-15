@@ -18,6 +18,13 @@ import java.util.List;
 public class AllQuestionRes {
 
     @ApiModelProperty(
+            name = "questionId"
+            , example = "질문ID"
+    )
+    @ApiParam(value = "질문 번호", required = true)
+    private Long Id;
+
+    @ApiModelProperty(
             name = "questionContent"
             , example = "질문내용"
     )

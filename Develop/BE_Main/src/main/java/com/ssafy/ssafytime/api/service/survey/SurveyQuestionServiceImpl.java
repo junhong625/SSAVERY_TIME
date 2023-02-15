@@ -37,6 +37,7 @@ public class SurveyQuestionServiceImpl implements SurveyQuestionService{
         for(int i = 0; i < allQuestion.size(); i++) {
             SurveyQuestion question = allQuestion.get(i);  // 받아온 질문리스트 중 i번째 설문
             AllQuestionRes questionRes = new AllQuestionRes();  // 현재 response 클래스 형식으로 클래스 하나 만듦
+            questionRes.setId(question.getId());  // 질문 번호 받아옴
             questionRes.setQuestionContent(question.getQuestionContent());  // 받아온 리스트를 조회해가며 i번째 질문의 내용을 받아옴
 
             List<SurveyOption> surveyOptions = new ArrayList<>();  // 하나의 질문에 속한 선지들 받을 리스트
