@@ -1,6 +1,6 @@
-package com.ssafy.ssafytime.db.repository;
+package com.ssafy.ssafytime.db.repository.survey;
 
-import com.ssafy.ssafytime.db.entity.Survey;
+import com.ssafy.ssafytime.db.entity.survey.Survey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

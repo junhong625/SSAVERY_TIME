@@ -1,9 +1,9 @@
-package com.ssafy.ssafytime.db.entity;
+package com.ssafy.ssafytime.db.entity.survey;
 
+import com.ssafy.ssafytime.db.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.checkerframework.checker.units.qual.C;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,8 +12,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@IdClass(SurveyResponseKey.class)
-public class SurveyResponse implements Serializable {
+@IdClass(SurveyConductKey.class)
+public class SurveyConduct implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name = "user_idx")
@@ -23,12 +23,5 @@ public class SurveyResponse implements Serializable {
     @ManyToOne
     @JoinColumn(name = "survey_idx")
     private Survey surveyIdx;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "question_idx")
-    private SurveyQuestion questionIdx;
-
-    private String response;
 
 }

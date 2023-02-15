@@ -1,4 +1,4 @@
-package com.ssafy.ssafytime.db.entity;
+package com.ssafy.ssafytime.db.entity.survey;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SurveyResponseKey implements Serializable {
+public class SurveyConductKey implements Serializable {
     private Long userIdx;
     private Long surveyIdx;
-    private Long questionIdx;
 }

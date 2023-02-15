@@ -1,6 +1,7 @@
-package com.ssafy.ssafytime.db.entity;
+package com.ssafy.ssafytime.db.entity.survey;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ssafy.ssafytime.db.entity.BaseTimeEntity;
 import lombok.Getter;
 import lombok.Setter;
 

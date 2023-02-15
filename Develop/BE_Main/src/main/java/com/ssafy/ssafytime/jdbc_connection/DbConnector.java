@@ -82,6 +82,14 @@ public class DbConnector {
         }
     }
 
+//    public void insertJobInfo() throws SQLException {  // 취업공고 데이터 넣기
+//        String sql = "insert into job_info(company_name, end_date, job, link, start_date) values(?, ?, ?, ?, ?)";
+//        PreparedStatement pstmt = null;
+//        try {
+//
+//        }
+//    }
+
     public void insertSurveyQuestion() throws SQLException {
         String sql = "insert into survey_question(option_list, question_content, survey_idx) values(?, ?, ?)";
         PreparedStatement pstmt = null;

@@ -1,4 +1,4 @@
-package com.ssafy.ssafytime.db.entity;
+package com.ssafy.ssafytime.db.entity.survey;
 
 import lombok.Getter;
 import lombok.Setter;
