@@ -108,8 +108,6 @@ public class SurveyController {
     })
     public ResponseEntity<List<SurveyResDto>> getSurvey() throws SQLException {
 
-        DbConnector dbConnector = new DbConnector();
-        dbConnector.insertSurveys();
         List<SurveyResDto> surveyList = surveyService.findAll();  // 전체 설문 조회
         if(surveyList.size() == 0) {
             return ResponseEntity.status(204).body(null);
