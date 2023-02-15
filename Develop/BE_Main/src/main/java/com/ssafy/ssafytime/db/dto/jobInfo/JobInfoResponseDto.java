@@ -9,16 +9,18 @@ import lombok.ToString;
 @Getter
 @ToString
 public class JobInfoResponseDto {
-    private Long startDate;
-    private Long endDate;
+    private String date;
     private String company;
     private String job;
     private String link;
 
     @Builder
     public JobInfoResponseDto(JobInfoEntity jobInfo) {
-        this.startDate = jobInfo.getStartDate();
-        this.endDate = jobInfo.getEndDate();
+        String startDate = jobInfo.getStartDate().toString();
+        startDate = startDate.substring(0, 4) + "." + startDate.substring(4, 6) + "." + startDate.substring(6, 8);
+        String endDate = jobInfo.getEndDate().toString();
+        endDate = endDate.substring(0, 4) + "." + endDate.substring(4, 6) + "." + endDate.substring(6, 8);
+        this.date = startDate + " ~ " + endDate;
         this.company = jobInfo.getCompany();
         this.job = jobInfo.getJob();
         this.link = jobInfo.getLink();
