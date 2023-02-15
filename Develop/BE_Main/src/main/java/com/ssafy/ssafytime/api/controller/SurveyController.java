@@ -208,6 +208,9 @@ public class SurveyController {
         if (registrationTokens.isEmpty()) {  // 토큰이 있는 사람중에 알림 보낼 사람이 하나도 없을 때
             return ResponseHandler.generateResponse(false, "there is no people to send FCM", HttpStatus.NOT_FOUND, null);
         } else {
+            if (registrationTokens.contains(null)) { // 알림 보낼 사람은 있는데 FCMtoken이 null일때
+                return ResponseHandler.generateResponse(false, "there is null FCMtoken", HttpStatus.NOT_FOUND, null);
+            }
             Notification notification = Notification.builder().setTitle(messageDTO.getTitle()).setBody(messageDTO.getBody()).setImage(null).build();  // 없으면 알림 안보내짐
             Integer FailedAlarmCnt = alarmDefaultService.sendMultiAlarms(notification, registrationTokens);
             return ResponseHandler.generateResponse(true, "FailedAlarmCnt : " + FailedAlarmCnt, HttpStatus.OK, null);

@@ -56,12 +56,17 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
             if(user.getIsAdmin() != 1)  // 유저의 isAdmin을 확인해서 관리자가 아니라면 (관리자에게는 알람 안보내도돼서)
                 users.add(user);  // 유저로 바꿔서 리스트에 넣음
         }
+        System.out.println(users.size());
         for(int i = 0; i < users.size(); i++) {  // 유저리스트에서
-            String token = users.get(i).getToken(); // 토큰 추출
-            if(!token.equals(null)) {// 토큰이 있는 경우만 registrationTokens에 추가
-                registrationTokens.add(token);  // 토큰들 추출
-            }
+//            String token = users.get(i).getToken(); // 토큰 추출
+//            System.out.println(token);
+//            if(!users.get(i).getToken().equals(null)) {// 토큰이 있는 경우만 registrationTokens에 추가 // 이렇게 하면 안댐!!!!!!!!!!!!!!!!!!!!
+//              null.equals 하면 에러가 나요!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                registrationTokens.add(users.get(i).getToken());  // 토큰들 추출
+//                System.out.println("not null");
+//            }
         }
+
 
         return registrationTokens;
     }
