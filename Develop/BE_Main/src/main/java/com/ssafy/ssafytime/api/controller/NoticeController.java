@@ -62,7 +62,7 @@ public class NoticeController {
     public ResponseEntity<Object> createNotice(@RequestBody NoticeRequestDto noticeRequestDto) throws FirebaseMessagingException {
         noticeService.save(noticeRequestDto);
 
-        MessageDTO messageDTO = MessageDTO.builder().title("새로운 설문이 있습니다").body(noticeRequestDto.getTitle()).build();  // 알림에 넣을 인자들
+        MessageDTO messageDTO = MessageDTO.builder().title("새로운 공지가 있습니다").body(noticeRequestDto.getTitle()).build();  // 알림에 넣을 인자들
         List<String> registrationTokens = alarmDefaultService.getUserTokens(2, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
 
         if (registrationTokens.isEmpty()) {  // 토큰이 있는 사람중에 알림 보낼 사람이 하나도 없을 때
