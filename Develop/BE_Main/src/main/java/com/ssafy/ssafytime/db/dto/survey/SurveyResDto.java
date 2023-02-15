@@ -44,6 +44,13 @@ public class SurveyResDto {
     private Integer category;
 
     @ApiModelProperty(
+            name = "madeAt"
+            , example = "YYYY-MM-DD HH:MM"
+    )
+    @ApiParam(value = "설문 생성날짜", required = true)
+    private LocalDateTime madeAt;
+
+    @ApiModelProperty(
             name = "startDate"
             , example = "YYYY-MM-DD HH:MM"
     )
@@ -65,6 +72,7 @@ public class SurveyResDto {
         this.title = survey.getTitle();
         this.status = survey.getStatus();
         this.startDate = survey.getCreatedAt();
+        this.madeAt = survey.getMadeAt();
     }
 
 }

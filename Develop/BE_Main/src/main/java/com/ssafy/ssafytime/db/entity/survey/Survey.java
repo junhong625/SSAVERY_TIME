@@ -20,6 +20,11 @@ public class Survey extends BaseTimeEntity {
     @Column(name = "survey_title")
     String title;
     Integer status;
+
+    @JsonFormat(pattern = "YYYY-MM-DD HH:mm:ss")
+    @Column(name = "made_at")
+    LocalDateTime madeAt;  // 언제 생성되었는지!
+
     @JsonFormat(pattern = "YYYY-MM-DD HH:mm:ss")
     @Column(name = "created_at")
     LocalDateTime createdAt;

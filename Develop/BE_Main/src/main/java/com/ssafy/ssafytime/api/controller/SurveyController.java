@@ -241,8 +241,6 @@ public class SurveyController {
             surveyConduct.setUserIdx(user.get());  // optional객체 말고 user로 바꾸기 위해 .get()해주어야함
             surveyConduct.setSurveyIdx(survey.get());  // optional객체 말고 일반객체로 바꾸기 위해 .get()해주어야함
             surveyConductService.save(surveyConduct);  // 객체 DB에 저장 !
-            survey.get().setStatus(3);
-            surveyService.save(survey.get());
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         }
     }
@@ -323,6 +321,31 @@ public class SurveyController {
 
         return ResponseEntity.status(200).body(returnSurvey);
 
+    }
+
+    @GetMapping("/survey/conduct")
+    @ApiOperation(value = "유저별 완료한 설문들 조회", notes = "<strong>유저별 완료한 설문들 조회</strong>")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> getConductedSurvey(@ApiIgnore Authentication authentication) throws SQLException {
+
+        UserDto userDto = userService.getMyUserWithAuthorities();  // 토큰으로 유저인덱스 가져옴
+        Optional<User> user = userRepository.findById(userDto.getId());  // 유저인덱스로 유저엔티티 가져옴
+        if(user.isPresent()) {
+            List<SurveyResDto> surveyList = surveyConductService.findAllByUserIdx(user.get());  // 전체 설문 조회
+            if (surveyList.size() == 0) {
+                return ResponseEntity.status(204).body(null);
+            } else {
+                return ResponseEntity.ok().body(surveyList);
+            }
+        } else {
+            return ResponseEntity.status(401).body("No user");
+        }
     }
 
 }
