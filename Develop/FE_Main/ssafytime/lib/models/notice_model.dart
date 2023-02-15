@@ -32,6 +32,7 @@ class Notice {
     this.category,
     this.contentUrl,
     this.createDateTime,
+    this.notiType = 1,
   });
 
   int? id;
@@ -39,6 +40,7 @@ class Notice {
   String? category;
   String? contentUrl;
   DateTime? createDateTime;
+  int? notiType;
 
   factory Notice.fromRawJson(String str) => Notice.fromJson(json.decode(str));
 

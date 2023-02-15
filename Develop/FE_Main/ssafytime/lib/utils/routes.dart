@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/home_time_controller.dart';
+import 'package:ssafytime/controllers/notification_controller.dart';
 import 'package:ssafytime/controllers/schedule_week_controller.dart';
 import 'package:ssafytime/controllers/user_state_controller.dart';
 import 'package:ssafytime/controllers/user_controller.dart';
@@ -43,6 +44,9 @@ class AppRoutes {
     GetPage(
       name: '/notification',
       page: () => NotificationScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(NotificationController());
+      }),
     ),
     GetPage(
         middlewares: [AuthGuard()],

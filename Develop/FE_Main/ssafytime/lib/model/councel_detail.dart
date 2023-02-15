@@ -1,37 +1,44 @@
 import 'dart:convert';
 
-List<CouncelDetail> councelDetailFromJson(String str) => List<CouncelDetail>.from(json.decode(str).map((x) => CouncelDetail.fromJson(x)));
+List<CouncelDetail> councelDetailFromJson(String str) =>
+    List<CouncelDetail>.from(
+        json.decode(str).map((x) => CouncelDetail.fromJson(x)));
 
-String councelDetailToJson(List<CouncelDetail> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String councelDetailToJson(List<CouncelDetail> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class CouncelDetail {
-    CouncelDetail({
-        required this.rezDate,
-        required this.rezTime,
-        required this.title,
-        required this.category,
-        this.meetUrl,
-        required this.rezIdx,
-        this.reject,
-        required this.state,
-        required this.name,
-        // required double this.exEndTime,
-    });
+  CouncelDetail({
+    required this.rezDate,
+    required this.rezTime,
+    required this.title,
+    required this.category,
+    this.meetUrl,
+    required this.rezIdx,
+    this.reject,
+    required this.state,
+    required this.name,
+    this.createDateTime,
+    // required double this.exEndTime,
+    this.notiType = 3,
+  });
 
-    DateTime rezDate;
-    double rezTime;
-    String title;
-    String category;
-    dynamic meetUrl;
-    int rezIdx;
-    String? reject;
-    int state;
-    String name;
+  DateTime rezDate;
+  double rezTime;
+  String title;
+  String category;
+  dynamic meetUrl;
+  int rezIdx;
+  String? reject;
+  int state;
+  String name;
+  DateTime? createDateTime;
+  int? notiType;
 
-    // late double exStartTime = ;
-    // double exEndTime;
+  // late double exStartTime = ;
+  // double exEndTime;
 
-    factory CouncelDetail.fromJson(Map<String, dynamic> json) => CouncelDetail(
+  factory CouncelDetail.fromJson(Map<String, dynamic> json) => CouncelDetail(
         rezDate: DateTime.parse(json["rezDate"]),
         rezTime: json["rezTime"]?.toDouble(),
         title: json["title"],
@@ -41,10 +48,13 @@ class CouncelDetail {
         reject: json["reject"],
         state: json["state"],
         name: json["name"],
-    );
+        createDateTime:
+            json["subTime"] == null ? null : DateTime.parse(json["subTime"]),
+      );
 
-    Map<String, dynamic> toJson() => {
-        "rezDate": "${rezDate.year.toString().padLeft(4, '0')}-${rezDate.month.toString().padLeft(2, '0')}-${rezDate.day.toString().padLeft(2, '0')}",
+  Map<String, dynamic> toJson() => {
+        "rezDate":
+            "${rezDate.year.toString().padLeft(4, '0')}-${rezDate.month.toString().padLeft(2, '0')}-${rezDate.day.toString().padLeft(2, '0')}",
         "rezTime": rezTime,
         "title": title,
         "category": category,
@@ -53,22 +63,22 @@ class CouncelDetail {
         "reject": reject,
         "state": state,
         "name": name,
-    };
+        "subTime": createDateTime?.toIso8601String(),
+      };
 
+  double calculatorTimeOfClass(DateTime rezDate, double rezTime) {
+    String s = '';
+    s = rezDate.year.toString() +
+        rezDate.month.toString() +
+        rezDate.day.toString();
 
-    double calculatorTimeOfClass(DateTime rezDate, double rezTime) {
-        String s = '';
-        s = rezDate.year.toString() + rezDate.month.toString() + rezDate.day.toString();
+    // 13.0 -> 1300 으로 , 14.5 -> 1430 으로
+    double a = rezTime;
+    double b = a % 1;
+    a -= b;
+    double c = b * 60;
+    double d = a * 100 + c;
 
-        // 13.0 -> 1300 으로 , 14.5 -> 1430 으로
-        double a = rezTime;
-        double b = a%1;
-        a -= b;
-        double c = b*60;
-        double d = a*100 + c;
-
-        return d;
-    }
+    return d;
+  }
 }
-
-

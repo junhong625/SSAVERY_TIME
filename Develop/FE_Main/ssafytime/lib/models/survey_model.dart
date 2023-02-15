@@ -12,10 +12,10 @@ class SurveyList {
 
   String toRawJson() => json.encode(toJson());
 
-  factory SurveyList.fromJson(Map<String, dynamic> json) => SurveyList(
-        survey: json["survey"] == null
+  factory SurveyList.fromJson(List<dynamic> json) => SurveyList(
+        survey: json.length < 0
             ? []
-            : List<Survey>.from(json["survey"]!.map((x) => Survey.fromJson(x))),
+            : List<Survey>.from(json.map((x) => Survey.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -32,6 +32,8 @@ class Survey {
     this.category,
     this.startDate,
     this.endDate,
+    this.createDateTime,
+    this.notiType = 2,
   });
 
   String? title;
@@ -39,21 +41,22 @@ class Survey {
   int? category;
   DateTime? startDate;
   DateTime? endDate;
+  DateTime? createDateTime;
+  int? notiType;
 
   factory Survey.fromRawJson(String str) => Survey.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Survey.fromJson(Map<String, dynamic> json) => Survey(
-        title: json["title"],
-        status: json["status"],
-        category: json["category"],
-        startDate: json["startDate"] == null
-            ? null
-            : DateTime.parse(json["startDate"]),
-        endDate:
-            json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
-      );
+      title: json["title"],
+      status: json["status"],
+      category: json["category"],
+      startDate:
+          json["startDate"] == null ? null : DateTime.parse(json["startDate"]),
+      endDate: json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+      createDateTime:
+          json["madeAt"] == null ? null : DateTime.parse(json["madeAt"]));
 
   Map<String, dynamic> toJson() => {
         "title": title,
@@ -61,5 +64,6 @@ class Survey {
         "category": category,
         "startDate": startDate?.toIso8601String(),
         "endDate": endDate?.toIso8601String(),
+        "madeAt": createDateTime?.toIso8601String(),
       };
 }

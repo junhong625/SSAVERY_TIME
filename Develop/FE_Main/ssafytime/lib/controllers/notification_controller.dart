@@ -1,11 +1,10 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:ssafytime/models/notice_model.dart';
+import 'package:intl/intl.dart';
+import 'package:ssafytime/repositories/notification_repository.dart';
 import 'package:ssafytime/services/auth_service.dart';
+import 'package:ssafytime/widgets/notification_infomation.dart';
 
 class NotificationController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -13,6 +12,12 @@ class NotificationController extends GetxController
   var count = 0.obs;
 
   final notiList = <dynamic>[].obs;
+  final notiListWidgets = <Widget>[].obs;
+
+  final dateF = new DateFormat("yyyy-MM-dd");
+  final timeF = new DateFormat("yyyy-MM-dd HH:mm");
+
+  final NotiRepo notiApi = NotiRepo(token: AuthService.to.accessToken.value);
 
   late TabController tabController;
 
@@ -34,7 +39,7 @@ class NotificationController extends GetxController
   @override
   void onInit() async {
     tabController = TabController(length: myTabs.length, vsync: this);
-    await fetchNoticeList();
+    await fetchNotiList();
     super.onInit();
   }
 
@@ -44,30 +49,87 @@ class NotificationController extends GetxController
     super.onClose();
   }
 
+  Future<void> fetchNotiList() async {
+    notiList.clear();
+    await fetchNoticeList();
+    await fetchSurveyList();
+    await fetchCounselList();
+    fetchNotiListWidgets();
+  }
+
   Future<void> fetchSurveyList() async {
-    var res = await http.get(Uri.parse("http://i8a602.p.ssafy.io:9090/"));
+    var data = await notiApi.fetchSurveryList();
+    if (data != null) {
+      data.forEach((e) {
+        notiList.add(e);
+      });
+    }
   }
 
   Future<void> fetchNoticeList() async {
-    var res =
-        await http.get(Uri.parse("http://i8a602.p.ssafy.io:9090/notice/all"));
-
-    if (res.statusCode == 200) {
-      var data = NoticeList.fromRawJson(res.body).data;
-      data!.forEach((e) {
+    var data = await notiApi.fetchNoticeList();
+    if (data != null) {
+      data.forEach((e) {
         notiList.add(e);
       });
-
-      log("공지 개수 : ${notiList.length}");
     }
   }
 
   Future<void> fetchCounselList() async {
-    var res = await http.get(Uri.parse(
-        "http://i8a602.p.ssafy.io:9090/meet/${AuthService.to.user.value.userIdx}/${AuthService.to.user.value.isAdmin}"));
-    if (res.statusCode == 200) {
-      List<dynamic> data = json.decode(res.body);
-      log("${data.length}");
+    var data = await notiApi.fetchCounselList(
+        AuthService.to.user.value.userIdx, AuthService.to.user.value.isAdmin);
+    if (data != null) {
+      data.forEach((e) {
+        notiList.add(e);
+      });
     }
+  }
+
+  void fetchNotiListWidgets() {
+    notiListWidgets.clear();
+    notiList.forEach(
+      (element) {
+        switch (element.notiType) {
+          case 1:
+            notiListWidgets.add(CNI(
+                opacity: 1,
+                myIcon: FontAwesomeIcons.bullhorn,
+                iconColor: 0xffFF5449,
+                title: element.title,
+                detail: Text(dateF.format(element.createDateTime)),
+                isComplete: ""));
+            notiListWidgets.add(Divider(
+              height: 4,
+            ));
+            break;
+          case 2:
+            notiListWidgets.add(CNI(
+                opacity: 1,
+                myIcon: FontAwesomeIcons.pen,
+                iconColor: 0xff0079D1,
+                title: element.title,
+                detail: Text(
+                    "${timeF.format(element.startDate)} ~ ${timeF.format(element.endDate)}"),
+                isComplete: ""));
+            notiListWidgets.add(Divider(
+              height: 4,
+            ));
+            break;
+          case 3:
+            notiListWidgets.add(CNI(
+                opacity: 1,
+                myIcon: FontAwesomeIcons.userGroup,
+                iconColor: 0xff686ADB,
+                title: element.title,
+                detail:
+                    Text("${dateF.format(element.rezDate)} ${element.rezTime}"),
+                isComplete: ""));
+            notiListWidgets.add(Divider(
+              height: 4,
+            ));
+            break;
+        }
+      },
+    );
   }
 }

@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/models/user_custom_alarm.dart';
 import 'package:ssafytime/models/noti_default_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+import 'package:ssafytime/repositories/user_state_repository.dart';
 
 import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/services/noti_service.dart';
@@ -35,18 +35,21 @@ class UserStateController extends GetxController {
   Rxn<DateTime> dateTime = Rxn<DateTime>(DateTime.now());
   RxList<String> dateSelected = <String>[].obs;
   final int? userIdx = AuthService.to.user.value.userIdx;
+  final UserStateRepo stateApi =
+      UserStateRepo(token: AuthService.to.accessToken.value);
 
 //   UserStateController({this.userIdx});
 
   @override
   void onInit() async {
-    log("onInit");
+    loadingController.to.setIsLoading(true);
     initDateSelectItem();
     pref = await SharedPreferences.getInstance();
     await fetchDefaultState();
     await fetchCustomState();
     dateTime.value = DateTime.now();
     super.onInit();
+    loadingController.to.setIsLoading(false);
   }
 
   @override
@@ -118,15 +121,9 @@ class UserStateController extends GetxController {
 
 // 서버에서 기본 알림 설정 가져오기
   Future<void> fetchDefaultState() async {
-    var res = await http.get(
-        Uri.parse(
-            "http://i8a602.p.ssafy.io:9090/user/alarm/${AuthService.to.user.value.userIdx}"),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer ${AuthService.to.accessToken}"
-        });
-    if (res.statusCode == 200) {
-      defaultAlarms(UserDefaultState.fromJson(json.decode(res.body)['data']));
+    var data = await stateApi.fetchDefaultState(userIdx);
+    if (data != null) {
+      defaultAlarms(data);
     }
   }
 
@@ -164,43 +161,22 @@ class UserStateController extends GetxController {
   }
 
   void updateNoticeAlarm(bool value) async {
-    var res = await http.patch(
-        Uri.parse(
-            "http://i8a602.p.ssafy.io:9090/user/alarm/notice/${AuthService.to.user.value.userIdx}"),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer ${AuthService.to.accessToken}"
-        });
-    log("update Notice status : ${res.statusCode}");
-    if (res.statusCode == 200) {
+    var result = await stateApi.updateNoticeAlarm(userIdx);
+    if (result) {
       defaultAlarms.value.noticeAlarm = value;
     }
   }
 
   void updateSurveyAlarm(bool value) async {
-    var res = await http.patch(
-        Uri.parse(
-            "http://i8a602.p.ssafy.io:9090/user/alarm/survey/${AuthService.to.user.value.userIdx}"),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer ${AuthService.to.accessToken}"
-        });
-    log("update Survey status : ${res.statusCode}");
-    if (res.statusCode == 200) {
+    var result = await stateApi.updateSurveyAlarm(userIdx);
+    if (result) {
       defaultAlarms.value.surveyAlarm = value;
     }
   }
 
   void updateCounselAlarm(bool value) async {
-    var res = await http.patch(
-        Uri.parse(
-            "http://i8a602.p.ssafy.io:9090/user/alarm/consulting/${AuthService.to.user.value.userIdx}"),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer ${AuthService.to.accessToken}"
-        });
-    log("update Counsel status : ${res.statusCode}");
-    if (res.statusCode == 200) {
+    var result = await stateApi.updateCounselAlarm(userIdx);
+    if (result) {
       defaultAlarms.value.consultingAlarm = value;
     }
   }

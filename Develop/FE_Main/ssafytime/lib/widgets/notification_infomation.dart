@@ -47,8 +47,9 @@ class _CNIState extends State<CNI> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 358,
+          width: MediaQuery.of(context).size.width,
           height: 62,
+          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15), color: Colors.white),
           child: Row(

@@ -35,31 +35,6 @@ class _HomeScreenStates extends State<HomeScreen> {
     super.initState();
   }
 
-  List<Widget> bannerItems = <Widget>[
-    CNI(
-        opacity: 1,
-        myIcon: FontAwesomeIcons.bullhorn,
-        iconColor: 0xffFF5449,
-        title: "전면 마스크해제",
-        detail: Container(
-          child: const Text(
-            "이제 오프라인 전면 마스크해제합니다",
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        isComplete: "진행"),
-    CNI(
-        opacity: 1,
-        myIcon: FontAwesomeIcons.userGroup,
-        iconColor: 0xff686ADB,
-        title: "마스크해제 상담",
-        detail: Container(
-          child: const Text("마스크 해제 반대 청원 (얼굴 보호)",
-              overflow: TextOverflow.ellipsis),
-        ),
-        isComplete: "예정"),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Obx(
