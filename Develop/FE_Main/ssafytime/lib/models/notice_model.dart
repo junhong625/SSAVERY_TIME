@@ -51,9 +51,9 @@ class Notice {
         title: json["title"],
         category: json["category"],
         contentUrl: json["contentUrl"],
-        createDateTime: json["createDateTime"] == null
+        createDateTime: json["createDate"] == null
             ? null
-            : DateTime.parse(json["createDateTime"]),
+            : DateTime.parse(json["createDate"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,6 +61,6 @@ class Notice {
         "title": title,
         "category": category,
         "contentUrl": contentUrl,
-        "createDateTime": createDateTime?.toIso8601String(),
+        "createDate": createDateTime?.toIso8601String(),
       };
 }

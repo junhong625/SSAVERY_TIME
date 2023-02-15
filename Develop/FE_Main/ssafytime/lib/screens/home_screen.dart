@@ -1,7 +1,5 @@
 // main screen
 
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,7 +11,6 @@ import 'package:ssafytime/widgets/home_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/home_employment_info_total_widget.dart';
 import 'package:ssafytime/widgets/home_menu_item_v2.dart';
 import 'package:ssafytime/widgets/home_schedule_item_v2.dart';
-import 'package:ssafytime/widgets/notification_infomation.dart';
 
 import '../controllers/home_time_controller.dart';
 
@@ -31,7 +28,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenStates extends State<HomeScreen> {
   @override
   initState() {
-    log("현재 class : ${widget.userC.scheduleNow.value.data?.title}");
     super.initState();
   }
 
@@ -65,44 +61,30 @@ class _HomeScreenStates extends State<HomeScreen> {
             //   mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              HA(
-                  absent: widget.userC.userAtten.value.absentO ?? 0,
-                  attendance: widget.userC.userAtten.value.attenN ?? 0,
-                  tardy: widget.userC.userAtten.value.lateO ?? 0,
-                  imgURL: AuthService.to.user.value.userImg),
+              Obx(
+                () => HA(
+                    absent: widget.userC.userAtten.value.absentO ?? 0,
+                    attendance: widget.userC.userAtten.value.attenN ?? 0,
+                    tardy: widget.userC.userAtten.value.lateO ?? 0,
+                    imgURL: AuthService.to.user.value.userImg),
+              ),
               // CarouselSlider =========================================
               Container(
+                width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                 color: Colors.white,
                 child: CarouselSlider(
-                  items: [
-                    CNI(
-                        opacity: 1,
-                        myIcon: FontAwesomeIcons.bullhorn,
-                        iconColor: 0xffFF5449,
-                        title: widget.userC.homeNotice.value.title ?? "",
-                        detail: Text(widget
-                            .userC.homeNotice.value.createDateTime
-                            .toString()
-                            .split(" ")[0]),
-                        isComplete: ""),
-                    CNI(
-                        opacity: 1,
-                        myIcon: FontAwesomeIcons.bullhorn,
-                        iconColor: 0xffFF5449,
-                        title: widget.userC.homeNotice.value.title ?? "",
-                        detail: Text(widget
-                            .userC.homeNotice.value.createDateTime
-                            .toString()
-                            .split(" ")[0]),
-                        isComplete: "")
-                  ],
+                  disableGesture:
+                      widget.userC.carouselItemList.length > 1 ? true : false,
+                  items: widget.userC.carouselItemListWidget,
                   options: CarouselOptions(
                     height: 68,
                     viewportFraction: 1,
-                    autoPlay: true,
-                    enableInfiniteScroll: true,
-                    autoPlayInterval: const Duration(seconds: 3),
+                    autoPlay:
+                        widget.userC.carouselItemList.length > 1 ? true : false,
+                    enableInfiniteScroll:
+                        widget.userC.carouselItemList.length > 1 ? true : false,
+                    autoPlayInterval: const Duration(seconds: 5),
                   ),
                 ),
               ),

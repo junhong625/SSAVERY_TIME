@@ -42,14 +42,14 @@ class UserStateController extends GetxController {
 
   @override
   void onInit() async {
-    loadingController.to.setIsLoading(true);
+    loadingController.to.isLoading = true;
     initDateSelectItem();
     pref = await SharedPreferences.getInstance();
     await fetchDefaultState();
     await fetchCustomState();
     dateTime.value = DateTime.now();
     super.onInit();
-    loadingController.to.setIsLoading(false);
+    loadingController.to.isLoading = false;
   }
 
   @override
@@ -116,6 +116,8 @@ class UserStateController extends GetxController {
       saveCustomAlarm.add(e.toRawJson());
     });
 
+    log("유저 정보 : ${userIdx}");
+
     await pref.setStringList("${userIdx}_noti", saveCustomAlarm);
   }
 
@@ -161,24 +163,18 @@ class UserStateController extends GetxController {
   }
 
   void updateNoticeAlarm(bool value) async {
-    var result = await stateApi.updateNoticeAlarm(userIdx);
-    if (result) {
-      defaultAlarms.value.noticeAlarm = value;
-    }
+    defaultAlarms.value.noticeAlarm = value;
+    await stateApi.updateNoticeAlarm(userIdx);
   }
 
   void updateSurveyAlarm(bool value) async {
-    var result = await stateApi.updateSurveyAlarm(userIdx);
-    if (result) {
-      defaultAlarms.value.surveyAlarm = value;
-    }
+    defaultAlarms.value.surveyAlarm = value;
+    await stateApi.updateSurveyAlarm(userIdx);
   }
 
   void updateCounselAlarm(bool value) async {
-    var result = await stateApi.updateCounselAlarm(userIdx);
-    if (result) {
-      defaultAlarms.value.consultingAlarm = value;
-    }
+    defaultAlarms.value.consultingAlarm = value;
+    await stateApi.updateCounselAlarm(userIdx);
   }
 
   void checkout() {

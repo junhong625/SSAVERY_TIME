@@ -7,6 +7,7 @@ import 'package:ssafytime/models/attendance_model.dart';
 import 'package:ssafytime/models/home_menu_model.dart';
 import 'package:ssafytime/models/notice_model.dart';
 import 'package:ssafytime/models/schedule_now_model.dart';
+import 'package:ssafytime/models/survey_model.dart';
 
 class HomeRepo {
   String token;
@@ -54,6 +55,15 @@ class HomeRepo {
     var res = await http.get(Uri.parse(baseUrl + "notice"), headers: headers);
     if (res.statusCode == 200) {
       return Notice.fromJson(json.decode(res.body)['data']);
+    }
+    return null;
+  }
+
+  Future<Survey?> fetchHomeSurvey() async {
+    var res = await http.get(Uri.parse("${baseUrl}surveys/main/survey"),
+        headers: headers);
+    if (res.statusCode == 200) {
+      return Survey.fromRawJson(res.body);
     }
     return null;
   }

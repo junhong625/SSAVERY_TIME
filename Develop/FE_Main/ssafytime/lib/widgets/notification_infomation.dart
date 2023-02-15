@@ -82,10 +82,16 @@ class _CNIState extends State<CNI> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // option 제목
-                        Text(
-                          title,
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w900),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 180,
+                          child: Text(
+                            title,
+                            maxLines: 1,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w900),
+                          ),
                         ),
                         // option 기간이나 진행바
                         detail

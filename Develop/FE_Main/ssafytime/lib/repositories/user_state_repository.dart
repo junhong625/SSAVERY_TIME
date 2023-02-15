@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:ssafytime/models/noti_default_state.dart';
 
@@ -16,7 +18,7 @@ class UserStateRepo {
     var res = await http.get(Uri.parse("${baseUrl}/user/alarm/${userIdx}"),
         headers: header);
     if (res.statusCode == 200) {
-      return UserDefaultState.fromRawJson(res.body);
+      return UserDefaultState.fromJson(json.decode(res.body)['data']);
     }
     return null;
   }
