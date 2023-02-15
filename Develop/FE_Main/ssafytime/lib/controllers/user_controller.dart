@@ -5,15 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ssafytime/controllers/loading_controller.dart';
-import 'package:ssafytime/controllers/councel_controller.dart';
 import 'package:ssafytime/model/councel_detail.dart';
 import 'package:ssafytime/models/attendance_model.dart';
-import 'package:ssafytime/models/home_jobs_model.dart';
-import 'package:ssafytime/models/home_menu_model.dart';
-import 'package:ssafytime/models/notice_model.dart';
 import 'package:ssafytime/models/recruitment.dart';
-import 'package:ssafytime/models/schedule_now_model.dart';
-import 'package:ssafytime/models/survey_model.dart';
 import 'package:ssafytime/models/user_atten_model.dart';
 import 'package:ssafytime/models/user_model.dart';
 import 'package:ssafytime/repositories/home_repository.dart';
@@ -68,6 +62,7 @@ class UserController extends GetxController {
   }
 
   Future<void> initFetch() async {
+    carouselItemList.clear();
     loadingController.to.setIsLoading(true);
     await fetchUser();
     await fetchAttence();

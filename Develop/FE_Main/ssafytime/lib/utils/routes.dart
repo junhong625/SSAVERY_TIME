@@ -30,6 +30,7 @@ class AppRoutes {
         );
         Get.put(HomeTimeController());
         Get.put(SchedulePickDayController());
+        UserController.to.initFetch();
       }),
     ),
     GetPage(

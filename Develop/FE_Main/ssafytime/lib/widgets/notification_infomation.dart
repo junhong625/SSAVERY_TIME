@@ -83,7 +83,7 @@ class _CNIState extends State<CNI> {
                       children: [
                         // option 제목
                         SizedBox(
-                          width: MediaQuery.of(context).size.width - 180,
+                          width: MediaQuery.of(context).size.width * 0.6,
                           child: Text(
                             title,
                             maxLines: 1,
@@ -105,7 +105,8 @@ class _CNIState extends State<CNI> {
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: Text(
-                    isComplete, // optional 완료, 예정, (none)
+                    "예정",
+                    // isComplete, // optional 완료, 예정, (none)
                     style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w900),
                   ),

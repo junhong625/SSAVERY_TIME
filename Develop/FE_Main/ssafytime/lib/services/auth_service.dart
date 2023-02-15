@@ -76,6 +76,7 @@ class AuthService extends GetxService {
     refreshToken.value = "";
     user(null);
     isLogin = false;
+
     Get.offAllNamed('/login');
   }
 

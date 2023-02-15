@@ -7,14 +7,15 @@ import 'home_employment_info_single_widget.dart';
 
 // 홈 스크린 채용정보 전체 위젯
 class HEIT extends StatelessWidget {
-
-  HEIT({Key? key,}) : super(key: key);
+  HEIT({
+    Key? key,
+  }) : super(key: key);
   UserController controller = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
-
-    return Obx(() => Container(
+    return Obx(
+      () => Container(
         width: 358,
         height: 300,
         color: Colors.white,
@@ -28,7 +29,7 @@ class HEIT extends StatelessWidget {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
               ),
             ),
-            if (controller.recruitmentList.data == []) ... [
+            if (controller.recruitmentList.data == []) ...[
               const SizedBox(
                 height: 200,
                 child: Center(
@@ -41,17 +42,17 @@ class HEIT extends StatelessWidget {
                   ),
                 ),
               ),
-            ] else ... [
+            ] else ...[
               Expanded(
                 //   height: 265,
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: controller.recruitmentList.data!.length,
+                    itemCount: controller.recruitmentList.data.length,
                     itemBuilder: (context, index) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          HEIS(info: controller.recruitmentList.data![index]),
+                          HEIS(info: controller.recruitmentList.data[index]),
                           Container(
                             width: 326,
                             height: 1,

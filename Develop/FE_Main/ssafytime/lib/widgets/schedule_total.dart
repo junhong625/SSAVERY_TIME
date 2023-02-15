@@ -6,12 +6,12 @@ import 'package:ssafytime/widgets/schedule_single_item.dart';
 import '../model/schedule_week.dart';
 
 class ScTotal extends StatelessWidget {
-
   SchedulePickDayController test = Get.find<SchedulePickDayController>();
 
   List<Datum> scheduleList;
 
-  ScTotal({Key? key,
+  ScTotal({
+    Key? key,
     required this.scheduleList,
   }) : super(key: key);
 
@@ -28,23 +28,29 @@ class ScTotal extends StatelessWidget {
             ScTimeTable(),
             Column(
               children: [
-                if (scheduleList.length >= 1) ... [
-                  for (int idx = 0; idx < scheduleList.length; idx ++ ) ... [
+                if (scheduleList.length >= 1) ...[
+                  for (int idx = 0; idx < scheduleList.length; idx++) ...[
                     ScSingleItem(
                       data: scheduleList[idx],
                     ),
                     // 수업이 한 시간 보다 길어질 경우 처리
-                    for (int j = 1; j < scheduleList[idx].totalTime; j++) ... [
+                    for (int j = 1; j < scheduleList[idx].totalTime; j++) ...[
                       BlankTimeTable(color: scheduleList[idx].category)
                     ],
-                    Divider(thickness: 1, height: 1, color: Color(0xffC3C6CF),),
-                    scheduleList[idx].endTime == 12 ? LunchTimeTable() : SizedBox() // 점심시간 처리
+                    Divider(
+                      thickness: 1,
+                      height: 1,
+                      color: Color(0xffC3C6CF),
+                    ),
+                    scheduleList[idx].endTime == 12
+                        ? LunchTimeTable()
+                        : SizedBox() // 점심시간 처리
                   ],
-                ] else ... [
+                ] else ...[
                   ScSingleItem(
                     data: Datum(),
                   ),
-                  for (int j = 1; j < Datum().totalTime; j++) ... [
+                  for (int j = 1; j < Datum().totalTime; j++) ...[
                     BlankTimeTable(color: Datum().category)
                   ],
                 ]

@@ -119,6 +119,9 @@ class _HomeScreenStates extends State<HomeScreen> {
                   color: Colors.white,
                   child: HEIT(),
                 ),
+              ),
+              Divider(
+                height: 4,
               )
             ],
           ),

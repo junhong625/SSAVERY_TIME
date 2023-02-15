@@ -14,8 +14,8 @@ class NotificationController extends GetxController
   final notiList = <dynamic>[].obs;
   final notiListWidgets = <Widget>[].obs;
 
-  final dateF = new DateFormat("yyyy-MM-dd");
-  final timeF = new DateFormat("yyyy-MM-dd HH:mm");
+  final dateF = new DateFormat("yy/MM/dd");
+  final timeF = new DateFormat("yy/MM/dd HH:mm");
 
   final NotiRepo notiApi = NotiRepo(token: AuthService.to.accessToken.value);
 
