@@ -19,8 +19,10 @@ class ScTotal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black26,
-      width: 390,
-      height: 600,
+      // width: 390,
+      width: MediaQuery.of(context).size.width*0.995,
+      // height: 600,
+      height: MediaQuery.of(context).size.height*0.77,
       child: SingleChildScrollView(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,8 +70,10 @@ class ScTimeTable extends StatelessWidget {
           Container(
             padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
             color: Colors.white,
-            width: 32,
-            height: 81,
+            // width: 32,
+            width: MediaQuery.of(context).size.width*0.0814,
+            // height: 81,
+            height: MediaQuery.of(context).size.height*0.1,
             child: Column(
               children: [
                 Text(

@@ -8,8 +8,6 @@ class CBCalender extends StatelessWidget {
 
   CBCalender({Key? key}) : super(key: key);
 
-  // CBDatePickController controller = Get.put(CBDatePickController());
-  // CBDatePickController controller = Get.find<CBDatePickController>();
   MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override

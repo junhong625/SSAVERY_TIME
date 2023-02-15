@@ -18,7 +18,9 @@ class CBCouncelorTotal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Container(
         color: Colors.cyanAccent,
-        width: 390,height: 92,
+        // width: 390,
+        width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+        height: 92,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

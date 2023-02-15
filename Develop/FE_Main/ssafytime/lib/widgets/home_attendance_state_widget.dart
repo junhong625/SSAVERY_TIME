@@ -41,12 +41,14 @@ class _HAState extends State<HA> {
             ),
           ),
           SizedBox(
-            width: 284,
+            // width: 284,
+            width: MediaQuery.of(context).size.width * ( 284 / 392.7),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 91.33,
+                  // width: 91.33,
+                  width: MediaQuery.of(context).size.width * ( 91.33 / 392.7),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -74,7 +76,8 @@ class _HAState extends State<HA> {
                   ),
                 ),
                 SizedBox(
-                  width: 91.33,
+                  // width: 91.33,
+                  width: MediaQuery.of(context).size.width * ( 91.33 / 392.7),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -102,7 +105,8 @@ class _HAState extends State<HA> {
                   ),
                 ),
                 SizedBox(
-                  width: 91.33,
+                  // width: 91.33,
+                  width: MediaQuery.of(context).size.width * ( 91.33 / 392.7),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

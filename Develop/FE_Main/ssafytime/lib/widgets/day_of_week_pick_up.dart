@@ -33,7 +33,8 @@ class DOWP extends StatelessWidget {
               Container(
                 color: Colors.white,
                 padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                width: 76.8,
+                // width: 76.8,
+                width: MediaQuery.of(context).size.width * ( 76.8 / 392.7),
                 child: InkWell(
                   onTap: () {
                     print('클릭');
@@ -51,7 +52,8 @@ class DOWP extends StatelessWidget {
                             color: (controller.myPick.value == idx ? Color(0xff3396F4) : Color(0x40000000))),),
                       ),
                       Container(
-                        width: 65,
+                        // width: 65,
+                        width: MediaQuery.of(context).size.width * ( 65 / 392.7),
                         color: (controller.myPick.value == idx ? Color(0xff3396F4) : Color(0x003396F4)),
                         height: 3,
                       )

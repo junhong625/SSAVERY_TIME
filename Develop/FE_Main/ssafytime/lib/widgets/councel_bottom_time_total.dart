@@ -18,7 +18,9 @@ class CBTimeTotal extends StatelessWidget {
     return Container(
       color: Colors.black12,
       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-      width: 390, height: 148,
+      // width: 390,
+      width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+      height: 148,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

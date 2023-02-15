@@ -34,7 +34,8 @@ class CAdminCouncel extends StatelessWidget {
         children: [
           Container(
             // color: Colors.black,
-            width: 390,
+            // width: 390,
+            width: MediaQuery.of(context).size.width * ( 390 / 392.7),
             height: 48,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -46,7 +47,8 @@ class CAdminCouncel extends StatelessWidget {
                   Container(
                     color: Colors.white,
                     padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    width: 76.8,
+                    // width: 76.8,
+                    width: MediaQuery.of(context).size.width * ( 76.8 / 392.7),
                     child: InkWell(
                       onTap: () {
                         controller.selectAdminCategory(idx);
@@ -66,7 +68,8 @@ class CAdminCouncel extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 70,
+                            // width: 70,
+                            width: MediaQuery.of(context).size.width * ( 70 / 392.7),
                             // color: (controller.adminCategory.value == idx
                             //     ? Color(0xff3396F4)
                             //     : Color(0x003396F4)),
@@ -101,7 +104,9 @@ class CAdminCouncel extends StatelessWidget {
           ///////////////////////////////////////////////////////////////////
           Container(
               margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-              width: 390, height: 600,
+              // width: 390,
+            width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+            height: 600,
               child: SingleChildScrollView(
 
                 child: Column(

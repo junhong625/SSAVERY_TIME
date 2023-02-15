@@ -25,7 +25,9 @@ class _CBCategoryTotalState extends State<CBCategoryTotal> {
       children: [
         Container(
           color: Colors.cyan,
-          width: 390, height: 64,
+          // width: 390,
+          width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+          height: 64,
           child: TextField(
             style: TextStyle(fontSize: 16, color: Color(0xff262626),
                 fontWeight: FontWeight.bold),

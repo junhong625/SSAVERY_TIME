@@ -68,7 +68,9 @@ void openCouncelBottomSheet(BuildContext context) {
 
                       Container(
                         color: Colors.lime,
-                        width: 390, height: 47,
+                        // width: 390,
+                        width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+                        height: 47,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -76,7 +78,9 @@ void openCouncelBottomSheet(BuildContext context) {
                               onPressed: () {
                                 Get.back();
                               },
-                              width: 171, height: 40,
+                              // width: 171,
+                              width: MediaQuery.of(context).size.width * ( 171 / 392.7),
+                              height: 40,
                               label: '닫기',
                             ),
                             if (controller.myInputTitle.value != '' && controller.myInputCategory.value != '')
@@ -96,7 +100,9 @@ void openCouncelBottomSheet(BuildContext context) {
                                   print('제출 내용 부족');
                                 },
                                 color: 0xffD9D9D9,
-                                width: 171, height: 40,
+                                // width: 171,
+                                width: MediaQuery.of(context).size.width * ( 171 / 392.7),
+                                height: 40,
                                 label: '제출',
                                 labelColor: 0xffFFFFFF,
                               ),

@@ -8,7 +8,9 @@ class CBDate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 390, height: 84,
+      // width: 390,
+      width: MediaQuery.of(context).size.width * ( 71 / 392.7),
+      height: 84,
       color: Colors.amber,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,18 +21,14 @@ class CBDate extends StatelessWidget {
           ),
           Container(
             color: Colors.black12,
-            width: 358, height: 40,
+            // width: 358,
+            width: MediaQuery.of(context).size.width * ( 358 / 392.7),
+            height: 40,
             child: CBCalender(),
           )
         ],
       ),
     );
   }
-}
-
-
-void showCalendarDialog(context) {
-
-
 }
 

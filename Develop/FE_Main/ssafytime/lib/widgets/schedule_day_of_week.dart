@@ -30,8 +30,8 @@ class SDay0fWeek extends StatelessWidget {
       children: [
         Container(
           color: Colors.black12,
-          // width: 390,
-          height: 48,
+          // height: 48,
+          height: MediaQuery.of(context).size.height*0.05978,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -39,7 +39,8 @@ class SDay0fWeek extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                  width: 76.8,
+                  // width: 76.8,
+                  width: MediaQuery.of(context).size.width*0.1954,
                   child: InkWell(
                     onTap: () async{
                       print('클릭');
@@ -57,9 +58,11 @@ class SDay0fWeek extends StatelessWidget {
                               color: (controller.myPick.value == idx ? Color(0xff3396F4) : Color(0x40000000))),),
                         ),
                         Container(
-                          width: 65,
+                          // width: 65,
+                          width: MediaQuery.of(context).size.width*0.165,
                           color: (controller.myPick.value == idx ? Color(0xff3396F4) : Color(0x003396F4)),
-                          height: 3,
+                          // height: 3,
+                          height: MediaQuery.of(context).size.height*0.0037,
                         )
                       ],
                     ),

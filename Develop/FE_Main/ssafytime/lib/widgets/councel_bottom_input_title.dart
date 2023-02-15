@@ -23,7 +23,9 @@ class _CBInputTitleState extends State<CBInputTitle> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.lightGreenAccent,
-      width: 390, height: 64,
+      // width: 390,
+      width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+      height: 64,
       child: TextField(
         style: TextStyle(fontSize: 16, color: Color(0xff262626),
             fontWeight: FontWeight.bold),

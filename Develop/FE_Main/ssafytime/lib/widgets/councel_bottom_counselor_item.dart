@@ -19,8 +19,7 @@ class CBCounselorItem extends StatelessWidget {
     required this.managerId
   }) : super(key: key);
 
-  // CBCouncelorController controller = Get.put(CBCouncelorController());
-  // CBCouncelorController controller = Get.find<CBCouncelorController>();
+
   MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override
@@ -31,7 +30,9 @@ class CBCounselorItem extends StatelessWidget {
           FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
         },
         child: Container(
-          width: 71, height: 84,
+          // width: 71,
+          width: MediaQuery.of(context).size.width * ( 71 / 392.7),
+          height: 84,
           decoration: BoxDecoration(
             color: controller.myPickCouncelor.value == managerId ? Color(0xffE7E7E7) : Colors.white,
             borderRadius: BorderRadius.circular(10.0)

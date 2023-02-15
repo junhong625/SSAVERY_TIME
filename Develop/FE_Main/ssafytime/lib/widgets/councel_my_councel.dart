@@ -21,11 +21,13 @@ class CMyCouncel extends StatelessWidget {
         color: Colors.white,
         // color: Colors.black26,
         margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-        width: 390, height: 666,
+        // width: 390,
+      width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+      height: 666,
         child: RefreshIndicator(
           onRefresh: () async {
             controller.fetchMyCouncelList();
-            Get.find<UserController>().fetchRecruitmentInfo();
+            print(MediaQuery.of(context).size.width);
           },
           child: ListView(
             physics: AlwaysScrollableScrollPhysics(),
@@ -35,15 +37,20 @@ class CMyCouncel extends StatelessWidget {
               for (int i=0; i < controller.myCouncelList.length; i++) ... [
                 if (controller.myCouncelStartTimeList[i] <= controller.doubleTypeCurrentTime.value &&
                     controller.doubleTypeCurrentTime.value <= controller.myCouncelEndTimeList[i]) ... [
-                CouncelListItem(
-                  startTime: controller.myCouncelStartTimeList[i],
-                  endTime: controller.myCouncelEndTimeList[i],
-                  rezTime: controller.myCouncelList[i].value.rezTime,
-                  currentTime: controller.doubleTypeCurrentTime.value,
-                  title: controller.myCouncelList[i].value.title,
-                  reject : controller.myCouncelList[i].value.reject,
-                  state: controller.myCouncelList[i].value.state,
-                  sessionId : controller.myCouncelList[i].value.sessionId,
+                InkWell(
+                  onTap: () {
+                    print('히히');
+                  },
+                  child: CouncelListItem(
+                    startTime: controller.myCouncelStartTimeList[i],
+                    endTime: controller.myCouncelEndTimeList[i],
+                    rezTime: controller.myCouncelList[i].value.rezTime,
+                    currentTime: controller.doubleTypeCurrentTime.value,
+                    title: controller.myCouncelList[i].value.title,
+                    reject : controller.myCouncelList[i].value.reject,
+                    state: controller.myCouncelList[i].value.state,
+                    sessionId : controller.myCouncelList[i].value.sessionId,
+                  ),
                 ),
                 Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
                 ]
@@ -54,15 +61,51 @@ class CMyCouncel extends StatelessWidget {
                 if (controller.myCouncelList[i].value.state == 2 &&
                 !(controller.myCouncelStartTimeList[i] <= controller.doubleTypeCurrentTime.value &&
                     controller.doubleTypeCurrentTime.value <= controller.myCouncelEndTimeList[i])) ... [
-                  CouncelListItem(
-                    startTime: controller.myCouncelStartTimeList[i],
-                    endTime: controller.myCouncelEndTimeList[i],
-                    rezTime: controller.myCouncelList[i].value.rezTime,
-                    currentTime: controller.doubleTypeCurrentTime.value,
-                    title: controller.myCouncelList[i].value.title,
-                    reject : controller.myCouncelList[i].value.reject,
-                    state: controller.myCouncelList[i].value.state,
-                    sessionId : controller.myCouncelList[i].value.sessionId,
+                  InkWell(
+                    onTap: () {
+                      // 테스트용 이 기능 진행중인 상담에다가 써야함.
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('거절 사유를 입력해주세요.'),
+                            content: SizedBox(),
+                            actions: [
+                              CustomElevatedButton(
+                                label: '제출',
+                                // width: 100,
+                                width: MediaQuery.of(context).size.width * ( 100 / 392.7),
+                                height: 40,
+                                onPressed: () {
+                                  print('이동');
+                                  }
+                                ),
+                              CustomElevatedButton(
+                                label: '닫기',
+                                // width: 100,
+                                  width: MediaQuery.of(context).size.width * ( 100 / 392.7),
+                                  height: 40,
+                                onPressed: () {
+                                  print('닫기');
+                                }
+                              )
+                            ],
+                            actionsAlignment: MainAxisAlignment.spaceAround
+                          );
+                        }
+                      );
+                    },
+                    child: CouncelListItem(
+                      startTime: controller.myCouncelStartTimeList[i],
+                      endTime: controller.myCouncelEndTimeList[i],
+                      rezTime: controller.myCouncelList[i].value.rezTime,
+                      currentTime: controller.doubleTypeCurrentTime.value,
+                      title: controller.myCouncelList[i].value.title,
+                      reject : controller.myCouncelList[i].value.reject,
+                      state: controller.myCouncelList[i].value.state,
+                      sessionId : controller.myCouncelList[i].value.sessionId,
+                    ),
                   ),
                   Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
                 ]

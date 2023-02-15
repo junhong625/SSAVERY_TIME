@@ -72,7 +72,8 @@ class CouncelListItem extends StatelessWidget {
       },
       child: Container(
         color: Colors.white,
-        width: 358,
+        // width: 358,
+        width: MediaQuery.of(context).size.width * ( 358 / 392.7),
         height: 62,
         child: Opacity(
           opacity: opacity,
@@ -83,7 +84,8 @@ class CouncelListItem extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                      width: 50,
+                      // width: 50,
+                    width: MediaQuery.of(context).size.width * ( 50 / 392.7),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
@@ -97,7 +99,8 @@ class CouncelListItem extends StatelessWidget {
                         color: Color(0xff686ADB),
                       ))),
                   SizedBox(
-                    width: 15,
+                    // width: 15,
+                    width: MediaQuery.of(context).size.width * ( 15 / 392.7),
                   ),
                 ],
               ),
@@ -132,8 +135,9 @@ class CouncelListItem extends StatelessWidget {
                                 color: Color(0xffABABAE),
                                 fontWeight: FontWeight.w900),
                           ),
-                          const SizedBox(
-                            width: 16,
+                          SizedBox(
+                            // width: 16,
+                            width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                           ),
                         ],
                       ),
@@ -167,8 +171,9 @@ class CouncelListItem extends StatelessWidget {
                                   color: Color(0xffABABAE),
                                   fontWeight: FontWeight.w900),
                             ),
-                            const SizedBox(
-                              width: 16,
+                            SizedBox(
+                              // width: 16,
+                              width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                             ),
                           ],
                         ),
