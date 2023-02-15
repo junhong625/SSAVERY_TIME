@@ -15,7 +15,7 @@ public class NoticeResponseDto {
     private String title;
     private String category;
     private String contentUrl;
-    private LocalDateTime createDateTime;
+    private LocalDateTime createDate;
 
     @Builder
     public NoticeResponseDto(NoticeEntity noticeEntity) {
@@ -32,6 +32,6 @@ public class NoticeResponseDto {
         int hour = Integer.parseInt(time.substring(0, 2));
         int minute = Integer.parseInt(time.substring(2, 4));
         int second = Integer.parseInt(time.substring(4, 6));
-        this.createDateTime = LocalDateTime.of(year, month, day, hour, minute, second);
+        this.createDate = LocalDateTime.of(year, month, day, hour, minute, second);
     }
 }
