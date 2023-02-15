@@ -16,20 +16,24 @@ class CBTimeTotal extends StatelessWidget {
   Widget build(BuildContext context) {
     staticTimeTable table = staticTimeTable();
     return Container(
-      color: Colors.black12,
+      color: Colors.white,
       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
       // width: 390,
       width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-      height: 148,
+      // height: 148,
+      //   height: MediaQuery.of(context).size.height * ( 168 / 803),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Divider(height: 1, thickness: 2, color: Colors.grey,),
+          SizedBox(height: MediaQuery.of(context).size.height * ( 20 / 803),),
           SizedBox(
             child: Text('상담 시간',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),),
           ),
           Obx(() => Container(
-              height: 100,
+              // height: 100,
+            height: MediaQuery.of(context).size.height * ( 100 / 803),
               padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -56,6 +60,7 @@ class CBTimeTotal extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(height: MediaQuery.of(context).size.height * ( 10 / 803),),
         ],
       )
     );

@@ -126,7 +126,8 @@ class _HomeScreenStates extends State<HomeScreen> {
                         isComplete: "")
                   ],
                   options: CarouselOptions(
-                    height: 68,
+                    // height: 68,
+                    height: MediaQuery.of(context).size.height * ( 68 / 803),
                     viewportFraction: 1,
                     autoPlay: true,
                     enableInfiniteScroll: true,

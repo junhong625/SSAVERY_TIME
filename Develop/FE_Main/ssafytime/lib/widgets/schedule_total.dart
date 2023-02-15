@@ -20,9 +20,9 @@ class ScTotal extends StatelessWidget {
     return Container(
       color: Colors.black26,
       // width: 390,
-      width: MediaQuery.of(context).size.width*0.995,
+      width: MediaQuery.of(context).size.width * ( 390 / 392.7),
       // height: 600,
-      height: MediaQuery.of(context).size.height*0.77,
+      height: MediaQuery.of(context).size.height * ( 600 / 803),
       child: SingleChildScrollView(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,9 +71,9 @@ class ScTimeTable extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
             color: Colors.white,
             // width: 32,
-            width: MediaQuery.of(context).size.width*0.0814,
+            width: MediaQuery.of(context).size.width * ( 32 / 392.7),
             // height: 81,
-            height: MediaQuery.of(context).size.height*0.1,
+            height: MediaQuery.of(context).size.height * ( 81 / 803),
             child: Column(
               children: [
                 Text(

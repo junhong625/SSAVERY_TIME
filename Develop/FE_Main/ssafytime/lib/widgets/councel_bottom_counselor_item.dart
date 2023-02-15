@@ -32,7 +32,8 @@ class CBCounselorItem extends StatelessWidget {
         child: Container(
           // width: 71,
           width: MediaQuery.of(context).size.width * ( 71 / 392.7),
-          height: 84,
+          // height: 84,
+          height: MediaQuery.of(context).size.height * ( 84 / 803),
           decoration: BoxDecoration(
             color: controller.myPickCouncelor.value == managerId ? Color(0xffE7E7E7) : Colors.white,
             borderRadius: BorderRadius.circular(10.0)
@@ -45,7 +46,8 @@ class CBCounselorItem extends StatelessWidget {
                   fit: BoxFit.contain,
                   child: CircleAvatar(
                     radius: 20,
-                    backgroundImage: AssetImage(imgUrl),),
+                    backgroundImage: AssetImage(imgUrl),
+                  ),
                 ),
               ),
               Container(

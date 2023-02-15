@@ -86,13 +86,17 @@ class _HSIW extends State<HSIW> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 5,
-          height: 160,
+          // width: 5,
+          width: MediaQuery.of(context).size.width * ( 5 / 392.7),
+          // height: 160,
+          height: MediaQuery.of(context).size.height * ( 160 / 803),
           color: Color(color), // option 1
         ),
         Container(
-          width: 360,
-          height: 160,
+          // width: 360,
+          width: MediaQuery.of(context).size.width * ( 360 / 392.7),
+          // height: 160,
+          height: MediaQuery.of(context).size.height * ( 160 / 803),
           color: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +158,8 @@ class _HSIW extends State<HSIW> {
                     Column(
                       children: [
                         LinearPercentIndicator(
-                          width: 350,
+                          // width: 350,
+                          width: MediaQuery.of(context).size.width * ( 350 / 392.7),
                           lineHeight: 8,
                           barRadius: const Radius.circular(4),
                           percent: progressPercent, // optinal 6_1
@@ -171,8 +176,9 @@ class _HSIW extends State<HSIW> {
                                   color: Color(0xffABABAE),
                                   fontWeight: FontWeight.w900),
                             ),
-                            const SizedBox(
-                              width: 16,
+                            SizedBox(
+                              // width: 16,
+                              width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                             ),
                           ],
                         ),
@@ -191,8 +197,9 @@ class _HSIW extends State<HSIW> {
                               color: Color(0xffABABAE),
                               fontWeight: FontWeight.w900),
                         ),
-                        const SizedBox(
-                          width: 16,
+                        SizedBox(
+                          // width: 16,
+                          width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                         ),
                       ],
                     ),

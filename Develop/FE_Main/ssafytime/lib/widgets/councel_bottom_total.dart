@@ -51,6 +51,7 @@ void openCouncelBottomSheet(BuildContext context) {
                         child: Text('상담신청', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
                       ),
                       CBCouncelorTotal(),
+                      SizedBox(height: MediaQuery.of(context).size.height * ( 10 / 803),),
 
                       // 관리자가 선택 되어야 낳짜를 선택할 수 있다.
                       controller.myPickCouncelor.value != 0 ?
@@ -67,10 +68,11 @@ void openCouncelBottomSheet(BuildContext context) {
                       CBCategoryTotal() : SizedBox(), // 카테고리 입력
 
                       Container(
-                        color: Colors.lime,
+                        color: Colors.white,
                         // width: 390,
                         width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-                        height: 47,
+                        // height: 47,
+                        height: MediaQuery.of(context).size.height * ( 47 / 803),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -80,7 +82,8 @@ void openCouncelBottomSheet(BuildContext context) {
                               },
                               // width: 171,
                               width: MediaQuery.of(context).size.width * ( 171 / 392.7),
-                              height: 40,
+                              // height: 40,
+                              height: MediaQuery.of(context).size.height * ( 40 / 803),
                               label: '닫기',
                             ),
                             if (controller.myInputTitle.value != '' && controller.myInputCategory.value != '')
@@ -90,7 +93,10 @@ void openCouncelBottomSheet(BuildContext context) {
                                   Get.back();
                                 },
                                 color: 0xff3094F2,
-                                width: 171, height: 40,
+                                // width: 171,
+                                width: MediaQuery.of(context).size.width * ( 171 / 392.7),
+                                // height: 40,
+                                height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 label: '제출',
                                 labelColor: 0xffFFFFFF,
                               ),
@@ -102,7 +108,8 @@ void openCouncelBottomSheet(BuildContext context) {
                                 color: 0xffD9D9D9,
                                 // width: 171,
                                 width: MediaQuery.of(context).size.width * ( 171 / 392.7),
-                                height: 40,
+                                // height: 40,
+                                height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 label: '제출',
                                 labelColor: 0xffFFFFFF,
                               ),
@@ -130,34 +137,3 @@ void resetApplyData() {
   controller.myInputTitle.value = '';
   controller.myInputCategory.value = '';
 }
-
-// 상담 신청 제출
-// void submitCouncelApplication() async {
-//   MyCouncelController controller = Get.find<MyCouncelController>();
-//   int studentId = 3241114; // 유저 정보 컨트롤러 생기면 가져오면 됨
-//   int managerId = controller.myPickCouncelor.value;
-//   String rezDate = controller.myPickDateServe.value;
-//   String rezTime = controller.myPickTime.value;
-//   String title = controller.myInputTitle.value;
-//   String category = controller.myInputCategory.value;
-//
-//   var body = json.encode({
-//     "studentId" : studentId,
-//     "managerId" : managerId,
-//     "rezDate" : rezDate,
-//     "rezTime" : rezTime,
-//     "title" : title,
-//     "category" : category,
-//   });
-//
-//   var headers = {"Content-Type": "application/json"};
-//
-//   print(body.runtimeType);
-//   print(managerId);
-//
-//   // post 가 안되는데 어떻게 함
-//   var res = await http.post(Uri.parse('http://i8a602.p.ssafy.io:9090/reserve/submit'), headers: headers, body: body);
-//   print(res.statusCode);
-//
-//   await controller.fetchMyCouncelList(842167, 1);
-// }

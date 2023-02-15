@@ -24,10 +24,11 @@ class _CBCategoryTotalState extends State<CBCategoryTotal> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          color: Colors.cyan,
+          color: Colors.white,
           // width: 390,
           width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-          height: 64,
+          // height: 64,
+          height: MediaQuery.of(context).size.height * ( 64 / 803),
           child: TextField(
             style: TextStyle(fontSize: 16, color: Color(0xff262626),
                 fontWeight: FontWeight.bold),
@@ -52,7 +53,9 @@ class _CBCategoryTotalState extends State<CBCategoryTotal> {
               fontSize: 10, color: Colors.black54
             ),
           ),
-        )
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * ( 20 / 803),),
+
       ],
     );
   }

@@ -25,7 +25,10 @@ class DOWP extends StatelessWidget {
 
     return Container(
       color: Colors.black12,
-      width: 390, height: 48,
+      // width: 390,
+      width: MediaQuery.of(context).size.width * ( 40 / 392.7),
+      // height: 48,
+      height: MediaQuery.of(context).size.height * ( 48 / 803),
       child: Obx(() => Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -55,7 +58,8 @@ class DOWP extends StatelessWidget {
                         // width: 65,
                         width: MediaQuery.of(context).size.width * ( 65 / 392.7),
                         color: (controller.myPick.value == idx ? Color(0xff3396F4) : Color(0x003396F4)),
-                        height: 3,
+                        // height: 3,
+                        height: MediaQuery.of(context).size.height * ( 3 / 803),
                       )
                     ],
                   ),

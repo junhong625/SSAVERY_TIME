@@ -114,7 +114,8 @@ class CouncelAdminListItem extends StatelessWidget {
                           label: '승인',
                           // width: 100,
                           width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                          height: 40,
+                          // height: 40,
+                            height: MediaQuery.of(context).size.height * ( 40 / 803),
                           onPressed: () {
                             print('${rezIdx}번 승인할거임');
                             controller.acceptCouncel(rezIdx);
@@ -124,7 +125,8 @@ class CouncelAdminListItem extends StatelessWidget {
                             label: '거절',
                             // width: 100,
                             width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                            height: 40,
+                            // height: 40,
+                            height: MediaQuery.of(context).size.height * ( 40 / 803),
                             onPressed: () {
                               showDialog(
                                 context: context,
@@ -147,7 +149,8 @@ class CouncelAdminListItem extends StatelessWidget {
                                         label: '제출',
                                         // width: 100,
                                         width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                                        height: 40,
+                                        // height: 40,
+                                          height: MediaQuery.of(context).size.height * ( 40 / 803),
                                         onPressed: () {
                                           print(_textController.text);
                                           controller.rejectCouncel(rezIdx, _textController.text);
@@ -158,7 +161,8 @@ class CouncelAdminListItem extends StatelessWidget {
                                           label: '닫기',
                                           // width: 100,
                                           width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                                          height: 40,
+                                          // height: 40,
+                                          height: MediaQuery.of(context).size.height * ( 40 / 803),
                                           onPressed: () {
                                             _textController.clear();
                                             Navigator.of(context).pop();
@@ -177,7 +181,8 @@ class CouncelAdminListItem extends StatelessWidget {
                                 label: '상담하기',
                                 // width: 100,
                                 width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                                height: 40,
+                                // height: 40,
+                                height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 onPressed: () {
                                   // 상담 이동하기
                                   Get.to(() => CallCounsel(sessionName: sessionId, userName: name,));
@@ -188,7 +193,8 @@ class CouncelAdminListItem extends StatelessWidget {
                                 label: '승인 중...',
                                 // width: 100,
                                 width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                                height: 40,
+                                // height: 40,
+                                height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 onPressed: () {
                                   // 세션 아이디가 없는 경우
                                 }
@@ -198,7 +204,7 @@ class CouncelAdminListItem extends StatelessWidget {
                           Flexible(
                               child: RichText(
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 20,
+                                maxLines: 5,
                                 text: TextSpan(
                                     text: '거절사유 : ${reject}',
                                     style: TextStyle(

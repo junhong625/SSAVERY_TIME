@@ -25,8 +25,10 @@ class _MUIState extends State<MUI> {
     String name = widget.name;
 
     return Container(
-      width: 390,
-      height: 80,
+      // width: 390,
+      width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+      // height: 80,
+      height: MediaQuery.of(context).size.height * ( 80 / 803),
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Row(
@@ -41,7 +43,8 @@ class _MUIState extends State<MUI> {
             ),
           ),
           SizedBox(
-            width: 10,
+            // width: 10,
+            width: MediaQuery.of(context).size.width * ( 10 / 392.7),
           ),
           Container(
               child: Text('${studentID} ${name}',

@@ -22,7 +22,8 @@ class CBTimeItem extends StatelessWidget {
     return Obx(() => Container(
       // width: 48,
       width: MediaQuery.of(context).size.width * ( 48 / 392.7),
-      height: 24,
+      // height: 24,
+      height: MediaQuery.of(context).size.height * ( 24 / 803),
         child: Center(
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
@@ -61,7 +62,8 @@ class CBLunchItem extends StatelessWidget {
     return Container(
       // width: 48,
       width: MediaQuery.of(context).size.width * ( 48 / 392.7),
-      height: 24,
+      // height: 24,
+      height: MediaQuery.of(context).size.height * ( 24 / 803),
       child: Center(
         child: OutlinedButton(
           style: OutlinedButton.styleFrom(
@@ -103,7 +105,8 @@ class CBReservedTime extends StatelessWidget {
     return Container(
       // width: 48,
       width: MediaQuery.of(context).size.width * ( 48 / 392.7),
-      height: 24,
+      // height: 24,
+      height: MediaQuery.of(context).size.height * ( 24 / 803),
       child: Center(
         child: OutlinedButton(
           style: OutlinedButton.styleFrom(

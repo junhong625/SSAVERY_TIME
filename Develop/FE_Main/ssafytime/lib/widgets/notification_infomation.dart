@@ -47,8 +47,10 @@ class _CNIState extends State<CNI> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 358,
-          height: 62,
+          // width: 358,
+          width: MediaQuery.of(context).size.width * ( 358 / 392.7),
+          // height: 62,
+          height: MediaQuery.of(context).size.height * ( 62 / 803),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15), color: Colors.white),
           child: Row(
@@ -60,7 +62,8 @@ class _CNIState extends State<CNI> {
                   children: [
                     // 아이콘 컨네이너
                     Container(
-                        width: 50,
+                        // width: 50,
+                        width : MediaQuery.of(context).size.width * ( 50 / 392.7),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
@@ -73,8 +76,9 @@ class _CNIState extends State<CNI> {
                           size: 20,
                           color: Color(iconColor),
                         ))),
-                    const SizedBox(
-                      width: 15,
+                    SizedBox(
+                      // width: 15,
+                      width: MediaQuery.of(context).size.width * ( 15 / 392.7),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

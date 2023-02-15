@@ -27,13 +27,17 @@ class ScSingleItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 5,
-          height: 81,
+          // width: 5,
+          width: MediaQuery.of(context).size.width * ( 5 / 392.7),
+          // height: 81,
+          height: MediaQuery.of(context).size.height * ( 81 / 803),
           color: Color(coding[data.category]![1]), // option 1
         ),
         Container(
-          width: 353,
-          height: 81,
+          // width: 353,
+          width: MediaQuery.of(context).size.width * ( 353 / 392.7),
+          // height: 81,
+          height: MediaQuery.of(context).size.height * ( 81 / 803),
           color: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,13 +108,17 @@ class LunchTimeTable extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 5,
-              height: 81,
+              // width: 5,
+              width: MediaQuery.of(context).size.width * ( 5 / 392.7),
+              // height: 81,
+              height: MediaQuery.of(context).size.height * ( 81 / 803),
               color: Color(0xff93000A), // option 1
             ),
             Container(
-                width: 353,
-                height: 81,
+                // width: 353,
+                width: MediaQuery.of(context).size.width * ( 353 / 392.7),
+                // height: 81,
+                height: MediaQuery.of(context).size.height * ( 81 / 803),
                 color: Colors.white,
                 child: Center(
                     child: Text(
@@ -152,14 +160,18 @@ class BlankTimeTable extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 5,
-            height: 82,
+            // width: 5,
+            width: MediaQuery.of(context).size.width * ( 5 / 392.7),
+            // height: 82,
+              height: MediaQuery.of(context).size.height * ( 82 / 803),
             // color: Colors.amber,
             color: Color(colorList[color] ?? 0xff000000)
           ),
           Container(
-            width: 353,
-            height: 82,
+            // width: 353,
+            width: MediaQuery.of(context).size.width * ( 353 / 392.7),
+            // height: 82,
+            height: MediaQuery.of(context).size.height * ( 82 / 803),
             color: Colors.white,
           ),
         ],

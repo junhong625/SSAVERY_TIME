@@ -32,8 +32,10 @@ class _HMIWState extends State<HMIW> {
 
     return Center(
       child: Container(
-        width: 173,
-        height: 211,
+        // width: 173,
+        width: MediaQuery.of(context).size.width * ( 173 / 392.7),
+        // height: 211,
+        height: MediaQuery.of(context).size.height * ( 211 / 803),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             border: Border.all(width: 2),
@@ -48,7 +50,10 @@ class _HMIWState extends State<HMIW> {
               ),
               child: Image.network(
                 imgUrl, fit: BoxFit.fill, // option1
-                width: 173, height: 120,
+                // width: 173,
+                width: MediaQuery.of(context).size.width * ( 173 / 392.7),
+                // height: 120,
+                height: MediaQuery.of(context).size.height * ( 120 / 803),
               ),
             ),
             Padding(
@@ -80,8 +85,9 @@ class _HMIWState extends State<HMIW> {
                       color: Color(0xff73777F),
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
+                  SizedBox(
+                    // height: 5,
+                    height: MediaQuery.of(context).size.height * ( 5 / 803),
                   ),
                   // option 3
                   Text(

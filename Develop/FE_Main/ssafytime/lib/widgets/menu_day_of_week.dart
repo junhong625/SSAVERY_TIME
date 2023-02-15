@@ -35,7 +35,8 @@ class MDay0fWeek extends StatelessWidget {
           Container(
             color: Colors.black12,
             // width: 390,
-            height: 48,
+            // height: 48,
+            height: MediaQuery.of(context).size.height * ( 48 / 803),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -46,7 +47,8 @@ class MDay0fWeek extends StatelessWidget {
                   Container(
                     color: Colors.white,
                     padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                    width: 76.8,
+                    // width: 76.8,
+                    width: MediaQuery.of(context).size.width * ( 76.8 / 392.7),
                     child: InkWell(
                       onTap: () {
                         controller.selectDay(idx);
@@ -77,11 +79,12 @@ class MDay0fWeek extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 65,
+                            // width: 65,
+                            width: MediaQuery.of(context).size.width * ( 65 / 392.7),
                             color: (controller.myPick.value == idx
                                 ? Color(0xff3396F4)
                                 : Color(0x003396F4)),
-                            height: 3,
+                            height: MediaQuery.of(context).size.height * ( 3 / 803),
                           )
                         ],
                       ),
@@ -122,7 +125,11 @@ class MDay0fWeek extends StatelessWidget {
                   // width: 390, height: 300,
                   child: Column(
                     children: [
-                      Container(width: 365, height: 288,
+                      Container(
+                        // width: 365,
+                        width: MediaQuery.of(context).size.width * ( 365 / 392.7),
+                        // height: 288,
+                        height: MediaQuery.of(context).size.height * ( 288 / 803),
                         decoration: BoxDecoration(
                           color: Color(0x08000000),
                           border: Border.all(width: 2, color: Color(0x05000000)),
