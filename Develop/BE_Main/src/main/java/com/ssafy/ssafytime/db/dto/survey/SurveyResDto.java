@@ -1,23 +1,19 @@
-package com.ssafy.ssafytime.api.response;
+package com.ssafy.ssafytime.db.dto.survey;
 
 import com.ssafy.ssafytime.db.entity.survey.Survey;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- * 전체 설문 조회
- */
 @Getter
 @Setter
-@ApiModel("SurveyResponse")
-public class AllSurveyRes {
+@NoArgsConstructor
+public class SurveyResDto {
 
     @ApiModelProperty(
             name = "index"
@@ -61,23 +57,14 @@ public class AllSurveyRes {
     @ApiParam(value = "설문종료날짜", required = true)
     private LocalDateTime endDate;
 
-
-    public static List<AllSurveyRes> of(List<Survey> allSurvey) {
-        
-        List<AllSurveyRes> allSurveyRes = new ArrayList<>();  // 응답으로 보낼 전체설문리스트
-        
-        for(int i = 0; i < allSurvey.size(); i++) {
-            Survey survey = allSurvey.get(i);  // 받아온 리스트 중 i번째 설문
-            AllSurveyRes surveyRes = new AllSurveyRes();  // 현재 response 클래스 형식으로 클래스 하나 만듦
-            surveyRes.setId(survey.getId());
-            surveyRes.setTitle(survey.getTitle());  // 받아온 리스트를 조회해가며 i번째 설문의 제목을 현재 클래스의 제목으로 설정
-            surveyRes.setStatus(survey.getStatus());
-            surveyRes.setCategory(survey.getCategory());
-            surveyRes.setStartDate(survey.getCreatedAt());
-            surveyRes.setEndDate(survey.getEndedAt());
-            allSurveyRes.add(surveyRes);  // 응답리스트에 추가
-        }
-
-        return allSurveyRes;
+    @Builder
+    public SurveyResDto(Survey survey) {
+        this.Id = survey.getId();
+        this.category = survey.getCategory();
+        this.endDate = survey.getEndedAt();
+        this.title = survey.getTitle();
+        this.status = survey.getStatus();
+        this.startDate = survey.getCreatedAt();
     }
+
 }

@@ -1,9 +1,9 @@
-package com.ssafy.ssafytime.api.service;
+package com.ssafy.ssafytime.api.service.survey;
 
-import com.ssafy.ssafytime.db.entity.Survey;
-import com.ssafy.ssafytime.db.entity.SurveyConduct;
+import com.ssafy.ssafytime.db.entity.survey.Survey;
+import com.ssafy.ssafytime.db.entity.survey.SurveyConduct;
 import com.ssafy.ssafytime.db.entity.User;
-import com.ssafy.ssafytime.db.repository.SurveyConductRepository;
+import com.ssafy.ssafytime.db.repository.survey.SurveyConductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

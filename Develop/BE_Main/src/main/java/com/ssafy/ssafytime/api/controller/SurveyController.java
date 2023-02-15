@@ -1,11 +1,10 @@
 package com.ssafy.ssafytime.api.controller;
 
-import alarmDefaultService.SurveyUserTokens;
 import com.google.api.client.util.Value;
 import com.google.firebase.messaging.*;
 import com.ssafy.ssafytime.api.firebase.FirebaseCloudMessageService;
 import com.ssafy.ssafytime.api.firebase.MessageDTO;
-import com.ssafy.ssafytime.db.dto.AlarmDefaultResponseDto;
+import com.ssafy.ssafytime.api.service.survey.*;
 import com.ssafy.ssafytime.db.dto.UserDto;
 import com.ssafy.ssafytime.api.request.SurveyConductPostReq;
 import com.ssafy.ssafytime.api.request.SurveyRegisterPostReq;
@@ -13,8 +12,11 @@ import com.ssafy.ssafytime.api.response.AllQuestionRes;
 import com.ssafy.ssafytime.api.response.AllSurveyRes;
 import com.ssafy.ssafytime.api.service.*;
 import com.ssafy.ssafytime.common.model.response.BaseResponseBody;
+import com.ssafy.ssafytime.db.dto.survey.SurveyResDto;
 import com.ssafy.ssafytime.db.entity.*;
+import com.ssafy.ssafytime.db.entity.survey.*;
 import com.ssafy.ssafytime.db.repository.*;
+import com.ssafy.ssafytime.db.repository.survey.*;
 import com.ssafy.ssafytime.exception.ResponseHandler;
 import com.ssafy.ssafytime.jdbc_connection.DbConnector;
 import io.swagger.annotations.*;
@@ -33,8 +35,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.kurento.jsonrpc.client.JsonRpcClient.log;
 
 @Api(value = "설문 API", tags = {"Survey"})
 @RestController
@@ -85,8 +85,18 @@ public class SurveyController {
     @Autowired
     SurveyOptionRepository surveyOptionRepository;
 
-    public static int cnt = 0;  // 이벤트 스케줄러의 제목에 넣을 count변수 선언!
+    public static int cnt = 0;  // 설문 등록시 상태변환 SQL스케줄러의 제목으로 사용할 count변수 선언!
 
+/*
+    =======================================================================
+    설문 전체 조회 API
+    by jaehee
+
+    Parameter : NONE
+    Response Type : List<SurveyResDto>
+    Method : GET
+    =======================================================================
+ */
     @GetMapping("/survey")
     @ApiOperation(value = "설문 전체 조회", notes = "<strong>설문 전체 조회</strong>")
     @ApiResponses({
@@ -96,20 +106,27 @@ public class SurveyController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<AllSurveyRes>> getSurvey() throws SQLException {
+    public ResponseEntity<List<SurveyResDto>> getSurvey() throws SQLException {
 
-        DbConnector dbConnector = new DbConnector();
-        dbConnector.insertSurveyQuestion();
-
-        List<Survey> surveyList = (List<Survey>) surveyService.findAll();  // 전체 설문 조회
+        List<SurveyResDto> surveyList = surveyService.findAll();  // 전체 설문 조회
         if(surveyList.size() == 0) {
             return ResponseEntity.status(204).body(null);
         }
         else {
-            List<AllSurveyRes> allSurveyRes = AllSurveyRes.of(surveyList);  // AllSurveyRes 리스트 타입으로 바꿈
-            return ResponseEntity.ok().body(allSurveyRes);
+            return ResponseEntity.ok().body(surveyList);
         }
     }
+
+/*
+    =======================================================================
+    설문의 전체 질문 조회 API
+    by jaehee
+
+    Parameter : pathvariable(SurveyId)
+    Response Type : List<QuestionResDto>
+    Method : GET
+    =======================================================================
+*/
 
     @GetMapping("/survey/questions/{Id}")
     @ApiOperation(value = "해당설문의 질문 전체 조회", notes = "<strong>해당 설문의 질문 전체 조회</strong>")
@@ -224,6 +241,8 @@ public class SurveyController {
             surveyConduct.setUserIdx(user.get());  // optional객체 말고 user로 바꾸기 위해 .get()해주어야함
             surveyConduct.setSurveyIdx(survey.get());  // optional객체 말고 일반객체로 바꾸기 위해 .get()해주어야함
             surveyConductService.save(surveyConduct);  // 객체 DB에 저장 !
+            survey.get().setStatus(3);
+            surveyService.save(survey.get());
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         }
     }

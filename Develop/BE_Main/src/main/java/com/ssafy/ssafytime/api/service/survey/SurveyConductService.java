@@ -1,7 +1,7 @@
-package com.ssafy.ssafytime.api.service;
+package com.ssafy.ssafytime.api.service.survey;
 
-import com.ssafy.ssafytime.db.entity.Survey;
-import com.ssafy.ssafytime.db.entity.SurveyConduct;
+import com.ssafy.ssafytime.db.entity.survey.Survey;
+import com.ssafy.ssafytime.db.entity.survey.SurveyConduct;
 import com.ssafy.ssafytime.db.entity.User;
 
 import java.util.Optional;
