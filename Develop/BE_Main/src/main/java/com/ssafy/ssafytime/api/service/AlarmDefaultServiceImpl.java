@@ -127,13 +127,10 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
     @Override
     public void noticeChange(Long userId) {
         AlarmDefault userAlarmSettings = alarmDefaultRepository.findById(userId).get();
-        System.out.println(userAlarmSettings.getNoticeAlarm());
         AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto(userAlarmSettings);
-        System.out.println("request");
         alarmDefaultRequestDto.setNoticeAlarm(!alarmDefaultRequestDto.getNoticeAlarm());
-        System.out.println(alarmDefaultRequestDto.getNoticeAlarm());
+        alarmDefaultRepository.delete(userAlarmSettings);
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
-        System.out.println("end");
     }
 
     /* 설문조사 알림 on/off 변경(develop_AJH)
@@ -146,6 +143,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
         AlarmDefault userAlarmSettings = alarmDefaultRepository.findById(userId).get();
         AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto(userAlarmSettings);
         alarmDefaultRequestDto.setSurveyAlarm(!alarmDefaultRequestDto.getSurveyAlarm());
+        alarmDefaultRepository.delete(userAlarmSettings);
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 
@@ -159,6 +157,7 @@ public class AlarmDefaultServiceImpl implements AlarmDefaultService{
         AlarmDefault userAlarmSettings = alarmDefaultRepository.findById(userId).get();
         AlarmDefaultRequestDto alarmDefaultRequestDto = new AlarmDefaultRequestDto(userAlarmSettings);
         alarmDefaultRequestDto.setConsultingAlarm(!alarmDefaultRequestDto.getConsultingAlarm());
+        alarmDefaultRepository.delete(userAlarmSettings);
         alarmDefaultRepository.save(alarmDefaultRequestDto.toEntity());
     }
 
