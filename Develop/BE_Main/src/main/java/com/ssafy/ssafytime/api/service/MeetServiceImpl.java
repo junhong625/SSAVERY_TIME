@@ -75,7 +75,6 @@ public class MeetServiceImpl implements MeetService{
 
         ArrayList<MeetInfoDto> manager = new ArrayList<MeetInfoDto>();
 
-
         // 현재 시간
         String[] dateTime = LocalDateTime.now().toString().split("T");
         int nowDate = Integer.parseInt(dateTime[0].toString().replace("-", ""));
@@ -95,11 +94,28 @@ public class MeetServiceImpl implements MeetService{
                 meetInfoDto.setRezDate(m.getRezDate());
 
                 // 시간이 지났으면 state 4(종료)로 변경
-                if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime() ) {
+                if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime()+1 ) {
                     m.setState(4L); // 4(종료) (entity)
-                    m.setSessionId(null);
-                    meetUpdateRepository.save(m);// db에 적용
+//                    if(m.getSessionId() !=null){
+//                        Session session = openvidu.getActiveSession(m.getSessionId());
+//                        m.setSessionId("체크");
+//                    }
+//                    List<Session> session = openvidu.getActiveSessions();
+//
+//                    session.forEach(s->{
+//                        // 종료된 미팅에 저장된 세션이 존재하면 닫기
+//                        if(m.getState()==4 && s.getSessionId().equals(m.getSessionId())){
+//                            try {
+//                                s.close();
+//                            } catch (OpenViduJavaClientException e) {
+//                                throw new RuntimeException(e);
+//                            } catch (OpenViduHttpException e) {
+//                                throw new RuntimeException(e);
+//                            }
+//                        }
+//                    });
 
+                    meetUpdateRepository.save(m);// db에 적용
 
                 }
                 meetInfoDto.setState(m.getState());
@@ -138,9 +154,9 @@ public class MeetServiceImpl implements MeetService{
                     meetInfoDto.setRezTime(m.getRezTime());
                     meetInfoDto.setRezDate(m.getRezDate());
                     // 시간이 지났으면 state 4(종료)로 변경 (3(거절)인 경우는 처리안함)
-                    if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime() ) {
+                    if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime()+1 ) {
                         m.setState(4L); // 4(종료) (entity)
-                        m.setSessionId(null);
+//                        m.setSessionId(null);
                         meetUpdateRepository.save(m);// db에 적용
                     }
                     meetInfoDto.setState(m.getState());

@@ -76,28 +76,29 @@ public class MeetController {
             member = meetService.findAllByManagerId_UserIdx(userId);
         }
 
+
         // 종료상태면 세션 종료
-        member.forEach(m->{
-            if(m.getState()==4) {
-                // 세선 닫아버리기
-                Session session = null;
-//                        openvidu.getActiveSession(m.getSessionId());
-
-//                if (session != null) {
+//        member.forEach(m->{
+//            if(m.getState()==4) {
+//                // 세선 닫아버리기
 //
-//                }
-//                if (session != null) {
-//                    try {
-//                        session.close();
-//                    } catch (OpenViduJavaClientException e) {
-//                        throw new RuntimeException(e);
-//                    } catch (OpenViduHttpException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
-
-            }
-        });
+////                Session session = openvidu.getActiveSession(m.getSessionId());
+//
+////                if (session != null) {
+////
+////                }
+////                if (session != null) {
+////                    try {
+////                        session.close();
+////                    } catch (OpenViduJavaClientException e) {
+////                        throw new RuntimeException(e);
+////                    } catch (OpenViduHttpException e) {
+////                        throw new RuntimeException(e);
+////                    }
+////                }
+//
+//            }
+//        });
 
         return new ResponseEntity(member, HttpStatus.OK);
     }
