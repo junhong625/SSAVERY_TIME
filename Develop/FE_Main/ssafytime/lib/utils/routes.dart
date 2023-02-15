@@ -8,6 +8,7 @@ import 'package:ssafytime/screens/counsel_screen.dart';
 import 'package:ssafytime/screens/login_screen.dart';
 import 'package:ssafytime/screens/notification_screen.dart';
 import 'package:ssafytime/screens/root_screen.dart';
+import 'package:ssafytime/screens/survey_screen.dart';
 import 'package:ssafytime/screens/user_screen.dart';
 import 'package:ssafytime/admin_councel_test_page.dart';
 import 'package:ssafytime/user_councel_test_page.dart';
@@ -53,6 +54,7 @@ class AppRoutes {
         middlewares: [AuthGuard()],
         name: '/userPage',
         page: () => UserScreen()),
+    GetPage(name: '/survey', page: () => SurveyScreen()),
 
     /// ==== 이하 테스트 용 ===============
     GetPage(name: '/UserCouncelTestPage', page: () => CounselScreen()),

@@ -1,29 +1,27 @@
 import 'dart:convert';
 
-class SurveyResultOption {
-  SurveyResultOption({
-    required this.optionList,
-    required this.questionContent,
+List<SurveyResult> surveyResultFromJson(String str) => List<SurveyResult>.from(
+    json.decode(str).map((x) => SurveyResult.fromJson(x)));
+
+String surveyResultToJson(List<SurveyResult> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class SurveyResult {
+  SurveyResult({
+    required this.questionId,
+    required this.response,
   });
 
-  Map<String, dynamic> optionList;
-  String questionContent;
+  String questionId;
+  String response;
 
-  factory SurveyResultOption.fromRawJson(String str) =>
-      SurveyResultOption.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory SurveyResultOption.fromJson(Map<String, dynamic> json) =>
-      SurveyResultOption(
-        optionList: Map.from(json["optionList"])
-            .map((k, v) => MapEntry<String, dynamic>(k, v)),
-        questionContent: json["questionContent"],
+  factory SurveyResult.fromJson(Map<String, dynamic> json) => SurveyResult(
+        questionId: json["questionId"],
+        response: json["response"],
       );
 
   Map<String, dynamic> toJson() => {
-        "optionList":
-            Map.from(optionList).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "questionContent": questionContent,
+        "questionId": questionId,
+        "response": response,
       };
 }

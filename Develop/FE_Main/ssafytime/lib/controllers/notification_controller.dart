@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -11,7 +13,12 @@ class NotificationController extends GetxController
   static NotificationController get to => Get.find();
   var count = 0.obs;
 
-  final notiList = <dynamic>[].obs;
+  final notiList = [
+    <dynamic>[].obs,
+    <dynamic>[].obs,
+    <dynamic>[].obs,
+    <dynamic>[].obs,
+  ];
   final notiListWidgets = <Widget>[].obs;
 
   final dateF = new DateFormat("yy/MM/dd");
@@ -26,10 +33,10 @@ class NotificationController extends GetxController
       child: Text("전체"),
     ),
     const Tab(
-      child: Text("설문조사"),
+      child: Text("공지사항"),
     ),
     const Tab(
-      child: Text("공지사항"),
+      child: Text("설문조사"),
     ),
     const Tab(
       child: Text("상담"),
@@ -39,6 +46,10 @@ class NotificationController extends GetxController
   @override
   void onInit() async {
     tabController = TabController(length: myTabs.length, vsync: this);
+    tabController.addListener(() {
+      log("tab num : ${tabController.index}");
+      fetchNotiListWidgets();
+    });
     await fetchNotiList();
     super.onInit();
   }
@@ -50,10 +61,17 @@ class NotificationController extends GetxController
   }
 
   Future<void> fetchNotiList() async {
-    notiList.clear();
+    notiList[0].clear();
+    notiList[1].clear();
+    notiList[2].clear();
+    notiList[3].clear();
     await fetchNoticeList();
     await fetchSurveyList();
     await fetchCounselList();
+    notiList[0].sort((b, a) => a.createDateTime.compareTo(b.createDateTime));
+    notiList[1].sort((b, a) => a.createDateTime.compareTo(b.createDateTime));
+    notiList[2].sort((b, a) => a.createDateTime.compareTo(b.createDateTime));
+    notiList[3].sort((b, a) => a.createDateTime.compareTo(b.createDateTime));
     fetchNotiListWidgets();
   }
 
@@ -61,7 +79,8 @@ class NotificationController extends GetxController
     var data = await notiApi.fetchSurveryList();
     if (data != null) {
       data.forEach((e) {
-        notiList.add(e);
+        notiList[0].add(e);
+        notiList[2].add(e);
       });
     }
   }
@@ -70,7 +89,8 @@ class NotificationController extends GetxController
     var data = await notiApi.fetchNoticeList();
     if (data != null) {
       data.forEach((e) {
-        notiList.add(e);
+        notiList[0].add(e);
+        notiList[1].add(e);
       });
     }
   }
@@ -80,14 +100,15 @@ class NotificationController extends GetxController
         AuthService.to.user.value.userIdx, AuthService.to.user.value.isAdmin);
     if (data != null) {
       data.forEach((e) {
-        notiList.add(e);
+        notiList[0].add(e);
+        notiList[3].add(e);
       });
     }
   }
 
   void fetchNotiListWidgets() {
     notiListWidgets.clear();
-    notiList.forEach(
+    notiList[tabController.index].forEach(
       (element) {
         switch (element.notiType) {
           case 1:
@@ -96,21 +117,36 @@ class NotificationController extends GetxController
                 myIcon: FontAwesomeIcons.bullhorn,
                 iconColor: 0xffFF5449,
                 title: element.title,
-                detail: Text(dateF.format(element.createDateTime)),
+                detail: Text(timeF.format(element.createDateTime)),
                 isComplete: ""));
             notiListWidgets.add(Divider(
               height: 4,
             ));
             break;
           case 2:
-            notiListWidgets.add(CNI(
-                opacity: 1,
-                myIcon: FontAwesomeIcons.pen,
-                iconColor: 0xff0079D1,
-                title: element.title,
-                detail: Text(
-                    "${timeF.format(element.startDate)} ~ ${timeF.format(element.endDate)}"),
-                isComplete: ""));
+            notiListWidgets.add(GestureDetector(
+              child: CNI(
+                  opacity: 1,
+                  myIcon: FontAwesomeIcons.pen,
+                  iconColor: 0xff0079D1,
+                  title: element.title,
+                  detail: Text(
+                      "${timeF.format(element.startDate)} ~ ${timeF.format(element.endDate)}"),
+                  isComplete: ""),
+              onTap: () {
+                Get.defaultDialog(
+                  title: "",
+                  titlePadding: EdgeInsets.only(top: 0, bottom: 0),
+                  content: Text("설문을 진행하시겠습니까?"),
+                  textConfirm: "계속",
+                  textCancel: "취소",
+                  onConfirm: () {
+                    Get.back();
+                    Get.toNamed('/survey', arguments: element.surveyIdx);
+                  },
+                );
+              },
+            ));
             notiListWidgets.add(Divider(
               height: 4,
             ));
