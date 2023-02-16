@@ -78,7 +78,8 @@ class _HomeScreenStates extends State<HomeScreen> {
                       widget.userC.carouselItemList.length > 1 ? true : false,
                   items: widget.userC.carouselItemListWidget,
                   options: CarouselOptions(
-                    height: 68,
+                    // height: 68,
+                    height: MediaQuery.of(context).size.height * ( 68 / 803),
                     viewportFraction: 1,
                     autoPlay:
                         widget.userC.carouselItemList.length > 1 ? true : false,

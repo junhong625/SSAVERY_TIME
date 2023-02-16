@@ -17,8 +17,10 @@ class HEIS extends StatelessWidget {
     String period = info.date!;
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
-      width: 358,
-      height: 87,
+      // width: 358,
+      width: MediaQuery.of(context).size.width * ( 358 / 392.7),
+      // height: 87,
+      height: MediaQuery.of(context).size.height * ( 87 / 803),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

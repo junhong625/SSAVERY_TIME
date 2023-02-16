@@ -34,8 +34,10 @@ class CAdminCouncel extends StatelessWidget {
         children: [
           Container(
             // color: Colors.black,
-            width: 390,
-            height: 48,
+            // width: 390,
+            width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+            // height: 48,
+            height: MediaQuery.of(context).size.height * ( 48 / 803),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -46,7 +48,8 @@ class CAdminCouncel extends StatelessWidget {
                   Container(
                     color: Colors.white,
                     padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    width: 76.8,
+                    // width: 76.8,
+                    width: MediaQuery.of(context).size.width * ( 76.8 / 392.7),
                     child: InkWell(
                       onTap: () {
                         controller.selectAdminCategory(idx);
@@ -66,11 +69,10 @@ class CAdminCouncel extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 70,
-                            // color: (controller.adminCategory.value == idx
-                            //     ? Color(0xff3396F4)
-                            //     : Color(0x003396F4)),
-                            height: 3,
+                            // width: 70,
+                            width: MediaQuery.of(context).size.width * ( 70 / 392.7),
+                            // height: 3,
+                            height: MediaQuery.of(context).size.height * ( 3 / 803),
                             decoration: BoxDecoration(
                               color: (controller.adminCategory.value == idx
                                   ? Color(0xff3396F4)
@@ -101,7 +103,10 @@ class CAdminCouncel extends StatelessWidget {
           ///////////////////////////////////////////////////////////////////
           Container(
               margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-              width: 390, height: 600,
+              // width: 390,
+            width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+            // height: 600,
+              height: MediaQuery.of(context).size.height * ( 600 / 803),
               child: SingleChildScrollView(
 
                 child: Column(
@@ -118,11 +123,15 @@ class CAdminCouncel extends StatelessWidget {
                           // Divider(thickness: 1, height: 1, color: Color(0xffC3C6CF),),
                           Container(
                             constraints: BoxConstraints(
-                              maxHeight: 500,
+                              // maxHeight: 500,
+                              maxHeight: MediaQuery.of(context).size.height * ( 500 / 803)
                             ),
                             child: RefreshIndicator(
                               onRefresh: () async{
                                 controller.fetchMyCouncelList();
+                                print(MediaQuery.of(context).size.width);
+                                print(MediaQuery.of(context).padding.top);
+                                print(MediaQuery.of(context).padding.bottom);
                               },
                               child: ListView.builder(
                                 itemCount: controller.myCouncelList.length,

@@ -15,7 +15,10 @@ class HTodayMenuTotal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-      width: 360, height: 251,
+      // width: 360,
+      width: MediaQuery.of(context).size.width * ( 360 / 392.7),
+      // height: 251,
+        height: MediaQuery.of(context).size.height * ( 251 / 803),
       color: Colors.white,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

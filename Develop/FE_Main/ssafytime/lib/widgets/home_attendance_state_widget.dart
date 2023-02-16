@@ -26,7 +26,8 @@ class _HAState extends State<HA> {
       color: Colors.white,
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       width: double.infinity,
-      height: 58,
+      // height: 58,
+      height: MediaQuery.of(context).size.height * ( 58 / 803),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -41,12 +42,14 @@ class _HAState extends State<HA> {
             ),
           ),
           SizedBox(
-            width: 284,
+            // width: 284,
+            width: MediaQuery.of(context).size.width * ( 284 / 392.7),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 91.33,
+                  // width: 91.33,
+                  width: MediaQuery.of(context).size.width * ( 91.33 / 392.7),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -74,7 +77,8 @@ class _HAState extends State<HA> {
                   ),
                 ),
                 SizedBox(
-                  width: 91.33,
+                  // width: 91.33,
+                  width: MediaQuery.of(context).size.width * ( 91.33 / 392.7),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -102,7 +106,8 @@ class _HAState extends State<HA> {
                   ),
                 ),
                 SizedBox(
-                  width: 91.33,
+                  // width: 91.33,
+                  width: MediaQuery.of(context).size.width * ( 91.33 / 392.7),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

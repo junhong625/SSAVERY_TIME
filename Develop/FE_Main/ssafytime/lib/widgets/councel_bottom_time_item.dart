@@ -20,7 +20,10 @@ class CBTimeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     String time = this.time;
     return Obx(() => Container(
-        width: 48, height: 24,
+      // width: 48,
+      width: MediaQuery.of(context).size.width * ( 48 / 392.7),
+      // height: 24,
+      height: MediaQuery.of(context).size.height * ( 24 / 803),
         child: Center(
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
@@ -57,7 +60,10 @@ class CBLunchItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 48, height: 24,
+      // width: 48,
+      width: MediaQuery.of(context).size.width * ( 48 / 392.7),
+      // height: 24,
+      height: MediaQuery.of(context).size.height * ( 24 / 803),
       child: Center(
         child: OutlinedButton(
           style: OutlinedButton.styleFrom(
@@ -97,7 +103,10 @@ class CBReservedTime extends StatelessWidget {
   Widget build(BuildContext context) {
     String time = this.time;
     return Container(
-      width: 48, height: 24,
+      // width: 48,
+      width: MediaQuery.of(context).size.width * ( 48 / 392.7),
+      // height: 24,
+      height: MediaQuery.of(context).size.height * ( 24 / 803),
       child: Center(
         child: OutlinedButton(
           style: OutlinedButton.styleFrom(

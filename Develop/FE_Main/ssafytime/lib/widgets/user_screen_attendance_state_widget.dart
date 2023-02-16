@@ -27,8 +27,10 @@ class _MAWState extends State<MAW> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 390,
-        height: 110,
+        // width: 390,
+        width: MediaQuery.of(context).size.width * ( 390 / 392.7),
+        // height: 110,
+        height: MediaQuery.of(context).size.height * ( 110 / 803),
         color: Colors.white,
         padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
         child: Column(
@@ -39,7 +41,8 @@ class _MAWState extends State<MAW> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
             ),
             SizedBox(
-              height: 5,
+              // height: 5,
+              height: MediaQuery.of(context).size.height * ( 5 / 803),
             ),
             Row(
               children: [
@@ -98,24 +101,32 @@ class _MAWdetailState extends State<MAWdetail> {
     String secString = typeInfo[2]; // 임의 or 전체
 
     return Container(
-      width: 115.33, height: 62,
+      // width: 115.33,
+      width: MediaQuery.of(context).size.width * ( 115.33 / 392.7),
+      // height: 62,
+      height: MediaQuery.of(context).size.height * ( 62 / 803),
       // color: Colors.orangeAccent,
       child: Column(
         children: [
           Container(
             // color: Colors.deepOrangeAccent,
-            width: 58, height: 42,
+            // width: 58,
+            width: MediaQuery.of(context).size.width * ( 58 / 392.7),
+            // height: 42,
+            height: MediaQuery.of(context).size.height * ( 42 / 803),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   // color: Colors.black12,
-                  width: 19,
+                  // width: 19,
+                  width: MediaQuery.of(context).size.width * ( 19 / 392.7),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 24,
+                        // height: 24,
+                        height: MediaQuery.of(context).size.height * ( 24 / 803),
                         child: FittedBox(
                             fit: BoxFit.contain,
                             // option1 사유 횟수
@@ -125,7 +136,8 @@ class _MAWdetailState extends State<MAWdetail> {
                             )),
                       ),
                       Container(
-                        height: 16,
+                        // height: 16,
+                        height: MediaQuery.of(context).size.height * ( 16 / 803),
                         child: FittedBox(
                             fit: BoxFit.contain,
                             // option 2 사유 or 정상
@@ -139,14 +151,17 @@ class _MAWdetailState extends State<MAWdetail> {
                 ),
                 Container(
                     // color: Colors.greenAccent,
-                    width: 19,
+                    // width: 19,
+                    width: MediaQuery.of(context).size.width * ( 19 / 392.7),
                     child: Column(
                       children: [
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
                           child: Container(
-                            width: 2,
-                            height: 20,
+                            // width: 2,
+                            width: MediaQuery.of(context).size.width * ( 2 / 392.7),
+                            // height: 20,
+                            height: MediaQuery.of(context).size.height * ( 20 / 803),
                             // option3 색깔
                             color: Color(color),
                           ),
@@ -155,12 +170,14 @@ class _MAWdetailState extends State<MAWdetail> {
                     )),
                 Container(
                   // color: Colors.cyanAccent,
-                  width: 19,
+                  // width: 19,
+                  width: MediaQuery.of(context).size.width * ( 19 / 392.7),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 24,
+                        // height: 24,
+                        height: MediaQuery.of(context).size.height * ( 24 / 803),
                         child: FittedBox(
                             fit: BoxFit.contain,
                             // option4 임의(or 전체) 횟수
@@ -170,7 +187,8 @@ class _MAWdetailState extends State<MAWdetail> {
                             )),
                       ),
                       Container(
-                        height: 16,
+                        // height: 16,
+                        height: MediaQuery.of(context).size.height * ( 16 / 803),
                         child: FittedBox(
                           fit: BoxFit.contain,
                           // option5 임의 or 전체
@@ -190,7 +208,10 @@ class _MAWdetailState extends State<MAWdetail> {
           ),
           Container(
             // color: Colors.blue,
-            width: 26, height: 20,
+            // width: 26,
+            width: MediaQuery.of(context).size.width * ( 26 / 392.7),
+            // height: 20,
+            height: MediaQuery.of(context).size.height * ( 20 / 803),
             child: FittedBox(
               fit: BoxFit.contain,
               // option6 결석, 지각, 출석

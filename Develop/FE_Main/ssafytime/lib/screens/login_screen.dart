@@ -27,13 +27,17 @@ class _LoginScreenState extends State<LoginScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
-                width: 50,
-                height: 100,
+              SizedBox(
+                // width: 50,
+                width: MediaQuery.of(context).size.width * ( 50 / 392.7),
+                // height: 100,
+                height: MediaQuery.of(context).size.height * ( 100 / 803),
               ),
               Container(
-                width: 200,
-                height: 200,
+                // width: 200,
+                width: MediaQuery.of(context).size.width * ( 200 / 392.7),
+                // height: 200,
+                height: MediaQuery.of(context).size.height * ( 200 / 803),
                 color: Colors.blue[400],
               ), // 앱 로고
               Form(
@@ -46,8 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     inputType: TextInputType.emailAddress,
                     isObscureText: false,
                   ),
-                  const SizedBox(
-                    height: 15,
+                  SizedBox(
+                    // height: 15,
+                    height: MediaQuery.of(context).size.height * ( 15 / 803),
                   ),
 
                   CustomInputData(
@@ -57,8 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     inputType: TextInputType.text,
                     isObscureText: true,
                   ),
-                  const SizedBox(
-                    height: 40,
+                  SizedBox(
+                    // height: 40,
+                    height: MediaQuery.of(context).size.height * ( 40 / 803),
                   ),
                   ElevatedButton(
                     /// toDo : 로그인 기능 구현 ///
@@ -71,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
-                        minimumSize: const Size(330, 60),
+                        minimumSize: Size(MediaQuery.of(context).size.width * ( 330 / 392.7), MediaQuery.of(context).size.height * ( 60 / 803)),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12))),
                     child: const Text(

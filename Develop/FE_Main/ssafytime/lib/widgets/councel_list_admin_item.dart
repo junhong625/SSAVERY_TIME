@@ -80,7 +80,8 @@ class CouncelAdminListItem extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.8,
         child: ExpansionTile(
           leading: Container(
-            width: 50,
+            // width: 50,
+            width: MediaQuery.of(context).size.width * ( 50 / 392.7),
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
@@ -111,7 +112,10 @@ class CouncelAdminListItem extends StatelessWidget {
                         if (state == 1) ... [
                         CustomElevatedButton(
                           label: '승인',
-                          width: 100, height: 40,
+                          // width: 100,
+                          width: MediaQuery.of(context).size.width * ( 100 / 392.7),
+                          // height: 40,
+                            height: MediaQuery.of(context).size.height * ( 40 / 803),
                           onPressed: () {
                             print('${rezIdx}번 승인할거임');
                             controller.acceptCouncel(rezIdx);
@@ -119,7 +123,10 @@ class CouncelAdminListItem extends StatelessWidget {
                         ),
                         CustomElevatedButton(
                             label: '거절',
-                            width: 100, height: 40,
+                            // width: 100,
+                            width: MediaQuery.of(context).size.width * ( 100 / 392.7),
+                            // height: 40,
+                            height: MediaQuery.of(context).size.height * ( 40 / 803),
                             onPressed: () {
                               showDialog(
                                 context: context,
@@ -140,7 +147,10 @@ class CouncelAdminListItem extends StatelessWidget {
                                     actions: [
                                       CustomElevatedButton(
                                         label: '제출',
-                                        width: 100, height: 40,
+                                        // width: 100,
+                                        width: MediaQuery.of(context).size.width * ( 100 / 392.7),
+                                        // height: 40,
+                                          height: MediaQuery.of(context).size.height * ( 40 / 803),
                                         onPressed: () {
                                           print(_textController.text);
                                           controller.rejectCouncel(rezIdx, _textController.text);
@@ -149,7 +159,10 @@ class CouncelAdminListItem extends StatelessWidget {
                                       ),
                                       CustomElevatedButton(
                                           label: '닫기',
-                                          width: 100, height: 40,
+                                          // width: 100,
+                                          width: MediaQuery.of(context).size.width * ( 100 / 392.7),
+                                          // height: 40,
+                                          height: MediaQuery.of(context).size.height * ( 40 / 803),
                                           onPressed: () {
                                             _textController.clear();
                                             Navigator.of(context).pop();
@@ -166,7 +179,10 @@ class CouncelAdminListItem extends StatelessWidget {
                           if (sessionId != null) ... [
                             CustomElevatedButton(
                                 label: '상담하기',
-                                width: 100, height: 40,
+                                // width: 100,
+                                width: MediaQuery.of(context).size.width * ( 100 / 392.7),
+                                // height: 40,
+                                height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 onPressed: () {
                                   // 상담 이동하기
                                   Get.to(() => CallCounsel(sessionName: sessionId, userName: name,));
@@ -175,7 +191,10 @@ class CouncelAdminListItem extends StatelessWidget {
                           ] else ... [
                             CustomElevatedButton(
                                 label: '승인 중...',
-                                width: 100, height: 40,
+                                // width: 100,
+                                width: MediaQuery.of(context).size.width * ( 100 / 392.7),
+                                // height: 40,
+                                height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 onPressed: () {
                                   // 세션 아이디가 없는 경우
                                 }
@@ -185,7 +204,7 @@ class CouncelAdminListItem extends StatelessWidget {
                           Flexible(
                               child: RichText(
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 20,
+                                maxLines: 5,
                                 text: TextSpan(
                                     text: '거절사유 : ${reject}',
                                     style: TextStyle(

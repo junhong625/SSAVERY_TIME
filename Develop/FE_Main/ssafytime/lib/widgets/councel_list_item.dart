@@ -40,31 +40,46 @@ class CouncelListItem extends StatelessWidget {
     double opacity = (state == 3 || state == 4) ? 0.4 : 1;
     return InkWell(
       onTap: () {
-        if (startTime <= currentTime && currentTime <= endTime && state == 2) {
+        print('currentTime : ${currentTime}');
+        print('startTime : ${startTime}');
+        print('endTime : ${endTime}');
+        // if (startTime <= currentTime && currentTime <= endTime && state == 2) {
+        if (state == 2) {
           showDialog(
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text(sessionId != null ?'방에 접속해주세요!' : '승인 처리 중 ...'),
+                title: Center(
+                  child: Text(sessionId != null ?'방에 접속해주세요!' : '승인 처리 중 ...')
+                ),
+
                 content: Container(
-                    child: Row(
-                  children: [
-                    if (sessionId != null) ... [
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if (sessionId != null) ... [
+                        CustomElevatedButton(
+                            label: '상담',
+                            color: 0xff3094F2,
+                            labelColor: 0xffFFFFFF,
+                            borderColor: 0xff3094F2,
+                            onPressed: () async {
+                              Get.off(() => CallCounsel(sessionName: sessionId ?? '', userName: name ?? '',));
+                            }
+                        ),
+                      ],
+                      // 닫기
                       CustomElevatedButton(
-                          label: '상담',
-                          onPressed: () {
-                            Get.to(() => CallCounsel(sessionName: sessionId ?? '', userName: name ?? '',));
-                          }
+                        label: '닫기',
+                        onPressed: () {
+                          Get.back();
+                        }
                       ),
                     ],
-                    // 닫기
-                    CustomElevatedButton(
-                      label: '닫기',
-                      onPressed: () {}
-                    ),
-                  ],
-                )),
+                  )
+                ),
               );
             },
           );
@@ -72,8 +87,10 @@ class CouncelListItem extends StatelessWidget {
       },
       child: Container(
         color: Colors.white,
-        width: 358,
-        height: 62,
+        // width: 358,
+        width: MediaQuery.of(context).size.width * ( 358 / 392.7),
+        // height: 62,
+        height: MediaQuery.of(context).size.height * ( 62 / 803),
         child: Opacity(
           opacity: opacity,
           child: Row(
@@ -83,7 +100,8 @@ class CouncelListItem extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                      width: 50,
+                      // width: 50,
+                    width: MediaQuery.of(context).size.width * ( 50 / 392.7),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
@@ -97,17 +115,18 @@ class CouncelListItem extends StatelessWidget {
                         color: Color(0xff686ADB),
                       ))),
                   SizedBox(
-                    width: 15,
+                    // width: 15,
+                    width: MediaQuery.of(context).size.width * ( 15 / 392.7),
                   ),
                 ],
-              ),
+              ), // height: MediaQuery.of(context).size.height * ( 84 / 803),
               Container(
                 // 진행바가 있는경우는 290 , 없는 경우는 230
                 width: (state == 2 &&
                         startTime <= currentTime &&
                         currentTime <= endTime)
-                    ? 290
-                    : 230,
+                    ? MediaQuery.of(context).size.width * ( 290 / 392.7) //290
+                    : MediaQuery.of(context).size.width * ( 230 / 392.7), //230,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -120,7 +139,7 @@ class CouncelListItem extends StatelessWidget {
                     ),
 
                     // 시작 전 이라면 reject == null  : 승인 되었다.
-                    if (currentTime < startTime && reject == null) ...[
+                    if (currentTime < startTime && state == 2) ...[
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -132,8 +151,9 @@ class CouncelListItem extends StatelessWidget {
                                 color: Color(0xffABABAE),
                                 fontWeight: FontWeight.w900),
                           ),
-                          const SizedBox(
-                            width: 16,
+                          SizedBox(
+                            // width: 16,
+                            width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                           ),
                         ],
                       ),
@@ -167,8 +187,9 @@ class CouncelListItem extends StatelessWidget {
                                   color: Color(0xffABABAE),
                                   fontWeight: FontWeight.w900),
                             ),
-                            const SizedBox(
-                              width: 16,
+                            SizedBox(
+                              // width: 16,
+                              width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                             ),
                           ],
                         ),
@@ -228,7 +249,8 @@ class CItemIng extends StatelessWidget {
     double persent = CItemPersent(currentTime, rezTime);
     String councelTime = CItemCouncelTime(rezTime); // 13:00 ~ 14:00
     return Container(
-      width: 280,
+      // width: 280,
+      width: MediaQuery.of(context).size.width * ( 280 / 392.7),
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.end,
         children: [

@@ -23,65 +23,49 @@ class SDay0fWeek extends StatelessWidget {
       4: ['금', dt.subtract(Duration(days: dt.weekday - 5)).day.toString()],
     };
 
-    return Obx(
-      () => Column(
-        children: [
-          Container(
-            color: Colors.black12,
-            // width: 390,
-            height: 48,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                for (int idx = 0; idx < 5; idx++) ...[
-                  Container(
-                    color: Colors.white,
-                    padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                    width: 76.8,
-                    child: InkWell(
-                      onTap: () async {
-                        print('클릭');
-                        controller.selectDay(idx);
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text(
-                              dayList[idx]![0],
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w900,
-                                  color: (controller.myPick.value == idx
-                                      ? Color(0xff3396F4)
-                                      : Color(0x40000000))),
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              dayList[idx]![1],
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900,
-                                  color: (controller.myPick.value == idx
-                                      ? Color(0xff3396F4)
-                                      : Color(0x40000000))),
-                            ),
-                          ),
-                          Container(
-                            width: 65,
-                            color: (controller.myPick.value == idx
-                                ? Color(0xff3396F4)
-                                : Color(0x003396F4)),
-                            height: 3,
-                          )
-                        ],
-                      ),
+    return Obx(() => Column(
+      children: [
+        Container(
+          color: Colors.white,
+          // height: 48,
+          height: MediaQuery.of(context).size.height * ( 48 / 803),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              for (int idx = 0; idx < 5; idx ++) ...[
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                  // width: 76.8,
+                  width: MediaQuery.of(context).size.width * ( 76.8 / 392.7),
+                  child: InkWell(
+                    onTap: () async{
+                      print('클릭');
+                      controller.selectDay(idx);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Text(dayList[idx]![0], style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900,
+                              color: (controller.myPick.value == idx ? Color(0xff3396F4) : Color(0x40000000))),),
+                        ),
+                        Container(
+                          child: Text(dayList[idx]![1], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900,
+                              color: (controller.myPick.value == idx ? Color(0xff3396F4) : Color(0x40000000))),),
+                        ),
+                        Container(
+                          // width: 65,
+                          width: MediaQuery.of(context).size.width * ( 65 / 392.7),
+                          color: (controller.myPick.value == idx ? Color(0xff3396F4) : Color(0x003396F4)),
+                          // height: 3,
+                          height: MediaQuery.of(context).size.height * ( 3 / 803),
+                        )
+                      ],
                     ),
                   ),
-                  VerticalDivider(
-                      thickness: 1, width: 1, color: Color(0xffC3C6CF)),
-                ],
+                ),
+                VerticalDivider(thickness: 1, width: 1, color: Color(0xffC3C6CF)),
               ],
             ),
           ),
