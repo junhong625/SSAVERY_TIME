@@ -27,8 +27,8 @@ class CMyCouncel extends StatelessWidget {
       height: MediaQuery.of(context).size.height * ( 666 / 803),
         child: RefreshIndicator(
           onRefresh: () async {
-            controller.fetchMyCouncelList();
-            print(MediaQuery.of(context).size.width);
+            await controller.fetchMyCouncelList();
+            print(controller.myCouncelList[0]);
           },
           child: ListView(
             physics: AlwaysScrollableScrollPhysics(),

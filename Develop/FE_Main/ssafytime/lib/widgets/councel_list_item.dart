@@ -40,6 +40,9 @@ class CouncelListItem extends StatelessWidget {
     double opacity = (state == 3 || state == 4) ? 0.4 : 1;
     return InkWell(
       onTap: () {
+        print('currentTime : ${currentTime}');
+        print('startTime : ${startTime}');
+        print('endTime : ${endTime}');
         // if (startTime <= currentTime && currentTime <= endTime && state == 2) {
         if (state == 2) {
           showDialog(
@@ -136,7 +139,7 @@ class CouncelListItem extends StatelessWidget {
                     ),
 
                     // 시작 전 이라면 reject == null  : 승인 되었다.
-                    if (currentTime < startTime && reject == null) ...[
+                    if (currentTime < startTime && state == 2) ...[
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -247,7 +250,7 @@ class CItemIng extends StatelessWidget {
     String councelTime = CItemCouncelTime(rezTime); // 13:00 ~ 14:00
     return Container(
       // width: 280,
-      width: MediaQuery.of(context).size.width * ( 84 / 392.7),
+      width: MediaQuery.of(context).size.width * ( 280 / 392.7),
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.end,
         children: [
