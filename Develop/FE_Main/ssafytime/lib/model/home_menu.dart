@@ -59,7 +59,8 @@ class Datum {
     mainMenu: json["mainMenu"],
     sideMenu: json["sideMenu"] == null ? [] : List<String>.from(json["sideMenu"]!.map((x) => x)),
     kcal: json["kcal"],
-    imageUrl: json["imageUrl"],
+    imageUrl: json["imageUrl"] == "" ? 'https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg' :
+      json["imageUrl"],
   );
 
   Map<String, dynamic> toJson() => {

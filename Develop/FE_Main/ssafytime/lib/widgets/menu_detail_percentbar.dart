@@ -44,7 +44,7 @@ class MDetailPercentBar extends StatelessWidget {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * ( 4 / 803),),
-          CustomText(content: '${amount}${unit}', fontSize: 10.5,)
+          CustomText(content: '${amount}${unit}', fontSize: 10,)
         ],
       ),
     );

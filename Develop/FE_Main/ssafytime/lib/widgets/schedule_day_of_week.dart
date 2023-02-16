@@ -67,8 +67,9 @@ class SDay0fWeek extends StatelessWidget {
                 ),
                 VerticalDivider(thickness: 1, width: 1, color: Color(0xffC3C6CF)),
               ],
-            ),
+            ]
           ),
+        ),
 
           // 시간표 부분 ================================
           ScTotal(

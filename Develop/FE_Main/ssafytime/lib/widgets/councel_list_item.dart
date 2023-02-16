@@ -139,7 +139,8 @@ class CouncelListItem extends StatelessWidget {
                     ),
 
                     // 시작 전 이라면 reject == null  : 승인 되었다.
-                    if (currentTime < startTime && state == 2) ...[
+                    // state 1 or state 2
+                    if (currentTime < startTime && reject == null) ...[
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -198,7 +199,8 @@ class CouncelListItem extends StatelessWidget {
                   ],
                 ),
               ),
-              if (currentTime > endTime || state == 3 || state == 4) ...[
+              // if (currentTime > endTime || state == 3 || state == 4) ...[
+              if (state == 3 || state == 4) ...[
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Text(

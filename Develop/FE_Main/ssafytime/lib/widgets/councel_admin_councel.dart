@@ -129,9 +129,6 @@ class CAdminCouncel extends StatelessWidget {
                             child: RefreshIndicator(
                               onRefresh: () async{
                                 controller.fetchMyCouncelList();
-                                print(MediaQuery.of(context).size.width);
-                                print(MediaQuery.of(context).padding.top);
-                                print(MediaQuery.of(context).padding.bottom);
                               },
                               child: ListView.builder(
                                 itemCount: controller.myCouncelList.length,
