@@ -140,20 +140,6 @@ class CallSignaling {
     });
     _participants.clear();
 
-    var res = await http.delete(
-        Uri.parse(
-            "http://${url}/openvidu/api/sessions/${sessionId}/connection/${_connectionId}"),
-        headers: {
-          "Authorization":
-              "Basic ${base64Encode(utf8.encode("OPENVIDUAPP:$secret"))}",
-          "Content-Type": "application/json"
-        });
-
-    log("${res.statusCode}");
-    if (res.statusCode == 200) {
-      _connectionId = null;
-    }
-
     socket?.close();
   }
 

@@ -4,14 +4,14 @@ import 'package:ssafytime/models/notice_model.dart';
 import 'package:ssafytime/models/survey_model.dart';
 
 class NotiRepo {
-  NotiRepo({required this.token}) {
+  NotiRepo({this.token}) {
     headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${token}"
     };
   }
 
-  final String token;
+  final String? token;
   var headers;
   String baseUrl = "http://i8a602.p.ssafy.io:9090";
 

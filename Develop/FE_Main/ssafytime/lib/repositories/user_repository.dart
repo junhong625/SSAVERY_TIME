@@ -6,13 +6,13 @@ import 'package:http/http.dart' as http;
 import 'package:ssafytime/models/user_model.dart';
 
 class UserRepo {
-  String token;
+  String? token;
   Map<String, String>? headers;
   String baseUrl = "http://i8a602.p.ssafy.io:9090/user";
   String vapiKey =
       "BKEyfl55H2kgfEnSwt3yqPp9CwLtf9Ntgwv13RiT-U-jjzrozda7WadN2v6Z4Cl6x4_dOxHLMdeh3rfKjiL2YTM";
 
-  UserRepo({required this.token}) {
+  UserRepo({this.token}) {
     log("UserRepo create token : $token");
     headers = {
       "Content-Type": "application/json",

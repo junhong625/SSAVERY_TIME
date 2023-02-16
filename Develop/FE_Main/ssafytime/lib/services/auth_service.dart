@@ -18,8 +18,8 @@ class AuthService extends GetxService {
 
   String _accessKey = "accessToken";
   String _refreshKey = "refreshToken";
-  RxString accessToken = "".obs;
-  RxString refreshToken = "".obs;
+  final accessToken = Rxn<String>(null);
+  final refreshToken = Rxn<String>(null);
   @override
   void onInit() async {
     log("accessToken : $accessToken");
@@ -29,11 +29,14 @@ class AuthService extends GetxService {
   }
 
   Future<void> getToken() async {
-    accessToken.value = await storage.read(key: _accessKey) ?? "";
-    refreshToken.value = await storage.read(key: _refreshKey) ?? "";
-    if (accessToken.value != "" && refreshToken.value != "") {
-      isLogin = await fetchToken();
-    }
+    var accessT = await storage.read(key: _accessKey);
+    accessToken(accessT);
+    var refreshT = await storage.read(key: _refreshKey);
+    refreshToken(refreshT);
+    log("SecureStorage : ${accessToken.value} / ${refreshToken.value}");
+    // if (accessToken.value != null && refreshToken.value != null) {
+    //   isLogin = await fetchToken();
+    // }
   }
 
   Future<void> login(String email, String password, bool? autoLoginFlag) async {
@@ -47,8 +50,8 @@ class AuthService extends GetxService {
       log("login : ${res.statusCode}");
       if (res.statusCode == 200) {
         var data = json.decode(res.body);
-        accessToken.value = data['accessToken'];
-        refreshToken.value = data['refreshToken'];
+        accessToken(data['accessToken']);
+        refreshToken(data['refreshToken']);
         if (autoLoginFlag ?? false) {
           await storage.write(key: _accessKey, value: accessToken.value);
           await storage.write(key: _refreshKey, value: refreshToken.value);
@@ -72,8 +75,8 @@ class AuthService extends GetxService {
 
   void logout() async {
     await clearToken();
-    accessToken.value = "";
-    refreshToken.value = "";
+    accessToken(null);
+    refreshToken(null);
     user(null);
     isLogin = false;
 
@@ -86,20 +89,23 @@ class AuthService extends GetxService {
   }
 
   Future<bool> fetchToken() async {
-    var res = await http.post(
-        Uri.parse("http://i8a602.p.ssafy.io/refresh-token"),
-        headers: {"Content-Type": "application/json"},
-        body: json.encode({
-          "accessToken": accessToken.value,
-          "refreshToken": refreshToken.value
-        }));
-    if (res.statusCode == 200) {
-      var data = json.decode(res.body);
-      accessToken.value = data['accessToken'];
-      refreshToken.value = data['refreshToken'];
-      await storage.write(key: _accessKey, value: accessToken.value);
-      await storage.write(key: _refreshKey, value: refreshToken.value);
-      return true;
+    if (accessToken.value != null && refreshToken.value != null) {
+      var res = await http.post(
+          Uri.parse("http://i8a602.p.ssafy.io:9090/refresh-token"),
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            "accessToken": accessToken.value,
+            "refreshToken": refreshToken.value
+          }));
+      log("fetch token : ${res.statusCode}");
+      if (res.statusCode == 200) {
+        var data = json.decode(res.body);
+        accessToken.value = data['accessToken'];
+        refreshToken.value = data['refreshToken'];
+        await storage.write(key: _accessKey, value: accessToken.value);
+        await storage.write(key: _refreshKey, value: refreshToken.value);
+        return true;
+      }
     }
     return false;
   }

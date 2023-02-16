@@ -10,11 +10,11 @@ import 'package:ssafytime/models/schedule_now_model.dart';
 import 'package:ssafytime/models/survey_model.dart';
 
 class HomeRepo {
-  String token;
+  String? token;
   Map<String, String>? headers;
   String baseUrl = "http://i8a602.p.ssafy.io:9090/";
 
-  HomeRepo({required this.token}) {
+  HomeRepo({this.token}) {
     headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${token}"
