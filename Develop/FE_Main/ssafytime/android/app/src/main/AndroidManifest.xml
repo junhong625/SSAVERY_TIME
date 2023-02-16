@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
    <application
-        android:label="ssafytime"
+        android:label="싸브리타임"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <meta-data

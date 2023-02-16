@@ -8,6 +8,16 @@ import 'package:ssafytime/repositories/notification_repository.dart';
 import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/notification_infomation.dart';
 
+/**
+ * 알림 페이지 컨트롤러
+ * methods :
+ *      fetchNotiList : 알림 목록 초기화 및 불러오기
+ *      fetchNoticeList : 공지사항 목록 불러오기
+ *      completeSurveyList : 사용자가 완료한 설문조사 목록 불러오기
+ *      fetchSurveyList : 설문조사 목록 불러오기
+ *      fetchCounselList : 상담 목록 불러오기
+ *      fetchNotiListWidgets : 불러온 알림 목록으로 알림 목록 Widget 생성
+ */
 class NotificationController extends GetxController
     with GetSingleTickerProviderStateMixin {
   static NotificationController get to => Get.find();
@@ -19,6 +29,7 @@ class NotificationController extends GetxController
     <dynamic>[].obs,
     <dynamic>[].obs,
   ];
+  final completeSurveys = [].obs;
   final notiListWidgets = <Widget>[].obs;
 
   final dateF = new DateFormat("yy/MM/dd");
@@ -61,10 +72,12 @@ class NotificationController extends GetxController
   }
 
   Future<void> fetchNotiList() async {
+    completeSurveys.clear();
     notiList[0].clear();
     notiList[1].clear();
     notiList[2].clear();
     notiList[3].clear();
+    await completeSurveyList();
     await fetchNoticeList();
     await fetchSurveyList();
     await fetchCounselList();
@@ -75,22 +88,37 @@ class NotificationController extends GetxController
     fetchNotiListWidgets();
   }
 
-  Future<void> fetchSurveyList() async {
-    var data = await notiApi.fetchSurveryList();
-    if (data != null) {
-      data.forEach((e) {
-        notiList[0].add(e);
-        notiList[2].add(e);
-      });
-    }
-  }
-
   Future<void> fetchNoticeList() async {
     var data = await notiApi.fetchNoticeList();
     if (data != null) {
       data.forEach((e) {
         notiList[0].add(e);
         notiList[1].add(e);
+      });
+    }
+  }
+
+  Future<void> completeSurveyList() async {
+    var data = await notiApi.completeSurveyList();
+    if (data != null) {
+      data.forEach((element) {
+        completeSurveys.add(element.surveyIdx);
+      });
+      log("-------------- ${completeSurveys}");
+    }
+  }
+
+  Future<void> fetchSurveyList() async {
+    var data = await notiApi.fetchSurveryList();
+    if (data != null) {
+      data.forEach((e) {
+        if (e.createDateTime != null) {
+          if (completeSurveys.contains(e.surveyIdx)) {
+            e.status = 3;
+          }
+          notiList[0].add(e);
+          notiList[2].add(e);
+        }
       });
     }
   }
@@ -126,13 +154,13 @@ class NotificationController extends GetxController
           case 2:
             notiListWidgets.add(GestureDetector(
               child: CNI(
-                  opacity: setSurveyOpacity(element.status),
+                  opacity: _setSurveyOpacity(element.status),
                   myIcon: FontAwesomeIcons.pen,
                   iconColor: 0xff0079D1,
                   title: element.title,
                   detail: Text(
                       "${timeF.format(element.startDate)} ~ ${timeF.format(element.endDate)}"),
-                  isComplete: setSurveyIsComplete(element.status)),
+                  isComplete: _setSurveyIsComplete(element.status)),
               onTap: () {
                 AuthService.to.user.value.isAdmin == 0 && element.status == 1
                     ? Get.defaultDialog(
@@ -158,13 +186,13 @@ class NotificationController extends GetxController
             break;
           case 3:
             notiListWidgets.add(CNI(
-                opacity: setCounselOpacity(element.state),
+                opacity: _setCounselOpacity(element.state),
                 myIcon: FontAwesomeIcons.userGroup,
                 iconColor: 0xff686ADB,
                 title: element.title,
                 detail:
                     Text("${dateF.format(element.rezDate)} ${element.rezTime}"),
-                isComplete: setCounselIsComplete(element.state)));
+                isComplete: _setCounselIsComplete(element.state)));
             notiListWidgets.add(Divider(
               height: 4,
             ));
@@ -174,7 +202,7 @@ class NotificationController extends GetxController
     );
   }
 
-  double setSurveyOpacity(int status) {
+  double _setSurveyOpacity(int status) {
     switch (status) {
       case 0:
         return 0.4;
@@ -189,7 +217,7 @@ class NotificationController extends GetxController
     }
   }
 
-  String setSurveyIsComplete(int status) {
+  String _setSurveyIsComplete(int status) {
     switch (status) {
       case 0:
         return "예정";
@@ -204,7 +232,7 @@ class NotificationController extends GetxController
     }
   }
 
-  double setCounselOpacity(int status) {
+  double _setCounselOpacity(int status) {
     switch (status) {
       case 1:
         return 1;
@@ -219,7 +247,7 @@ class NotificationController extends GetxController
     }
   }
 
-  String setCounselIsComplete(int status) {
+  String _setCounselIsComplete(int status) {
     switch (status) {
       case 1:
         return "신청";

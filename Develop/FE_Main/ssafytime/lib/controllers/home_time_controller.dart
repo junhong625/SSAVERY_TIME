@@ -2,13 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/model/home_menu.dart';
 import 'package:ssafytime/model/home_schedule.dart';
 import 'package:ssafytime/services/auth_service.dart';
 
-class HomeTimeController extends GetxController{
+class HomeTimeController extends GetxController {
   late var timer;
   // DateTime currentTime = DateTime.now().add(Duration(hours: 9));
   static Map table = {
@@ -20,9 +19,9 @@ class HomeTimeController extends GetxController{
   };
 
   static Map studyPlace = {
-    0 : '온라인',
-    1 : '오프라인',
-    2 : '' // 데이터 없음 or 일과 종료
+    0: '온라인',
+    1: '오프라인',
+    2: '' // 데이터 없음 or 일과 종료
   };
 
   // DateTime currentTime = DateTime.now().add(Duration(hours: 9));
@@ -51,7 +50,6 @@ class HomeTimeController extends GetxController{
 
   RxBool isLunch = false.obs;
 
-
   @override
   void onInit() {
     super.onInit();
@@ -59,43 +57,36 @@ class HomeTimeController extends GetxController{
 
     // 컨트롤러 생성 후 1분마다 반복
     timer = new Timer.periodic(Duration(seconds: 2), (timer) {
-        currentTime = DateTime.now();
-        // currentTime = DateTime.now();
-        hour.value = currentTime.hour; // 현재 시간 갱신
-        min = currentTime.minute;
-        if (min >= 55) {
-          nextTime = 11;
-        } else {
-          nextTime = 0;
-        }
-        fetchHomeSchedule(trackCode, nextTime);
-        getLunchTime();
-        print('currentTime : ${currentTime}');
-        print('AuthService.to.user.value.trackCode : ${AuthService.to.user.value.trackCode}');
-        print('AuthService.to.user.value.regionCode : ${AuthService.to.user.value.regionCode}');
-
+      currentTime = DateTime.now();
+      hour.value = currentTime.hour; // 현재 시간 갱신
+      min = currentTime.minute;
+      if (min >= 55) {
+        nextTime = 11;
+      } else {
+        nextTime = 0;
       }
-    );
+      fetchHomeSchedule(trackCode, nextTime);
+      getLunchTime();
+      print('currentTime : ${currentTime}');
+      print(
+          'AuthService.to.user.value.trackCode : ${AuthService.to.user.value.trackCode}');
+      print(
+          'AuthService.to.user.value.regionCode : ${AuthService.to.user.value.regionCode}');
+    });
     fetchTodayMenu(regionCode); // 오늘 메뉴 호출
     fetchHomeSchedule(trackCode, nextTime);
   }
 
   // 현재 시간표 요청
-  Future fetchHomeSchedule(int trackCode, int nextTime) async{
-
-    var res = await http
-        .get(Uri.parse("http://i8a602.p.ssafy.io:9090/schedule/now?track_code=${trackCode}&interval=${nextTime}"));
+  Future fetchHomeSchedule(int trackCode, int nextTime) async {
+    var res = await http.get(Uri.parse(
+        "http://i8a602.p.ssafy.io:9090/schedule/now?track_code=${trackCode}&interval=${nextTime}"));
     var data = json.decode(res.body);
-
 
     if (res.statusCode != 200) {
       // api 오류 시
       nowSchedule = HomeSchedule(
-        data: Data(
-          title: '서버 오류',
-          subTitle: '서버 점검 중 입니다.'
-        )
-      ); // 데이터 받기 실패시
+          data: Data(title: '서버 오류', subTitle: '서버 점검 중 입니다.')); // 데이터 받기 실패시
     } else {
       nowSchedule = HomeSchedule.fromJson(data);
     }
@@ -104,7 +95,10 @@ class HomeTimeController extends GetxController{
     scheduleHourEnd = nowSchedule.data!.endTime;
     totalTime = nowSchedule.data!.totalTime;
 
-    isClassTime.value = (hour.value >= scheduleHour && hour.value < scheduleHourEnd) ? true : false ;
+    isClassTime.value =
+        (hour.value >= scheduleHour && hour.value < scheduleHourEnd)
+            ? true
+            : false;
     percent.value = getPercent(min);
     color.value = table[nowSchedule.data!.category]['color'];
     category.value = table[nowSchedule.data!.category]['category'];
@@ -112,9 +106,7 @@ class HomeTimeController extends GetxController{
     title.value = nowSchedule.data!.title;
     subTitle.value = nowSchedule.data!.subTitle;
     classTime.value = getClassTime(scheduleHour, scheduleHourEnd);
-
   }
-
 
   // 퍼센트 얻기
   double getPercent(int min) {
@@ -122,8 +114,8 @@ class HomeTimeController extends GetxController{
       return 0.0;
     }
 
-    int H = (hour.value - scheduleHour)*60;
-    return (H+min) / (totalTime*60);
+    int H = (hour.value - scheduleHour) * 60;
+    return (H + min) / (totalTime * 60);
   }
 
   // 수업시간 스트링 뽑기
@@ -133,9 +125,9 @@ class HomeTimeController extends GetxController{
     return '${start}:00 ~ ${end}:00';
   }
 
-  Future fetchTodayMenu(int regionCode) async{
-    var res = await http
-        .get(Uri.parse('http://i8a602.p.ssafy.io:9090/menu/today?region=${regionCode}'));
+  Future fetchTodayMenu(int regionCode) async {
+    var res = await http.get(Uri.parse(
+        'http://i8a602.p.ssafy.io:9090/menu/today?region=${regionCode}'));
     var data = json.decode(res.body);
 
     if (res.statusCode == 200) {
@@ -166,6 +158,4 @@ class HomeTimeController extends GetxController{
     }
     print(isLunch);
   }
-
-
 }

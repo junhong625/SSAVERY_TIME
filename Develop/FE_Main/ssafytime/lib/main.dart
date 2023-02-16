@@ -26,7 +26,6 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   Get.put(loadingController()); // Loading indicator controller
   Get.put(NotiService());
-  log("===================check===================");
   runApp(const SSAFYTIME());
 }
 

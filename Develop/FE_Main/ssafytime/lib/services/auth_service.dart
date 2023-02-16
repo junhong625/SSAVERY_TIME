@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/models/user_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:ssafytime/repositories/user_repository.dart';
 
 class AuthService extends GetxService {
   static AuthService get to => Get.find();
@@ -15,6 +16,7 @@ class AuthService extends GetxService {
   final tokenState = 0.obs;
   final autoLogin = false.obs;
   bool isLogin = false;
+  late UserRepo userApi;
 
   String _accessKey = "accessToken";
   String _refreshKey = "refreshToken";
@@ -22,6 +24,8 @@ class AuthService extends GetxService {
   final refreshToken = Rxn<String>(null);
   @override
   void onInit() async {
+    // await getToken();
+    // await fetchToken();
     log("accessToken : $accessToken");
     log("refreshToken : $refreshToken");
     log("isLogin : $isLogin");
@@ -33,10 +37,6 @@ class AuthService extends GetxService {
     accessToken(accessT);
     var refreshT = await storage.read(key: _refreshKey);
     refreshToken(refreshT);
-    log("SecureStorage : ${accessToken.value} / ${refreshToken.value}");
-    // if (accessToken.value != null && refreshToken.value != null) {
-    //   isLogin = await fetchToken();
-    // }
   }
 
   Future<void> login(String email, String password, bool? autoLoginFlag) async {
@@ -47,7 +47,6 @@ class AuthService extends GetxService {
         body: json.encode({"userEmail": email, "password": password}),
         encoding: Encoding.getByName("utf-8"),
       );
-      log("login : ${res.statusCode}");
       if (res.statusCode == 200) {
         var data = json.decode(res.body);
         accessToken(data['accessToken']);
@@ -57,7 +56,6 @@ class AuthService extends GetxService {
           await storage.write(key: _refreshKey, value: refreshToken.value);
         }
         autoLogin(autoLoginFlag ?? false);
-        log("login : access => ${accessToken.value} / refresh => ${refreshToken.value}");
         isLogin = true;
         tokenState.value = res.statusCode;
         Get.offAllNamed('/');
@@ -78,6 +76,7 @@ class AuthService extends GetxService {
     accessToken(null);
     refreshToken(null);
     user(null);
+    userApi.updateFcmToken("");
     isLogin = false;
 
     Get.offAllNamed('/login');
@@ -97,13 +96,14 @@ class AuthService extends GetxService {
             "accessToken": accessToken.value,
             "refreshToken": refreshToken.value
           }));
-      log("fetch token : ${res.statusCode}");
       if (res.statusCode == 200) {
         var data = json.decode(res.body);
         accessToken.value = data['accessToken'];
         refreshToken.value = data['refreshToken'];
         await storage.write(key: _accessKey, value: accessToken.value);
         await storage.write(key: _refreshKey, value: refreshToken.value);
+        isLogin = true;
+        userApi = UserRepo(token: accessToken.value);
         return true;
       }
     }

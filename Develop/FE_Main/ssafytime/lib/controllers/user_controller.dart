@@ -18,6 +18,9 @@ import 'package:ssafytime/widgets/notification_infomation.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+/**
+ * home screen의 유저 관련 항목 관리 컨트롤러
+ */
 class UserController extends GetxController {
   static UserController get to => Get.find();
 
@@ -51,13 +54,13 @@ class UserController extends GetxController {
 
   @override
   void onInit() async {
-    await initFetch();
     fetchRecruitmentInfo();
     super.onInit();
   }
 
   @override
   void onReady() async {
+    await initFetch();
     super.onReady();
   }
 
@@ -79,13 +82,8 @@ class UserController extends GetxController {
       var fcmToken = await userApi.fetchFcmToken();
       bool res = await userApi.updateFcmToken(fcmToken);
       if (res) {
-        log("Login : Success / FcmToken : Success");
         AuthService.to.user(userInfo);
-      } else {
-        log("Login : Success / FcmToken : Failed");
       }
-    } else {
-      log("Login : Failed / FcmToken : Failed");
     }
   }
 

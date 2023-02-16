@@ -13,7 +13,6 @@ class UserRepo {
       "BKEyfl55H2kgfEnSwt3yqPp9CwLtf9Ntgwv13RiT-U-jjzrozda7WadN2v6Z4Cl6x4_dOxHLMdeh3rfKjiL2YTM";
 
   UserRepo({this.token}) {
-    log("UserRepo create token : $token");
     headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${token}"

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/loading_controller.dart';
+import 'package:ssafytime/controllers/notification_controller.dart';
 import 'package:ssafytime/flutter_survey-0.1.4/models/question_result.dart';
 import 'package:ssafytime/models/survey_option_model.dart';
 import 'package:ssafytime/models/survey_result_model.dart';
@@ -9,6 +10,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:ssafytime/services/auth_service.dart';
+
+/**
+ * 설문조사 폼 컨트롤러
+ * methods :
+ *      setSurveyOptions : 질문 항목 선지들 불러오기
+ *      sendSurveyResult : 설문 결과 전송
+ */
 
 class SurveyController extends GetxController {
   static SurveyController get to => Get.find();
@@ -61,18 +69,6 @@ class SurveyController extends GetxController {
   }
 
   Future<String> sendSurveyResult(List<QuestionResult> result) async {
-    // result.forEach((element) {
-    //   List<String> answerResultList = [];
-    //   element.answers.forEach((e) {
-    //     if (answerIdxMap.containsKey(e)) {
-    //       answerResultList.add("${answerIdxMap[e]}");
-    //     } else {
-    //       answerResultList.add(e);
-    //     }
-    //   });
-    //   log("answers : $answerResultList");
-    // });
-
     result.asMap().forEach((index, element) {
       surveyResult.add(SurveyResult(
           questionId: questionIdxList[index],
@@ -97,6 +93,7 @@ class SurveyController extends GetxController {
             "Authorization": "Bearer ${AuthService.to.accessToken.value}"
           });
       if (resConduct.statusCode == 200) {
+        await NotificationController.to.fetchNotiList();
         Get.back();
         return "설문조사 전송 성공";
       } else {

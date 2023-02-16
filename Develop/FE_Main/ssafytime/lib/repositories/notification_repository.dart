@@ -15,8 +15,18 @@ class NotiRepo {
   var headers;
   String baseUrl = "http://i8a602.p.ssafy.io:9090";
 
-  Future<List<Survey>?> fetchSurveryList() async {
-    var res = await http.get(Uri.parse("${baseUrl}/surveys/survey"),
+  Future<List<Notice>?> fetchNoticeList() async {
+    var res =
+        await http.get(Uri.parse("${baseUrl}/notice/all"), headers: headers);
+
+    if (res.statusCode == 200) {
+      return NoticeList.fromRawJson(res.body).data;
+    }
+    return null;
+  }
+
+  Future<List<Survey>?> completeSurveyList() async {
+    var res = await http.get(Uri.parse("${baseUrl}/surveys/survey/conduct"),
         headers: headers);
     if (res.statusCode == 200) {
       return SurveyList.fromRawJson(res.body).survey;
@@ -24,12 +34,11 @@ class NotiRepo {
     return null;
   }
 
-  Future<List<Notice>?> fetchNoticeList() async {
-    var res =
-        await http.get(Uri.parse("${baseUrl}/notice/all"), headers: headers);
-
+  Future<List<Survey>?> fetchSurveryList() async {
+    var res = await http.get(Uri.parse("${baseUrl}/surveys/survey"),
+        headers: headers);
     if (res.statusCode == 200) {
-      return NoticeList.fromRawJson(res.body).data;
+      return SurveyList.fromRawJson(res.body).survey;
     }
     return null;
   }

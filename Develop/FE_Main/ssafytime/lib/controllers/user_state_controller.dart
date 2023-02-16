@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/models/user_custom_alarm.dart';
 import 'package:ssafytime/models/noti_default_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,14 +41,12 @@ class UserStateController extends GetxController {
 
   @override
   void onInit() async {
-    loadingController.to.isLoading = true;
     initDateSelectItem();
     pref = await SharedPreferences.getInstance();
     await fetchDefaultState();
     await fetchCustomState();
     dateTime.value = DateTime.now();
     super.onInit();
-    loadingController.to.isLoading = false;
   }
 
   @override
