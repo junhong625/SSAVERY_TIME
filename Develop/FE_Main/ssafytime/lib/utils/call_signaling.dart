@@ -81,6 +81,7 @@ class CallSignaling {
 
   String? _endpointName;
   String? _userId;
+  String? _connectionId;
 
   WebSocket? socket;
   MediaStream? _localStream;
@@ -126,7 +127,7 @@ class CallSignaling {
     'optional': [],
   };
 
-  void close() {
+  void close() async {
     _localStream?.dispose();
     _localStream = null;
     // _timer?.cancel();
@@ -138,6 +139,21 @@ class CallSignaling {
       remoteParticipant.peerConnection?.close();
     });
     _participants.clear();
+
+    var res = await http.delete(
+        Uri.parse(
+            "http://${url}/openvidu/api/sessions/${sessionId}/connection/${_connectionId}"),
+        headers: {
+          "Authorization":
+              "Basic ${base64Encode(utf8.encode("OPENVIDUAPP:$secret"))}",
+          "Content-Type": "application/json"
+        });
+
+    log("${res.statusCode}");
+    if (res.statusCode == 200) {
+      _connectionId = null;
+    }
+
     socket?.close();
   }
 
@@ -184,6 +200,7 @@ class CallSignaling {
     if (res.statusCode == 200) {
       var data = json.decode(res.body);
       log('◤◢◤◢◤◢◤◢◤◢◤ Create WebRTC token POST response: ${res.body} ◤◢◤◢◤◢◤◢◤◢◤');
+      _connectionId = data['id'];
       return data['token'];
     }
     log("=====================${res.statusCode}===============");

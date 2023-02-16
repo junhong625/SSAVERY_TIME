@@ -32,7 +32,7 @@ class AuthService extends GetxService {
     accessToken.value = await storage.read(key: _accessKey) ?? "";
     refreshToken.value = await storage.read(key: _refreshKey) ?? "";
     if (accessToken.value != "" && refreshToken.value != "") {
-      isLogin = true;
+      isLogin = await fetchToken();
     }
   }
 
@@ -71,7 +71,7 @@ class AuthService extends GetxService {
   }
 
   void logout() async {
-    clearToken();
+    await clearToken();
     accessToken.value = "";
     refreshToken.value = "";
     user(null);
@@ -80,28 +80,27 @@ class AuthService extends GetxService {
     Get.offAllNamed('/login');
   }
 
-  void clearToken() async {
+  Future<void> clearToken() async {
     await storage.delete(key: _accessKey);
     await storage.delete(key: _refreshKey);
   }
 
-//   Future<void> checkTokenState() async {
-//     var res = await http.post(
-//         Uri.parse("http://i8a602.p.ssafy.io/refresh-token"),
-//         headers: {"Content-Type": "application/json"},
-//         body: json.encode({
-//           "accessToken": accessToken.value,
-//           "refreshToken": refreshToken.value
-//         }));
-//     if (res.statusCode == 200) {
-//       var data = json.decode(res.body);
-//       accessToken.value = data['accessToken'];
-//       refreshToken.value = data['refreshToken'];
-//       if (autoLogin.value) {
-//         await storage.write(key: _accessKey, value: accessToken.value);
-//         await storage.write(key: _refreshKey, value: refreshToken.value);
-//       }
-//       tokenState.value = res.statusCode;
-//     }
-//   }
+  Future<bool> fetchToken() async {
+    var res = await http.post(
+        Uri.parse("http://i8a602.p.ssafy.io/refresh-token"),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "accessToken": accessToken.value,
+          "refreshToken": refreshToken.value
+        }));
+    if (res.statusCode == 200) {
+      var data = json.decode(res.body);
+      accessToken.value = data['accessToken'];
+      refreshToken.value = data['refreshToken'];
+      await storage.write(key: _accessKey, value: accessToken.value);
+      await storage.write(key: _refreshKey, value: refreshToken.value);
+      return true;
+    }
+    return false;
+  }
 }

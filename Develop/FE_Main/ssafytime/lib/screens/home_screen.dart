@@ -27,15 +27,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenStates extends State<HomeScreen> {
   @override
-  initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: Text(
               "${AuthService.to.user.value.userIdx} ${AuthService.to.user.value.userName}"),
           actions: <Widget>[
@@ -63,9 +59,9 @@ class _HomeScreenStates extends State<HomeScreen> {
             children: <Widget>[
               Obx(
                 () => HA(
-                    absent: widget.userC.userAtten.value.absentO ?? 0,
-                    attendance: widget.userC.userAtten.value.attenN ?? 0,
-                    tardy: widget.userC.userAtten.value.lateO ?? 0,
+                    absent: widget.userC.userAtten.value.absentO,
+                    attendance: widget.userC.userAtten.value.attenN,
+                    tardy: widget.userC.userAtten.value.lateO,
                     imgURL: AuthService.to.user.value.userImg),
               ),
               // CarouselSlider =========================================

@@ -1,20 +1,24 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/flutter_survey-0.1.4/models/question_result.dart';
 import 'package:ssafytime/models/survey_option_model.dart';
 import 'package:ssafytime/models/survey_result_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:ssafytime/services/auth_service.dart';
+
 class SurveyController extends GetxController {
   static SurveyController get to => Get.find();
 
-  SurveyController({required this.surveyIdx});
+  SurveyController({required this.surveyIdx, required this.surveyTitle});
 
   final surveyIdx;
+  final String surveyTitle;
   final questions = <SurveyOption>[].obs;
-  final surveyResult = <SurveyResult>[].obs;
+  final surveyResult = <SurveyResult>[];
 //   final answerResultList = [];
   final answerIdxList = [].obs;
   final questionIdxList = [].obs;
@@ -25,6 +29,7 @@ class SurveyController extends GetxController {
     log("SurveyController : ${Get.arguments}");
     setSurveyOptions();
     super.onInit();
+    loadingController.to.setIsLoading(false);
   }
 
   Future<void> setSurveyOptions() async {
@@ -34,9 +39,13 @@ class SurveyController extends GetxController {
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       //   log("print : " + data.toString());
-      questions.addAll(
-        List<SurveyOption>.from(data.map((x) => SurveyOption.fromJson(x))),
-      );
+      var questionList =
+          List<SurveyOption>.from(data.map((x) => SurveyOption.fromJson(x)));
+      questionList.sort((a, b) => a.questionIdx.compareTo(b.questionIdx));
+      questionList.forEach((element) {
+        questionIdxList.add(element.questionIdx);
+      });
+      questions.addAll(questionList);
       questions.forEach((e) {
         e.optionList.forEach((option) {
           answerIdxMap[option.optionContent] = option.id;
@@ -51,7 +60,7 @@ class SurveyController extends GetxController {
     }
   }
 
-  void sendSurveyResult(List<QuestionResult> result) {
+  Future<String> sendSurveyResult(List<QuestionResult> result) async {
     // result.forEach((element) {
     //   List<String> answerResultList = [];
     //   element.answers.forEach((e) {
@@ -64,14 +73,37 @@ class SurveyController extends GetxController {
     //   log("answers : $answerResultList");
     // });
 
-    result.forEach((element) {
+    result.asMap().forEach((index, element) {
       surveyResult.add(SurveyResult(
-          questionId: "",
+          questionId: questionIdxList[index],
           response: element.answers.length > 1 ? "" : element.answers[0]));
     });
-    log("=====================questionIdx : ${surveyIdx}======================");
-    surveyResult.forEach((element) {
-      log("answers : ${element.response}");
-    });
+
+    var res = await http.post(
+        Uri.parse(
+            "http://i8a602.p.ssafy.io:9090/surveys/survey/answers/${surveyIdx}"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${AuthService.to.accessToken.value}"
+        },
+        body: json.encode(surveyResult));
+
+    if (res.statusCode == 200) {
+      var resConduct = await http.post(
+          Uri.parse(
+              "http://i8a602.p.ssafy.io:9090/surveys/survey/conduct/${surveyIdx}"),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer ${AuthService.to.accessToken.value}"
+          });
+      if (resConduct.statusCode == 200) {
+        Get.back();
+        return "설문조사 전송 성공";
+      } else {
+        return "설문조사 전송 실패";
+      }
+    } else {
+      return "설문조사 전송 실패";
+    }
   }
 }

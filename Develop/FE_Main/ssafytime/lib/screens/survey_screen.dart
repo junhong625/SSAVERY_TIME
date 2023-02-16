@@ -3,7 +3,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/controllers/survey_controller.dart';
 import 'package:ssafytime/flutter_survey-0.1.4/flutter_survey.dart';
 
@@ -21,20 +23,21 @@ class _SurveyScreen extends State<SurveyScreen> {
   late SurveyController surveyC;
   @override
   void initState() {
-    surveyC = Get.put(SurveyController(surveyIdx: Get.arguments));
+    surveyC = Get.put(SurveyController(
+      surveyIdx: Get.arguments["surveyIdx"],
+      surveyTitle: Get.arguments["surveyTitle"],
+    ));
     super.initState();
   }
 
-//   SurveyController surveyC = Get.put(SurveyController(surveyIdx: surveyIdx));
-
   @override
   Widget build(BuildContext context) {
-    // Get.put(SurveyController());
-    // surveyC.setSurveyOptions(Get.arguments);
-    log("test");
+    Get.find<loadingController>().setIsLoading(true);
+    log("${surveyC}");
     return Obx(
       () => Scaffold(
-        appBar: AppBar(title: const Text("설문조사")),
+        appBar:
+            AppBar(scrolledUnderElevation: 0, title: Text(surveyC.surveyTitle)),
         body: GestureDetector(
           onTap: () {
             FocusScopeNode currentFocus = FocusScope.of(context);
@@ -69,15 +72,31 @@ class _SurveyScreen extends State<SurveyScreen> {
                       ],
                       onNext: (questionResults) {
                         _questionResult = questionResults;
-                        //   log(questionResults.toString());
                       },
                     ),
                   )
-                : Text("test"),
+                : Column(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "로딩 중 ....",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color.fromARGB(170, 62, 61, 61)),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
           ),
         ),
-        bottomNavigationBar: SizedBox(
-          width: double.infinity,
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.only(left: 8, right: 8, bottom: 6),
+          width: MediaQuery.of(context).size.width,
           child: Row(
             children: [
               Flexible(
@@ -100,6 +119,9 @@ class _SurveyScreen extends State<SurveyScreen> {
                   },
                 ),
               ),
+              SizedBox(
+                width: 8,
+              ),
               Flexible(
                 flex: 1,
                 child: ElevatedButton(
@@ -108,17 +130,20 @@ class _SurveyScreen extends State<SurveyScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     foregroundColor: Colors.white,
-                    backgroundColor: Colors.cyanAccent,
+                    backgroundColor: Color(0xff0079D1),
                     minimumSize: const Size.fromHeight(50),
                   ),
                   child: const Text(
                     "제출하기",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       log(_questionResult.toString());
-                      surveyC.sendSurveyResult(_questionResult);
+                      var result =
+                          await surveyC.sendSurveyResult(_questionResult);
+
+                      flutterToast(result);
                     }
                   },
                 ),
@@ -128,5 +153,15 @@ class _SurveyScreen extends State<SurveyScreen> {
         ),
       ),
     );
+  }
+
+  void flutterToast(String text) {
+    Fluttertoast.showToast(
+        msg: text,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.white,
+        fontSize: 20,
+        textColor: Colors.black26,
+        toastLength: Toast.LENGTH_SHORT);
   }
 }

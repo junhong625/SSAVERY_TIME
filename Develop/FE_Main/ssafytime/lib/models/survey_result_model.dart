@@ -12,7 +12,7 @@ class SurveyResult {
     required this.response,
   });
 
-  String questionId;
+  int questionId;
   String response;
 
   factory SurveyResult.fromJson(Map<String, dynamic> json) => SurveyResult(

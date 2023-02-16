@@ -1,3 +1,4 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/bottom_navbar_controller.dart';
@@ -20,8 +21,12 @@ class RootScreen extends StatelessWidget {
     Get.put(BottomNavigationBarController());
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Obx(() => SafeArea(
-          child: tabPages[BottomNavigationBarController.to.selectedIdx.value])),
+      body: DoubleBackToCloseApp(
+        snackBar: const SnackBar(content: Text("뒤로 가기를 한 번 더 누르시면 종료됩니다")),
+        child: Obx(() => SafeArea(
+            child:
+                tabPages[BottomNavigationBarController.to.selectedIdx.value])),
+      ),
       bottomNavigationBar: const CustomBottomNavBar(),
     );
   }

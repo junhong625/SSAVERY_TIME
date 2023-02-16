@@ -22,6 +22,7 @@ class _CounselScreenStates extends State<CounselScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: const Text("상담"),
         ),
         floatingActionButton: _getFAB(),
@@ -33,22 +34,19 @@ class _CounselScreenStates extends State<CounselScreen> {
             Container(
                 color: Colors.white,
                 child: userCode == 0 ? CMyCouncel() : CAdminCouncel()),
-            Obx(() =>
-                Offstage(
-                    offstage: !loadingController.to.isLoading,
-                    child: Center(
-                      child: Container(
-                        color: Color(0x50000000),
-                        width: double.infinity, height: double.infinity,
-                        // width: 200, height: 200,
-                        child: SpinKitFadingCircle(
-                          color: Colors.white,
-                          size: 80,
-                        ),
-                      ),
-                    )
-                )
-            )
+            Obx(() => Offstage(
+                offstage: !loadingController.to.isLoading,
+                child: Center(
+                  child: Container(
+                    color: Color(0x50000000),
+                    width: double.infinity, height: double.infinity,
+                    // width: 200, height: 200,
+                    child: SpinKitFadingCircle(
+                      color: Colors.white,
+                      size: 80,
+                    ),
+                  ),
+                )))
           ],
         ));
   }

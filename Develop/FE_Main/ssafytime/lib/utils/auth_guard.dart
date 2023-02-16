@@ -10,4 +10,13 @@ class AuthGuard extends GetMiddleware {
     }
     return null;
   }
+
+//   @override
+//   Future<GetNavConfig?> redirectDelegate(GetNavConfig route) async {
+//     if (!AuthService.to.isLogin) {
+//       return GetNavConfig.fromRoute("/login");
+//     } else {
+//       return super.redirectDelegate(route);
+//     }
+//   }
 }

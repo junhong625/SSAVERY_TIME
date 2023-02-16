@@ -12,19 +12,18 @@ class MenuBookScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: const Text("식단표"),
       ),
       body: Stack(
         children: [
           SizedBox(
-            child: Column(
-              children: [
-                MDay0fWeek(),
-              ],
-            )
-          ),
-          Obx(() =>
-            Offstage(
+              child: Column(
+            children: [
+              MDay0fWeek(),
+            ],
+          )),
+          Obx(() => Offstage(
               offstage: !loadingController.to.isLoading,
               child: Center(
                 child: Container(
@@ -36,9 +35,7 @@ class MenuBookScreen extends StatelessWidget {
                     size: 80,
                   ),
                 ),
-              )
-            )
-          )
+              )))
         ],
       ),
     );

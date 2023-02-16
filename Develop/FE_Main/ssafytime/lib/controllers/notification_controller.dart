@@ -126,25 +126,30 @@ class NotificationController extends GetxController
           case 2:
             notiListWidgets.add(GestureDetector(
               child: CNI(
-                  opacity: 1,
+                  opacity: setSurveyOpacity(element.status),
                   myIcon: FontAwesomeIcons.pen,
                   iconColor: 0xff0079D1,
                   title: element.title,
                   detail: Text(
                       "${timeF.format(element.startDate)} ~ ${timeF.format(element.endDate)}"),
-                  isComplete: ""),
+                  isComplete: setSurveyIsComplete(element.status)),
               onTap: () {
-                Get.defaultDialog(
-                  title: "",
-                  titlePadding: EdgeInsets.only(top: 0, bottom: 0),
-                  content: Text("설문을 진행하시겠습니까?"),
-                  textConfirm: "계속",
-                  textCancel: "취소",
-                  onConfirm: () {
-                    Get.back();
-                    Get.toNamed('/survey', arguments: element.surveyIdx);
-                  },
-                );
+                AuthService.to.user.value.isAdmin == 0 && element.status == 1
+                    ? Get.defaultDialog(
+                        title: "",
+                        titlePadding: EdgeInsets.only(top: 0, bottom: 0),
+                        content: Text("설문을 진행하시겠습니까?"),
+                        textConfirm: "계속",
+                        textCancel: "취소",
+                        onConfirm: () {
+                          Get.back();
+                          Get.toNamed('/survey', arguments: {
+                            "surveyIdx": element.surveyIdx,
+                            "surveyTitle": element.title
+                          });
+                        },
+                      )
+                    : "";
               },
             ));
             notiListWidgets.add(Divider(
@@ -153,13 +158,13 @@ class NotificationController extends GetxController
             break;
           case 3:
             notiListWidgets.add(CNI(
-                opacity: 1,
+                opacity: setCounselOpacity(element.state),
                 myIcon: FontAwesomeIcons.userGroup,
                 iconColor: 0xff686ADB,
                 title: element.title,
                 detail:
                     Text("${dateF.format(element.rezDate)} ${element.rezTime}"),
-                isComplete: ""));
+                isComplete: setCounselIsComplete(element.state)));
             notiListWidgets.add(Divider(
               height: 4,
             ));
@@ -167,5 +172,65 @@ class NotificationController extends GetxController
         }
       },
     );
+  }
+
+  double setSurveyOpacity(int status) {
+    switch (status) {
+      case 0:
+        return 0.4;
+      case 1:
+        return 1;
+      case 2:
+        return 0.6;
+      case 3:
+        return 0.6;
+      default:
+        return 1;
+    }
+  }
+
+  String setSurveyIsComplete(int status) {
+    switch (status) {
+      case 0:
+        return "예정";
+      case 1:
+        return "진행";
+      case 2:
+        return "종료";
+      case 3:
+        return "완료";
+      default:
+        return "예정";
+    }
+  }
+
+  double setCounselOpacity(int status) {
+    switch (status) {
+      case 1:
+        return 1;
+      case 2:
+        return 1;
+      case 3:
+        return 0.6;
+      case 4:
+        return 0.6;
+      default:
+        return 1;
+    }
+  }
+
+  String setCounselIsComplete(int status) {
+    switch (status) {
+      case 1:
+        return "신청";
+      case 2:
+        return "승인";
+      case 3:
+        return "종료";
+      case 4:
+        return "거절";
+      default:
+        return "예정";
+    }
   }
 }
