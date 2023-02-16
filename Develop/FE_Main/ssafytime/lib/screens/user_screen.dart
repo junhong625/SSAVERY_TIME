@@ -243,8 +243,10 @@ class _UserScreenStates extends State<UserScreen> {
       children: [
         TimePickerSpinner(
           is24HourMode: false,
-          itemHeight: 40,
-          itemWidth: 60,
+          // itemHeight: 40,
+          itemHeight: MediaQuery.of(context).size.height * ( 40 / 803),
+          // itemWidth: 60,
+          itemWidth: MediaQuery.of(context).size.width * ( 60 / 392.7),
           onTimeChange: (time) {
             stateC.dateTime.value = time;
           },

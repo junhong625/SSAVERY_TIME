@@ -41,7 +41,8 @@ class _CustomInputDataState extends State<CustomInputData> {
         color: Colors.white,
         border: Border.all(color: Colors.black,
             style: BorderStyle.solid,
-            width: 2),
+            width: 2
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       margin: EdgeInsets.symmetric(horizontal: 30),
@@ -49,7 +50,10 @@ class _CustomInputDataState extends State<CustomInputData> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SizedBox(width: 10,),
+          SizedBox(
+            // width: 10,
+            width: MediaQuery.of(context).size.width * ( 10 / 392.7),
+          ),
           Flexible(
             child: TextField(
               style: TextStyle(fontSize: 16, color: Color(0xff262626),

@@ -13,9 +13,11 @@ class LoadingIndicator extends StatelessWidget {
         offstage: !loadingController.to.isLoading,
         child: Center(
           child: Container(
-            color: Color(0x60000000),
-            // width: double.infinity, height: double.infinity,
-            width: 200, height: 200,
+            color: Color(0x40000000),
+            width: double.infinity, height: double.infinity,
+            // width: 200,
+            // width: MediaQuery.of(context).size.width * ( 200 / 392.7),
+            // height: 200,
             child: SpinKitFadingCircle(
               color: Colors.white,
               size: 80,

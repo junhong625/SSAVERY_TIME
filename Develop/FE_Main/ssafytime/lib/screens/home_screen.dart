@@ -74,7 +74,8 @@ class _HomeScreenStates extends State<HomeScreen> {
                       widget.userC.carouselItemList.length > 1 ? true : false,
                   items: widget.userC.carouselItemListWidget,
                   options: CarouselOptions(
-                    height: 68,
+                    // height: 68,
+                    height: MediaQuery.of(context).size.height * ( 68 / 803),
                     viewportFraction: 1,
                     autoPlay:
                         widget.userC.carouselItemList.length > 1 ? true : false,
@@ -93,14 +94,14 @@ class _HomeScreenStates extends State<HomeScreen> {
                     Container(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: Text(
-                        widget.homeTimeController.hour.value != 12
+                        widget.homeTimeController.isLunch != true
                             ? "시간표"
                             : '점심메뉴',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    if (widget.homeTimeController.hour.value != 12) ...[
+                    if (widget.homeTimeController.isLunch != true) ...[
                       HScheduleItem(),
                     ] else ...[
                       HTodayMenuTotal(),

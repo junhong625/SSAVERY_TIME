@@ -16,13 +16,17 @@ class HScheduleItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 5,
-            height: 160,
+            // width: 5,
+            width: MediaQuery.of(context).size.width * ( 5 / 392.7),
+            // height: 160,
+            height: MediaQuery.of(context).size.height * ( 160 / 803),
             color: Color(_controller.color.value), // option 1
           ),
           Container(
-            width: 360,
-            height: 160,
+            // width: 360,
+            width: MediaQuery.of(context).size.width * ( 360 / 392.7),
+            // height: 160,
+            height: MediaQuery.of(context).size.height * ( 160 / 803),
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +88,8 @@ class HScheduleItem extends StatelessWidget {
                       Column(
                         children: [
                           LinearPercentIndicator(
-                            width: 350,
+                            // width: 350,
+                            width: MediaQuery.of(context).size.width * ( 350 / 392.7),
                             lineHeight: 8,
                             barRadius: const Radius.circular(4),
                             percent: _controller.percent.value, // optinal 6_1
@@ -101,8 +106,9 @@ class HScheduleItem extends StatelessWidget {
                                     color: Color(0xffABABAE),
                                     fontWeight: FontWeight.w900),
                               ),
-                              const SizedBox(
-                                width: 16,
+                              SizedBox(
+                                // width: 16,
+                                width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                               ),
                             ],
                           ),
@@ -121,8 +127,9 @@ class HScheduleItem extends StatelessWidget {
                                 color: Color(0xffABABAE),
                                 fontWeight: FontWeight.w900),
                           ),
-                          const SizedBox(
-                            width: 16,
+                          SizedBox(
+                            // width: 16,
+                            width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                           ),
                         ],
                       ),

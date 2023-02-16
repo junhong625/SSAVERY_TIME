@@ -24,102 +24,113 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                width: 50,
-                height: 100,
-              ),
-              Container(
-                width: 200,
-                height: 200,
-                color: Colors.blue[400],
-              ), // 앱 로고
-              Form(
-                  child: Column(
-                children: [
-                  CustomInputData(
-                    userInfo: userEmail,
-                    labelText: '이메일',
-                    placeholderText: '이메일을 입력해 주세요.',
-                    inputType: TextInputType.emailAddress,
-                    isObscureText: false,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          color: Colors.white,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  // width: 50,
+                  width: MediaQuery.of(context).size.width * ( 50 / 392.7),
+                  // height: 100,
+                  height: MediaQuery.of(context).size.height * ( 100 / 803),
+                ),
+                Container(
+                  // width: 200,
+                  width: MediaQuery.of(context).size.width * ( 200 / 392.7),
+                  // height: 200,
+                  height: MediaQuery.of(context).size.height * ( 200 / 803),
+                  color: Colors.blue[400],
+                  child: Image.asset('assets/image/ssafytime_Icon.png'),
+                ), // 앱 로고
+                Form(
+                    child: Column(
+                  children: [
+                    CustomInputData(
+                      userInfo: userEmail,
+                      labelText: '이메일',
+                      placeholderText: '이메일을 입력해 주세요.',
+                      inputType: TextInputType.emailAddress,
+                      isObscureText: false,
+                    ),
+                    SizedBox(
+                      // height: 15,
+                      height: MediaQuery.of(context).size.height * ( 15 / 803),
+                    ),
 
-                  CustomInputData(
-                    userInfo: userPassWord,
-                    labelText: '비밀번호',
-                    placeholderText: '비밀번호를 입력해 주세요.',
-                    inputType: TextInputType.text,
-                    isObscureText: true,
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  ElevatedButton(
-                    /// toDo : 로그인 기능 구현 ///
-                    onPressed: () async {
-                      log("${userEmail.text} / ${userPassWord.text}");
-                      await AuthService.to.login(
-                          userEmail.text, userPassWord.text, autoLoginFlag);
-                      log("${AuthService.to.isLogin}");
-                      //   Get.offAllNamed('/');
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
-                        minimumSize: const Size(330, 60),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12))),
-                    child: const Text(
-                      '로그인',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                    CustomInputData(
+                      userInfo: userPassWord,
+                      labelText: '비밀번호',
+                      placeholderText: '비밀번호를 입력해 주세요.',
+                      inputType: TextInputType.text,
+                      isObscureText: true,
+                    ),
+                    SizedBox(
+                      // height: 40,
+                      height: MediaQuery.of(context).size.height * ( 40 / 803),
+                    ),
+                    ElevatedButton(
+                      /// toDo : 로그인 기능 구현 ///
+                      onPressed: () async {
+                        log("${userEmail.text} / ${userPassWord.text}");
+                        await AuthService.to.login(
+                            userEmail.text, userPassWord.text, autoLoginFlag);
+                        log("${AuthService.to.isLogin}");
+                        //   Get.offAllNamed('/');
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          minimumSize: Size(MediaQuery.of(context).size.width * ( 330 / 392.7), MediaQuery.of(context).size.height * ( 60 / 803)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12))),
+                      child: const Text(
+                        '로그인',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  ///////////////자동 로그인 및 비밀번호 찾기///////////////
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(left: 30)),
-                          Checkbox(
-                              value: autoLoginFlag,
-                              onChanged: (value) {
-                                setState(() {
-                                  autoLoginFlag = value;
-                                });
-                                log("autoCheck : ${autoLoginFlag}");
-                              }),
-                          const Text(
-                            '자동로그인',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 30),
-                        child: TextButton(
+                    ///////////////자동 로그인 및 비밀번호 찾기///////////////
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Padding(padding: EdgeInsets.only(left: 30)),
+                            Checkbox(
+                                value: autoLoginFlag,
+                                onChanged: (value) {
+                                  setState(() {
+                                    autoLoginFlag = value;
+                                  });
+                                  log("autoCheck : ${autoLoginFlag}");
+                                }),
+                            const Text(
+                              '자동로그인',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 30),
+                          child: TextButton(
 
-                            /// toDo : 비밀번호 찾기 기능 구현 //
-                            onPressed: () {},
-                            child: const Text(
-                              '비밀번호 찾기',
-                              style: TextStyle(fontSize: 15),
-                            )),
-                      )
-                    ],
-                  ),
-                ],
-              )),
-            ],
+                              /// toDo : 비밀번호 찾기 기능 구현 //
+                              onPressed: () {},
+                              child: const Text(
+                                '비밀번호 찾기',
+                                style: TextStyle(fontSize: 15),
+                              )),
+                        )
+                      ],
+                    ),
+                  ],
+                )),
+              ],
+            ),
           ),
         ),
       ),

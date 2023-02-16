@@ -14,10 +14,12 @@ class HEIT extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Container(
-        width: 358,
-        height: 300,
+
+    return Obx(() => Container(
+        // width: 358,
+      width: MediaQuery.of(context).size.width * ( 358 / 392.7),
+        // height: 300,
+      height: MediaQuery.of(context).size.height * ( 300 / 803),
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,9 +31,10 @@ class HEIT extends StatelessWidget {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
               ),
             ),
-            if (controller.recruitmentList.data == []) ...[
-              const SizedBox(
-                height: 200,
+            if (controller.recruitmentList.data == []) ... [
+              SizedBox(
+                // height: 200,
+                height: MediaQuery.of(context).size.height * ( 200 / 803),
                 child: Center(
                   child: Text(
                     '채용 중인 회사가 없습니다.',
@@ -54,7 +57,8 @@ class HEIT extends StatelessWidget {
                         children: [
                           HEIS(info: controller.recruitmentList.data[index]),
                           Container(
-                            width: 326,
+                            // width: 326,
+                            width: MediaQuery.of(context).size.width * ( 326 / 392.7),
                             height: 1,
                             color: const Color(0xffC3C6CF),
                           )

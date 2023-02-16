@@ -29,8 +29,10 @@ class _MIWState extends State<MIW> {
 
     return Container(
       margin: EdgeInsets.all(5),
-      width: 358,
-      height: 180,
+      // width: 358,
+      width: MediaQuery.of(context).size.width * ( 358 / 392.7),
+      // height: 180,
+      height: MediaQuery.of(context).size.height * ( 180 / 803),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -45,7 +47,11 @@ class _MIWState extends State<MIW> {
       ),
       child: Row(
         children: [
-          Container(width: 179, height: 163,
+          Container(
+            // width: 179,
+            width: MediaQuery.of(context).size.width * ( 179 / 392.7),
+            // height: 163,
+            height: MediaQuery.of(context).size.height * ( 163 / 803),
             margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
             decoration: BoxDecoration(
               color: Color(0x08000000),
@@ -56,7 +62,10 @@ class _MIWState extends State<MIW> {
             : Image.asset('assets/image/no_menu.png', fit:BoxFit.contain),
           ),
           Container(
-            width: 162, height: 155,
+            // width: 162,
+            width: MediaQuery.of(context).size.width * ( 162 / 392.7),
+            // height: 155,
+            height: MediaQuery.of(context).size.height * ( 155 / 803),
             padding: EdgeInsets.fromLTRB(10, 5, 0, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,9 +77,12 @@ class _MIWState extends State<MIW> {
                   fontWeight: FontWeight.w900),
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 5,),
+                SizedBox(height: MediaQuery.of(context).size.height * ( 5 / 803),),
                 Container(
-                  width: 146, height: 58,
+                  // width: 146,
+                  width: MediaQuery.of(context).size.width * ( 146 / 392.7),
+                  // height: 58,
+                  height: MediaQuery.of(context).size.height * ( 58 / 803),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
@@ -88,17 +100,23 @@ class _MIWState extends State<MIW> {
                   ),
                 ),
                 Container(
-                  width: 146,
+                  // width: 146,
+                  width: MediaQuery.of(context).size.width * ( 146 / 392.7),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        // height: 10,
+                        height: MediaQuery.of(context).size.height * ( 10 / 803),
+                      ),
                       Text('1타에 xx칼로리 소모!!',
                         style: TextStyle(fontSize: 12,
                             fontWeight: FontWeight.w900,
                             color: Colors.black54),
                       ),
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * ( 5 / 803),
+                      ),
                       // option4 foodKcal
                       Text(foodKcal.toString() + 'Kcal',
                         style: TextStyle(fontSize: 12,

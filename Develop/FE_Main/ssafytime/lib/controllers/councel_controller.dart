@@ -79,9 +79,13 @@ class MyCouncelController extends GetxController {
 
     for (int i = 0; i < data.length; i++) {
       final obj = CouncelDetail.fromJson(data[i]).obs;
+      print('obj.value.state : ${obj.value.state}');
+      print('obj.value.name : ${obj.value.name}');
       if (userAdmin == 1) {
         // 관리자 일때는 텝에 따라서 호출
         if (obj.value.state == adminCategory.value) {
+          // print('obj.value.state : ${obj.value.state}');
+          // print('obj.value.name : ${obj.value.name}');
           myCouncelList.add(obj);
           int K = myCouncelList.length;
           myCouncelStartTimeList.add(calculatorTimeOfClass(

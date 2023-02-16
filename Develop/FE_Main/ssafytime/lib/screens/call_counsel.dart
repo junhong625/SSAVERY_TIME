@@ -92,12 +92,14 @@ class _CallCounselState extends State<CallCounsel> {
       } else {
         _signaling?.close();
         Get.back();
+        // Get.toNamed('/CouncelPage');
       }
     }
   }
 
   void _hangUp() {
     Get.back();
+    // Get.offNamed('/CouncelPage');
   }
 
   void _switchCamera() {
@@ -143,7 +145,8 @@ class _CallCounselState extends State<CallCounsel> {
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: new SizedBox(
-        width: 200.0,
+        // width: 200.0,
+        width: MediaQuery.of(context).size.width * ( 200 / 392.7),
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

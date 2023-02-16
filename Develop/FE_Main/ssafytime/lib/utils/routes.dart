@@ -56,6 +56,8 @@ class AppRoutes {
         page: () => UserScreen()),
     GetPage(name: '/survey', page: () => SurveyScreen()),
 
+    GetPage(name: '/CouncelPage', page: () => CounselScreen()),
+
     /// ==== 이하 테스트 용 ===============
     GetPage(name: '/UserCouncelTestPage', page: () => CounselScreen()),
     GetPage(name: '/AdminCouncelTestPage', page: () => AdminCouncelTestPage()),

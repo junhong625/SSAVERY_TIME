@@ -25,7 +25,8 @@ class HomeTimeController extends GetxController{
     2 : '' // 데이터 없음 or 일과 종료
   };
 
-  DateTime currentTime = DateTime.now().add(Duration(hours: 9));
+  // DateTime currentTime = DateTime.now().add(Duration(hours: 9));
+  DateTime currentTime = DateTime.now();
   RxInt hour = 0.obs; // 현재 시간 (시)
   int min = 0; // 현재 시간 (분)
   int scheduleHour = 0; // 시간표 시간(시작 시간)
@@ -48,6 +49,8 @@ class HomeTimeController extends GetxController{
   RxString subTitle = ''.obs; //
   RxString classTime = ''.obs; // 수업 시간 표시용, 스트링
 
+  RxBool isLunch = false.obs;
+
 
   @override
   void onInit() {
@@ -55,7 +58,7 @@ class HomeTimeController extends GetxController{
     setInitailTime();
 
     // 컨트롤러 생성 후 1분마다 반복
-    timer = new Timer.periodic(Duration(minutes: 1), (timer) {
+    timer = new Timer.periodic(Duration(seconds: 2), (timer) {
         currentTime = DateTime.now();
         // currentTime = DateTime.now();
         hour.value = currentTime.hour; // 현재 시간 갱신
@@ -66,11 +69,11 @@ class HomeTimeController extends GetxController{
           nextTime = 0;
         }
         fetchHomeSchedule(trackCode, nextTime);
-        // print(currentTime);
-        // print('isClassTime : ${isClassTime}');
-        // print('hour : ${hour}');
-        // print('scheduleHour : ${scheduleHour}');
-        // print('scheduleHourEnd : ${scheduleHourEnd}');
+        getLunchTime();
+        print('currentTime : ${currentTime}');
+        print('AuthService.to.user.value.trackCode : ${AuthService.to.user.value.trackCode}');
+        print('AuthService.to.user.value.regionCode : ${AuthService.to.user.value.regionCode}');
+
       }
     );
     fetchTodayMenu(regionCode); // 오늘 메뉴 호출
@@ -152,6 +155,16 @@ class HomeTimeController extends GetxController{
     } else {
       nextTime = 0;
     }
+  }
+
+  void getLunchTime() {
+    int timer = hour.value * 100 + min;
+    if (1130 <= timer && timer <= 1350) {
+      isLunch.value = true;
+    } else {
+      isLunch.value = false;
+    }
+    print(isLunch);
   }
 
 

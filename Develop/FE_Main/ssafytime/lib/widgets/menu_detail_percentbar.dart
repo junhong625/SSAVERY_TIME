@@ -21,17 +21,19 @@ class MDetailPercentBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.teal,
-      // width: 42,
-      width:63,
-      height: 190,
+      // width:63,
+      width: MediaQuery.of(context).size.width * ( 63 / 392.7),
+      // height: 190,
+      height: MediaQuery.of(context).size.height * ( 190 / 803),
       child: Column(
         children: [
           CustomText(content: title, fontSize: 11,),
-          SizedBox(height: 4,),
+          SizedBox(height: MediaQuery.of(context).size.height * ( 4 / 803),),
           Container(
-            width: 20,
-            height: 150,
+            // width: 20,
+            width: MediaQuery.of(context).size.width * ( 20 / 392.7),
+            // height: 150,
+            height: MediaQuery.of(context).size.height * ( 150 / 803),
             child: FAProgressBar(
               direction: Axis.vertical,
               verticalDirection: VerticalDirection.up,
@@ -41,8 +43,8 @@ class MDetailPercentBar extends StatelessWidget {
               currentValue: (amount*100 ~/ total).toDouble(),
             ),
           ),
-          SizedBox(height: 4,),
-          CustomText(content: '${amount}${unit}', fontSize: 10.5,)
+          SizedBox(height: MediaQuery.of(context).size.height * ( 4 / 803),),
+          CustomText(content: '${amount}${unit}', fontSize: 10,)
         ],
       ),
     );
