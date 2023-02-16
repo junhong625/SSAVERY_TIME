@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ssafytime/services/auth_service.dart';
 import 'dart:convert';
-import '../model/menu_week.dart';
 import '../model/schedule_week.dart';
 
 // 주간 시간표 컨트롤러 =============================================
@@ -16,9 +15,6 @@ class SchedulePickDayController extends GetxController {
   List<Datum> nullSchedule = [Datum()];
 
   int? trackCode = AuthService.to.user.value.trackCode ?? 0;
-
-  // var scheduleofweek = <List<Schedule>>[].obs;
-  // var scheduleofday = <Schedule>[].obs;
 
 
   @override
@@ -86,10 +82,6 @@ class SchedulePickDayController extends GetxController {
     for (int i=0; i < weekSchedule.data!['${idx}']!.length; i++) {
       todaySchedule.add(weekSchedule.data!['${idx}']![i]);
     }
-
-    print('AuthService.to.user.value.userName : ${AuthService.to.user.value.userName}');
-    print('AuthService.to.user.value.userIdx : ${AuthService.to.user.value.userIdx}');
-
 
   }
 }

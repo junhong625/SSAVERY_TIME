@@ -72,7 +72,6 @@ class MenuPickDayController extends GetxController {
 
   void selectDay(int idx) {
     myPick.value = idx;
-    // requstMenuWeek(0);
     menuofday = menusofweek[idx].obs;
   }
 }

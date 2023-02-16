@@ -37,9 +37,6 @@ class CouncelDetail {
   DateTime? createDateTime;
   int? notiType;
 
-  // late double exStartTime = ;
-  // double exEndTime;
-
   factory CouncelDetail.fromJson(Map<String, dynamic> json) => CouncelDetail(
         rezDate: DateTime.parse(json["rezDate"]),
         rezTime: json["rezTime"]?.toDouble(),

@@ -70,10 +70,6 @@ class HomeTimeController extends GetxController{
         }
         fetchHomeSchedule(trackCode, nextTime);
         getLunchTime();
-        // print('currentTime : ${currentTime}');
-        // print('AuthService.to.user.value.trackCode : ${AuthService.to.user.value.trackCode}');
-        // print('AuthService.to.user.value.regionCode : ${AuthService.to.user.value.regionCode}');
-
       }
     );
     fetchTodayMenu(regionCode); // 오늘 메뉴 호출
@@ -164,7 +160,6 @@ class HomeTimeController extends GetxController{
     } else {
       isLunch.value = false;
     }
-    print(isLunch);
   }
 
 

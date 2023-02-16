@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../model/menu_week.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

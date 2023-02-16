@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: MediaQuery.of(context).size.width * ( 200 / 392.7),
                   // height: 200,
                   height: MediaQuery.of(context).size.height * ( 200 / 803),
-                  color: Colors.blue[400],
+                  color: Colors.white,
                   child: Image.asset('assets/image/ssafytime_Icon.png'),
                 ), // 앱 로고
                 Form(
@@ -76,7 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         log("${userEmail.text} / ${userPassWord.text}");
                         await AuthService.to.login(
                             userEmail.text, userPassWord.text, autoLoginFlag);
-                        log("${AuthService.to.isLogin}");
+                        log("{AuthService.to.isLogin}");
+                        if (AuthService.to.isLogin == false) {
+                          wrongUserInfo(context, '아이디와 비밀번호를 확인해 주세요.', 2);
+                        }
                         //   Get.offAllNamed('/');
                       },
                       style: ElevatedButton.styleFrom(
@@ -147,7 +150,7 @@ void wrongUserInfo(BuildContext context, String errorMsg, int sec) {
     SnackBar(
       content: Text(errorMsg), // 띄울 에러 메세지
       duration: Duration(seconds: sec), // 몇 초 동안 띄울 것인가
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Colors.red,
     ),
   );
 }

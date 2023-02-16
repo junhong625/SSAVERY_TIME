@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/user_controller.dart';
 import 'package:ssafytime/controllers/user_state_controller.dart';
+import 'package:ssafytime/custom_button.dart';
 import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/user_screen_attendance_state_widget.dart';
 import 'package:ssafytime/widgets/user_screen_mileage.dart';
@@ -225,11 +226,30 @@ class _UserScreenStates extends State<UserScreen> {
                   ],
                 ),
               ),
-              GestureDetector(
-                  onTap: () {
-                    AuthService.to.logout();
-                  },
-                  child: Text("로그아웃")),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * ( 15 / 803),
+                child: Divider(),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * ( 20 / 803),),
+                    CustomElevatedButton(
+                      onPressed: () {
+                        AuthService.to.logout();
+                      },
+                      width: MediaQuery.of(context).size.width * ( 200 / 392.7),
+                      height: MediaQuery.of(context).size.height * ( 40 / 803),
+                      label: '로그아웃',
+                      labelColor: 0xffFFFFFF,
+                      color: 0xff3094F2,
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * ( 20 / 803),),
+                  ],
+                ),
+              )
             ],
           ),
         ),

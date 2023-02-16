@@ -17,7 +17,6 @@ class CAdminCouncel extends StatelessWidget {
 
 
   MyCouncelController controller = Get.put(MyCouncelController());
-  // MyCouncelController controller = Get.find<MyCouncelController>();
 
   Map<int, String> table = {
     1: '신청',
