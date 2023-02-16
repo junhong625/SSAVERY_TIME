@@ -192,6 +192,7 @@ public class SurveyController {
         survey.setStatus(status);
         survey.setEndedAt(endedAt);
         survey.setCreatedAt(createdAt);
+        survey.setMadeAt(LocalDateTime.now());  // 생성날짜시간은 현재로!
 
         surveyService.save(survey);  // create
 

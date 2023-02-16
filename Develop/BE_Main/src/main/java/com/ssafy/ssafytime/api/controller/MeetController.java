@@ -216,12 +216,15 @@ public class MeetController {
         meetService.update(member);
 
         Double doubleTime = 0.0;  // 상담 알림 메시지 위함
-        doubleTime = Math.floor(member.getRezTime());
+        int hour = (int) Math.floor(member.getRezTime());
         String time = null;
         if(member.getRezTime()%1.0 == 0.5)  // 시간이 16.5 면 16:30으로 바꾸게!
-            time = String.valueOf(doubleTime) + ":30";
+            time = String.valueOf(hour) + ":30";
         else
-            time = String.valueOf(doubleTime) + ":00";
+            time = String.valueOf(hour) + ":00";
+
+        System.out.println(time);
+
         // 알림 보내기
         MessageDTO messageDTO = MessageDTO.builder().title("상담 승인 알림").body(member.getRezDate() + " " + time + " 상담 승인됨").build();  // 알림에 넣을 인자들
         List<String> registrationTokens = alarmDefaultService.getUserTokens(3, messageDTO);  // 1 : 설문, 2 : 공지 , 3: 상담 으로 설정하여 알림보낼 유저들 토큰 얻는 함수
