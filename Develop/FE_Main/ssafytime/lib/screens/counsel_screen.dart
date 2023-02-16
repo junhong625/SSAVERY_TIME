@@ -25,9 +25,7 @@ class _CounselScreenStates extends State<CounselScreen> {
           title: const Text("상담"),
         ),
         floatingActionButton: _getFAB(),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
-        // body: Container(color: Colors.black12, child: CMyCouncel()));
         body: Stack(
           children: [
             Container(
@@ -50,7 +48,8 @@ class _CounselScreenStates extends State<CounselScreen> {
                 )
             )
           ],
-        ));
+        )
+    );
   }
 
   // admin == 1 일때, 학생일때만 상담 신청 버튼이 있고 관리자는 없음

@@ -27,9 +27,7 @@ class _MAWState extends State<MAW> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        // width: 390,
         width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-        // height: 110,
         height: MediaQuery.of(context).size.height * ( 110 / 803),
         color: Colors.white,
         padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -41,7 +39,6 @@ class _MAWState extends State<MAW> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
             ),
             SizedBox(
-              // height: 5,
               height: MediaQuery.of(context).size.height * ( 5 / 803),
             ),
             Row(

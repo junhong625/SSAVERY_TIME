@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/controllers/user_controller.dart';
-import 'package:ssafytime/models/recruitment.dart';
 
 import 'home_employment_info_single_widget.dart';
 
@@ -16,9 +15,7 @@ class HEIT extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Obx(() => Container(
-        // width: 358,
       width: MediaQuery.of(context).size.width * ( 358 / 392.7),
-        // height: 300,
       height: MediaQuery.of(context).size.height * ( 300 / 803),
         color: Colors.white,
         child: Column(
@@ -47,7 +44,6 @@ class HEIT extends StatelessWidget {
               ),
             ] else ...[
               Expanded(
-                //   height: 265,
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: controller.recruitmentList.data.length,
@@ -57,14 +53,14 @@ class HEIT extends StatelessWidget {
                         children: [
                           HEIS(info: controller.recruitmentList.data[index]),
                           Container(
-                            // width: 326,
                             width: MediaQuery.of(context).size.width * ( 326 / 392.7),
                             height: 1,
                             color: const Color(0xffC3C6CF),
                           )
                         ],
                       );
-                    }),
+                    }
+                  ),
               ),
             ]
           ],

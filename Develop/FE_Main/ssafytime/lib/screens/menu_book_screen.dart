@@ -30,7 +30,6 @@ class MenuBookScreen extends StatelessWidget {
                 child: Container(
                   color: Color(0x50000000),
                   width: double.infinity, height: double.infinity,
-                  // width: 200, height: 200,
                   child: SpinKitFadingCircle(
                     color: Colors.white,
                     size: 80,

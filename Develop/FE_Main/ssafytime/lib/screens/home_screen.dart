@@ -58,7 +58,6 @@ class _HomeScreenStates extends State<HomeScreen> {
         body: Container(
           margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
           child: Column(
-            //   mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Obx(
@@ -68,7 +67,6 @@ class _HomeScreenStates extends State<HomeScreen> {
                     tardy: widget.userC.userAtten.value.lateO ?? 0,
                     imgURL: AuthService.to.user.value.userImg),
               ),
-              // CarouselSlider =========================================
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),

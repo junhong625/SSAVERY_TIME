@@ -16,9 +16,7 @@ class _MMileageState extends State<MMileage> {
     String myMileage = convertMileage(widget.myMileage);
 
     return Container(
-      // width: 390,
       width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-      // height: 72,
       height: MediaQuery.of(context).size.height * ( 72 / 803),
       color: Colors.white,
       child: Column(

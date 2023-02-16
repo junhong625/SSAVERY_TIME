@@ -47,7 +47,6 @@ class SurveyScreen extends GetView<SurveyController> {
                     ],
                     onNext: (questionResults) {
                       _questionResult = questionResults;
-                      //   log(questionResults.toString());
                     },
                   ),
                 )

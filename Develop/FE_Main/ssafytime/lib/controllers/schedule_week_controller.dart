@@ -4,14 +4,14 @@ import 'package:ssafytime/services/auth_service.dart';
 import 'dart:convert';
 import '../model/schedule_week.dart';
 
-// 주간 시간표 컨트롤러 =============================================
+// 주간 시간표 컨트롤러 구조는 주간 식단표 컨트롤러하고 같다.
 class SchedulePickDayController extends GetxController {
   RxInt myPick = 9.obs; // 월 ~ 금
   List dayofweek = [0, 0, 0, 0, 0];
-  DateTime today = DateTime.now().add(Duration(hours: 9));
+  DateTime today = DateTime.now();
 
   ScheduleWeek weekSchedule = ScheduleWeek();
-  RxList<Datum> todaySchedule = <Datum>[].obs;
+  RxList<Datum> todaySchedule = <Datum>[].obs; // 내가 선택한 날짜의 시간표
   List<Datum> nullSchedule = [Datum()];
 
   int? trackCode = AuthService.to.user.value.trackCode ?? 0;
@@ -38,27 +38,12 @@ class SchedulePickDayController extends GetxController {
   }
 
 
-
   Future fetchScheduleWeek() async{
-    if (trackCode == null) {
-      weekSchedule = ScheduleWeek(
-          data: {
-            '0' : [],
-            '1' : [],
-            '2' : [],
-            '3' : [],
-            '4' : [],
-          }
-      );
-      return ;
-    }
 
     var res = await http.get(Uri.parse("http://i8a602.p.ssafy.io:9090/schedule/week?track_code=${trackCode}"));
     var data = json.decode(res.body);
 
-    print(data["data"]);
-
-    if (res.statusCode != 200) {
+    if (res.statusCode != 200) { // 데이터 받지 못했을 경우
       weekSchedule = ScheduleWeek(
         data: {
           '0' : [],

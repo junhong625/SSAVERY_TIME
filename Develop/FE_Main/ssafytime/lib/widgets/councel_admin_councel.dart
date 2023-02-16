@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ssafytime/controllers/user_state_controller.dart';
-import 'package:ssafytime/custom_button.dart';
 import 'package:get/get.dart' ;
-import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/councel_list_admin_item.dart';
 import 'package:ssafytime/widgets/custom_text.dart';
-
 import '../controllers/councel_controller.dart';
-import 'councel_list_item.dart';
+
 
 // 관리자에게 온 상담 신청 현황 전체 위젯
-
 class CAdminCouncel extends StatelessWidget {
 
   CAdminCouncel({Key? key}) : super(key: key);
-
 
   MyCouncelController controller = Get.put(MyCouncelController());
 
@@ -32,10 +26,7 @@ class CAdminCouncel extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            // color: Colors.black,
-            // width: 390,
             width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-            // height: 48,
             height: MediaQuery.of(context).size.height * ( 48 / 803),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,7 +38,6 @@ class CAdminCouncel extends StatelessWidget {
                   Container(
                     color: Colors.white,
                     padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    // width: 76.8,
                     width: MediaQuery.of(context).size.width * ( 76.8 / 392.7),
                     child: InkWell(
                       onTap: () {
@@ -68,9 +58,7 @@ class CAdminCouncel extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            // width: 70,
                             width: MediaQuery.of(context).size.width * ( 70 / 392.7),
-                            // height: 3,
                             height: MediaQuery.of(context).size.height * ( 3 / 803),
                             decoration: BoxDecoration(
                               color: (controller.adminCategory.value == idx
@@ -99,12 +87,9 @@ class CAdminCouncel extends StatelessWidget {
           ),
 
 
-          ///////////////////////////////////////////////////////////////////
           Container(
               margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-              // width: 390,
             width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-            // height: 600,
               height: MediaQuery.of(context).size.height * ( 600 / 803),
               child: SingleChildScrollView(
 
@@ -113,13 +98,11 @@ class CAdminCouncel extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        // color: Colors.black12
                       ),
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: Column(
                         children: [
                           CustomText(content: '상담 ${table[controller.adminCategory.value]}', fontSize: 25,),
-                          // Divider(thickness: 1, height: 1, color: Color(0xffC3C6CF),),
                           Container(
                             constraints: BoxConstraints(
                               // maxHeight: 500,

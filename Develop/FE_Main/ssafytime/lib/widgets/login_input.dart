@@ -51,7 +51,6 @@ class _CustomInputDataState extends State<CustomInputData> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SizedBox(
-            // width: 10,
             width: MediaQuery.of(context).size.width * ( 10 / 392.7),
           ),
           Flexible(

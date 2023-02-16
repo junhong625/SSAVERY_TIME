@@ -21,25 +21,20 @@ class MDetailPercentBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width:63,
       width: MediaQuery.of(context).size.width * ( 63 / 392.7),
-      // height: 190,
       height: MediaQuery.of(context).size.height * ( 190 / 803),
       child: Column(
         children: [
           CustomText(content: title, fontSize: 11,),
           SizedBox(height: MediaQuery.of(context).size.height * ( 4 / 803),),
           Container(
-            // width: 20,
             width: MediaQuery.of(context).size.width * ( 20 / 392.7),
-            // height: 150,
             height: MediaQuery.of(context).size.height * ( 150 / 803),
             child: FAProgressBar(
               direction: Axis.vertical,
               verticalDirection: VerticalDirection.up,
               animatedDuration: Duration(milliseconds: 1000),
               backgroundColor: Color(0xffD6D6D6),
-              // currentValue: NutritionTable().getPercent(amount, total),
               currentValue: (amount*100 ~/ total).toDouble(),
             ),
           ),

@@ -11,19 +11,6 @@ import 'package:ssafytime/repositories/user_state_repository.dart';
 import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/services/noti_service.dart';
 
-// 알림 설정 관련 Controller
-// 생성 인자값 : userIdx 유저 번호
-// defaultAlarms { 기본 알림 설정
-//      surveyNoti : 설문조사 알림 on/off
-//      announceNoti : 공지사항 알림 on/off
-//      counselNoti : 상담 알림 on/off
-// }
-// customState { 개인 알림 설정
-//      title : 알림 제목
-//      repeatDate : 반복 날짜
-//      time : 알림 시간
-//      isOn : 알림 on/off
-// }
 
 class UserStateController extends GetxController {
   late SharedPreferences pref;
@@ -38,7 +25,6 @@ class UserStateController extends GetxController {
   final UserStateRepo stateApi =
       UserStateRepo(token: AuthService.to.accessToken.value);
 
-//   UserStateController({this.userIdx});
 
   @override
   void onInit() async {

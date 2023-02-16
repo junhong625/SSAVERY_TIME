@@ -12,17 +12,13 @@ class CBTimeItem extends StatelessWidget {
   required this.time,
   }) : super(key: key);
 
-  // CBTimeController controller = Get.put(CBTimeController());
-  // CBTimeController controller = Get.find<CBTimeController>();
   MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override
   Widget build(BuildContext context) {
     String time = this.time;
     return Obx(() => Container(
-      // width: 48,
       width: MediaQuery.of(context).size.width * ( 48 / 392.7),
-      // height: 24,
       height: MediaQuery.of(context).size.height * ( 24 / 803),
         child: Center(
           child: OutlinedButton(

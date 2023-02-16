@@ -45,7 +45,6 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: [
         Locale('ko', 'KR'),
-        // Locale('es', ''), // Spanish, no country code
       ],
       locale: const Locale('ko'),
       builder: (context, child) {
@@ -64,5 +63,4 @@ class MyApp extends StatelessWidget {
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
 }

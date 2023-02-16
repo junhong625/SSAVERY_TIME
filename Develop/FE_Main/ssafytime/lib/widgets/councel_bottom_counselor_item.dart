@@ -30,9 +30,7 @@ class CBCounselorItem extends StatelessWidget {
           FocusScope.of(context).unfocus(); // 키보트 포커스 아웃
         },
         child: Container(
-          // width: 71,
           width: MediaQuery.of(context).size.width * ( 71 / 392.7),
-          // height: 84,
           height: MediaQuery.of(context).size.height * ( 84 / 803),
           decoration: BoxDecoration(
             color: controller.myPickCouncelor.value == managerId ? Color(0xffE7E7E7) : Colors.white,

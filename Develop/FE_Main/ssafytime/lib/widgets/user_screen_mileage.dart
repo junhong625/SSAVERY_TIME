@@ -16,9 +16,7 @@ class _MMileageState extends State<MMileage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: 390,
       width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-      // height: 72,
       height: MediaQuery.of(context).size.height * ( 72 / 803),
       color: Colors.white,
       child: Column(
@@ -47,7 +45,6 @@ class _MMileageState extends State<MMileage> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
                 ),
                 SizedBox(
-                  // width: 8,
                   width: MediaQuery.of(context).size.width * ( 8 / 392.7),
                 ),
                 Text(

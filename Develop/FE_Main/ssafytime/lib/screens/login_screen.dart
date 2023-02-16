@@ -96,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+
                     ///////////////자동 로그인 및 비밀번호 찾기///////////////
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

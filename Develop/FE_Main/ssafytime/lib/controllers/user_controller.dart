@@ -172,6 +172,8 @@ class UserController extends GetxController {
     log("캐로셀위젯 길이 ${carouselItemListWidget.length}");
   }
 
+
+  // 승인된 상담중에 곧 다가오는 상담 가져오기
   Future fetchOncommingCouncel() async {
     int? userId = AuthService.to.user.value.userIdx;
     int? isAdmin = AuthService.to.user.value.isAdmin;

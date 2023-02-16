@@ -8,8 +8,6 @@ import 'councel_bottom_time_item.dart';
 class CBTimeTotal extends StatelessWidget {
   CBTimeTotal({Key? key}) : super(key: key);
 
-  // List reversed = Get.find<CBTimeController>().reserved; // 이미 예약된 시간들
-  // CBTimeController controller = Get.find<CBTimeController>();
   MyCouncelController controller = Get.find<MyCouncelController>();
 
   @override
@@ -18,10 +16,7 @@ class CBTimeTotal extends StatelessWidget {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-      // width: 390,
       width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-      // height: 148,
-      //   height: MediaQuery.of(context).size.height * ( 168 / 803),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

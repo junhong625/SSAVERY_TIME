@@ -18,9 +18,7 @@ class CBCouncelorTotal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Container(
         color: Colors.white,
-        // width: 390,
         width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-        // height: 92,
         height: MediaQuery.of(context).size.height * ( 92 / 803),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -29,7 +27,6 @@ class CBCouncelorTotal extends StatelessWidget {
               CBCounselorItem(
                 name: controller.councelorList[i].userName,
                 position: adminCode[controller.councelorList[i].isAdmin],
-                // imgUrl: controller.councelorList[i].userImg,
                 imgUrl: 'assets/image/no_profile_image.png', // 임시 방편
                 managerId: controller.councelorList[i].userIdx,
               ),

@@ -85,23 +85,4 @@ class AuthService extends GetxService {
     await storage.delete(key: _refreshKey);
   }
 
-//   Future<void> checkTokenState() async {
-//     var res = await http.post(
-//         Uri.parse("http://i8a602.p.ssafy.io/refresh-token"),
-//         headers: {"Content-Type": "application/json"},
-//         body: json.encode({
-//           "accessToken": accessToken.value,
-//           "refreshToken": refreshToken.value
-//         }));
-//     if (res.statusCode == 200) {
-//       var data = json.decode(res.body);
-//       accessToken.value = data['accessToken'];
-//       refreshToken.value = data['refreshToken'];
-//       if (autoLogin.value) {
-//         await storage.write(key: _accessKey, value: accessToken.value);
-//         await storage.write(key: _refreshKey, value: refreshToken.value);
-//       }
-//       tokenState.value = res.statusCode;
-//     }
-//   }
 }

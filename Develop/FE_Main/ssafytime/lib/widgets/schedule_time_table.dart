@@ -13,13 +13,11 @@ class STimeTable extends StatelessWidget {
               children: [
                 Container(
                   color: Colors.amber,
-                  // width: 32,
                   width: MediaQuery.of(context).size.width * ( 32 / 392.7),
                   height: 1010,
                 ),
                 Container(
                   color: Colors.black12,
-                  // width: 32,
                   width: MediaQuery.of(context).size.width * ( 32 / 392.7),
                   height: 1010,
                 ),

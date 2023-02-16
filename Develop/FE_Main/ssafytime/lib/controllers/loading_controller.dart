@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// 비동기 처리시에 로딩 애니메이션 보여주기 위함
 class loadingController extends GetxController {
   static loadingController get to =>  Get.find();
 

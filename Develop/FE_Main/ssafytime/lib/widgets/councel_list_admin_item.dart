@@ -61,7 +61,6 @@ class CouncelAdminListItem extends StatelessWidget {
 
     String councelTime = getCouncelTime(rezTime); // 13:00 ~ 14:00
     String councelDate = CItemDate(startTime);
-    double opacity = currentTime > endTime ? 0.4 : 1;
 
     return Container(
       decoration: BoxDecoration(
@@ -76,11 +75,9 @@ class CouncelAdminListItem extends StatelessWidget {
             )
           ]
       ),
-        // color: Colors.white,
         width: MediaQuery.of(context).size.width * 0.8,
         child: ExpansionTile(
           leading: Container(
-            // width: 50,
             width: MediaQuery.of(context).size.width * ( 50 / 392.7),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -112,9 +109,7 @@ class CouncelAdminListItem extends StatelessWidget {
                         if (state == 1) ... [
                         CustomElevatedButton(
                           label: '승인',
-                          // width: 100,
                           width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                          // height: 40,
                             height: MediaQuery.of(context).size.height * ( 40 / 803),
                           onPressed: () {
                             print('${rezIdx}번 승인할거임');
@@ -123,9 +118,7 @@ class CouncelAdminListItem extends StatelessWidget {
                         ),
                         CustomElevatedButton(
                             label: '거절',
-                            // width: 100,
                             width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                            // height: 40,
                             height: MediaQuery.of(context).size.height * ( 40 / 803),
                             onPressed: () {
                               showDialog(
@@ -147,9 +140,7 @@ class CouncelAdminListItem extends StatelessWidget {
                                     actions: [
                                       CustomElevatedButton(
                                         label: '제출',
-                                        // width: 100,
                                         width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                                        // height: 40,
                                           height: MediaQuery.of(context).size.height * ( 40 / 803),
                                         onPressed: () {
                                           print(_textController.text);
@@ -159,9 +150,7 @@ class CouncelAdminListItem extends StatelessWidget {
                                       ),
                                       CustomElevatedButton(
                                           label: '닫기',
-                                          // width: 100,
                                           width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                                          // height: 40,
                                           height: MediaQuery.of(context).size.height * ( 40 / 803),
                                           onPressed: () {
                                             _textController.clear();
@@ -181,9 +170,7 @@ class CouncelAdminListItem extends StatelessWidget {
                                 label: '상담하기',
                                 labelColor: (startTime <= currentTime && currentTime <= endTime) ? 0xffFFFFFF : 0xff000000,
                                 color: (startTime <= currentTime && currentTime <= endTime) ? 0xff3094F2 : 0xffFFFFFF,
-                                // width: 100,
                                 width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                                // height: 40,
                                 height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 onPressed: () {
                                   // 상담 이동하기
@@ -195,9 +182,7 @@ class CouncelAdminListItem extends StatelessWidget {
                           ] else ... [
                             CustomElevatedButton(
                                 label: '승인 중...',
-                                // width: 100,
                                 width: MediaQuery.of(context).size.width * ( 100 / 392.7),
-                                // height: 40,
                                 height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 onPressed: () {
                                   // 세션 아이디가 없는 경우

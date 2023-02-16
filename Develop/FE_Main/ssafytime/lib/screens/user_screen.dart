@@ -25,7 +25,7 @@ class _UserScreenStates extends State<UserScreen> {
   UserStateController stateC = Get.find<UserStateController>();
   TextEditingController _titleController = TextEditingController();
   String test = "테스트";
-//   DateTime _dateTime = DateTime.now();
+
   var dateSelect = {
     "월": 0,
     "화": 1,

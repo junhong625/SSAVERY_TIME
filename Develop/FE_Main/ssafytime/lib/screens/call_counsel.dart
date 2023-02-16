@@ -59,7 +59,6 @@ class _CallCounselState extends State<CallCounsel> {
 
       final String? token = await _signaling?.createWebRtcToken();
 
-      log("========token : ${token}========");
 
       if (token != null) {
         await _signaling!.connect(token);
@@ -95,17 +94,15 @@ class _CallCounselState extends State<CallCounsel> {
         });
       } else {
         _signaling?.close();
-        councelController.endCouncel(widget.rezIdx);
+        councelController.endCouncel(widget.rezIdx); // 상담 끌때 종료 요청
         Get.back();
-        // Get.toNamed('/CouncelPage');
       }
     }
   }
 
   void _hangUp() {
-    councelController.endCouncel(widget.rezIdx);
+    councelController.endCouncel(widget.rezIdx); // 상담 끌때 종료 요청
     Get.back();
-    // Get.offNamed('/CouncelPage');
   }
 
   void _switchCamera() {

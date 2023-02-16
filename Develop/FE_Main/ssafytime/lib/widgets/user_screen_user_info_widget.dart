@@ -21,9 +21,7 @@ class _MUIState extends State<MUI> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: 390,
       width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-      // height: 80,
       height: MediaQuery.of(context).size.height * ( 80 / 803),
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -42,7 +40,6 @@ class _MUIState extends State<MUI> {
             ),
           ),
           SizedBox(
-            // width: 10,
             width: MediaQuery.of(context).size.width * ( 10 / 392.7),
           ),
           Container(

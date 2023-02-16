@@ -161,13 +161,7 @@ class CallSignaling {
       "data": "",
       "record": false,
       "role": "PUBLISHER",
-      //   "kurentoOptions": {
-      //     "videoMaxRecvBandwidth": 1000,
-      //     "videoMinRecvBandwidth": 300,
-      //     "videoMaxSendBandwidth": 1000,
-      //     "videoMinSendBandwidth": 300,
-      //     "allowedFilters": ["GStreamerFilter", "ZBarFilter"]
-      //   }
+
     };
     var header = {
       "Authorization":

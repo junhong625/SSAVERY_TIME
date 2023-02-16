@@ -7,7 +7,6 @@ import 'package:ssafytime/widgets/loading_indicator.dart';
 import 'package:ssafytime/widgets/menu_book_item.dart';
 import '../controllers/menu_week_controller.dart';
 import 'menu_detail.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MDay0fWeek extends StatelessWidget {
   MDay0fWeek({Key? key}) : super(key: key);
@@ -16,7 +15,6 @@ class MDay0fWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // DateTime dt = DateTime.now().add(Duration(hours: 9));
     DateTime dt = DateTime.now();
     Map<int, List> dayList = {
       0: ['월', dt.subtract(Duration(days: dt.weekday - 1)).day.toString()],
@@ -26,16 +24,12 @@ class MDay0fWeek extends StatelessWidget {
       4: ['금', dt.subtract(Duration(days: dt.weekday - 5)).day.toString()],
     };
 
-    bool testBoll = true;
-
     return Obx(
       () => Column(
         children: [
 
           Container(
             color: Colors.black12,
-            // width: 390,
-            // height: 48,
             height: MediaQuery.of(context).size.height * ( 48 / 803),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,7 +41,6 @@ class MDay0fWeek extends StatelessWidget {
                   Container(
                     color: Colors.white,
                     padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                    // width: 76.8,
                     width: MediaQuery.of(context).size.width * ( 76.8 / 392.7),
                     child: InkWell(
                       onTap: () {
@@ -97,7 +90,7 @@ class MDay0fWeek extends StatelessWidget {
             ),
           ),
 
-          // 메뉴 카드들 ================================
+          // 메뉴 카드들 =========
           Container(
             color: Colors.white,
             padding: EdgeInsets.all(5),

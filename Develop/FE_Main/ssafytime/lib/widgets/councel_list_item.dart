@@ -43,10 +43,6 @@ class CouncelListItem extends StatelessWidget {
     double opacity = (state == 3 || state == 4) ? 0.4 : 1;
     return InkWell(
       onTap: () {
-        // print('currentTime : ${currentTime}');
-        // print('startTime : ${startTime}');
-        // print('endTime : ${endTime}');
-        // if (startTime <= currentTime && currentTime <= endTime && state == 2) {
         if (state == 2) {
           showDialog(
             context: context,
@@ -92,16 +88,14 @@ class CouncelListItem extends StatelessWidget {
       },
       child: Container(
         color: Colors.white,
-        // width: 358,
         width: MediaQuery.of(context).size.width * ( 358 / 392.7),
-        // height: 62,
         height: MediaQuery.of(context).size.height * ( 62 / 803),
         child: Opacity(
           opacity: opacity,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // // 아이콘 컨네이너
+              // 아이콘 컨네이너
               Row(
                 children: [
                   Container(
@@ -120,11 +114,10 @@ class CouncelListItem extends StatelessWidget {
                         color: Color(0xff686ADB),
                       ))),
                   SizedBox(
-                    // width: 15,
                     width: MediaQuery.of(context).size.width * ( 15 / 392.7),
                   ),
                 ],
-              ), // height: MediaQuery.of(context).size.height * ( 84 / 803),
+              ),
               Container(
                 // 진행바가 있는경우는 290 , 없는 경우는 230
                 width: (state == 2 &&
@@ -147,7 +140,6 @@ class CouncelListItem extends StatelessWidget {
                     // state 1 or state 2
                     if ((currentTime < startTime && reject == null) || state == 1) ...[
                       Row(
-                        // mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           // option 6
                           Text(
@@ -158,13 +150,11 @@ class CouncelListItem extends StatelessWidget {
                                 fontWeight: FontWeight.w900),
                           ),
                           SizedBox(
-                            // width: 16,
                             width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                           ),
                         ],
                       ),
                     ],
-
                     // 진행 중이라면
                     if (startTime <= currentTime &&
                         currentTime <= endTime &&
@@ -181,10 +171,8 @@ class CouncelListItem extends StatelessWidget {
 
                     // 끝났다면 형태는 시작 전하고 같음
                     if (currentTime > endTime || reject != null) ...[
-                      // Text('끝난 경우'),
                       Container(
                         child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
                               councelDate + ' ' + councelTime,
@@ -194,7 +182,6 @@ class CouncelListItem extends StatelessWidget {
                                   fontWeight: FontWeight.w900),
                             ),
                             SizedBox(
-                              // width: 16,
                               width: MediaQuery.of(context).size.width * ( 16 / 392.7),
                             ),
                           ],
@@ -204,13 +191,11 @@ class CouncelListItem extends StatelessWidget {
                   ],
                 ),
               ),
-              // if (currentTime > endTime || state == 3 || state == 4) ...[
               if (state == 3 || state == 4) ...[
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Text(
                     state == 3 ? '반려' : '종료',
-                    // '종료',
                     style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w900),
                   ),
@@ -221,7 +206,6 @@ class CouncelListItem extends StatelessWidget {
                   padding: const EdgeInsets.all(15),
                   child: Text(
                     state == 1 ? '대기' : '승인',
-                    // '종료',
                     style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w900),
                   ),
@@ -235,7 +219,7 @@ class CouncelListItem extends StatelessWidget {
   }
 }
 
-// 진행 중일때 나타위젯 프로그래스바 있는거 =========================================
+// 진행 중일때 나타위젯 프로그래스바 있는거
 class CItemIng extends StatelessWidget {
   double currentTime; // 현재시간 202302061530.0 이런 형태로 들어옴
   double startTime; // 시작 시간
@@ -256,10 +240,8 @@ class CItemIng extends StatelessWidget {
     double persent = CItemPersent(currentTime, rezTime);
     String councelTime = CItemCouncelTime(rezTime); // 13:00 ~ 14:00
     return Container(
-      // width: 280,
       width: MediaQuery.of(context).size.width * ( 280 / 392.7),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           LinearPercentIndicator(
             padding: EdgeInsets.zero,
@@ -279,9 +261,6 @@ class CItemIng extends StatelessWidget {
                     color: Color(0xffABABAE),
                     fontWeight: FontWeight.w900),
               ),
-              // const SizedBox(
-              //   width: 16,
-              // ),
             ],
           ),
         ],
@@ -317,7 +296,6 @@ String CItemCouncelTime(double rezTime) {
 
 // 얼마나 지났는지 퍼센트 구하기
 double CItemPersent(double currentTime, double rezTime) {
-  // double rezTime = 14.5;
   int sh = rezTime.toInt(); // 시작 시간
   int m = ((rezTime - sh) * 60).toInt(); // 분
   int exRezTime = sh * 60 + m; // 분으로 환산한 rezTime

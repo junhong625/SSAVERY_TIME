@@ -27,7 +27,6 @@ class SDay0fWeek extends StatelessWidget {
       children: [
         Container(
           color: Colors.white,
-          // height: 48,
           height: MediaQuery.of(context).size.height * ( 48 / 803),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,11 +35,9 @@ class SDay0fWeek extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                  // width: 76.8,
                   width: MediaQuery.of(context).size.width * ( 76.8 / 392.7),
                   child: InkWell(
                     onTap: () async{
-                      print('클릭');
                       controller.selectDay(idx);
                     },
                     child: Column(
@@ -70,8 +67,7 @@ class SDay0fWeek extends StatelessWidget {
             ]
           ),
         ),
-
-          // 시간표 부분 ================================
+          // 시간표 부분 ==============================
           ScTotal(
             scheduleList: controller.todaySchedule.value,
           )

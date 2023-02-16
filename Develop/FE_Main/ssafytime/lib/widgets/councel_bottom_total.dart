@@ -9,8 +9,7 @@ import 'councel_bottom_input_category.dart';
 import 'councel_bottom_date.dart';
 import 'councel_bottom_input_title.dart';
 import 'councel_bottom_time_total.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 
 
 
@@ -69,9 +68,7 @@ void openCouncelBottomSheet(BuildContext context) {
 
                       Container(
                         color: Colors.white,
-                        // width: 390,
                         width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-                        // height: 47,
                         height: MediaQuery.of(context).size.height * ( 47 / 803),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -80,9 +77,7 @@ void openCouncelBottomSheet(BuildContext context) {
                               onPressed: () {
                                 Get.back();
                               },
-                              // width: 171,
                               width: MediaQuery.of(context).size.width * ( 171 / 392.7),
-                              // height: 40,
                               height: MediaQuery.of(context).size.height * ( 40 / 803),
                               label: '닫기',
                             ),
@@ -93,9 +88,7 @@ void openCouncelBottomSheet(BuildContext context) {
                                   Get.back();
                                 },
                                 color: 0xff3094F2,
-                                // width: 171,
                                 width: MediaQuery.of(context).size.width * ( 171 / 392.7),
-                                // height: 40,
                                 height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 label: '제출',
                                 labelColor: 0xffFFFFFF,
@@ -106,9 +99,7 @@ void openCouncelBottomSheet(BuildContext context) {
                                   print('제출 내용 부족');
                                 },
                                 color: 0xffD9D9D9,
-                                // width: 171,
                                 width: MediaQuery.of(context).size.width * ( 171 / 392.7),
-                                // height: 40,
                                 height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 label: '제출',
                                 labelColor: 0xffFFFFFF,

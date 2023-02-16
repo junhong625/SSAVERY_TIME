@@ -44,11 +44,8 @@ void openMenuDetail(BuildContext context, int id) async {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
-          // width: 365,
           width: MediaQuery.of(context).size.width * ( 365 / 392.7),
-          // height: 683,
           height: MediaQuery.of(context).size.height * ( 683 / 803),
-          // height: MediaQuery.of(context).size.height * 1.0,
           margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
           padding: EdgeInsets.fromLTRB(12.5, 17, 12.5, 0),
           decoration: BoxDecoration(
@@ -58,9 +55,7 @@ void openMenuDetail(BuildContext context, int id) async {
           child: Column(
             children: [
               Container(
-                // width: 365,
                 width: MediaQuery.of(context).size.width * ( 365 / 392.7),
-                // height: 288,
                 height: MediaQuery.of(context).size.height * ( 288 / 803),
                 padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                 decoration: BoxDecoration(
@@ -73,12 +68,9 @@ void openMenuDetail(BuildContext context, int id) async {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * ( 10 / 803),),
               Container(
-                // width: 365,
                 width: MediaQuery.of(context).size.width * ( 365 / 392.7),
-                // height: 354,
                 height: MediaQuery.of(context).size.height * ( 354 / 803),
                 padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                // color: Colors.lightGreen,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -88,7 +80,6 @@ void openMenuDetail(BuildContext context, int id) async {
 
                     // 사이드 메뉴 목록
                     Container(
-                      // color: Colors.lightBlue,
                       height: MediaQuery.of(context).size.height * ( 50 / 803),
                       child: Wrap(
                         spacing: 10,
@@ -104,9 +95,7 @@ void openMenuDetail(BuildContext context, int id) async {
 
                     // 영양소 percent
                     Container(
-                      // width: 345,
                       width: MediaQuery.of(context).size.width * ( 345 / 392.7),
-                      // height: 190,
                         height: MediaQuery.of(context).size.height * ( 190 / 803),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

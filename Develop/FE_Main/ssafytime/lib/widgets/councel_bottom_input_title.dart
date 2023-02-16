@@ -14,8 +14,6 @@ class CBInputTitle extends StatefulWidget {
 class _CBInputTitleState extends State<CBInputTitle> {
   TextEditingController textController = TextEditingController();
 
-  // CBTitleController controller = Get.put(CBTitleController());
-  // CBTitleController controller = Get.find<CBTitleController>();
   MyCouncelController controller = Get.find<MyCouncelController>();
 
 
@@ -27,9 +25,7 @@ class _CBInputTitleState extends State<CBInputTitle> {
         SizedBox(height: MediaQuery.of(context).size.height * ( 10 / 803),),
         Container(
           color: Colors.white,
-          // width: 390,
           width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-          // height: 64,
           height: MediaQuery.of(context).size.height * ( 64 / 803),
           child: TextField(
             style: TextStyle(fontSize: 16, color: Color(0xff262626),

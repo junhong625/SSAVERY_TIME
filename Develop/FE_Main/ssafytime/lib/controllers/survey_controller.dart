@@ -23,15 +23,13 @@ class SurveyController extends GetxController {
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      //   log("print : " + data.toString());
+
       questions.addAll(
         List<SurveyOption>.from(data.map((x) => SurveyOption.fromJson(x))),
       );
       var tmp = Map.fromIterable(questions[0].optionList,
           key: (e) => e.optionContent, value: (e) => null);
-      log("print : " + tmp.toString());
       questions.refresh();
-      log("print : " + questions[0].optionList[0].optionContent);
     }
   }
 

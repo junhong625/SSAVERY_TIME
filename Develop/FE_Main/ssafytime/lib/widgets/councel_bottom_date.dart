@@ -8,9 +8,7 @@ class CBDate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: 390,
       width: MediaQuery.of(context).size.width * ( 390 / 392.7),
-      // height: 84,
       height: MediaQuery.of(context).size.height * ( 94 / 803),
       color: Colors.white,
       child: Column(
@@ -23,10 +21,7 @@ class CBDate extends StatelessWidget {
             child: Text('상담 날짜', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),),
           ),
           Container(
-            // color: Colors.black12,
-            // width: 358,
             width: MediaQuery.of(context).size.width * ( 358 / 392.7),
-            // height: 40,
             height: MediaQuery.of(context).size.height * ( 40 / 803),
             child: CBCalender(),
           ),
