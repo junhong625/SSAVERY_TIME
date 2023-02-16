@@ -104,7 +104,7 @@ public class MeetServiceImpl implements MeetService{
                 meetInfoDto.setRezDate(m.getRezDate());
 
                 // 시간이 지났으면 state 4(종료)로 변경
-                if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime()+1 ) {
+            if((m.getState() != 3L) && (nowDate > Integer.parseInt(m.getRezDate().toString().replace("-", ""))) || (nowDate == Integer.parseInt(m.getRezDate().toString().replace("-", "")) && (nowTime > (m.getRezTime() + 1)))){
                     m.setState(4L); // 4(종료) (entity)
                     String sId = m.getSessionId();
                     if(sId != null){
@@ -174,7 +174,8 @@ public class MeetServiceImpl implements MeetService{
         int nowHour = Integer.parseInt(dateTime[1].split(":")[0]);
         int nowMin = Integer.parseInt(dateTime[1].split(":")[1]);
         Double nowTime = nowHour + (nowMin/60.0);
-
+        System.out.println("현재시간 "+ nowTime);
+        System.out.println("날짜 "+ nowDate);
         member.forEach(m->{
                     // 교육생의 이름을 뽑아서 추출
                     MeetInfoDto meetInfoDto = new MeetInfoDto();
@@ -185,7 +186,9 @@ public class MeetServiceImpl implements MeetService{
                     meetInfoDto.setRezTime(m.getRezTime());
                     meetInfoDto.setRezDate(m.getRezDate());
                     // 시간이 지났으면 state 4(종료)로 변경 (3(거절)인 경우는 처리안함)
-                    if( m.getState()!=3L && nowDate >= Integer.parseInt(m.getRezDate().toString().replace("-", "")) && nowTime > m.getRezTime()+1 ) {
+                    if((m.getState() != 3L) && (nowDate > Integer.parseInt(m.getRezDate().toString().replace("-", ""))) || (nowDate == Integer.parseInt(m.getRezDate().toString().replace("-", "")) && (nowTime > (m.getRezTime() + 1))))
+                    {
+                        System.out.println("cnt");
                         m.setState(4L); // 4(종료) (entity)
 //                        m.setSessionId(null);
                         meetUpdateRepository.save(m);// db에 적용
