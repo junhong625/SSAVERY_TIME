@@ -58,7 +58,7 @@ class HomeTimeController extends GetxController{
     setInitailTime();
 
     // 컨트롤러 생성 후 1분마다 반복
-    timer = new Timer.periodic(Duration(seconds: 2), (timer) {
+    timer = new Timer.periodic(Duration(minutes: 1), (timer) {
         currentTime = DateTime.now();
         // currentTime = DateTime.now();
         hour.value = currentTime.hour; // 현재 시간 갱신
@@ -70,9 +70,9 @@ class HomeTimeController extends GetxController{
         }
         fetchHomeSchedule(trackCode, nextTime);
         getLunchTime();
-        print('currentTime : ${currentTime}');
-        print('AuthService.to.user.value.trackCode : ${AuthService.to.user.value.trackCode}');
-        print('AuthService.to.user.value.regionCode : ${AuthService.to.user.value.regionCode}');
+        // print('currentTime : ${currentTime}');
+        // print('AuthService.to.user.value.trackCode : ${AuthService.to.user.value.trackCode}');
+        // print('AuthService.to.user.value.regionCode : ${AuthService.to.user.value.regionCode}');
 
       }
     );
@@ -159,7 +159,7 @@ class HomeTimeController extends GetxController{
 
   void getLunchTime() {
     int timer = hour.value * 100 + min;
-    if (1130 <= timer && timer <= 1350) {
+    if (1150 <= timer && timer <= 1300) {
       isLunch.value = true;
     } else {
       isLunch.value = false;

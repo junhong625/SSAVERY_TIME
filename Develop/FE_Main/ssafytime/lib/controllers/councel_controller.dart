@@ -79,8 +79,8 @@ class MyCouncelController extends GetxController {
 
     for (int i = 0; i < data.length; i++) {
       final obj = CouncelDetail.fromJson(data[i]).obs;
-      print('obj.value.state : ${obj.value.state}');
-      print('obj.value.name : ${obj.value.name}');
+      // print('obj.value.state : ${obj.value.state}');
+      // print('obj.value.name : ${obj.value.name}');
       if (userAdmin == 1) {
         // 관리자 일때는 텝에 따라서 호출
         if (obj.value.state == adminCategory.value) {
@@ -285,6 +285,17 @@ class MyCouncelController extends GetxController {
   void selectAdminCategory(int x) async{
     adminCategory.value = x;
     await fetchMyCouncelList();
+  }
+
+  // 상담 종료
+  Future endCouncel(int rezIdx) async{
+
+    loadingController.to.isLoading = true;
+    var res = await http.put(Uri.parse(
+        'http://i8a602.p.ssafy.io:9090/meet/update/end?rez_idx=${rezIdx}'));
+    loadingController.to.isLoading = false;
+
+    await fetchMyCouncelList(); // 상담 현황 다시 요청
   }
 
 }

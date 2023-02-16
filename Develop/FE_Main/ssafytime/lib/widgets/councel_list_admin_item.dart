@@ -179,13 +179,17 @@ class CouncelAdminListItem extends StatelessWidget {
                           if (sessionId != null) ... [
                             CustomElevatedButton(
                                 label: '상담하기',
+                                labelColor: (startTime <= currentTime && currentTime <= endTime) ? 0xffFFFFFF : 0xff000000,
+                                color: (startTime <= currentTime && currentTime <= endTime) ? 0xff3094F2 : 0xffFFFFFF,
                                 // width: 100,
                                 width: MediaQuery.of(context).size.width * ( 100 / 392.7),
                                 // height: 40,
                                 height: MediaQuery.of(context).size.height * ( 40 / 803),
                                 onPressed: () {
                                   // 상담 이동하기
-                                  Get.to(() => CallCounsel(sessionName: sessionId, userName: name,));
+                                  if (startTime <= currentTime && currentTime <= endTime) {
+                                    Get.to(() => CallCounsel(sessionName: sessionId, userName: name, rezIdx: rezIdx));
+                                  }
                                 }
                             ),
                           ] else ... [

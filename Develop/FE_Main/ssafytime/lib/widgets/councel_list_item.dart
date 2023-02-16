@@ -21,6 +21,8 @@ class CouncelListItem extends StatelessWidget {
   String? sessionId;
   String? name = AuthService.to.user.value.userName;
 
+  int rezIdx;
+
   CouncelListItem({
     Key? key,
     required this.title,
@@ -31,6 +33,7 @@ class CouncelListItem extends StatelessWidget {
     required this.reject,
     required this.state,
     required this.sessionId,
+    required this.rezIdx
   }) : super(key: key);
 
   @override
@@ -40,9 +43,9 @@ class CouncelListItem extends StatelessWidget {
     double opacity = (state == 3 || state == 4) ? 0.4 : 1;
     return InkWell(
       onTap: () {
-        print('currentTime : ${currentTime}');
-        print('startTime : ${startTime}');
-        print('endTime : ${endTime}');
+        // print('currentTime : ${currentTime}');
+        // print('startTime : ${startTime}');
+        // print('endTime : ${endTime}');
         // if (startTime <= currentTime && currentTime <= endTime && state == 2) {
         if (state == 2) {
           showDialog(
@@ -51,7 +54,9 @@ class CouncelListItem extends StatelessWidget {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Center(
-                  child: Text(sessionId != null ?'방에 접속해주세요!' : '승인 처리 중 ...')
+                  child: (startTime <= currentTime && currentTime <= endTime) ? 
+                    Text(sessionId != null ?'방에 접속해주세요!' : '승인 처리 중 ...') :
+                      Text('상담시간을 확인해 주세요.')
                 ),
 
                 content: Container(
@@ -59,14 +64,14 @@ class CouncelListItem extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      if (sessionId != null) ... [
+                      if (sessionId != null && startTime <= currentTime && currentTime <= endTime) ... [
                         CustomElevatedButton(
                             label: '상담',
                             color: 0xff3094F2,
                             labelColor: 0xffFFFFFF,
                             borderColor: 0xff3094F2,
                             onPressed: () async {
-                              Get.off(() => CallCounsel(sessionName: sessionId ?? '', userName: name ?? '',));
+                              Get.off(() => CallCounsel(sessionName: sessionId ?? '', userName: name ?? '', rezIdx: rezIdx));
                             }
                         ),
                       ],
@@ -140,7 +145,7 @@ class CouncelListItem extends StatelessWidget {
 
                     // 시작 전 이라면 reject == null  : 승인 되었다.
                     // state 1 or state 2
-                    if (currentTime < startTime && reject == null) ...[
+                    if ((currentTime < startTime && reject == null) || state == 1) ...[
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -163,7 +168,7 @@ class CouncelListItem extends StatelessWidget {
                     // 진행 중이라면
                     if (startTime <= currentTime &&
                         currentTime <= endTime &&
-                        state == 2) ...[
+                        (state == 2)) ...[
                       Container(
                         child: CItemIng(
                           currentTime: currentTime,
@@ -211,7 +216,7 @@ class CouncelListItem extends StatelessWidget {
                   ),
                 )
               ] else if (!(startTime <= currentTime &&
-                  currentTime <= endTime)) ...[
+                  currentTime <= endTime) || state == 1) ...[
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Text(

@@ -45,6 +45,7 @@ class CMyCouncel extends StatelessWidget {
                   reject : controller.myCouncelList[i].value.reject,
                   state: controller.myCouncelList[i].value.state,
                   sessionId : controller.myCouncelList[i].value.sessionId,
+                  rezIdx : controller.myCouncelList[i].value.rezIdx,
                 ),
                 Divider(thickness: 2, height: 6, color: Color(0xffC3C6CF),),
               ],

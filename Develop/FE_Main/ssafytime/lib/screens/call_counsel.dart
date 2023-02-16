@@ -3,15 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
+import 'package:ssafytime/controllers/councel_controller.dart';
 import 'package:ssafytime/utils/call_signaling.dart';
 
 class CallCounsel extends StatefulWidget {
   const CallCounsel(
-      {Key? key, required this.sessionName, required this.userName})
+      {Key? key, required this.sessionName, required this.userName, required this.rezIdx})
       : super(key: key);
 
   final String sessionName;
   final String userName;
+  final int rezIdx;
   final String server = "i8a602.p.ssafy.io";
   final String secret = "ssafytime";
 
@@ -24,6 +26,8 @@ class _CallCounselState extends State<CallCounsel> {
   final _remoteRenderer = new RTCVideoRenderer();
   CallSignaling? _signaling = null;
   bool isAudioOn = true;
+
+  MyCouncelController councelController = Get.find<MyCouncelController>();
 
   @override
   void initState() {
@@ -91,6 +95,7 @@ class _CallCounselState extends State<CallCounsel> {
         });
       } else {
         _signaling?.close();
+        councelController.endCouncel(widget.rezIdx);
         Get.back();
         // Get.toNamed('/CouncelPage');
       }
@@ -98,6 +103,7 @@ class _CallCounselState extends State<CallCounsel> {
   }
 
   void _hangUp() {
+    councelController.endCouncel(widget.rezIdx);
     Get.back();
     // Get.offNamed('/CouncelPage');
   }
