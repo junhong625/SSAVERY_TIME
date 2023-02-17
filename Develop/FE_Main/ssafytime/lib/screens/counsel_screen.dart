@@ -26,29 +26,10 @@ class _CounselScreenStates extends State<CounselScreen> {
         ),
         floatingActionButton: _getFAB(),
 
-        body: Stack(
-          children: [
-            Container(
-                color: Colors.white,
-                child: userCode == 0 ? CMyCouncel() : CAdminCouncel()),
-            Obx(() =>
-                Offstage(
-                    offstage: !loadingController.to.isLoading,
-                    child: Center(
-                      child: Container(
-                        color: Color(0x50000000),
-                        width: double.infinity, height: double.infinity,
-                        // width: 200, height: 200,
-                        child: SpinKitFadingCircle(
-                          color: Colors.white,
-                          size: 80,
-                        ),
-                      ),
-                    )
-                )
-            )
-          ],
-        )
+        body: Container(
+          color: Colors.white,
+          child: userCode == 0 ? CMyCouncel() : CAdminCouncel()
+        ),
     );
   }
 

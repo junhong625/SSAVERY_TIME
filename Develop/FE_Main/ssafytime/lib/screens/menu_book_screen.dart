@@ -14,31 +14,12 @@ class MenuBookScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("식단표"),
       ),
-      body: Stack(
-        children: [
-          SizedBox(
-            child: Column(
-              children: [
-                MDay0fWeek(),
-              ],
-            )
-          ),
-          Obx(() =>
-            Offstage(
-              offstage: !loadingController.to.isLoading,
-              child: Center(
-                child: Container(
-                  color: Color(0x50000000),
-                  width: double.infinity, height: double.infinity,
-                  child: SpinKitFadingCircle(
-                    color: Colors.white,
-                    size: 80,
-                  ),
-                ),
-              )
-            )
-          )
-        ],
+      body: SizedBox(
+        child: Column(
+          children: [
+            MDay0fWeek(),
+          ],
+        )
       ),
     );
   }
