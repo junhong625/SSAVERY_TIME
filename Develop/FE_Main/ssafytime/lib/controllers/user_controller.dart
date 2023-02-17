@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/model/councel_detail.dart';
 import 'package:ssafytime/models/attendance_model.dart';
 import 'package:ssafytime/models/recruitment.dart';
@@ -68,7 +67,6 @@ class UserController extends GetxController {
   Future<void> initFetch() async {
     carouselItemList.clear();
     carouselItemListWidget.clear();
-    loadingController.to.setIsLoading(true);
     await fetchUser();
     await fetchAttence();
     await fetchNotice();
@@ -76,7 +74,6 @@ class UserController extends GetxController {
     await fetchOncommingCouncel();
     setCaroselItemList();
     setAtten();
-    loadingController.to.setIsLoading(false);
   }
 
   Future<void> fetchUser() async {

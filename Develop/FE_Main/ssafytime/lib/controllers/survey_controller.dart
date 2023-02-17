@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/controllers/notification_controller.dart';
 import 'package:ssafytime/flutter_survey-0.1.4/models/question_result.dart';
 import 'package:ssafytime/models/survey_option_model.dart';
@@ -37,7 +36,6 @@ class SurveyController extends GetxController {
     log("SurveyController : ${Get.arguments}");
     setSurveyOptions();
     super.onInit();
-    loadingController.to.setIsLoading(false);
   }
 
   Future<void> setSurveyOptions() async {
