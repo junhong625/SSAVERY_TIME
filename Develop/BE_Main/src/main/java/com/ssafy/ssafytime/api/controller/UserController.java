@@ -84,8 +84,7 @@ public class UserController {
         UserDto userDto = userService.getMyUserWithAuthorities();  // jwt 토큰을 통해 DTO불러옴
         Optional<User> user = userService.findById(userDto.getId());  // DTO 통해 User 엔티티 불러옴
         if (user.isPresent()) {  // 유저가 존재한다면
-            if (userDto.getToken() == "1" || userDto.getToken() != fcmTokenDTO.getFCMToken()) {  // 해당 사용자가 FCM 토큰이 없다면
-                System.out.println(fcmTokenDTO.getFCMToken());
+            if (userDto.getToken() == null || userDto.getToken() != fcmTokenDTO.getFCMToken()) {  // 해당 사용자가 FCM 토큰이 없다면
                 user.get().setToken(fcmTokenDTO.getFCMToken());  // 토큰 설정해서
                 userService.save(user);  // 저장
             }
