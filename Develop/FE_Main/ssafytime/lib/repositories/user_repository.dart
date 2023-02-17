@@ -36,6 +36,7 @@ class UserRepo {
   Future<bool> updateFcmToken(String? fcmToken) async {
     var res = await http.post(Uri.parse(baseUrl + "/alarm"),
         headers: headers, body: json.encode({"fcmtoken": fcmToken}));
+    log("${res.statusCode}");
 
     if (res.statusCode == 200) {
       return true;

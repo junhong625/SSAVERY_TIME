@@ -57,6 +57,7 @@ class AuthService extends GetxService {
         }
         autoLogin(autoLoginFlag ?? false);
         isLogin = true;
+        userApi = UserRepo(token: accessToken.value);
         tokenState.value = res.statusCode;
         Get.offAllNamed('/');
       } else if (res.statusCode == 401) {
@@ -76,7 +77,7 @@ class AuthService extends GetxService {
     accessToken(null);
     refreshToken(null);
     user(null);
-    userApi.updateFcmToken("");
+    userApi.updateFcmToken(null);
     isLogin = false;
 
     Get.offAllNamed('/login');

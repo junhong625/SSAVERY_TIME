@@ -59,11 +59,12 @@ class HomeRepo {
     return null;
   }
 
-  Future<Survey?> fetchHomeSurvey() async {
+  Future<List<Survey>?> fetchHomeSurvey() async {
     var res = await http.get(Uri.parse("${baseUrl}surveys/main/survey"),
         headers: headers);
+    log("${res.statusCode}=====================");
     if (res.statusCode == 200) {
-      return Survey.fromRawJson(res.body);
+      return SurveyList.fromRawJson(res.body).survey;
     }
     return null;
   }

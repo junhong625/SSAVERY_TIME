@@ -8,6 +8,7 @@ import 'package:ssafytime/controllers/loading_controller.dart';
 import 'package:ssafytime/model/councel_detail.dart';
 import 'package:ssafytime/models/attendance_model.dart';
 import 'package:ssafytime/models/recruitment.dart';
+import 'package:ssafytime/models/survey_model.dart';
 import 'package:ssafytime/models/user_atten_model.dart';
 import 'package:ssafytime/models/user_model.dart';
 import 'package:ssafytime/repositories/home_repository.dart';
@@ -66,10 +67,13 @@ class UserController extends GetxController {
 
   Future<void> initFetch() async {
     carouselItemList.clear();
+    carouselItemListWidget.clear();
     loadingController.to.setIsLoading(true);
     await fetchUser();
     await fetchAttence();
     await fetchNotice();
+    await fetchHomeSurvey();
+    await fetchOncommingCouncel();
     setCaroselItemList();
     setAtten();
     loadingController.to.setIsLoading(false);
@@ -99,10 +103,11 @@ class UserController extends GetxController {
   }
 
   Future<void> fetchHomeSurvey() async {
-    var data = await homeApi.fetchHomeSurvey();
+    List<Survey>? data = await homeApi.fetchHomeSurvey();
+    var result = data?[0];
 
-    if (data != null) {
-      carouselItemList.add(data);
+    if (result != null) {
+      carouselItemList.add(result);
     }
   }
 
@@ -137,23 +142,23 @@ class UserController extends GetxController {
             break;
           case 2:
             carouselItemListWidget.add(CNI(
-                opacity: 1,
+                opacity: _setSurveyOpacity(element.status),
                 myIcon: FontAwesomeIcons.pen,
                 iconColor: 0xff0079D1,
                 title: element.title,
                 detail: Text(
                     "${timeF.format(element.startDate)} ~ ${timeF.format(element.endDate)}"),
-                isComplete: ""));
+                isComplete: _setSurveyIsComplete(element.status)));
             break;
           case 3:
             carouselItemListWidget.add(CNI(
-                opacity: 1,
+                opacity: _setCounselOpacity(element.state),
                 myIcon: FontAwesomeIcons.userGroup,
                 iconColor: 0xff686ADB,
                 title: element.title,
                 detail:
                     Text("${dateF.format(element.rezDate)} ${element.rezTime}"),
-                isComplete: ""));
+                isComplete: _setCounselIsComplete(element.state)));
             break;
         }
       });
@@ -169,7 +174,6 @@ class UserController extends GetxController {
     log("캐로셀 길이 ${carouselItemList.length}");
     log("캐로셀위젯 길이 ${carouselItemListWidget.length}");
   }
-
 
   // 승인된 상담중에 곧 다가오는 상담 가져오기
   Future fetchOncommingCouncel() async {
@@ -199,6 +203,10 @@ class UserController extends GetxController {
         councelTime = Time;
         oncommingCouncel = obj;
       }
+    }
+
+    if (oncommingCouncel.value.createDateTime != null) {
+      carouselItemList.add(oncommingCouncel.value);
     }
   }
 
@@ -230,5 +238,65 @@ class UserController extends GetxController {
 
     recruitmentList = Recruitment.fromJson(data);
     recruitCnt.value = recruitmentList.data.length;
+  }
+
+  double _setSurveyOpacity(int status) {
+    switch (status) {
+      case 0:
+        return 0.4;
+      case 1:
+        return 1;
+      case 2:
+        return 0.6;
+      case 3:
+        return 0.6;
+      default:
+        return 1;
+    }
+  }
+
+  String _setSurveyIsComplete(int status) {
+    switch (status) {
+      case 0:
+        return "예정";
+      case 1:
+        return "진행";
+      case 2:
+        return "종료";
+      case 3:
+        return "완료";
+      default:
+        return "예정";
+    }
+  }
+
+  double _setCounselOpacity(int status) {
+    switch (status) {
+      case 1:
+        return 1;
+      case 2:
+        return 1;
+      case 3:
+        return 0.6;
+      case 4:
+        return 0.6;
+      default:
+        return 1;
+    }
+  }
+
+  String _setCounselIsComplete(int status) {
+    switch (status) {
+      case 1:
+        return "신청";
+      case 2:
+        return "승인";
+      case 3:
+        return "종료";
+      case 4:
+        return "거절";
+      default:
+        return "예정";
+    }
   }
 }
