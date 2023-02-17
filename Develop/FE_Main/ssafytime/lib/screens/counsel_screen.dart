@@ -1,11 +1,8 @@
 // check and regist counsel screen
 
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:ssafytime/services/auth_service.dart';
 import 'package:ssafytime/widgets/councel_admin_councel.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:ssafytime/controllers/loading_controller.dart';
 
 import '../widgets/councel_my_councel.dart';
 import '../widgets/councel_bottom_total.dart';
@@ -21,32 +18,14 @@ class _CounselScreenStates extends State<CounselScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
-          title: const Text("상담"),
-        ),
-        floatingActionButton: _getFAB(),
-
-        body: Stack(
-          children: [
-            Container(
-                color: Colors.white,
-                child: userCode == 0 ? CMyCouncel() : CAdminCouncel()),
-            Obx(() => Offstage(
-                offstage: !loadingController.to.isLoading,
-                child: Center(
-                  child: Container(
-                    color: Color(0x50000000),
-                    width: double.infinity, height: double.infinity,
-                    // width: 200, height: 200,
-                    child: SpinKitFadingCircle(
-                      color: Colors.white,
-                      size: 80,
-                    ),
-                  ),
-                )))
-          ],
-        )
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        title: const Text("상담"),
+      ),
+      floatingActionButton: _getFAB(),
+      body: Container(
+          color: Colors.white,
+          child: userCode == 0 ? CMyCouncel() : CAdminCouncel()),
     );
   }
 

@@ -22,7 +22,7 @@ class MenuPickDayController extends GetxController {
 
   // 초기 실행행
  void initialRun() async {
-    loadingController.to.isLoading = true; // 일단 로딩 표시 on
+    // loadingController.to.isLoading = true; // 일단 로딩 표시 on
     // 지역 번호 넣어서 메뉴 요청
     await requstMenuWeek(AuthService.to.user.value.regionCode ?? 0);
 
@@ -38,13 +38,13 @@ class MenuPickDayController extends GetxController {
         selectDay(i); // 그 요일 선택
       }
     }
-    loadingController.to.isLoading = false; // 로딩 표시 off
+    // loadingController.to.isLoading = false; // 로딩 표시 off
   }
 
 
   // 이번주 식단 가져오기
   Future<void> requstMenuWeek(int region) async {
-    loadingController.to.isLoading = true; // 일단 로딩 표시 on
+    // loadingController.to.isLoading = true; // 일단 로딩 표시 on
 
     menusofweek = <List>[].obs;
     var res = await http.get(
@@ -52,6 +52,7 @@ class MenuPickDayController extends GetxController {
     var data = json.decode(res.body);
 
     final dataList = data['data'].values.map((x) => x).toList();
+    print('dataList : ${dataList}');
 
     for (int i = 0; i < dataList.length; i++) {
       var menus = <MenuWeekV2>[].obs;
@@ -66,11 +67,12 @@ class MenuPickDayController extends GetxController {
       }
       menusofweek.add(menus);
     };
-    loadingController.to.isLoading = false; // 로딩 표시 off
+    // loadingController.to.isLoading = false; // 로딩 표시 off
   }
 
   // 날짜 선택하기
   void selectDay(int idx) {
+    print('날짜 선택');
     myPick.value = idx;
     menuofday = menusofweek[idx].obs; // 선택한 날짜의 메뉴로 바꾼다.
   }
