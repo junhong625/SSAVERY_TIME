@@ -7,12 +7,7 @@ class HA extends StatefulWidget {
   final int? attendance; // 출석 횟수
   final String? imgURL; // 교육생 이미지 URL
 
-  const HA(
-      {Key? key,
-      this.absent = 0,
-      this.attendance = 0,
-      this.tardy = 0,
-      this.imgURL})
+  HA({Key? key, this.absent, this.attendance, this.tardy, this.imgURL})
       : super(key: key);
 
   @override

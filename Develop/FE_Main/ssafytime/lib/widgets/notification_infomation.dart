@@ -104,8 +104,7 @@ class _CNIState extends State<CNI> {
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: Text(
-                    "예정",
-                    // isComplete, // optional 완료, 예정, (none)
+                    isComplete, // optional 완료, 예정, (none)
                     style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w900),
                   ),

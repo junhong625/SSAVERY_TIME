@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:ssafytime/models/user_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:ssafytime/repositories/user_repository.dart';
 
 class AuthService extends GetxService {
   static AuthService get to => Get.find();
@@ -15,13 +16,16 @@ class AuthService extends GetxService {
   final tokenState = 0.obs;
   final autoLogin = false.obs;
   bool isLogin = false;
+  late UserRepo userApi;
 
   String _accessKey = "accessToken";
   String _refreshKey = "refreshToken";
-  RxString accessToken = "".obs;
-  RxString refreshToken = "".obs;
+  final accessToken = Rxn<String>(null);
+  final refreshToken = Rxn<String>(null);
   @override
   void onInit() async {
+    // await getToken();
+    // await fetchToken();
     log("accessToken : $accessToken");
     log("refreshToken : $refreshToken");
     log("isLogin : $isLogin");
@@ -29,11 +33,10 @@ class AuthService extends GetxService {
   }
 
   Future<void> getToken() async {
-    accessToken.value = await storage.read(key: _accessKey) ?? "";
-    refreshToken.value = await storage.read(key: _refreshKey) ?? "";
-    if (accessToken.value != "" && refreshToken.value != "") {
-      isLogin = true;
-    }
+    var accessT = await storage.read(key: _accessKey);
+    accessToken(accessT);
+    var refreshT = await storage.read(key: _refreshKey);
+    refreshToken(refreshT);
   }
 
   Future<void> login(String email, String password, bool? autoLoginFlag) async {
@@ -44,17 +47,15 @@ class AuthService extends GetxService {
         body: json.encode({"userEmail": email, "password": password}),
         encoding: Encoding.getByName("utf-8"),
       );
-      log("login : ${res.statusCode}");
       if (res.statusCode == 200) {
         var data = json.decode(res.body);
-        accessToken.value = data['accessToken'];
-        refreshToken.value = data['refreshToken'];
+        accessToken(data['accessToken']);
+        refreshToken(data['refreshToken']);
         if (autoLoginFlag ?? false) {
           await storage.write(key: _accessKey, value: accessToken.value);
           await storage.write(key: _refreshKey, value: refreshToken.value);
         }
         autoLogin(autoLoginFlag ?? false);
-        log("login : access => ${accessToken.value} / refresh => ${refreshToken.value}");
         isLogin = true;
         tokenState.value = res.statusCode;
         Get.offAllNamed('/');
@@ -71,18 +72,41 @@ class AuthService extends GetxService {
   }
 
   void logout() async {
-    clearToken();
-    accessToken.value = "";
-    refreshToken.value = "";
+    await clearToken();
+    accessToken(null);
+    refreshToken(null);
     user(null);
+    userApi.updateFcmToken("");
     isLogin = false;
 
     Get.offAllNamed('/login');
   }
 
-  void clearToken() async {
+  Future<void> clearToken() async {
     await storage.delete(key: _accessKey);
     await storage.delete(key: _refreshKey);
   }
 
+  Future<bool> fetchToken() async {
+    if (accessToken.value != null && refreshToken.value != null) {
+      var res = await http.post(
+          Uri.parse("http://i8a602.p.ssafy.io:9090/refresh-token"),
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            "accessToken": accessToken.value,
+            "refreshToken": refreshToken.value
+          }));
+      if (res.statusCode == 200) {
+        var data = json.decode(res.body);
+        accessToken.value = data['accessToken'];
+        refreshToken.value = data['refreshToken'];
+        await storage.write(key: _accessKey, value: accessToken.value);
+        await storage.write(key: _refreshKey, value: refreshToken.value);
+        isLogin = true;
+        userApi = UserRepo(token: accessToken.value);
+        return true;
+      }
+    }
+    return false;
+  }
 }

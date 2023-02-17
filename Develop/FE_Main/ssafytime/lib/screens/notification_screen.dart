@@ -18,6 +18,7 @@ class _NotificationScreen extends State<NotificationScreen> {
     return Obx(
       () => Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: const Text("알림"),
           bottom: TabBar(
             labelStyle: const TextStyle(fontWeight: FontWeight.bold),

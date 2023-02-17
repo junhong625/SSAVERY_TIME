@@ -46,7 +46,7 @@ class NotiService extends GetxService {
 
     await flutterLocalNotificationsPlugin.initialize(
         const InitializationSettings(
-            android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+            android: AndroidInitializationSettings('@mipmap/launcher_icon'),
             iOS: DarwinInitializationSettings(
                 requestSoundPermission: true,
                 requestBadgePermission: true,

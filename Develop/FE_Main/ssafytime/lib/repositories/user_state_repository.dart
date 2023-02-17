@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:ssafytime/models/noti_default_state.dart';
 
 class UserStateRepo {
-  UserStateRepo({required this.token}) {
+  UserStateRepo({this.token}) {
     header = {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${token}"
     };
   }
-  final String token;
+  final String? token;
   final String baseUrl = "http://i8a602.p.ssafy.io:9090";
   var header;
 

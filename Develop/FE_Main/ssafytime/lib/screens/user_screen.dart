@@ -47,6 +47,7 @@ class _UserScreenStates extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: const Text("마이페이지"),
       ),
       body: Obx(
@@ -227,7 +228,7 @@ class _UserScreenStates extends State<UserScreen> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * ( 15 / 803),
+                height: MediaQuery.of(context).size.height * (15 / 803),
                 child: Divider(),
               ),
               Container(
@@ -235,18 +236,22 @@ class _UserScreenStates extends State<UserScreen> {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * ( 20 / 803),),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * (20 / 803),
+                    ),
                     CustomElevatedButton(
                       onPressed: () {
                         AuthService.to.logout();
                       },
-                      width: MediaQuery.of(context).size.width * ( 200 / 392.7),
-                      height: MediaQuery.of(context).size.height * ( 40 / 803),
+                      width: MediaQuery.of(context).size.width * (200 / 392.7),
+                      height: MediaQuery.of(context).size.height * (40 / 803),
                       label: '로그아웃',
                       labelColor: 0xffFFFFFF,
                       color: 0xff3094F2,
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * ( 20 / 803),),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * (20 / 803),
+                    ),
                   ],
                 ),
               )
@@ -263,9 +268,9 @@ class _UserScreenStates extends State<UserScreen> {
         TimePickerSpinner(
           is24HourMode: false,
           // itemHeight: 40,
-          itemHeight: MediaQuery.of(context).size.height * ( 40 / 803),
+          itemHeight: MediaQuery.of(context).size.height * (40 / 803),
           // itemWidth: 60,
-          itemWidth: MediaQuery.of(context).size.width * ( 60 / 392.7),
+          itemWidth: MediaQuery.of(context).size.width * (60 / 392.7),
           onTimeChange: (time) {
             stateC.dateTime.value = time;
           },

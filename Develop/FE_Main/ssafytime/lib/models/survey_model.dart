@@ -27,6 +27,7 @@ class SurveyList {
 
 class Survey {
   Survey({
+    required this.surveyIdx,
     this.title,
     this.status,
     this.category,
@@ -36,6 +37,7 @@ class Survey {
     this.notiType = 2,
   });
 
+  int surveyIdx;
   String? title;
   int? status;
   int? category;
@@ -49,6 +51,7 @@ class Survey {
   String toRawJson() => json.encode(toJson());
 
   factory Survey.fromJson(Map<String, dynamic> json) => Survey(
+      surveyIdx: json["id"],
       title: json["title"],
       status: json["status"],
       category: json["category"],
@@ -59,6 +62,7 @@ class Survey {
           json["madeAt"] == null ? null : DateTime.parse(json["madeAt"]));
 
   Map<String, dynamic> toJson() => {
+        "id": surveyIdx,
         "title": title,
         "status": status,
         "category": category,

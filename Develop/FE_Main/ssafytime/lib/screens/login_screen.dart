@@ -32,15 +32,15 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 SizedBox(
                   // width: 50,
-                  width: MediaQuery.of(context).size.width * ( 50 / 392.7),
+                  width: MediaQuery.of(context).size.width * (50 / 392.7),
                   // height: 100,
-                  height: MediaQuery.of(context).size.height * ( 100 / 803),
+                  height: MediaQuery.of(context).size.height * (100 / 803),
                 ),
                 Container(
                   // width: 200,
-                  width: MediaQuery.of(context).size.width * ( 200 / 392.7),
+                  width: MediaQuery.of(context).size.width * (200 / 392.7),
                   // height: 200,
-                  height: MediaQuery.of(context).size.height * ( 200 / 803),
+                  height: MediaQuery.of(context).size.height * (200 / 803),
                   color: Colors.white,
                   child: Image.asset('assets/image/ssafytime_Icon.png'),
                 ), // 앱 로고
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(
                       // height: 15,
-                      height: MediaQuery.of(context).size.height * ( 15 / 803),
+                      height: MediaQuery.of(context).size.height * (15 / 803),
                     ),
 
                     CustomInputData(
@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(
                       // height: 40,
-                      height: MediaQuery.of(context).size.height * ( 40 / 803),
+                      height: MediaQuery.of(context).size.height * (40 / 803),
                     ),
                     ElevatedButton(
                       /// toDo : 로그인 기능 구현 ///
@@ -84,7 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
-                          minimumSize: Size(MediaQuery.of(context).size.width * ( 330 / 392.7), MediaQuery.of(context).size.height * ( 60 / 803)),
+                          minimumSize: Size(
+                              MediaQuery.of(context).size.width * (330 / 392.7),
+                              MediaQuery.of(context).size.height * (60 / 803)),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12))),
                       child: const Text(
