@@ -245,7 +245,7 @@ def lunch_menu_data():
 
 def lunch_data_crawling():
     print("점심메뉴 크롤링")
-    url = "http://127.0.0.1:5000/lunch_menu"
+    url = "http://0.0.0.0:5000/lunch_menu"
     requests.get(url)
 
 ## python scheduler 실행
@@ -256,4 +256,4 @@ scheduler.start()
 scheduler.add_job(lunch_data_crawling, 'interval', weeks=1, start_date="2023-02-06 00:00:00", timezone="asia/seoul")
 
 if __name__ == '__main__':
-    app.run() 
+    app.run(host='0.0.0.0', port=5000) 
